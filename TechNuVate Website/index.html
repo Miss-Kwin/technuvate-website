@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>TechNuVate — Learn. Build. Execute.</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',Helvetica,Arial,sans-serif;color:#111827;background:#fff;overflow-x:hidden;-webkit-text-size-adjust:100%}
+:root{--navy:#1B3A7A;--navy2:#243F80;--navy3:#0F2554;--grey:#8A9AB0;--gl:#F2F4F8;--gb:#E4E8F0;--soft:#6B7280}
+img{max-width:100%;display:block}
+a{-webkit-tap-highlight-color:transparent}
+
+/* ======== NAV ======== */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;background:#fff;border-bottom:1px solid #E4E8F0;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.nav-logo img{height:58px;width:auto}
+.nav-right{display:flex;align-items:center;gap:4px}
+
+/* Dropdown nav items */
+.nav-item{position:relative}
+.nav-item-btn{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;cursor:pointer;border:none;background:transparent;transition:background .2s,color .2s;white-space:nowrap;font-family:inherit}
+.nav-item-btn:hover{background:#F2F4F8;color:#1B3A7A}
+.nav-arrow{font-size:10px;transition:transform .2s}
+.nav-item:hover .nav-arrow{transform:rotate(180deg)}
+
+.nav-dropdown{
+  position:absolute;top:calc(100% + 8px);left:0;
+  background:#fff;border:1px solid #E4E8F0;border-radius:10px;
+  box-shadow:0 8px 28px rgba(0,0,0,.1);
+  min-width:190px;padding:6px;
+  opacity:0;visibility:hidden;transform:translateY(-6px);
+  transition:opacity .2s,visibility .2s,transform .2s;
+  z-index:1000;
+}
+.nav-item:hover .nav-dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+.nav-dropdown a{display:block;padding:10px 14px;font-size:13.5px;font-weight:500;color:#374151;text-decoration:none;border-radius:7px;transition:background .15s,color .15s}
+.nav-dropdown a:hover{background:#F2F4F8;color:#1B3A7A}
+
+.nav-btn{font-size:13px;font-weight:700;color:#fff;text-decoration:none;padding:10px 20px;border-radius:7px;background:#1B3A7A;white-space:nowrap;transition:background .2s;margin-left:6px}
+.nav-btn:hover{background:#0F2554}
+
+/* hamburger */
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:transparent;border:none;margin-left:4px}
+.ham span{display:block;width:22px;height:2px;background:#374151;border-radius:2px;transition:all .3s}
+.mob-menu{display:none;position:fixed;top:66px;left:0;right:0;background:#fff;border-bottom:1px solid #E4E8F0;box-shadow:0 8px 24px rgba(0,0,0,.08);z-index:998;padding:12px 5% 20px}
+.mob-menu.open{display:block}
+.mob-section{margin-bottom:16px}
+.mob-section-title{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8A9AB0;padding:8px 0 6px;border-bottom:1px solid #F2F4F8;margin-bottom:6px}
+.mob-menu a{display:block;padding:10px 0;font-size:14px;font-weight:500;color:#374151;text-decoration:none;border-bottom:1px solid #F2F4F8}
+.mob-menu a:hover{color:#1B3A7A}
+.mob-cta{display:block;margin-top:14px;background:#1B3A7A;color:#ffffff!important;font-size:14px;font-weight:700;padding:13px;border-radius:8px;text-align:center;text-decoration:none;-webkit-text-fill-color:#fff}
+@media(max-width:700px){
+  .nav-item{display:none}
+  .nav-logo img{height:38px}
+  .ham{display:flex}
+  .nav-btn{display:none}
+}
+
+/* ======== HERO ======== */
+.hero{min-height:auto;display:flex;align-items:center;padding:100px 5% 80px;background:#fff;position:relative;overflow:hidden}
+.hero-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(27,58,122,.07) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+.hero-glow{position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(27,58,122,.06) 0%,transparent 65%);pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;width:100%}
+.pill{display:inline-flex;align-items:center;gap:8px;background:rgba(27,58,122,.08);border:1px solid rgba(27,58,122,.15);color:#1B3A7A;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:7px 16px;border-radius:100px;margin-bottom:24px}
+.pill-dot{width:7px;height:7px;border-radius:50%;background:#1B3A7A;animation:blink 2s infinite;flex-shrink:0}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(32px,6vw,68px);font-weight:800;line-height:1.08;letter-spacing:-.03em;color:#111827;margin-bottom:20px}
+.hero h1 em{font-style:normal;color:#1B3A7A}
+.hero-sub{font-size:clamp(15px,2vw,17px);font-weight:300;color:#6B7280;line-height:1.8;max-width:520px;margin-bottom:36px}
+@media(min-width:1200px){.hero{padding:120px 5% 90px}}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px}
+.btn-navy{background:#1B3A7A;color:#fff;font-size:14px;font-weight:700;padding:13px 24px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .2s,transform .2s}
+.btn-navy:hover{background:#0F2554;transform:translateY(-2px)}
+.btn-outline{border:1.5px solid #E4E8F0;color:#1B3A7A;font-size:14px;font-weight:600;padding:13px 24px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,transform .2s}
+.btn-outline:hover{border-color:#1B3A7A;transform:translateY(-2px)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding-top:28px;border-top:1.5px solid #E4E8F0;margin-top:32px;column-gap:24px}
+.hero-stats>div{padding:16px 16px 0 0;border-right:1px solid #E4E8F0}
+.stat-n{font-size:26px;font-weight:800;color:#1B3A7A;line-height:1;margin-bottom:4px;letter-spacing:-.02em}
+.stat-l{font-size:11px;font-weight:500;color:#6B7280}
+.bday-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:700px){.hero-stats{grid-template-columns:repeat(2,1fr)}.hero-stats>div{padding:12px 12px 12px 0}}
+@media(max-width:480px){.bday-grid{grid-template-columns:1fr}.stat-n{font-size:20px}.stat-l{font-size:11px}}
+
+
+/* ===== DONATION SECTION ===== */
+.don-sec{padding:72px 5%;background:#F5F7FA;border-top:1px solid #E4E8F0}
+.don-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.don-label{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#8A9AB0;display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.don-label-bar{width:20px;height:1.5px;background:#8A9AB0;display:block;flex-shrink:0}
+.don-heading{font-size:clamp(26px,4vw,40px);font-weight:800;line-height:1.15;color:#111827;letter-spacing:-.025em;margin-bottom:16px}
+.don-grad{background:linear-gradient(90deg,#1B3A7A,#4A6FA5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.don-body{font-size:15px;color:#6B7280;line-height:1.85;margin-bottom:14px}
+.don-badges{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:28px}
+.don-badge{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #E4E8F0;border-radius:100px;padding:6px 13px;font-size:12px;font-weight:600;color:#374151}
+.don-progress-card{background:#fff;border:1px solid #E4E8F0;border-radius:14px;padding:20px 22px}
+.don-progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;flex-wrap:wrap;gap:4px}
+.don-progress-week{font-size:13px;font-weight:700;color:#111827}
+.don-progress-raised{font-size:12px;color:#8A9AB0}
+.don-bar-track{background:#F2F4F8;border-radius:100px;height:10px;overflow:hidden;margin-bottom:10px}
+.don-bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#1B3A7A,#4A6FA5);border-radius:100px;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
+.don-progress-bottom{display:flex;justify-content:space-between;font-size:12px;color:#8A9AB0;flex-wrap:wrap;gap:4px}
+.don-count{font-weight:700;color:#1B3A7A}
+.don-widget{background:#fff;border:1px solid #E4E8F0;border-radius:20px;padding:28px 24px;box-shadow:0 4px 24px rgba(27,58,122,.06)}
+.don-widget-title{font-size:16px;font-weight:800;color:#111827;margin-bottom:5px}
+.don-widget-sub{font-size:13px;color:#8A9AB0;margin-bottom:18px}
+.don-cur-toggle{display:flex;background:#F2F4F8;border-radius:9px;padding:3px;margin-bottom:18px;width:fit-content}
+.don-cur-btn{padding:8px 18px;border-radius:7px;border:none;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.don-cur-on{background:#1B3A7A;color:#fff}
+.don-cur-off{background:transparent;color:#8A9AB0}
+.don-list{display:flex;flex-direction:column;gap:8px;max-height:260px;overflow-y:auto;padding-right:2px;margin-bottom:16px;scrollbar-width:thin;scrollbar-color:#E4E8F0 transparent}
+.don-pill{width:100%;display:flex;align-items:center;padding:12px 14px;border:1.5px solid #E4E8F0;border-radius:10px;background:#fff;font-family:inherit;font-size:14px;font-weight:700;color:#111827;cursor:pointer;transition:all .18s;text-align:left}
+.don-pill:hover{border-color:#1B3A7A;color:#1B3A7A;background:rgba(27,58,122,.03)}
+.don-pill.selected{border-color:#1B3A7A;background:#1B3A7A;color:#fff}
+.don-pill.selected .don-pill-note{color:rgba(255,255,255,.65)!important}
+.don-pill-note{font-size:11px;font-weight:500;margin-left:auto;color:#8A9AB0}
+.don-pill-green{color:#15803D!important;font-weight:600!important}
+.don-pill-navy{color:#1B3A7A!important;font-weight:700!important}
+.don-custom-wrap{display:none;margin-bottom:14px}
+.don-custom-row{display:flex;align-items:center;border:1.5px solid #1B3A7A;border-radius:9px;overflow:hidden}
+.don-custom-sym{padding:11px 13px;background:#F2F4F8;font-size:14px;font-weight:700;color:#374151;flex-shrink:0}
+.don-custom-row input{flex:1;border:none;outline:none;padding:11px 13px;font-family:inherit;font-size:14px;color:#111827;width:0}
+.don-input{width:100%;border:1.5px solid #E4E8F0;border-radius:9px;padding:11px 13px;font-family:inherit;font-size:14px;color:#111827;outline:none;margin-bottom:12px;box-sizing:border-box;transition:border-color .2s}
+.don-input:focus{border-color:#1B3A7A}
+.don-cta-btn{width:100%;background:#1B3A7A;color:#fff;border:none;border-radius:10px;padding:14px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.don-cta-btn:hover{background:#0F2554}
+.don-cta-btn:disabled{background:#8A9AB0;cursor:not-allowed}
+.don-foot-note{text-align:center;font-size:11px;color:#C4CBD8;margin-top:10px}
+.don-foot-link{color:#1B3A7A;text-decoration:none;font-weight:600}
+@media(max-width:800px){
+  .don-inner{grid-template-columns:1fr;gap:32px}
+  .don-widget{padding:24px 20px}
+}
+@media(max-width:480px){
+  .don-sec{padding:52px 4%}
+  .don-progress-bottom{flex-direction:column;gap:6px}
+}
+/* ===== DONATE NUDGE STRIP ===== */
+.don-strip{background:linear-gradient(90deg,#0D1F45 0%,#1B3A7A 60%,#2a52a8 100%);padding:0 5%}
+.don-strip-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;flex-wrap:wrap}
+.don-strip-left{display:flex;align-items:center;gap:14px}
+.don-strip-ico{width:36px;height:36px;background:rgba(255,255,255,.12);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.don-strip-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+.don-strip-sub{font-size:12px;color:rgba(255,255,255,.55);line-height:1.4}
+.don-strip-btn{font-size:12px;font-weight:700;color:#0D1F45;background:#fff;padding:9px 20px;border-radius:8px;text-decoration:none;white-space:nowrap;transition:opacity .2s;flex-shrink:0}
+.don-strip-btn:hover{opacity:.88}
+@media(max-width:500px){.don-strip-inner{gap:12px}.don-strip-title{font-size:13px}.don-strip-sub{font-size:11px}}
+.don-nudge-text strong{color:#fff}
+.don-nudge-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:0 0 0 8px;line-height:1;flex-shrink:0}
+@media(max-width:500px){.don-nudge{gap:10px;padding:12px 4%}}
+
+/* ======== MARQUEE ======== */
+.mwrap{background:#1B3A7A;padding:14px 0;overflow:hidden}
+.mtrack{display:flex;width:max-content;animation:slide 28s linear infinite}
+.mitem{display:inline-flex;align-items:center;gap:16px;padding:0 28px;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);white-space:nowrap}
+.mdot{color:rgba(255,255,255,.2)}
+@keyframes slide{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ======== SECTIONS ======== */
+.sec{padding:80px 5%}
+.sec-bg{background:#F2F4F8}
+.wrap{max-width:1100px;margin:0 auto}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#8A9AB0;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.lbl::before{content:'';width:20px;height:1.5px;background:#8A9AB0;display:block;flex-shrink:0}
+h2{font-size:clamp(24px,4vw,44px);font-weight:800;color:#111827;line-height:1.1;letter-spacing:-.025em;margin-bottom:14px}
+h2 span{color:#1B3A7A}
+.sub{font-size:16px;font-weight:300;color:#6B7280;line-height:1.8;max-width:500px}
+
+/* ======== ABOUT ======== */
+.about-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:64px;align-items:start}
+.about-r p{font-size:15px;font-weight:300;color:#6B7280;line-height:1.85;margin-bottom:14px}
+.link-btn{display:inline-flex;align-items:center;gap:8px;margin-top:10px;font-size:14px;font-weight:700;color:#1B3A7A;text-decoration:none;border-bottom:2px solid #1B3A7A;padding-bottom:2px;transition:opacity .2s}
+.link-btn:hover{opacity:.6}
+@media(max-width:860px){.about-grid{grid-template-columns:1fr;gap:28px}}
+
+/* ======== ARMS ======== */
+.arms{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+.arm{background:#fff;border-radius:14px;padding:28px 22px;border:1.5px solid #E4E8F0;transition:border-color .25s,transform .25s,box-shadow .25s}
+.arm:hover{border-color:#1B3A7A;transform:translateY(-4px);box-shadow:0 12px 32px rgba(27,58,122,.1)}
+.arm-no{font-size:10px;font-weight:700;letter-spacing:.2em;color:#8A9AB0;margin-bottom:14px;text-transform:uppercase}
+.arm-ico{width:46px;height:46px;background:rgba(27,58,122,.07);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
+.arm-t{font-size:17px;font-weight:800;color:#111827;margin-bottom:4px;letter-spacing:-.02em}
+.arm-s{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8A9AB0;margin-bottom:10px}
+.arm-d{font-size:13px;font-weight:300;color:#6B7280;line-height:1.7;margin-bottom:20px}
+.arm-lnk{font-size:13px;font-weight:700;color:#1B3A7A;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:gap .2s}
+.arm-lnk:hover{gap:12px}
+.incbox{background:rgba(27,58,122,.05);border:1px solid rgba(27,58,122,.12);border-radius:10px;padding:14px;display:flex;gap:10px;margin-top:16px}
+.incbox strong{font-size:12px;font-weight:700;color:#1B3A7A;display:block;margin-bottom:4px}
+.incbox p{font-size:12px;font-weight:300;color:#6B7280;line-height:1.6;margin:0}
+@media(max-width:860px){.arms{grid-template-columns:1fr}}
+
+/* ======== LABS ======== */
+.labs-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.labs-l p{font-size:15px;font-weight:300;color:#6B7280;line-height:1.85;margin-bottom:14px}
+.track{border:1.5px solid #E4E8F0;border-radius:11px;padding:18px;margin-bottom:12px;transition:border-color .2s}
+.track:hover{border-color:#1B3A7A}
+.track-h{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:8px}
+.track-n{font-size:14px;font-weight:700;color:#111827}
+.track-tag{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:100px;white-space:nowrap;flex-shrink:0}
+.tag-blue{background:rgba(27,58,122,.08);color:#1B3A7A}
+.tag-grey{background:#F2F4F8;color:#8A9AB0}
+.track-d{font-size:13px;font-weight:300;color:#6B7280;line-height:1.65}
+.track-meta{font-size:11px;font-weight:600;color:#1B3A7A;margin-top:8px;letter-spacing:.04em}
+.lstats{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:11px;overflow:hidden;margin-top:4px}
+.lstat{padding:18px 12px;text-align:center;background:#1B3A7A}
+.lstat:nth-child(2){background:#243F80}
+.lstat:nth-child(3){background:#2B4E9A}
+.lstat-n{font-size:24px;font-weight:800;color:#fff;line-height:1;margin-bottom:4px}
+.lstat-l{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.38)}
+.lmore{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;font-size:14px;font-weight:700;color:#fff;text-decoration:none;background:#1B3A7A;padding:13px;border-radius:8px;transition:background .2s}
+.lmore:hover{background:#0F2554}
+@media(max-width:860px){.labs-grid{grid-template-columns:1fr;gap:32px}}
+
+/* ======== COHORT STRIP ======== */
+.cstrip{background:#1B3A7A;border-radius:16px;padding:32px 36px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.cstrip-lbl{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:8px}
+.cstrip-t{font-size:18px;font-weight:800;color:#fff;margin-bottom:5px}
+.cstrip-s{font-size:13px;font-weight:300;color:rgba(255,255,255,.45)}
+.cprices{display:flex;gap:24px;flex-wrap:wrap}
+.cp-n{font-size:22px;font-weight:800;color:#fff;line-height:1;margin-bottom:3px}
+.cp-l{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.32)}
+.cstrip-btn{background:#fff;color:#1B3A7A;font-size:13px;font-weight:700;padding:12px 22px;border-radius:8px;text-decoration:none;white-space:nowrap;transition:transform .2s}
+.cstrip-btn:hover{transform:translateY(-2px)}
+
+/* ======== STUDIO ======== */
+.studio-sec{background:#1B3A7A;padding:80px 5%}
+.studio-center{max-width:660px;margin:0 auto;text-align:center}
+.studio-center .lbl{justify-content:center;color:rgba(255,255,255,.35)}
+.studio-center .lbl::before{background:rgba(255,255,255,.2)}
+.studio-center h2{color:#fff;margin-bottom:18px}
+.studio-center p{font-size:15px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.8;margin-bottom:32px}
+.btn-white{background:#fff;color:#1B3A7A;font-size:14px;font-weight:700;padding:13px 26px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,box-shadow .2s}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.15)}
+
+/* ======== WORK WITH US ======== */
+.work-intro{text-align:center;margin-bottom:48px}
+.work-intro .lbl{justify-content:center}
+.work-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.work-card{background:#F2F4F8;border-radius:16px;padding:32px 26px;border:1.5px solid #E4E8F0}
+.work-ico{width:46px;height:46px;background:#1B3A7A;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px}
+.work-lbl{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8A9AB0;margin-bottom:7px}
+.work-t{font-size:19px;font-weight:800;color:#111827;margin-bottom:10px;letter-spacing:-.02em}
+.work-d{font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75;margin-bottom:22px}
+.role-row{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:#fff;border-radius:9px;border:1px solid #E4E8F0;margin-bottom:8px}
+.role-name{font-size:13.5px;font-weight:600;color:#111827}
+.role-badge{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:100px;background:rgba(27,58,122,.08);color:#1B3A7A}
+.work-btn-navy{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;font-size:14px;font-weight:700;color:#fff;background:#1B3A7A;padding:13px;border-radius:8px;text-decoration:none;transition:background .2s}
+.work-btn-navy:hover{background:#0F2554}
+.work-btn-outline{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:16px;font-size:14px;font-weight:700;color:#1B3A7A;background:transparent;padding:13px;border-radius:8px;text-decoration:none;border:1.5px solid #1B3A7A;transition:background .2s,color .2s}
+.work-btn-outline:hover{background:#1B3A7A;color:#fff}
+@media(max-width:860px){.work-grid{grid-template-columns:1fr}}
+
+/* ======== WHY ======== */
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center}
+.tquote{font-size:clamp(15px,2vw,17px);font-weight:300;color:#111827;line-height:1.78;font-style:italic;margin-bottom:20px;margin-top:18px}
+.tauthor{font-size:13px;font-weight:700;color:#1B3A7A}
+.tauthor span{font-weight:300;color:#6B7280}
+.tstats{display:grid;grid-template-columns:1fr 1fr;gap:3px;border-radius:14px;overflow:hidden}
+.tstat{background:#fff;padding:24px 20px}
+.tstat-n{font-size:34px;font-weight:800;color:#1B3A7A;line-height:1;margin-bottom:6px;letter-spacing:-.03em}
+.tstat-l{font-size:13px;font-weight:300;color:#6B7280;line-height:1.4}
+@media(max-width:860px){.tgrid{grid-template-columns:1fr;gap:32px}}
+@media(max-width:560px){.tstats{grid-template-columns:1fr}}
+
+/* ======== CTA ======== */
+.cta-sec{padding:60px 5%}
+.cta-box{background:#1B3A7A;border-radius:18px;padding:56px 40px;text-align:center;max-width:1100px;margin:0 auto}
+.cta-lbl{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:16px}
+.cta-t{font-size:clamp(22px,4vw,44px);font-weight:800;color:#fff;line-height:1.1;letter-spacing:-.025em;margin-bottom:14px}
+.cta-s{font-size:15px;font-weight:300;color:rgba(255,255,255,.48);margin-bottom:32px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.7}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-ghost-w{border:1.5px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);font-size:14px;font-weight:600;padding:13px 24px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,color .2s}
+.btn-ghost-w:hover{border-color:rgba(255,255,255,.6);color:#fff}
+@media(max-width:560px){.cta-box{padding:40px 20px}}
+
+/* ======== CONTACT ======== */
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.cinfo{display:flex;flex-direction:column;gap:16px;margin-top:26px}
+.citem{display:flex;gap:12px;align-items:flex-start}
+.cico{width:40px;height:40px;min-width:40px;background:#1B3A7A;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.clbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8A9AB0;margin-bottom:3px}
+.cval{font-size:14px;color:#374151}
+.cval a{color:#1B3A7A;text-decoration:none}
+.cval a:hover{text-decoration:underline}
+.cform{background:#fff;border-radius:14px;padding:28px;border:1.5px solid #E4E8F0}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.fg{margin-bottom:12px}
+.fl{display:block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8A9AB0;margin-bottom:7px}
+.fi,.fsel,.fta{width:100%;padding:11px 13px;border:1.5px solid #E4E8F0;border-radius:8px;font-family:inherit;font-size:14px;color:#111827;background:#fff;outline:none;transition:border-color .2s;-webkit-appearance:none}
+.fi:focus,.fsel:focus,.fta:focus{border-color:#1B3A7A}
+.fta{resize:vertical;min-height:90px}
+.fbtn{width:100%;background:#1B3A7A;color:#fff;font-family:inherit;font-size:14px;font-weight:700;padding:14px;border:none;border-radius:8px;cursor:pointer;letter-spacing:.04em;transition:background .2s}
+.fbtn:hover{background:#0F2554}
+@media(max-width:860px){.cgrid{grid-template-columns:1fr;gap:32px}}
+@media(max-width:480px){.frow{grid-template-columns:1fr}}
+
+/* ======== FOOTER ======== */
+@media(max-width:700px){
+  .blog-events-grid{grid-template-columns:1fr!important}
+}
+footer{background:#060C1A;padding:52px 5% 28px}
+.fwrap{max-width:1100px;margin:0 auto}
+.ftop{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:22px}
+.flogo img{height:58px;width:auto;margin-bottom:14px}
+.fdesc{font-size:13px;font-weight:300;color:rgba(255,255,255,.28);line-height:1.7;max-width:210px}
+.fc-t{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:14px}
+.flinks{list-style:none}
+.flinks li{margin-bottom:10px}
+.flinks a{font-size:13px;font-weight:300;color:rgba(255,255,255,.38);text-decoration:none;transition:color .2s}
+.flinks a:hover{color:rgba(255,255,255,.8)}
+.fbot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.fcopy{font-size:12px;color:rgba(255,255,255,.18)}
+.fsoc{display:flex;gap:8px;flex-wrap:wrap}
+.fsoc a{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:background .2s}
+.fsoc a:hover{background:rgba(255,255,255,.14)}
+.fsoc svg{width:16px;height:16px;fill:rgba(255,255,255,.5)}
+@media(max-width:860px){.ftop{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.ftop{grid-template-columns:1fr}}
+
+@media(max-width:700px){.exp-intro{grid-template-columns:1fr!important;gap:16px!important}}
+/* ======== REVEAL ======== */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
+.rv.on{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html"><img src="data:image/png;base64,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" alt="TechNuVate" style="height:58px;width:auto"></a>
+  <div class="nav-right">
+
+    <!-- Meet Us dropdown -->
+    <div class="nav-item">
+      <button class="nav-item-btn">Meet Us <span class="nav-arrow">&#9660;</span></button>
+      <div class="nav-dropdown">
+        <a href="about.html">About Us</a>
+        <a href="academy.html">TechNuVate Academy</a>
+        <a href="studio.html">TechNuVate Studio</a>
+        <a href="labs.html">TechNuVate Labs</a>
+      </div>
+    </div>
+
+    <!-- Work With Us dropdown -->
+    <div class="nav-item">
+      <button class="nav-item-btn">Work With Us <span class="nav-arrow">&#9660;</span></button>
+      <div class="nav-dropdown">
+        <a href="tutors.html">Become a Tutor</a>
+        <a href="join-team.html">Become a Team Member</a>
+      </div>
+    </div>
+
+    <a href="store.html" class="nav-item-btn" style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap" onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'" onmouseout="this.style.background='transparent';this.style.color='#374151'">Store</a>
+    <a href="blog.html" class="nav-item-btn" style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap" onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'" onmouseout="this.style.background='transparent';this.style.color='#374151'">Blog</a>
+    <a href="donate.html" class="nav-btn" style="background:transparent;border:1.5px solid #1B3A7A;color:#1B3A7A;margin-right:2px" onmouseover="this.style.background='rgba(27,58,122,.06)'" onmouseout="this.style.background='transparent'">&#10084;&#65039; Donate</a><a href="#contact" class="nav-btn">Contact Us</a>
+    <button class="ham" id="hamBtn" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <div class="mob-section">
+    <a href="donate.html" style="display:block;background:#1B3A7A;color:#fff;font-weight:700;font-size:14px;padding:13px 16px;border-radius:10px;text-decoration:none;text-align:center;margin-bottom:4px">&#10084;&#65039; Donate Now</a>
+  </div>
+  <div class="mob-section">
+    <div class="mob-section-title">Meet Us</div>
+    <a href="about.html">About Us</a>
+    <a href="academy.html">TechNuVate Academy</a>
+    <a href="studio.html">TechNuVate Studio</a>
+    <a href="labs.html">TechNuVate Labs</a>
+  </div>
+  <div class="mob-section">
+    <div class="mob-section-title">Work With Us</div>
+    <a href="tutors.html">Become a Tutor</a>
+    <a href="join-team.html">Become a Team Member</a>
+  </div>
+  <div class="mob-section">
+    <div class="mob-section-title">Explore</div>
+    <a href="blog.html">Blog &amp; Events</a>
+    <a href="store.html">Merch Store</a>
+  </div>
+  <a href="index.html#contact" class="mob-cta">Contact Us</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="pill"><span class="pill-dot"></span>Now accepting applications &mdash; Cohort 1</div>
+    <h1>Where African Talent<br>Meets <em>Real Opportunity.</em></h1>
+    <p class="hero-sub">TechNuVate trains, deploys, and connects English-speaking countries and African talent with the digital skills and real-world experience they need to build careers that last.</p>
+    <div class="btns">
+      <a href="#experience" class="btn-navy" onclick="event.preventDefault();smoothTo('experience')">Explore Our Arms &rarr;</a>
+      <a href="#about" class="btn-outline" onclick="event.preventDefault();smoothTo('about')">Learn More</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-n">Growing</div><div class="stat-l">Course Tracks</div></div>
+      <div><div class="stat-n">100%</div><div class="stat-l">Online Learning</div></div>
+      <div><div class="stat-n">African&#8209;led</div><div class="stat-l">Organisation</div></div>
+      <div><div class="stat-n">3</div><div class="stat-l">Organization Arms</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DONATE STRIP -->
+<div class="don-strip">
+  <div class="don-strip-inner">
+    <div class="don-strip-left">
+      <div class="don-strip-ico">&#10084;</div>
+      <div>
+        <div class="don-strip-title">Sponsor a youth in Africa</div>
+        <div class="don-strip-sub">Pay your tithe here. Celebrate a birthday. Do something good. From &#8358;2,000 or $2.</div>
+      </div>
+    </div>
+    <a href="#donate" class="don-strip-btn">Give Now &rarr;</a>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="mwrap">
+  <div class="mtrack">
+    <span class="mitem">Digital Marketing <span class="mdot">&middot;</span></span>
+    <span class="mitem">Product Design <span class="mdot">&middot;</span></span>
+    <span class="mitem">Product Management <span class="mdot">&middot;</span></span>
+    <span class="mitem">Data Analytics <span class="mdot">&middot;</span></span>
+    <span class="mitem">Video Editing <span class="mdot">&middot;</span></span>
+    <span class="mitem">Content Creation <span class="mdot">&middot;</span></span>
+    <span class="mitem">Internship Programs <span class="mdot">&middot;</span></span>
+    <span class="mitem">Brand Communication <span class="mdot">&middot;</span></span>
+    <span class="mitem">Digital Marketing <span class="mdot">&middot;</span></span>
+    <span class="mitem">Product Design <span class="mdot">&middot;</span></span>
+    <span class="mitem">Product Management <span class="mdot">&middot;</span></span>
+    <span class="mitem">Data Analytics <span class="mdot">&middot;</span></span>
+    <span class="mitem">Video Editing <span class="mdot">&middot;</span></span>
+    <span class="mitem">Content Creation <span class="mdot">&middot;</span></span>
+    <span class="mitem">Internship Programs <span class="mdot">&middot;</span></span>
+    <span class="mitem">Brand Communication <span class="mdot">&middot;</span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="sec">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <div class="lbl rv">About TechNuVate</div>
+        <h2 class="rv">We Are Not Just<br>Another <span>Tech School.</span></h2>
+      </div>
+<div class="about-r rv d2">
+        <p>TechNuVate is a tech organization built to bridge the gap between learning and real opportunity for English-speaking countries and African talent. We train people in practical digital skills, give them real-world project experience, and connect them with businesses that need what they can do.</p>
+        <p>We exist because where you were born should never determine what you can become. Africa has the talent. We build the bridge.</p>
+        <a href="about.html" class="link-btn">Read Our Full Story &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="sec sec-bg">
+  <div class="wrap">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:flex-end;margin-bottom:44px" class="exp-intro">
+      <div>
+        <div class="lbl rv">Experience TechNuVate</div>
+        <h2 class="rv" style="margin-bottom:0">One Organization.<br>Three Arms.<br><span>One Ecosystem.</span></h2>
+      </div>
+      <p class="sub rv d2">Every arm feeds into the next. A learner in Academy can move into Labs for real experience, and the best talent from Labs powers Studio for client work.</p>
+    </div>
+    <div class="arms">
+      <div class="arm rv d1">
+        <div class="arm-no">ARM 01</div>
+        <div class="arm-ico">&#127891;</div>
+        <div class="arm-t">TechNuVate Academy</div>
+        <div class="arm-s">Education Arm</div>
+        <p class="arm-d">Cohort-based, hands-on training across no-code digital skill tracks. No coding required. Live sessions, real projects, and a certificate at the end.</p>
+        <a href="academy.html" class="arm-lnk">Explore Courses &rarr;</a>
+        <div class="incbox">
+          <div style="font-size:20px;flex-shrink:0">&#11088;</div>
+          <div>
+            <strong>Top Performer Incentive</strong>
+            <p>Top 5 graduates from each course track earn a free spot in TechNuVate Labs. Finish strong and skip the application queue.</p>
+          </div>
+        </div>
+      </div>
+      <div class="arm rv d2">
+        <div class="arm-no">ARM 02</div>
+        <div class="arm-ico">&#128188;</div>
+        <div class="arm-t">TechNuVate Studio</div>
+        <div class="arm-s">Services Arm</div>
+        <p class="arm-d">We help businesses execute digital projects, campaigns, and strategies with precision &mdash; powered by TechNuVate certified talent from our own ecosystem.</p>
+        <a href="studio.html" class="arm-lnk">Our Services &rarr;</a>
+      </div>
+      <div class="arm rv d3">
+        <div class="arm-no">ARM 03</div>
+        <div class="arm-ico">&#129514;</div>
+        <div class="arm-t">TechNuVate Labs</div>
+        <div class="arm-s">Internship Arm</div>
+        <p class="arm-d">Real project experience, mentorship, and certification. The bridge between finishing a course and being ready for the job market.</p>
+        <a href="labs.html" class="arm-lnk">Learn More &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- DONATE CARD (between Experience and Labs) -->
+<section style="padding:0 5% 56px;background:#F5F7FA">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="background:linear-gradient(135deg,#0D1F45 0%,#1B3A7A 100%);border-radius:20px;padding:40px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:28px;position:relative;overflow:hidden">
+      <div style="position:absolute;top:-50px;right:-50px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(147,180,255,.1) 0%,transparent 70%);pointer-events:none"></div>
+      <div style="position:absolute;bottom:-30px;left:40%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(147,180,255,.06) 0%,transparent 70%);pointer-events:none"></div>
+      <div style="position:relative;z-index:1;flex:1;min-width:240px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px">Make a Difference</div>
+        <h3 style="font-size:clamp(20px,3vw,28px);font-weight:800;color:#fff;line-height:1.25;margin-bottom:10px">Can't enroll right now?<br><span style="color:#93B4FF">Sponsor a youth who can't afford to.</span></h3>
+        <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;max-width:440px">You don't need much to change a life. Paying your tithe here, celebrating your birthday by giving, or simply doing a random act of kindness can fund a young person's entire tech education.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+          <span style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 13px;font-size:12px;font-weight:600;color:rgba(255,255,255,.65)">&#127874; Birthday giving</span>
+          <span style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 13px;font-size:12px;font-weight:600;color:rgba(255,255,255,.65)">&#128591; Tithe re-routed</span>
+          <span style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 13px;font-size:12px;font-weight:600;color:rgba(255,255,255,.65)">&#128161; Pay it forward</span>
+          <span style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 13px;font-size:12px;font-weight:600;color:rgba(255,255,255,.65)">&#128150; In someone's honour</span>
+        </div>
+      </div>
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:11px;flex-shrink:0">
+        <a href="#donate" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#93B4FF;color:#0D1F45;font-size:14px;font-weight:700;padding:14px 28px;border-radius:10px;text-decoration:none;transition:opacity .2s;white-space:nowrap" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+          &#10084;&#65039;&nbsp; Donate from &#8358;2,000
+        </a>
+        <a href="donate.html" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.8);font-size:13px;font-weight:600;padding:12px 28px;border-radius:10px;text-decoration:none;transition:background .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">
+          See the full donation page &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LABS -->
+<section id="labs" class="sec">
+  <div class="wrap">
+    <div class="labs-grid">
+      <div class="labs-l">
+        <div class="lbl rv">TechNuVate Labs</div>
+        <h2 class="rv">Internship That<br>Actually <span>Means Something.</span></h2>
+        <p class="rv d2">TechNuVate Labs is not a simulation or busywork. You work on real briefs for real clients, with a mentor beside you the whole time.</p>
+        <p class="rv d3">You leave with a verified portfolio, a certificate, and a recommendation letter you can use when applying for jobs or pitching clients.</p>
+      </div>
+      <div>
+        <div class="track rv d1">
+          <div class="track-h">
+            <div class="track-n">Professional Track</div>
+            <span class="track-tag tag-blue">&#8358;7,000</span>
+          </div>
+          <p class="track-d">Open to everyone &mdash; career changers, fresh graduates, and working professionals. Work on real client projects with mentorship and come out with a portfolio you can actually show.</p>
+          <div class="track-meta">Structured cohorts &nbsp;&middot;&nbsp; New intakes announced regularly</div>
+        </div>
+        <div class="track rv d2">
+          <div class="track-h">
+            <div class="track-n">Student Track &mdash; IT Placement</div>
+            <span class="track-tag tag-grey">Always Open</span>
+          </div>
+          <p class="track-d">Are you a university student in Africa and English speaking countries looking for an industrial training (IT) placement? Submit your application anytime. We review and select students on a rolling basis. IT periods vary by university &mdash; we accommodate both 3-month and 6-month placements.</p>
+        </div>
+        <a href="labs.html" class="lmore rv d3">Learn More About Labs &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COHORT STRIP -->
+<section class="sec sec-bg" style="padding-top:0;padding-bottom:72px">
+  <div class="wrap">
+    <div class="cstrip rv">
+      <div>
+        <div class="cstrip-lbl">Cohort 1 &mdash; Now Open</div>
+        <div class="cstrip-t">Register Before Seats Fill Up</div>
+        <div class="cstrip-s">Early bird and community partner pricing still available.</div>
+      </div>
+      <div class="cprices">
+        <div><div class="cp-n">&#8358;40,000</div><div class="cp-l">Partner Price</div></div>
+        <div><div class="cp-n">&#8358;60,000</div><div class="cp-l">Early Bird</div></div>
+        <div><div class="cp-n">&#8358;80,000</div><div class="cp-l">Standard</div></div>
+        <div><div class="cp-n">2 Months</div><div class="cp-l">Duration</div></div>
+      </div>
+      <a href="enroll.html" class="cstrip-btn">Apply Now &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- STUDIO -->
+<section class="studio-sec">
+  <div class="studio-center rv">
+    <div class="lbl">TechNuVate Studio</div>
+    <h2 style="color:#fff;margin-bottom:18px">Are You an Organization<br>Looking to <span style="color:#93B4FF">Grow Digitally?</span></h2>
+    <p>Whether you need to run campaigns, design products, manage your brand online, or find verified digital talent &mdash; TechNuVate Studio has you covered. We bring the strategy, the skills, and the execution.</p>
+    <a href="studio.html" class="btn-white">Learn More About Our Services &rarr;</a>
+  </div>
+</section>
+
+<!-- WORK WITH US -->
+<section class="sec" id="worktogether">
+  <div class="wrap">
+    <div class="work-intro">
+      <div class="lbl rv">Work With Us</div>
+      <h2 class="rv">Be Part of What We Are <span>Building.</span></h2>
+      <p class="rv d2" style="font-size:16px;font-weight:300;color:#6B7280;line-height:1.8;max-width:520px;margin:0 auto">Whether you want to join our core team or share your expertise by tutoring students, there is a place for you at TechNuVate.</p>
+    </div>
+    <div class="work-grid">
+      <div class="work-card rv d1">
+        <div class="work-ico">&#128084;</div>
+        <div class="work-lbl">Join Our Team</div>
+        <div class="work-t">Core Team Roles</div>
+        <p class="work-d">We are looking for passionate, skilled people to help us build and run TechNuVate. If you are driven and believe in what we are doing, we want to hear from you.</p>
+        <div class="role-row"><div class="role-name">Social Media Manager</div><span class="role-badge">Open</span></div>
+        <div class="role-row"><div class="role-name">Program Manager</div><span class="role-badge">Open</span></div>
+        <div class="role-row"><div class="role-name">Community Manager</div><span class="role-badge">Open</span></div>
+        <div class="role-row"><div class="role-name">Graphic Designer</div><span class="role-badge">Open</span></div>
+        <a href="join-team.html" class="work-btn-navy">View Team Roles &rarr;</a>
+      </div>
+      <div class="work-card rv d2">
+        <div class="work-ico">&#127979;</div>
+        <div class="work-lbl">Volunteer With Us</div>
+        <div class="work-t">Become a Tutor</div>
+        <p class="work-d">Already working in any of these fields? Volunteer as a tutor and help shape the next generation of African digital talent.</p>
+        <div class="role-row"><div class="role-name">Digital Marketing</div><span class="role-badge">Open</span></div>
+        <div class="role-row"><div class="role-name">Product Design</div><span class="role-badge">Open</span></div>
+        <div class="role-row"><div class="role-name">Product Management</div><span class="role-badge">Open</span></div>
+        <div class="role-row"><div class="role-name">Data Analytics</div><span class="role-badge">Open</span></div>
+        <div class="role-row"><div class="role-name">Video Editing &amp; Content Creation</div><span class="role-badge">Open</span></div>
+        <a href="tutors.html" class="work-btn-navy">Apply to Tutor &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY TECHNUVATE -->
+<section class="sec sec-bg">
+  <div class="wrap">
+    <div class="tgrid">
+      <div class="rv">
+        <div class="lbl">Why TechNuVate</div>
+        <p class="tquote">"Where you were born should never determine what you can become. TechNuVate exists to make sure talent in Africa and English speaking countries has a real shot at building a digital career."</p>
+        <div class="tauthor">TechNuVate <span>&mdash; Brand Promise</span></div>
+      </div>
+      <div class="tstats rv d2">
+        <div class="tstat"><div class="tstat-n">Ongoing</div><div class="tstat-l">New cohorts announced regularly across Academy and Labs</div></div>
+        <div class="tstat"><div class="tstat-n">Growing</div><div class="tstat-l">Skill tracks, with more added every cohort</div></div>
+        <div class="tstat"><div class="tstat-n">0</div><div class="tstat-l">Lines of code needed to start any of our courses</div></div>
+        <div class="tstat"><div class="tstat-n">100%</div><div class="tstat-l">Online &mdash; accessible anywhere in Africa and English speaking countries</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-sec">
+  <div class="cta-box rv">
+    <div class="cta-lbl">Ready to Begin?</div>
+    <h2 class="cta-t" style="color:#fff">Your Digital Career<br>Starts With One Step.</h2>
+    <p class="cta-s">Join Cohort 1 of TechNuVate Academy. Limited seats. Community partner pricing still open.</p>
+    <div class="cta-btns">
+      <a href="academy.html" class="btn-white">Browse Courses &rarr;</a>
+      <a href="#contact" class="btn-ghost-w" onclick="event.preventDefault();smoothTo('contact')">Talk to Us</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- BLOG & EVENTS CARD -->
+<section style="padding:0 5% 72px;background:#fff">
+  <div style="max-width:900px;margin:0 auto">
+    <div style="background:linear-gradient(135deg,#0D1F45 0%,#1B3A7A 55%,#223E80 100%);border-radius:22px;padding:52px 48px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap">
+
+      <!-- glow blobs -->
+      <div style="position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(147,180,255,.12) 0%,transparent 70%);pointer-events:none"></div>
+      <div style="position:absolute;bottom:-40px;left:30%;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(147,180,255,.07) 0%,transparent 70%);pointer-events:none"></div>
+
+      <!-- dot grid texture -->
+      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:22px 22px;pointer-events:none;border-radius:22px"></div>
+
+      <!-- LEFT: text -->
+      <div style="position:relative;z-index:1;flex:1;min-width:220px">
+        <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 14px;margin-bottom:18px">
+          <span style="width:6px;height:6px;border-radius:50%;background:#93B4FF;display:block"></span>
+          <span style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.6)">Blog &amp; Events</span>
+        </div>
+        <h3 style="font-size:clamp(22px,3.5vw,32px);font-weight:800;color:#fff;line-height:1.2;margin-bottom:12px">Read our articles.<br>See what&rsquo;s coming up.</h3>
+        <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;max-width:380px">We share career tips, industry insights, and updates from our programmes. Events, workshops and webinars are all in one place too.</p>
+      </div>
+
+      <!-- RIGHT: buttons -->
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:12px;flex-shrink:0">
+        <a href="blog.html" style="display:inline-flex;align-items:center;gap:9px;background:#fff;color:#0D1F45;text-decoration:none;padding:13px 24px;border-radius:10px;font-size:14px;font-weight:700;white-space:nowrap;transition:opacity .2s" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
+          ✍️&nbsp; Read the Blog
+        </a>
+        <a href="blog.html#events" style="display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#fff;text-decoration:none;padding:13px 24px;border-radius:10px;font-size:14px;font-weight:700;white-space:nowrap;transition:background .2s" onmouseover="this.style.background='rgba(255,255,255,.18)'" onmouseout="this.style.background='rgba(255,255,255,.1)'">
+          📅&nbsp; See Upcoming Events
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- DONATE SECTION -->
+<section id="donate" class="don-sec">
+  <div class="don-inner">
+
+    <!-- LEFT -->
+    <div class="don-left">
+      <div class="don-label"><span class="don-label-bar"></span>Sponsor a Youth</div>
+      <h2 class="don-heading">Let us be your <span class="don-grad">tithe house.</span></h2>
+      <p class="don-body">Charity is not only meaningful when it is extravagant. Paying it forward so another human can learn a skill is one of the most powerful things you can do.</p>
+      <p class="don-body">Birthday? Tithe? Just want to do good? <strong style="color:#111827">Give it here.</strong> Every naira and dollar goes directly toward subsidising a young person's education in Africa.</p>
+
+      <div class="don-badges">
+        <span class="don-badge">&#127874; Birthday giving</span>
+        <span class="don-badge">&#128591; Tithe re-routed</span>
+        <span class="don-badge">&#128161; Pay it forward</span>
+      </div>
+
+      <div class="don-progress-card">
+        <div class="don-progress-top">
+          <span class="don-progress-week">This week's pool</span>
+          <span class="don-progress-raised" id="don-progress-label">&#8358;0 raised</span>
+        </div>
+        <div class="don-bar-track">
+          <div class="don-bar-fill" id="don-bar"></div>
+        </div>
+        <div class="don-progress-bottom">
+          <span>Goal: <strong>&#8358;80,000</strong> = 1 youth sponsored</span>
+          <span class="don-count" id="don-count">0 youths empowered</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: widget -->
+    <div class="don-widget">
+      <div class="don-widget-title">Choose your amount</div>
+      <div class="don-widget-sub">Minimum: $2 &nbsp;/&nbsp; &#8358;2,000</div>
+
+      <div class="don-cur-toggle">
+        <button class="don-cur-btn don-cur-on" id="cur-ngn" onclick="setDonCurrency('NGN')">&#8358; NGN</button>
+        <button class="don-cur-btn don-cur-off" id="cur-usd" onclick="setDonCurrency('USD')">$ USD</button>
+      </div>
+
+      <div class="don-list" id="don-amounts-ngn">
+        <button class="don-pill" onclick="selectDonAmt(2000,'NGN',this)">&#8358;2,000 <span class="don-pill-note">Minimum</span></button>
+        <button class="don-pill" onclick="selectDonAmt(5000,'NGN',this)">&#8358;5,000</button>
+        <button class="don-pill" onclick="selectDonAmt(10000,'NGN',this)">&#8358;10,000 <span class="don-pill-note don-pill-green">5% of a scholarship</span></button>
+        <button class="don-pill" onclick="selectDonAmt(20000,'NGN',this)">&#8358;20,000 <span class="don-pill-note don-pill-green">25% of a scholarship</span></button>
+        <button class="don-pill" onclick="selectDonAmt(40000,'NGN',this)">&#8358;40,000 <span class="don-pill-note don-pill-green">Half a scholarship</span></button>
+        <button class="don-pill" onclick="selectDonAmt(80000,'NGN',this)">&#8358;80,000 <span class="don-pill-note don-pill-navy">Full scholarship &#127881;</span></button>
+        <button class="don-pill don-pill-custom" onclick="openDonCustom(this)">Other amount <span class="don-pill-note">Type below</span></button>
+      </div>
+      <div class="don-list" id="don-amounts-usd" style="display:none">
+  <button class="don-pill" onclick="selectDonAmt(2,'USD',this)">$2 <span class="don-pill-note">Minimum</span></button>
+  <button class="don-pill" onclick="selectDonAmt(4,'USD',this)">$4</button>
+  <button class="don-pill" onclick="selectDonAmt(8,'USD',this)">$8 <span class="don-pill-note don-pill-green">~10% of a scholarship</span></button>
+  <button class="don-pill" onclick="selectDonAmt(15,'USD',this)">$15 <span class="don-pill-note don-pill-green">~20% of a scholarship</span></button>
+  <button class="don-pill" onclick="selectDonAmt(30,'USD',this)">$30 <span class="don-pill-note don-pill-green">~40% of a scholarship</span></button>
+  <button class="don-pill" onclick="selectDonAmt(60,'USD',this)">$60 <span class="don-pill-note don-pill-navy">Full scholarship &#127881;</span></button>
+  <button class="don-pill don-pill-custom" onclick="openDonCustom(this)">Other amount <span class="don-pill-note">Type below</span></button>
+</div>
+
+      <div class="don-custom-wrap" id="don-custom-wrap">
+        <div class="don-custom-row">
+          <span class="don-custom-sym" id="don-custom-symbol">&#8358;</span>
+          <input id="don-custom-input" type="number" placeholder="Enter amount" oninput="onDonCustom()">
+        </div>
+      </div>
+
+      <!-- Occasion -->
+      <div style="margin-bottom:10px">
+        <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px">What is the occasion? <span style="font-weight:400;color:#8A9AB0">(optional)</span></label>
+        <select id="don-occasion" onchange="toggleBirthday()" style="width:100%;border:1.5px solid #E4E8F0;border-radius:9px;padding:11px 13px;font-family:inherit;font-size:14px;color:#111827;outline:none;background:#fff;cursor:pointer;box-sizing:border-box;transition:border-color .2s" onfocus="this.style.borderColor='#1B3A7A'" onblur="this.style.borderColor='#E4E8F0'">
+          <option value="">Just want to give</option>
+          <option value="birthday">&#127874; Celebrating my birthday</option>
+          <option value="tithe">&#128591; Paying my tithe</option>
+          <option value="honour">&#128150; Giving in someone's honour</option>
+          <option value="random">&#128161; Random act of kindness</option>
+          <option value="other">Something else</option>
+        </select>
+      </div>
+
+      <!-- Birthday month + day (shows when birthday selected) -->
+      <div id="don-bday-wrap" style="display:none;margin-bottom:12px">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px">When is your birthday? <span style="font-weight:400;color:#8A9AB0">In case you would love us to give you a public shoutout &#127881;</span></label>
+        <div class="bday-grid">
+          <select id="don-bday-month" style="border:1.5px solid #E4E8F0;border-radius:9px;padding:10px 12px;font-family:inherit;font-size:13px;color:#111827;outline:none;background:#fff;cursor:pointer;transition:border-color .2s" onfocus="this.style.borderColor='#1B3A7A'" onblur="this.style.borderColor='#E4E8F0'">
+            <option value="">Month</option>
+            <option>January</option><option>February</option><option>March</option>
+            <option>April</option><option>May</option><option>June</option>
+            <option>July</option><option>August</option><option>September</option>
+            <option>October</option><option>November</option><option>December</option>
+          </select>
+          <select id="don-bday-day" style="border:1.5px solid #E4E8F0;border-radius:9px;padding:10px 12px;font-family:inherit;font-size:13px;color:#111827;outline:none;background:#fff;cursor:pointer;transition:border-color .2s" onfocus="this.style.borderColor='#1B3A7A'" onblur="this.style.borderColor='#E4E8F0'">
+            <option value="">Day</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+            <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+            <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option>
+            <option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
+            <option>21</option><option>22</option><option>23</option><option>24</option><option>25</option>
+            <option>26</option><option>27</option><option>28</option><option>29</option><option>30</option>
+            <option>31</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="don-honour-wrap" style="display:none;margin-bottom:12px">
+        <label style="font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px">Who are you honouring? <span style="font-weight:400;color:#8A9AB0">Their name</span></label>
+        <input type="text" id="don-honour-name" placeholder="Full name of the person" style="width:100%;border:1.5px solid #E4E8F0;border-radius:9px;padding:11px 13px;font-family:inherit;font-size:14px;color:#111827;outline:none;box-sizing:border-box;transition:border-color .2s" onfocus="this.style.borderColor='#1B3A7A'" onblur="this.style.borderColor='#E4E8F0'">
+      </div>
+
+      <!-- Name -->
+      <input class="don-input" id="don-name" type="text" placeholder="Your name (optional &#8212; for dedication)">
+
+      <!-- Email -->
+      <input class="don-input" id="don-email" type="email" placeholder="Email (optional &#8212; in case we want to reach you)">
+
+      <!-- Short note -->
+      <textarea class="don-input" id="don-note" rows="2" placeholder="Leave us a short note &#8212; anything you want us to know..." style="resize:none;line-height:1.6"></textarea>
+
+      <button class="don-cta-btn" id="don-btn" onclick="openDonation()">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        Donate Now
+      </button>
+      <p class="don-foot-note">Secured by Flutterwave &nbsp;&middot;&nbsp; <a href="donate.html" class="don-foot-link">Full donation page &rarr;</a></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- DONATION TICKER -->
+<div class="don-ticker-wrap">
+  <div class="don-ticker-label">&#128293; Live</div>
+  <div class="don-ticker-track" id="don-ticker-track">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<style>
+.don-ticker-wrap{background:#0D1F45;padding:0 5%;display:flex;align-items:center;gap:16px;overflow:hidden;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06)}
+.don-ticker-label{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#93B4FF;white-space:nowrap;padding:13px 0;flex-shrink:0;display:flex;align-items:center;gap:6px}
+.don-ticker-label::before{content:'';width:7px;height:7px;border-radius:50%;background:#93B4FF;display:block;animation:tpulse 1.5s infinite}
+@keyframes tpulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.don-ticker-track{display:flex;gap:0;white-space:nowrap;animation:tickerScroll 32s linear infinite;will-change:transform}
+.don-ticker-track:hover{animation-play-state:paused}
+.don-ticker-item{display:inline-flex;align-items:center;gap:8px;padding:13px 28px 13px 0;font-size:13px;color:rgba(255,255,255,.6);border-right:1px solid rgba(255,255,255,.07);margin-right:28px}
+.don-ticker-item:last-child{border-right:none}
+.don-ticker-item strong{color:#fff;font-weight:700}
+.don-ticker-item .tick-icon{font-size:15px;flex-shrink:0}
+@keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+</style>
+
+<script>
+(function(){
+  var SB_URL = 'https://xnynghnhbeyeowcibuvz.supabase.co';
+  var SB_KEY = 'sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY';
+
+  // Seed data shown before Supabase is connected
+  var seedFeeds = [
+    '❤️ <strong>Anonymous</strong> just donated <strong>₦5,000</strong>',
+    '🎂 Happy birthday <strong>Chisom O.</strong>! Thank you for paying it forward 🎉',
+    '❤️ <strong>David A.</strong> just donated <strong>₦2,000</strong>',
+    '🙏 <strong>A faithful giver</strong> donated their tithe — <strong>₦10,000</strong>',
+    '❤️ <strong>Ngozi F.</strong> just donated <strong>$5</strong>',
+    '🎂 Shoutout to <strong>Emeka B.</strong> celebrating his birthday by giving back 🎉',
+    '❤️ <strong>Anonymous</strong> just donated <strong>₦20,000</strong> — half a scholarship!',
+    '💜 <strong>In honour of Mama Blessing</strong> — ₦5,000 donated',
+    '❤️ <strong>Adaeze M.</strong> donated <strong>₦2,000</strong>',
+    '🎂 Birthday shoutout to <strong>Tunde K.</strong> — thanks for sponsoring a youth! 🎉',
+  ];
+
+  function renderTicker(messages) {
+    var track = document.getElementById('don-ticker-track');
+    if (!track) return;
+    var doubled = messages.concat(messages);
+    track.innerHTML = doubled.map(function(m) {
+      return '<span class="don-ticker-item"><span>' + m + '</span></span>';
+    }).join('');
+  }
+
+  function loadFromSupabase() {
+    if (SB_URL === 'https://xnynghnhbeyeowcibuvz.supabase.co') {
+      renderTicker(seedFeeds);
+      return;
+    }
+    fetch(SB_URL + '/rest/v1/donations_ticker?select=ticker_message&order=created_at.desc', {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data || !data.length) { renderTicker(seedFeeds); return; }
+      renderTicker(data.map(function(d) { return d.ticker_message || ''; }).filter(Boolean));
+    })
+    .catch(function() { renderTicker(seedFeeds); });
+  }
+
+  // Load on page ready, then refresh every 60 seconds
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadFromSupabase);
+  } else {
+    loadFromSupabase();
+  }
+  setInterval(loadFromSupabase, 60000);
+})();
+</script>
+
+
+<!-- FAQ SECTION -->
+<section style="padding:80px 5%;background:#fff">
+  <div style="max-width:800px;margin:0 auto">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#8A9AB0;margin-bottom:12px;display:flex;align-items:center;gap:10px" class="rv"><span style="width:20px;height:1.5px;background:#8A9AB0;display:block"></span>Common Questions</div>
+    <h2 style="font-size:clamp(24px,4vw,40px);font-weight:800;color:#111827;line-height:1.1;letter-spacing:-.025em;margin-bottom:8px" class="rv">Questions People Ask <span style="background:linear-gradient(90deg,#1B3A7A,#8A9AB0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">About TechNuVate</span></h2>
+    <p style="font-size:15px;font-weight:300;color:#6B7280;margin-bottom:40px;line-height:1.8" class="rv">If you do not see your question here, reach out through the contact section below.</p>
+    <div style="display:flex;flex-direction:column;gap:10px">
+
+      <div class="hfaq-item rv d1" style="border:1.5px solid #E4E8F0;border-radius:12px;overflow:hidden">
+        <button class="hfaq-q" onclick="htoggleFaq(this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#111827;text-align:left;cursor:pointer;gap:12px">
+          Can people outside Africa register for TechNuVate?
+          <span style="font-size:18px;color:#1B3A7A;transition:transform .3s;flex-shrink:0">+</span>
+        </button>
+        <div class="hfaq-a" style="display:none;padding:0 20px 18px;font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75">Yes. TechNuVate Academy and Labs are open to anyone from any English-speaking country worldwide. Our primary focus is Africa and English speaking countries, but we welcome learners from outside Africa who want to learn alongside this community. As long as you can attend live sessions online, you are welcome.</div>
+      </div>
+
+      <div class="hfaq-item rv d2" style="border:1.5px solid #E4E8F0;border-radius:12px;overflow:hidden">
+        <button class="hfaq-q" onclick="htoggleFaq(this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#111827;text-align:left;cursor:pointer;gap:12px">
+          Do I need a technical background to join any of the courses?
+          <span style="font-size:18px;color:#1B3A7A;transition:transform .3s;flex-shrink:0">+</span>
+        </button>
+        <div class="hfaq-a" style="display:none;padding:0 20px 18px;font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75">Not at all. Every course in TechNuVate Academy is designed for people starting from scratch. You do not need to know how to code or have any prior digital experience. The only requirement is a willingness to learn and show up consistently.</div>
+      </div>
+
+      <div class="hfaq-item rv d3" style="border:1.5px solid #E4E8F0;border-radius:12px;overflow:hidden">
+        <button class="hfaq-q" onclick="htoggleFaq(this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#111827;text-align:left;cursor:pointer;gap:12px">
+          What is the difference between Academy, Studio, and Labs?
+          <span style="font-size:18px;color:#1B3A7A;transition:transform .3s;flex-shrink:0">+</span>
+        </button>
+        <div class="hfaq-a" style="display:none;padding:0 20px 18px;font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75">Academy is where you learn. You join a cohort, attend live sessions, and earn a certificate. Labs is where you apply what you have learned by working on real project briefs with real mentorship. Studio is where TechNuVate delivers digital services to businesses, and it is also where the best talent from our ecosystem gets to do live client work.</div>
+      </div>
+
+      <div class="hfaq-item rv d1" style="border:1.5px solid #E4E8F0;border-radius:12px;overflow:hidden">
+        <button class="hfaq-q" onclick="htoggleFaq(this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#111827;text-align:left;cursor:pointer;gap:12px">
+          How do I pay for a course and what payment methods are accepted?
+          <span style="font-size:18px;color:#1B3A7A;transition:transform .3s;flex-shrink:0">+</span>
+        </button>
+        <div class="hfaq-a" style="display:none;padding:0 20px 18px;font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75">Payment is made directly through the enrollment page using Flutterwave, which accepts card payments, bank transfer, USSD, and mobile money. You can also choose to pay in Nigerian Naira or US Dollars, whichever works best for you. Your spot is only confirmed once payment is completed.</div>
+      </div>
+
+      <div class="hfaq-item rv d2" style="border:1.5px solid #E4E8F0;border-radius:12px;overflow:hidden">
+        <button class="hfaq-q" onclick="htoggleFaq(this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#111827;text-align:left;cursor:pointer;gap:12px">
+          What happens after I finish the Academy course?
+          <span style="font-size:18px;color:#1B3A7A;transition:transform .3s;flex-shrink:0">+</span>
+        </button>
+        <div class="hfaq-a" style="display:none;padding:0 20px 18px;font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75">You receive a TechNuVate certificate of completion. If you finish in the top 5 of your track, you earn a free spot in TechNuVate Labs where you work on real client projects and build a professional portfolio. All graduates also join the TechNuVate alumni community.</div>
+      </div>
+
+      <div class="hfaq-item rv d3" style="border:1.5px solid #E4E8F0;border-radius:12px;overflow:hidden">
+        <button class="hfaq-q" onclick="htoggleFaq(this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#111827;text-align:left;cursor:pointer;gap:12px">
+          Can my organisation or community partner with TechNuVate?
+          <span style="font-size:18px;color:#1B3A7A;transition:transform .3s;flex-shrink:0">+</span>
+        </button>
+        <div class="hfaq-a" style="display:none;padding:0 20px 18px;font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75">Yes. TechNuVate partners with organisations, communities, churches, and schools to help their members access courses at a discounted price. Partner organisations receive a set of unique codes that their members use to enroll at the partner pricing tier. Reach out through the contact section below to start a conversation.</div>
+      </div>
+
+      <div class="hfaq-item rv d1" style="border:1.5px solid #E4E8F0;border-radius:12px;overflow:hidden">
+        <button class="hfaq-q" onclick="htoggleFaq(this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#111827;text-align:left;cursor:pointer;gap:12px">
+          Is TechNuVate only for young people?
+          <span style="font-size:18px;color:#1B3A7A;transition:transform .3s;flex-shrink:0">+</span>
+        </button>
+        <div class="hfaq-a" style="display:none;padding:0 20px 18px;font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75">No. TechNuVate is for anyone who wants to build a digital skill and use it professionally. Whether you are a student, a working professional looking to switch careers, or someone returning to the workforce, you are welcome. Our cohorts are mixed and we learn better together.</div>
+      </div>
+
+      <div class="hfaq-item rv d2" style="border:1.5px solid #E4E8F0;border-radius:12px;overflow:hidden">
+        <button class="hfaq-q" onclick="htoggleFaq(this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#111827;text-align:left;cursor:pointer;gap:12px">
+          I want to work with TechNuVate. How do I apply?
+          <span style="font-size:18px;color:#1B3A7A;transition:transform .3s;flex-shrink:0">+</span>
+        </button>
+        <div class="hfaq-a" style="display:none;padding:0 20px 18px;font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75">TechNuVate has openings for both team members and tutors. If you have a skill you can teach, visit the Become a Tutor page. If you want to join the core team, visit the Become a Team Member page. Both are available under the Work With Us section in the navigation menu.</div>
+      </div>
+      <div class="hfaq-item rv d3" style="border:1.5px solid #E4E8F0;border-radius:12px;overflow:hidden">
+        <button class="hfaq-q" onclick="htoggleFaq(this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#111827;text-align:left;cursor:pointer;gap:12px">
+          What is your refund and deferral policy?
+          <span style="font-size:18px;color:#1B3A7A;transition:transform .3s;flex-shrink:0">+</span>
+        </button>
+        <div class="hfaq-a" style="display:none;padding:0 20px 18px;font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75">TechNuVate does not offer refunds or cohort deferrals under any circumstances. Once payment is made, your spot is locked for that specific cohort only. We ask that you confirm your availability before paying. This policy exists so that every seat in a cohort is occupied by someone who is fully committed.</div>
+      </div>
+      <div class="hfaq-item rv d1" style="border:1.5px solid #E4E8F0;border-radius:12px;overflow:hidden">
+        <button class="hfaq-q" onclick="htoggleFaq(this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#111827;text-align:left;cursor:pointer;gap:12px">
+          What is the difference between a Certificate of Completion and a Badge of Participation?
+          <span style="font-size:18px;color:#1B3A7A;transition:transform .3s;flex-shrink:0">+</span>
+        </button>
+        <div class="hfaq-a" style="display:none;padding:0 20px 18px;font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75">A Certificate of Completion is only issued to students who attend all required sessions, submit all assignments, and meet the minimum standard TechNuVate sets for their track. A Badge of Participation is issued to students who paid and were part of the cohort but did not fully complete the programme. There are no exceptions to this policy.</div>
+      </div>
+      <div class="hfaq-item rv d2" style="border:1.5px solid #E4E8F0;border-radius:12px;overflow:hidden">
+        <button class="hfaq-q" onclick="htoggleFaq(this)" style="width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#111827;text-align:left;cursor:pointer;gap:12px">
+          What is the Industrial Training placement and who is it for?
+          <span style="font-size:18px;color:#1B3A7A;transition:transform .3s;flex-shrink:0">+</span>
+        </button>
+        <div class="hfaq-a" style="display:none;padding:0 20px 18px;font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75">The Industrial Training placement is specifically for Nigerian university students who need to complete their school-mandated IT programme. TechNuVate provides a structured digital skills placement, handles your documentation, and works with your institution. You apply first, TechNuVate reviews your eligibility, and payment is only made after you are confirmed eligible. Visit the Labs page to learn more.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact" class="sec">
+  <div class="wrap">
+    <div class="cgrid">
+      <div>
+        <div class="lbl rv">Contact</div>
+        <h2 class="rv">Let's Talk.</h2>
+        <p class="rv d2" style="font-size:15px;font-weight:300;color:#6B7280;line-height:1.8;margin-top:10px">For partnership enquiries, studio projects, or if you are having trouble enrolling &mdash; reach out and we will get back to you.</p>
+        <div class="cinfo rv d3">
+          <div class="citem">
+            <div class="cico">&#128231;</div>
+            <div>
+              <div class="clbl">Email</div>
+              <div class="cval" id="em"></div>
+            </div>
+          </div>
+          <div class="citem">
+            <div class="cico">&#127758;</div>
+            <div><div class="clbl">Serving</div><div class="cval">Africa and English speaking countries &middot; 100% Online</div></div>
+          </div>
+          <div class="citem">
+            <div class="cico">&#128172;</div>
+            <div><div class="clbl">Social</div><div class="cval">@technuvate on all platforms</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="cform rv d2">
+        <div class="frow">
+          <div><label class="fl">First Name</label><input class="fi" type="text" placeholder="Amara"></div>
+          <div><label class="fl">Last Name</label><input class="fi" type="text" placeholder="Okafor"></div>
+        </div>
+        <div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="you@email.com"></div>
+        <div class="fg">
+          <label class="fl">I need help with</label>
+          <select class="fsel">
+            <option>Having problems enrolling in a course</option>
+            <option>Partnership enquiry</option>
+            <option>Studio services for my organization</option>
+            <option>Community partner pricing</option>
+            <option>Tutor or team application</option>
+            <option>Something else</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl">Message</label><textarea class="fta" placeholder="Tell us what you need..."></textarea></div>
+        <button class="fbtn">Send Message &rarr;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<!-- NEWSLETTER -->
+<section style="background:#0D1F45;padding:56px 5%">
+  <div style="max-width:600px;margin:0 auto;text-align:center">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px">Stay in the loop</div>
+    <h2 style="font-size:clamp(24px,4vw,34px);font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:12px">Get updates before everyone else.</h2>
+    <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:32px">New cohort dates. Early bird alerts. Career tips. Studio opportunities. Only what matters — straight to your inbox.</p>
+    <form id="newsletter-form" onsubmit="submitNewsletter(event)" style="display:flex;gap:10px;max-width:460px;margin:0 auto;flex-wrap:wrap">
+      <input id="nl-email" type="email" placeholder="Enter your email address" required
+        style="flex:1;min-width:200px;padding:14px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(255,255,255,.4)'" onblur="this.style.borderColor='rgba(255,255,255,.15)'">
+      <button type="submit" id="nl-btn"
+        style="padding:14px 24px;background:#fff;color:#0D1F45;font-size:14px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .2s">
+        Subscribe &rarr;
+      </button>
+    </form>
+    <p id="nl-msg" style="font-size:12px;color:rgba(255,255,255,.4);margin-top:14px;display:none"></p>
+    <p style="font-size:11px;color:rgba(255,255,255,.2);margin-top:16px">No spam. Unsubscribe anytime. We respect your inbox.</p>
+  </div>
+</section>
+<script>
+function submitNewsletter(e) {
+  e.preventDefault();
+  var email = document.getElementById('nl-email').value.trim();
+  var btn = document.getElementById('nl-btn');
+  var msg = document.getElementById('nl-msg');
+  if (!email || email.indexOf('@') < 0) return;
+  btn.textContent = 'Subscribing...';
+  btn.disabled = true;
+  // Save to Supabase newsletter table
+  var SB_URL = typeof window.SB_URL !== 'undefined' ? window.SB_URL : 'YOUR_SUPABASE_URL_HERE';
+  var SB_KEY = typeof window.SB_KEY !== 'undefined' ? window.SB_KEY : 'YOUR_SUPABASE_ANON_KEY_HERE';
+  if (SB_URL && SB_URL !== 'YOUR_SUPABASE_URL_HERE') {
+    fetch(SB_URL + '/rest/v1/newsletter_subscribers', {
+      method: 'POST',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ email: email, source: window.location.pathname })
+    }).catch(function(){});
+  }
+  setTimeout(function() {
+    document.getElementById('newsletter-form').style.display = 'none';
+    msg.textContent = '✓ You are on the list. Watch your inbox.';
+    msg.style.display = 'block';
+    msg.style.color = 'rgba(255,255,255,.7)';
+    msg.style.fontSize = '14px';
+  }, 600);
+}
+</script>
+<footer>
+  <div class="fwrap">
+    <div class="ftop">
+      <div>
+        <div class="flogo"><img src="data:image/png;base64,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" alt="TechNuVate"></div>
+        <p class="fdesc">A tech organisation training, deploying, and connecting talent in Africa and English speaking countries with real digital opportunity.</p>
+      </div>
+      <div>
+        <div class="fc-t">Our Arms</div>
+        <ul class="flinks">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="academy.html">TechNuVate Academy</a></li>
+          <li><a href="studio.html">TechNuVate Studio</a></li>
+          <li><a href="labs.html">TechNuVate Labs</a></li>
+          <li><a href="blog.html">Blog &amp; Events</a></li>
+          <li><a href="store.html">Merch Store</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="fc-t">Connect</div>
+        <ul class="flinks">
+          <li><a href="index.html#contact">Contact Us</a></li>
+          <li><a href="tutors.html">Become a Tutor</a></li>
+          <li><a href="join-team.html">Join the Team</a></li>
+          <li><a href="#newsletter-form" onclick="document.getElementById('nl-email').focus()">Subscribe to Newsletter</a></li>
+          <li>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.2);display:block;margin-bottom:10px;margin-top:6px">Follow Us</span>
+            <div style="display:flex;gap:7px;flex-wrap:wrap">
+              <a href="https://www.linkedin.com/company/technuvate" title="LinkedIn" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+              <a href="https://www.instagram.com/tech_nu_vate" title="Instagram" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+              <a href="https://x.com/technuvate" title="X" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+              <a href="https://www.youtube.com/@technuvate" title="YouTube" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></a>
+              <a href="https://www.tiktok.com/@tech_nu_vate" title="TikTok" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/></svg></a>
+              <a href="https://www.facebook.com/technuvate" title="Facebook" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div style="text-align:center;padding-top:4px">
+      <p style="font-size:12px;color:rgba(255,255,255,.18)">&copy; 2026 TechNuVate. All rights reserved. Learn. Build. Execute.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleMenu(){
+  var m=document.getElementById('mobMenu');
+  var b=document.getElementById('hamBtn');
+  m.classList.toggle('open');
+  var s=b.querySelectorAll('span');
+  if(m.classList.contains('open')){
+    s[0].style.transform='rotate(45deg) translate(5px,5px)';
+    s[1].style.opacity='0';
+    s[2].style.transform='rotate(-45deg) translate(5px,-5px)';
+  } else {
+    s[0].style.transform='';s[1].style.opacity='';s[2].style.transform='';
+  }
+}
+document.addEventListener('click',function(e){
+  var m=document.getElementById('mobMenu');
+  var b=document.getElementById('hamBtn');
+  if(m&&m.classList.contains('open')&&!m.contains(e.target)&&!b.contains(e.target)) toggleMenu();
+});
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('on');});
+},{threshold:0.08,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
+
+
+function smoothTo(id){
+  var el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function htoggleFaq(btn){
+  var item = btn.parentElement;
+  var answer = item.querySelector('.hfaq-a');
+  var icon = btn.querySelector('span');
+  var isOpen = answer.style.display === 'block';
+  // Close all
+  document.querySelectorAll('.hfaq-a').forEach(function(a){ a.style.display='none'; });
+  document.querySelectorAll('.hfaq-q span').forEach(function(i){ i.style.transform=''; i.textContent='+'; });
+  // Open clicked if it was closed
+  if(!isOpen){
+    answer.style.display = 'block';
+    icon.style.transform = 'rotate(45deg)';
+    icon.textContent = '+';
+    item.style.borderColor = '#1B3A7A';
+  } else {
+    item.style.borderColor = '#E4E8F0';
+  }
+}
+// Write email to avoid scraper obfuscation
+var u='hello',d='technuvate.com';
+var el=document.getElementById('em');
+if(el){el.innerHTML='<a href="mailto:'+u+'@'+d+'" style="color:#1B3A7A;text-decoration:none">'+u+'@'+d+'</a>';}
+</script>
+<script>
+var donCurrency = 'NGN';
+var donAmount = 0;
+
+(function(){
+  var raised = 24500;
+  var goal = 80000;
+  var pct = Math.min((raised % goal) / goal * 100, 100);
+  var empowered = Math.floor(raised / goal);
+  setTimeout(function(){
+    var bar = document.getElementById('don-bar');
+    if(bar) bar.style.width = pct + '%';
+    var lbl = document.getElementById('don-progress-label');
+    if(lbl) lbl.textContent = '₦' + raised.toLocaleString() + ' raised';
+    var cnt = document.getElementById('don-count');
+    if(cnt) cnt.textContent = empowered + ' youth' + (empowered!==1?'s':'') + ' empowered';
+  }, 500);
+})();
+
+function setDonCurrency(cur){
+  donCurrency = cur; donAmount = 0;
+  document.getElementById('don-amounts-ngn').style.display = cur==='NGN'?'flex':'none';
+  document.getElementById('don-amounts-usd').style.display = cur==='USD'?'flex':'none';
+  document.getElementById('don-custom-wrap').style.display = 'none';
+  document.getElementById('don-custom-symbol').textContent = cur==='NGN'?'₦':'$';
+  document.getElementById('don-custom-input').value = '';
+  document.querySelectorAll('.don-pill').forEach(function(b){b.classList.remove('selected');});
+  document.getElementById('cur-ngn').className = 'don-cur-btn ' + (cur==='NGN'?'don-cur-on':'don-cur-off');
+  document.getElementById('cur-usd').className = 'don-cur-btn ' + (cur==='USD'?'don-cur-on':'don-cur-off');
+}
+
+function selectDonAmt(amt, cur, btn){
+  donAmount = amt;
+  document.querySelectorAll('.don-pill').forEach(function(b){b.classList.remove('selected');});
+  btn.classList.add('selected');
+  document.getElementById('don-custom-wrap').style.display = 'none';
+}
+
+function openDonCustom(btn){
+  document.querySelectorAll('.don-pill').forEach(function(b){b.classList.remove('selected');});
+  btn.classList.add('selected');
+  document.getElementById('don-custom-wrap').style.display = 'block';
+  document.getElementById('don-custom-input').focus();
+  donAmount = 0;
+}
+
+
+function toggleBirthday(){
+  var v = document.getElementById('don-occasion') ? document.getElementById('don-occasion').value : '';
+  var bw = document.getElementById('don-bday-wrap');
+  var hw = document.getElementById('don-honour-wrap');
+  if(bw) bw.style.display = v==='birthday' ? 'block' : 'none';
+  if(hw) hw.style.display = v==='honour' ? 'block' : 'none';
+}
+function onDonCustom(){
+  donAmount = parseFloat(document.getElementById('don-custom-input').value) || 0;
+}
+
+function openDonation(){
+  var min = donCurrency==='NGN'?2000:1;
+  if(!donAmount || donAmount < min){
+    alert('Please select or enter a minimum of ' + (donCurrency==='NGN'?'₦2,000':'$2') + ' to continue.');
+    return;
+  }
+  var name = document.getElementById('don-name').value.trim() || 'Anonymous Donor';
+  var btn = document.getElementById('don-btn');
+  btn.disabled = true; btn.textContent = 'Opening payment...';
+  FlutterwaveCheckout({
+    public_key: 'YOUR_FLUTTERWAVE_PUBLIC_KEY_HERE',
+    tx_ref: 'TNVDON-' + Date.now(),
+    amount: donAmount, currency: donCurrency,
+    payment_options: 'card,banktransfer,ussd,mobilemoney',
+    customer: {email:'hello@technuvate.com', name:name},
+    meta: {
+      type: 'donation',
+      donor_name: (document.getElementById('don-name') ? document.getElementById('don-name').value.trim() : '') || 'Anonymous',
+      occasion: (document.getElementById('don-occasion') ? document.getElementById('don-occasion').value : ''),
+      birthday: (document.getElementById('don-bday-month') && document.getElementById('don-bday-day') ? document.getElementById('don-bday-month').value + ' ' + document.getElementById('don-bday-day').value : ''),
+      email_contact: (document.getElementById('don-email') ? document.getElementById('don-email').value.trim() : ''),
+      note: (document.getElementById('don-note') ? document.getElementById('don-note').value.trim() : '')
+    },
+    customizations: {
+      title: 'TechNuVate — Sponsor a Youth',
+      description: 'Empowering a young person to learn a tech skill in Africa',
+      logo: 'https://technuvate.com/technuvate-logo-dark.png'
+    },
+    callback: function(r){
+      if(r.status==='successful'||r.status==='completed'){
+        btn.innerHTML = '❤️ Thank you! Your donation is received.';
+        btn.style.background = '#15803D';
+      } else { btn.disabled=false; btn.textContent='Donate Now'; }
+    },
+    onclose: function(){
+      if(btn.disabled && btn.textContent==='Opening payment...'){btn.disabled=false;btn.textContent='Donate Now';}
+    }
+  });
+}
+</script>
+<script>
+document.addEventListener('change', function(e) {
+  if (e.target && e.target.id === 'don-reason') {
+    var wrap = document.getElementById('don-bday-wrap');
+    if (wrap) wrap.style.display = e.target.value === 'birthday' ? 'block' : 'none';
+  }
+});
+function toggleDonOccasion(){
+  var v = document.getElementById('don-occasion') ? document.getElementById('don-occasion').value : '';
+  var b = document.getElementById('don-bday-wrap');
+  var h = document.getElementById('don-honour-wrap');
+  if(b) b.style.display = v==='birthday' ? 'block' : 'none';
+  if(h) h.style.display = v==='honour' ? 'block' : 'none';
+}
+function toggleDonBirthday(){ toggleDonOccasion(); }
+</script>
+</body>
+</html>

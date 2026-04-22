@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>TechNuVate Academy — Learn Digital Skills. Get Certified.</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',Helvetica,Arial,sans-serif;color:#111827;background:#fff;overflow-x:hidden;-webkit-text-size-adjust:100%}
+:root{--navy:#1B3A7A;--navy3:#0F2554;--grey:#8A9AB0;--gl:#F2F4F8;--gb:#E4E8F0;--soft:#6B7280}
+img{max-width:100%;display:block}
+a{-webkit-tap-highlight-color:transparent}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;background:#fff;border-bottom:1px solid #E4E8F0;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.nav-logo img{height:58px;width:auto}
+.nav-right{display:flex;align-items:center;gap:4px}
+.nav-item{position:relative}
+.nav-item-btn{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;cursor:pointer;border:none;background:transparent;transition:background .2s,color .2s;white-space:nowrap;font-family:inherit}
+.nav-item-btn:hover{background:#F2F4F8;color:#1B3A7A}
+.nav-arrow{font-size:10px;transition:transform .2s}
+.nav-item:hover .nav-arrow{transform:rotate(180deg)}
+.nav-dropdown{position:absolute;top:calc(100% + 8px);left:0;background:#fff;border:1px solid #E4E8F0;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.1);min-width:190px;padding:6px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .2s,visibility .2s,transform .2s;z-index:1000}
+.nav-item:hover .nav-dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+.nav-dropdown a{display:block;padding:10px 14px;font-size:13.5px;font-weight:500;color:#374151;text-decoration:none;border-radius:7px;transition:background .15s,color .15s}
+.nav-dropdown a:hover{background:#F2F4F8;color:#1B3A7A}
+.nav-btn{font-size:13px;font-weight:700;color:#fff;text-decoration:none;padding:10px 20px;border-radius:7px;background:#1B3A7A;white-space:nowrap;transition:background .2s;margin-left:6px}
+.nav-btn:hover{background:#0F2554}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:transparent;border:none;margin-left:4px}
+.ham span{display:block;width:22px;height:2px;background:#374151;border-radius:2px;transition:all .3s}
+.mob-menu{display:none;position:fixed;top:66px;left:0;right:0;background:#fff;border-bottom:1px solid #E4E8F0;box-shadow:0 8px 24px rgba(0,0,0,.08);z-index:998;padding:12px 5% 20px}
+.mob-menu.open{display:block}
+.mob-section{margin-bottom:16px}
+.mob-section-title{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8A9AB0;padding:8px 0 6px;border-bottom:1px solid #F2F4F8;margin-bottom:6px}
+.mob-menu a{display:block;padding:10px 0;font-size:14px;font-weight:500;color:#374151;text-decoration:none;border-bottom:1px solid #F2F4F8}
+.mob-menu a:hover{color:#1B3A7A}
+.mob-cta{display:block;margin-top:14px;background:#1B3A7A;color:#ffffff!important;font-size:14px;font-weight:700;padding:13px;border-radius:8px;text-align:center;text-decoration:none;-webkit-text-fill-color:#fff}
+@media(max-width:700px){.nav-item{display:none}.nav-logo img{height:46px}.ham{display:flex}.nav-btn{display:none}}
+
+/* PAGE HERO */
+.page-hero{padding:120px 5% 72px;background:#1B3A7A;position:relative;overflow:hidden}
+.hero-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.breadcrumb a{font-size:12px;font-weight:600;color:rgba(255,255,255,.45);text-decoration:none}
+.breadcrumb a:hover{color:rgba(255,255,255,.8)}
+.breadcrumb span{font-size:12px;color:rgba(255,255,255,.25)}
+.breadcrumb-current{font-size:12px;font-weight:600;color:rgba(255,255,255,.7)}
+.page-hero h1{font-size:clamp(30px,5vw,58px);font-weight:800;color:#fff;line-height:1.08;letter-spacing:-.03em;margin-bottom:18px}
+.page-hero h1 em{font-style:normal;color:#93B4FF}
+.page-hero-sub{font-size:15px;font-weight:300;color:rgba(255,255,255,.55);line-height:1.8;margin-bottom:28px}
+.hero-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.hero-pill{font-size:11px;font-weight:600;color:rgba(255,255,255,.7);background:rgba(255,255,255,.1);padding:6px 14px;border-radius:100px;border:1px solid rgba(255,255,255,.15)}
+.hero-stats-box{display:grid;grid-template-columns:1fr 1fr;gap:3px;border-radius:12px;overflow:hidden}
+.hero-stat{background:rgba(255,255,255,.07);padding:22px 18px;border:1px solid rgba(255,255,255,.06)}
+.hero-stat-n{font-size:28px;font-weight:800;color:#fff;line-height:1;margin-bottom:5px}
+.hero-stat-l{font-size:11px;font-weight:500;color:rgba(255,255,255,.4);line-height:1.4}
+@media(max-width:860px){.hero-inner{grid-template-columns:1fr;gap:36px}}
+
+/* SECTIONS */
+.sec{padding:80px 5%}
+.sec-bg{background:#F2F4F8}
+.wrap{max-width:1100px;margin:0 auto}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#8A9AB0;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.lbl::before{content:'';width:20px;height:1.5px;background:#8A9AB0;display:block;flex-shrink:0}
+h2{font-size:clamp(24px,4vw,42px);font-weight:800;color:#111827;line-height:1.1;letter-spacing:-.025em;margin-bottom:16px}
+h2 span{color:#1B3A7A}
+.grad{background:linear-gradient(90deg,#1B3A7A 0%,#8A9AB0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* HOW IT WORKS */
+.hiw-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:44px}
+.hiw-step{background:#fff;border-radius:0;padding:28px 22px;position:relative}
+.hiw-step:first-child{border-radius:12px 0 0 12px}
+.hiw-step:last-child{border-radius:0 12px 12px 0}
+.hiw-num{font-size:40px;font-weight:800;color:rgba(27,58,122,.08);line-height:1;margin-bottom:14px;letter-spacing:-.04em}
+.hiw-ico{width:40px;height:40px;background:rgba(27,58,122,.07);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px}
+.hiw-t{font-size:14px;font-weight:800;color:#111827;margin-bottom:6px}
+.hiw-d{font-size:12.5px;font-weight:300;color:#6B7280;line-height:1.65}
+@media(max-width:860px){.hiw-grid{grid-template-columns:1fr 1fr}.hiw-step{border-radius:12px!important}}
+@media(max-width:480px){.hiw-grid{grid-template-columns:1fr}}
+
+/* COURSE CARDS */
+.courses-grid{display:grid;grid-template-columns:1fr;gap:20px;margin-top:0;max-width:880px}
+.course-card{display:flex;flex-direction:column;background:#fff;border-radius:16px;border:1.5px solid #E4E8F0;overflow:hidden;transition:border-color .25s,transform .25s,box-shadow .25s}
+.course-card:hover{border-color:#1B3A7A;transform:translateY(-4px);box-shadow:0 14px 36px rgba(27,58,122,.1)}
+.course-top{padding:28px 26px 20px}
+.course-ico{width:48px;height:48px;background:rgba(27,58,122,.07);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
+.course-t{font-size:18px;font-weight:800;color:#111827;margin-bottom:6px;letter-spacing:-.02em}
+.course-d{font-size:13px;font-weight:300;color:#6B7280;line-height:1.7}
+.course-bottom{padding:20px 26px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.course-meta{display:flex;gap:16px;flex-wrap:wrap}
+.course-meta-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:#6B7280}
+.course-meta-ico{font-size:13px}
+.enroll-btn{font-size:13px;font-weight:700;color:#1B3A7A;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:gap .2s}
+.enroll-btn:hover{gap:10px}
+.course-modules{padding:0 26px 22px}
+.module-title{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8A9AB0;margin-bottom:10px}
+.module-list{display:flex;flex-direction:column;gap:6px}
+.module-item{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:400;color:#374151}
+.module-dot{width:6px;height:6px;border-radius:50%;background:#1B3A7A;flex-shrink:0}
+
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+.price-card{border-radius:14px;padding:30px 24px;border:1.5px solid #E4E8F0;background:#fff;position:relative;transition:border-color .25s,transform .25s}
+.price-card:hover{border-color:#1B3A7A;transform:translateY(-4px)}
+.price-card.featured{border-color:#1B3A7A;background:#1B3A7A}
+.price-featured-tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#93B4FF;color:#0F2554;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:5px 14px;border-radius:100px;white-space:nowrap}
+.price-lbl{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8A9AB0;margin-bottom:8px}
+.price-card.featured .price-lbl{color:rgba(255,255,255,.45)}
+.price-amount{font-size:36px;font-weight:800;color:#111827;line-height:1;margin-bottom:4px;letter-spacing:-.03em}
+.price-card.featured .price-amount{color:#fff}
+.price-period{font-size:12px;font-weight:300;color:#6B7280;margin-bottom:20px}
+.price-card.featured .price-period{color:rgba(255,255,255,.45)}
+.price-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.price-features li{display:flex;align-items:flex-start;gap:8px;font-size:13px;font-weight:300;color:#374151}
+.price-card.featured .price-features li{color:rgba(255,255,255,.75)}
+.price-check{color:#1B3A7A;font-weight:700;flex-shrink:0}
+.price-card.featured .price-check{color:#93B4FF}
+.price-btn{display:block;width:100%;text-align:center;padding:13px;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;transition:background .2s,transform .2s}
+.price-btn-outline{border:1.5px solid #E4E8F0;color:#1B3A7A}
+.price-btn-outline:hover{border-color:#1B3A7A;transform:translateY(-2px)}
+.price-btn-white{background:#fff;color:#1B3A7A}
+.price-btn-navy{background:#1B3A7A;color:#fff}
+.price-btn-navy:hover{background:#0F2554;transform:translateY(-2px)}
+.price-btn-white:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.12)}
+@media(max-width:700px){.pricing-grid{grid-template-columns:1fr}}
+
+/* INCBOX */
+.incbox{background:rgba(27,58,122,.05);border:1px solid rgba(27,58,122,.12);border-radius:12px;padding:20px;display:flex;gap:14px;margin-top:32px}
+.incbox strong{font-size:14px;font-weight:700;color:#1B3A7A;display:block;margin-bottom:5px}
+.incbox p{font-size:13px;font-weight:300;color:#6B7280;line-height:1.65;margin:0}
+
+/* FAQ */
+.faq-list{margin-top:44px;display:flex;flex-direction:column;gap:12px}
+.faq-item{border:1.5px solid #E4E8F0;border-radius:12px;overflow:hidden}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 20px;background:#fff;border:none;font-family:inherit;font-size:14px;font-weight:600;color:#111827;text-align:left;cursor:pointer;transition:background .2s}
+.faq-q:hover{background:#F2F4F8}
+.faq-icon{font-size:18px;color:#1B3A7A;transition:transform .3s;flex-shrink:0}
+.faq-a{display:none;padding:0 20px 18px;font-size:13.5px;font-weight:300;color:#6B7280;line-height:1.75}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-item.open .faq-q{background:#F2F4F8}
+
+/* CTA */
+.cta-box{background:#1B3A7A;border-radius:18px;padding:56px 40px;text-align:center;max-width:1100px;margin:0 auto}
+.cta-lbl{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:16px}
+.cta-t{font-size:clamp(22px,4vw,42px);font-weight:800;color:#fff;line-height:1.1;letter-spacing:-.025em;margin-bottom:14px}
+.cta-s{font-size:15px;font-weight:300;color:rgba(255,255,255,.48);margin-bottom:32px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.7}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-white{background:#fff;color:#1B3A7A;font-size:14px;font-weight:700;padding:13px 26px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,box-shadow .2s}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.15)}
+.btn-ghost-w{border:1.5px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);font-size:14px;font-weight:600;padding:13px 24px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,color .2s}
+.btn-ghost-w:hover{border-color:rgba(255,255,255,.6);color:#fff}
+@media(max-width:560px){.cta-box{padding:40px 20px}}
+
+/* FOOTER */
+footer{background:#060C1A;padding:52px 5% 28px}
+.fwrap{max-width:1100px;margin:0 auto}
+.ftop{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:22px}
+.flogo img{height:58px;width:auto;margin-bottom:14px}
+.fdesc{font-size:13px;font-weight:300;color:rgba(255,255,255,.28);line-height:1.7;max-width:210px}
+.fc-t{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:14px}
+.flinks{list-style:none}
+.flinks li{margin-bottom:10px}
+.flinks a{font-size:13px;font-weight:300;color:rgba(255,255,255,.38);text-decoration:none;transition:color .2s}
+.flinks a:hover{color:rgba(255,255,255,.8)}
+@media(max-width:860px){.ftop{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.ftop{grid-template-columns:1fr}}
+@media(max-width:480px){.ftop{grid-template-columns:1fr}}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
+.rv.on{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+@media(min-width:600px){#notifyModal{align-items:center;padding:24px}#notifyModalBox{border-radius:20px}}
+</style>
+<style>
+.don-nudge{background:#1B3A7A;padding:13px 5%;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;text-align:center}
+.don-nudge-text{font-size:13px;font-weight:600;color:rgba(255,255,255,.8)}
+.don-nudge-text strong{color:#fff}
+.don-nudge-btn{display:inline-flex;align-items:center;gap:6px;background:#93B4FF;color:#0D1F45;font-size:12px;font-weight:700;padding:7px 16px;border-radius:100px;text-decoration:none;transition:opacity .2s;white-space:nowrap;flex-shrink:0}
+.don-nudge-btn:hover{opacity:.85}
+.don-nudge-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:0 0 0 8px;line-height:1;flex-shrink:0}
+.don-nudge-close:hover{color:#fff}
+@media(max-width:500px){.don-nudge{gap:10px;padding:12px 4%}.don-nudge-text{font-size:12px}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html"><img src="data:image/png;base64,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" alt="TechNuVate" style="height:58px;width:auto"></a>
+  <div class="nav-right">
+    <div class="nav-item">
+      <button class="nav-item-btn">Meet Us <span class="nav-arrow">&#9660;</span></button>
+      <div class="nav-dropdown">
+        <a href="about.html">About Us</a>
+        <a href="academy.html" style="color:#1B3A7A;font-weight:700">TechNuVate Academy</a>
+        <a href="studio.html">TechNuVate Studio</a>
+        <a href="labs.html">TechNuVate Labs</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <button class="nav-item-btn">Work With Us <span class="nav-arrow">&#9660;</span></button>
+      <div class="nav-dropdown">
+        <a href="tutors.html">Become a Tutor</a>
+        <a href="join-team.html">Become a Team Member</a>
+      </div>
+    </div>
+    <a href="store.html" class="nav-item-btn" style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap" onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'" onmouseout="this.style.background='transparent';this.style.color='#374151'">Store</a>
+    <a href="blog.html" class="nav-item-btn" style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap" onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'" onmouseout="this.style.background='transparent';this.style.color='#374151'">Blog</a>
+    <a href="donate.html" class="nav-btn" style="background:transparent;border:1.5px solid #1B3A7A;color:#1B3A7A;margin-right:2px" onmouseover="this.style.background='rgba(27,58,122,.06)'" onmouseout="this.style.background='transparent'">&#10084;&#65039; Donate</a><a href="index.html#contact" class="nav-btn">Contact Us</a>
+    <button class="ham" id="hamBtn" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <div class="mob-section">
+    <a href="donate.html" style="display:block;background:#1B3A7A;color:#fff;font-weight:700;font-size:14px;padding:13px 16px;border-radius:10px;text-decoration:none;text-align:center;margin-bottom:4px">&#10084;&#65039; Donate Now</a>
+  </div>
+  <div class="mob-section">
+    <div class="mob-section-title">Meet Us</div>
+    <a href="about.html">About Us</a>
+    <a href="academy.html">TechNuVate Academy</a>
+    <a href="studio.html">TechNuVate Studio</a>
+    <a href="labs.html">TechNuVate Labs</a>
+  </div>
+  <div class="mob-section">
+    <div class="mob-section-title">Work With Us</div>
+    <a href="tutors.html">Become a Tutor</a>
+    <a href="join-team.html">Become a Team Member</a>
+  </div>
+  <div class="mob-section">
+    <div class="mob-section-title">Explore</div>
+    <a href="blog.html">Blog &amp; Events</a>
+    <a href="store.html">Merch Store</a>
+  </div>
+  <a href="index.html#contact" class="mob-cta">Contact Us</a>
+</div>
+
+    <a href="about.html">About Us</a>
+    <a href="academy.html">TechNuVate Academy</a>
+    <a href="studio.html">TechNuVate Studio</a>
+    <a href="labs.html">TechNuVate Labs</a>
+  </div>
+  <div class="mob-section">
+    <div class="mob-section-title">Work With Us</div>
+    <a href="tutors.html">Become a Tutor</a>
+    <a href="join-team.html">Become a Team Member</a>
+  </div>
+  <div class="mob-section">
+    <div class="mob-section-title">Resources</div>
+    <a href="blog.html">Blog</a>
+  </div>
+  <a href="index.html#contact" class="mob-cta" onclick="toggleMenu()">Contact Us</a>
+</div>
+
+<!-- HERO -->
+<section class="page-hero" style="background:linear-gradient(135deg,#0F2554 0%,#1B3A7A 50%,#243F80 100%)">
+  <div class="hero-dots"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
+    <div style="position:absolute;top:-60px;right:10%;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(147,180,255,.12) 0%,transparent 70%)"></div>
+    <div style="position:absolute;bottom:-40px;left:5%;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(27,58,122,.4) 0%,transparent 70%)"></div>
+    <div style="position:absolute;top:50%;right:8%;transform:translateY(-50%);width:440px;height:440px;border-radius:50%;border:1px solid rgba(255,255,255,.06)"></div>
+    <div style="position:absolute;top:50%;right:8%;transform:translate(10%,-50%);width:300px;height:300px;border-radius:50%;border:1px solid rgba(255,255,255,.05)"></div>
+    <div style="position:absolute;top:50%;right:8%;transform:translate(20%,-50%);width:180px;height:180px;border-radius:50%;border:1px solid rgba(255,255,255,.04)"></div>
+    <div style="position:absolute;top:-80px;right:-60px;width:420px;height:420px;border-radius:50%;border:1.5px solid rgba(255,255,255,.07)"></div>
+    <div style="position:absolute;top:20px;right:40px;width:260px;height:260px;border-radius:50%;border:1px solid rgba(255,255,255,.04)"></div>
+    <svg style="position:absolute;bottom:40px;right:80px;opacity:.06" width="200" height="200" viewBox="0 0 200 200" fill="none"><line x1="0" y1="50" x2="200" y2="50" stroke="white" stroke-width="1"/><line x1="0" y1="100" x2="200" y2="100" stroke="white" stroke-width="1"/><line x1="0" y1="150" x2="200" y2="150" stroke="white" stroke-width="1"/><line x1="50" y1="0" x2="50" y2="200" stroke="white" stroke-width="1"/><line x1="100" y1="0" x2="100" y2="200" stroke="white" stroke-width="1"/><line x1="150" y1="0" x2="150" y2="200" stroke="white" stroke-width="1"/><circle cx="50" cy="50" r="3" fill="white"/><circle cx="100" cy="50" r="3" fill="white"/><circle cx="150" cy="50" r="3" fill="white"/><circle cx="50" cy="100" r="3" fill="white"/><circle cx="100" cy="100" r="5" fill="white"/><circle cx="150" cy="100" r="3" fill="white"/><circle cx="50" cy="150" r="3" fill="white"/><circle cx="100" cy="150" r="3" fill="white"/><circle cx="150" cy="150" r="3" fill="white"/></svg>
+  </div>
+  <div class="hero-inner">
+    <div>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>&rsaquo;</span>
+        <span class="breadcrumb-current">Academy</span>
+      </div>
+      <h1>Learn the Skills.<br>Build the Portfolio.<br><em>Get Certified.</em></h1>
+      <p class="page-hero-sub">TechNuVate Academy runs cohort-based, hands-on training across no-code digital skill tracks. No coding required. Live sessions, real projects, and a certificate at the end.</p>
+      <div class="hero-pills">
+        <span class="hero-pill">No Coding Required</span>
+        <span class="hero-pill">Live Sessions</span>
+        <span class="hero-pill">Real Projects</span>
+        <span class="hero-pill">Certificate Included</span>
+      </div>
+      <a href="#courses" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1B3A7A;font-size:14px;font-weight:700;padding:13px 26px;border-radius:8px;text-decoration:none;transition:transform .2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">See All Courses &darr;</a>
+    </div>
+    <div class="hero-stats-box">
+      <div class="hero-stat"><div class="hero-stat-n">Growing</div><div class="hero-stat-l">Course tracks, new ones added every cohort</div></div>
+      <div class="hero-stat"><div class="hero-stat-n">2</div><div class="hero-stat-l">Months per cohort</div></div>
+      <div class="hero-stat"><div class="hero-stat-n">3&times;</div><div class="hero-stat-l">Live classes every week</div></div>
+      <div class="hero-stat"><div class="hero-stat-n">100%</div><div class="hero-stat-l">Online and accessible</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="sec">
+  <div class="wrap">
+    <div class="lbl rv">How Academy Works</div>
+    <h2 class="rv"><span class="grad">Simple. Structured. Practical.</span></h2>
+    <div class="hiw-grid">
+      <div class="hiw-step rv d1">
+        <div class="hiw-num">01</div>
+        <div class="hiw-ico">&#128221;</div>
+        <div class="hiw-t">Apply and Enroll</div>
+        <p class="hiw-d">Choose your track, select your pricing tier, and secure your spot. Cohorts have limited seats so early enrollment matters.</p>
+      </div>
+      <div class="hiw-step rv d2">
+        <div class="hiw-num">02</div>
+        <div class="hiw-ico">&#127891;</div>
+        <div class="hiw-t">Attend Live Sessions</div>
+        <p class="hiw-d">Three live classes per week for two months. Sessions are interactive, practical, and led by tutors who work in the field.</p>
+      </div>
+      <div class="hiw-step rv d3">
+        <div class="hiw-num">03</div>
+        <div class="hiw-ico">&#128188;</div>
+        <div class="hiw-t">Work on Real Projects</div>
+        <p class="hiw-d">Every track includes hands-on projects. You will not just learn concepts. You will apply them on briefs that look like real client work.</p>
+      </div>
+      <div class="hiw-step rv d4">
+        <div class="hiw-num">04</div>
+        <div class="hiw-ico">&#127942;</div>
+        <div class="hiw-t">Graduate and Get Certified</div>
+        <p class="hiw-d">Complete the track, pass your assessments, and receive a TechNuVate certificate. Top 5 graduates from each track earn a free Labs spot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section id="courses" class="sec sec-bg">
+  <div class="wrap">
+    <div class="lbl rv">Our Courses</div>
+    <h2 class="rv">Our Courses. <span>Your Career.</span></h2>
+    <p class="rv d2" style="font-size:15px;font-weight:300;color:#6B7280;line-height:1.8;max-width:520px">Every track is built around what employers and clients actually need. Practical skills, real tools, and enough depth to start doing the work from day one.</p>
+        <div style="background:#FFF7ED;border:1.5px solid #F59E0B;border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:14px;margin-bottom:28px">
+      <span style="font-size:22px;flex-shrink:0">&#128187;</span>
+      <div>
+        <div style="font-size:13px;font-weight:800;color:#B45309;margin-bottom:3px">A laptop is required for all Academy courses</div>
+        <div style="font-size:12px;font-weight:300;color:#92400E;line-height:1.6">All sessions are live and hands-on. You will need a working laptop — Windows or Mac — to participate, practice, and complete assignments. A smartphone alone is not sufficient for these courses.</div>
+      </div>
+    </div>
+        <div class="courses-grid">
+
+      <!-- 1. DIGITAL MARKETING — OPEN -->
+      <div class="course-card rv d1" id="digital-marketing">
+        <div class="course-top">
+          <div class="course-ico">&#128227;</div>
+          <div class="course-t">Digital Marketing</div>
+          <p class="course-d">Learn how to plan and run digital campaigns, grow audiences, manage brand communication across channels, and use data to improve results.</p>
+        </div>
+        <div class="course-modules">
+          <div class="module-title">What you will cover</div>
+          <div class="module-list">
+            <div class="module-item"><span class="module-dot"></span>Social media strategy and content planning</div>
+            <div class="module-item"><span class="module-dot"></span>Search engine basics and SEO fundamentals</div>
+            <div class="module-item"><span class="module-dot"></span>Email marketing and audience building</div>
+            <div class="module-item"><span class="module-dot"></span>Paid advertising and campaign management</div>
+            <div class="module-item"><span class="module-dot"></span>Analytics, reporting, and performance tracking</div>
+          </div>
+        </div>
+        <div class="course-bottom">
+          <div class="course-meta">
+            <div class="course-meta-item"><span class="course-meta-ico">&#128197;</span>2 Months</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#128250;</span>3 Sessions/Week</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#127942;</span>Certificate</div>
+          </div>
+          <a href="enroll.html" class="enroll-btn">Enroll Now &rarr;</a>
+        </div>
+      </div>
+
+      <!-- 2. PRODUCT DESIGN — OPEN -->
+      <div class="course-card rv d2" id="product-design">
+        <div class="course-top">
+          <div class="course-ico">&#127912;</div>
+          <div class="course-t">Product Design</div>
+          <p class="course-d">Learn user interface and user experience design from scratch. No design background needed. You will use industry tools and work on real product briefs.</p>
+        </div>
+        <div class="course-modules">
+          <div class="module-title">What you will cover</div>
+          <div class="module-list">
+            <div class="module-item"><span class="module-dot"></span>UX fundamentals and design thinking</div>
+            <div class="module-item"><span class="module-dot"></span>Wireframing and prototyping</div>
+            <div class="module-item"><span class="module-dot"></span>Figma from beginner to working level</div>
+            <div class="module-item"><span class="module-dot"></span>Design systems and component libraries</div>
+            <div class="module-item"><span class="module-dot"></span>Presenting and defending design decisions</div>
+          </div>
+        </div>
+        <div class="course-bottom">
+          <div class="course-meta">
+            <div class="course-meta-item"><span class="course-meta-ico">&#128197;</span>2 Months</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#128250;</span>3 Sessions/Week</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#127942;</span>Certificate</div>
+          </div>
+          <a href="enroll.html" class="enroll-btn">Enroll Now &rarr;</a>
+        </div>
+      </div>
+
+      <!-- 3. PRODUCT MANAGEMENT — OPEN -->
+      <div class="course-card rv d1" id="product-management">
+        <div class="course-top">
+          <div class="course-ico">&#128202;</div>
+          <div class="course-t">Product Management</div>
+          <p class="course-d">Learn how to think, plan, and manage digital products. Understand user needs, prioritise features, write specifications, and work across teams to deliver outcomes.</p>
+        </div>
+        <div class="course-modules">
+          <div class="module-title">What you will cover</div>
+          <div class="module-list">
+            <div class="module-item"><span class="module-dot"></span>Product thinking and discovery</div>
+            <div class="module-item"><span class="module-dot"></span>User research and problem framing</div>
+            <div class="module-item"><span class="module-dot"></span>Writing PRDs and user stories</div>
+            <div class="module-item"><span class="module-dot"></span>Roadmapping and prioritisation frameworks</div>
+            <div class="module-item"><span class="module-dot"></span>Working with design and tech teams</div>
+          </div>
+        </div>
+        <div class="course-bottom">
+          <div class="course-meta">
+            <div class="course-meta-item"><span class="course-meta-ico">&#128197;</span>2 Months</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#128250;</span>3 Sessions/Week</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#127942;</span>Certificate</div>
+          </div>
+          <a href="enroll.html" class="enroll-btn">Enroll Now &rarr;</a>
+        </div>
+      </div>
+
+      <!-- 4. DATA ANALYTICS — OPEN -->
+      <div class="course-card rv d2" id="data-analytics">
+        <div class="course-top">
+          <div class="course-ico">&#128200;</div>
+          <div class="course-t">Data Analytics</div>
+          <p class="course-d">Learn to work with data without needing to write code. Use tools to clean, analyse, and visualise data so you can help businesses make better decisions.</p>
+        </div>
+        <div class="course-modules">
+          <div class="module-title">What you will cover</div>
+          <div class="module-list">
+            <div class="module-item"><span class="module-dot"></span>Data literacy and thinking with numbers</div>
+            <div class="module-item"><span class="module-dot"></span>Google Sheets and Excel for analysis</div>
+            <div class="module-item"><span class="module-dot"></span>Introduction to SQL basics</div>
+            <div class="module-item"><span class="module-dot"></span>Data visualisation and building visual reports</div>
+            <div class="module-item"><span class="module-dot"></span>Building dashboards and presenting insights</div>
+          </div>
+        </div>
+        <div class="course-bottom">
+          <div class="course-meta">
+            <div class="course-meta-item"><span class="course-meta-ico">&#128197;</span>2 Months</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#128250;</span>3 Sessions/Week</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#127942;</span>Certificate</div>
+          </div>
+          <a href="enroll.html" class="enroll-btn">Enroll Now &rarr;</a>
+        </div>
+      </div>
+
+      <!-- 5. VIDEO EDITING — OPEN -->
+      <div class="course-card rv d1" id="video-editing">
+        <div class="course-top">
+          <div class="course-ico">&#127916;</div>
+          <div class="course-t">Video Editing and Content Creation</div>
+          <p class="course-d">Learn to shoot, edit, and produce content that holds attention. From short-form social media videos to long-form productions, this track teaches the full creation pipeline.</p>
+        </div>
+        <div class="course-modules">
+          <div class="module-title">What you will cover</div>
+          <div class="module-list">
+            <div class="module-item"><span class="module-dot"></span>Storytelling and content planning</div>
+            <div class="module-item"><span class="module-dot"></span>Short-form content for Instagram and TikTok</div>
+            <div class="module-item"><span class="module-dot"></span>Video editing with CapCut</div>
+            <div class="module-item"><span class="module-dot"></span>Basic motion graphics and transitions</div>
+            <div class="module-item"><span class="module-dot"></span>Building a content portfolio and client briefs</div>
+          </div>
+        </div>
+        <div class="course-bottom">
+          <div class="course-meta">
+            <div class="course-meta-item"><span class="course-meta-ico">&#128197;</span>2 Months</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#128250;</span>3 Sessions/Week</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#127942;</span>Certificate</div>
+          </div>
+          <a href="enroll.html" class="enroll-btn">Enroll Now &rarr;</a>
+        </div>
+      </div>
+
+      <!-- 6. PRODUCT MARKETING — NOW OPEN -->
+      <div class="course-card rv d2" id="product-marketing">
+        <div class="course-top">
+          <div class="course-ico">&#128293;</div>
+          <div class="course-t">Product Marketing</div>
+          <p class="course-d">Learn how to position products in the market, craft compelling messaging, run go-to-market strategies, and bridge the gap between product teams and customers.</p>
+        </div>
+        <div class="course-modules">
+          <div class="module-title">What you will cover</div>
+          <div class="module-list">
+            <div class="module-item"><span class="module-dot"></span>Go-to-market strategy and positioning</div>
+            <div class="module-item"><span class="module-dot"></span>Messaging frameworks and copywriting</div>
+            <div class="module-item"><span class="module-dot"></span>Competitive analysis and market research</div>
+            <div class="module-item"><span class="module-dot"></span>Launch planning and execution</div>
+            <div class="module-item"><span class="module-dot"></span>Customer segmentation and personas</div>
+          </div>
+        </div>
+        <div class="course-bottom">
+          <div class="course-meta">
+            <div class="course-meta-item"><span class="course-meta-ico">&#128197;</span>2 Months</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#128250;</span>3 Sessions/Week</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#127942;</span>Certificate</div>
+          </div>
+          <a href="enroll.html" class="enroll-btn">Enroll Now &rarr;</a>
+        </div>
+      </div>
+
+      <!-- 7. SOCIAL MEDIA MARKETING — NOW OPEN -->
+      <div class="course-card rv d1" id="social-media-marketing">
+        <div class="course-top">
+          <div class="course-ico">&#128241;</div>
+          <div class="course-t">Social Media Marketing</div>
+          <p class="course-d">Learn to build and grow social media presence for brands, create content that drives engagement, and manage communities across platforms strategically.</p>
+        </div>
+        <div class="course-modules">
+          <div class="module-title">What you will cover</div>
+          <div class="module-list">
+            <div class="module-item"><span class="module-dot"></span>Platform strategy for Instagram, X, LinkedIn and TikTok</div>
+            <div class="module-item"><span class="module-dot"></span>Content calendars and scheduling tools</div>
+            <div class="module-item"><span class="module-dot"></span>Community management and engagement</div>
+            <div class="module-item"><span class="module-dot"></span>Social media analytics and reporting</div>
+            <div class="module-item"><span class="module-dot"></span>Influencer collaboration and brand partnerships</div>
+          </div>
+        </div>
+        <div class="course-bottom">
+          <div class="course-meta">
+            <div class="course-meta-item"><span class="course-meta-ico">&#128197;</span>2 Months</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#128250;</span>3 Sessions/Week</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#127942;</span>Certificate</div>
+          </div>
+          <a href="enroll.html" class="enroll-btn">Enroll Now &rarr;</a>
+        </div>
+      </div>
+
+      <!-- 8. COMMUNITY MANAGEMENT — NOW OPEN -->
+      <div class="course-card rv d2" id="community-management">
+        <div class="course-top">
+          <div class="course-ico">&#128101;</div>
+          <div class="course-t">Community Management</div>
+          <p class="course-d">Learn how to build, grow, and manage online and offline communities around brands, causes, and organisations. Turn audiences into active and loyal members.</p>
+        </div>
+        <div class="course-modules">
+          <div class="module-title">What you will cover</div>
+          <div class="module-list">
+            <div class="module-item"><span class="module-dot"></span>Community strategy and platform selection</div>
+            <div class="module-item"><span class="module-dot"></span>Onboarding, engagement, and retention tactics</div>
+            <div class="module-item"><span class="module-dot"></span>Moderating discussions and handling conflicts</div>
+            <div class="module-item"><span class="module-dot"></span>Community metrics and growth reporting</div>
+            <div class="module-item"><span class="module-dot"></span>Turning community members into brand advocates</div>
+          </div>
+        </div>
+        <div class="course-bottom">
+          <div class="course-meta">
+            <div class="course-meta-item"><span class="course-meta-ico">&#128197;</span>2 Months</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#128250;</span>3 Sessions/Week</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#127942;</span>Certificate</div>
+          </div>
+          <a href="enroll.html" class="enroll-btn">Enroll Now &rarr;</a>
+        </div>
+      </div>
+
+      <!-- 9. MOTION DESIGN — COMING SOON -->
+      <div class="course-card rv d1" id="motion-design" style="position:relative">
+        <div style="position:absolute;top:14px;right:14px;background:#F2F4F8;color:#8A9AB0;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:100px;z-index:2">Coming Soon</div>
+        <div class="course-top" style="opacity:.55">
+          <div class="course-ico">&#127774;</div>
+          <div class="course-t">Motion Design</div>
+          <p class="course-d">Bring designs to life with animation. Learn to create animated graphics, transitions, and video motion content using tools available to you right now — no prior design experience needed.</p>
+        </div>
+        <div class="course-modules" style="opacity:.55">
+          <div class="module-title">What you will cover</div>
+          <div class="module-list">
+            <div class="module-item"><span class="module-dot"></span>Principles of motion and animation</div>
+            <div class="module-item"><span class="module-dot"></span>Animated social media graphics</div>
+            <div class="module-item"><span class="module-dot"></span>Intro to After Effects and CapCut motion</div>
+            <div class="module-item"><span class="module-dot"></span>Transitions, kinetic text, and lower thirds</div>
+            <div class="module-item"><span class="module-dot"></span>Building a motion design portfolio</div>
+          </div>
+        </div>
+        <div class="course-bottom">
+          <div class="course-meta" style="opacity:.4">
+            <div class="course-meta-item"><span class="course-meta-ico">&#128197;</span>2 Months</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#128250;</span>3 Sessions/Week</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#127942;</span>Certificate</div>
+          </div>
+          <button onclick="notifyWhenOpen(this)" style="font-size:13px;font-weight:700;color:#1B3A7A;background:rgba(27,58,122,.07);border:1.5px solid rgba(27,58,122,.15);padding:9px 18px;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .2s">Notify Me When Open</button>
+        </div>
+      </div>
+
+      <!-- 10. AI FOR MARKETERS — COMING SOON -->
+      <div class="course-card rv d2" id="ai-for-marketers" style="position:relative">
+        <div style="position:absolute;top:14px;left:14px;background:#059669;color:#fff;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:100px;z-index:2">FREE</div>
+        <div style="position:absolute;top:14px;right:14px;background:#F2F4F8;color:#8A9AB0;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:100px;z-index:2">Coming Soon</div>
+        <div class="course-top" style="opacity:.55">
+          <div class="course-ico">&#129504;</div>
+          <div class="course-t">AI for Marketers</div>
+          <p class="course-d">The marketer who understands AI will outperform everyone who doesn't. Learn how to use AI tools for content creation, audience research, ad copy, and campaign strategy — practically, not theoretically.</p>
+        </div>
+        <div class="course-modules" style="opacity:.55">
+          <div class="module-title">What you will cover</div>
+          <div class="module-list">
+            <div class="module-item"><span class="module-dot"></span>AI tools landscape for marketers</div>
+            <div class="module-item"><span class="module-dot"></span>Prompt writing for content and copy</div>
+            <div class="module-item"><span class="module-dot"></span>AI-powered audience and competitor research</div>
+            <div class="module-item"><span class="module-dot"></span>Automating repetitive marketing tasks</div>
+            <div class="module-item"><span class="module-dot"></span>Ethical use of AI in brand communication</div>
+          </div>
+        </div>
+        <div class="course-bottom">
+          <div class="course-meta" style="opacity:.4">
+            <div class="course-meta-item"><span class="course-meta-ico">&#128197;</span>2 Months</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#128250;</span>3 Sessions/Week</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#127942;</span>Certificate</div>
+          </div>
+          <button onclick="notifyWhenOpen(this)" style="font-size:13px;font-weight:700;color:#1B3A7A;background:rgba(27,58,122,.07);border:1.5px solid rgba(27,58,122,.15);padding:9px 18px;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .2s">Notify Me When Open</button>
+        </div>
+      </div>
+
+      <!-- 11. GRAPHIC DESIGN FOR MOBILE — COMING SOON -->
+      <div class="course-card rv d1" id="graphic-design-mobile" style="position:relative">
+        <div style="position:absolute;top:14px;right:14px;background:#F2F4F8;color:#8A9AB0;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:100px;z-index:2">Coming Soon</div>
+        <div class="course-top" style="opacity:.55">
+          <div class="course-ico">&#128247;</div>
+          <div class="course-t">Graphic Design for Mobile Users</div>
+          <p class="course-d">You do not need a desktop to be a designer. This course is built for creators who work primarily from a phone or tablet. Master Canva and mobile-first design tools.</p>
+        </div>
+        <div class="course-modules" style="opacity:.55">
+          <div class="module-title">What you will cover</div>
+          <div class="module-list">
+            <div class="module-item"><span class="module-dot"></span>Design principles and visual communication</div>
+            <div class="module-item"><span class="module-dot"></span>Canva mastery for professional output</div>
+            <div class="module-item"><span class="module-dot"></span>Brand identity basics on mobile</div>
+            <div class="module-item"><span class="module-dot"></span>Social media graphics and templates</div>
+            <div class="module-item"><span class="module-dot"></span>Building a design portfolio from your phone</div>
+          </div>
+        </div>
+        <div class="course-bottom">
+          <div class="course-meta" style="opacity:.4">
+            <div class="course-meta-item"><span class="course-meta-ico">&#128197;</span>2 Months</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#128250;</span>3 Sessions/Week</div>
+            <div class="course-meta-item"><span class="course-meta-ico">&#127942;</span>Certificate</div>
+          </div>
+          <button onclick="notifyWhenOpen(this)" style="font-size:13px;font-weight:700;color:#1B3A7A;background:rgba(27,58,122,.07);border:1.5px solid rgba(27,58,122,.15);padding:9px 18px;border-radius:8px;cursor:pointer;font-family:inherit;transition:background .2s">Notify Me When Open</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="incbox rv" style="max-width:700px;margin:32px auto 0">
+      <div style="font-size:24px;flex-shrink:0">&#11088;</div>
+      <div>
+        <strong>Top Performer Incentive</strong>
+        <p>The top 5 graduates from each course track earn a free spot in TechNuVate Labs. No application needed. Finish strong in the Academy and you move straight into the internship programme.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="sec">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:8px">
+      <div class="lbl rv" style="justify-content:center">Pricing</div>
+      <h2 class="rv" style="text-align:center"><span class="grad">Accessible Pricing. No Excuses.</span></h2>
+      <p class="rv d2" style="font-size:15px;font-weight:300;color:#6B7280;line-height:1.8;max-width:480px;margin:0 auto">Every pricing tier covers the same course content, the same sessions, and the same certificate. The only difference is who qualifies.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card rv d1">
+        <div class="price-lbl">Community Partner</div>
+        <div class="price-amount">&#8358;40,000</div>
+        <div class="price-period">per course, per cohort</div>
+        <ul class="price-features">
+          <li><span class="price-check">&#10003;</span>For organisations or communities enrolling members in bulk</li>
+          <li><span class="price-check">&#10003;</span>Full course access and live sessions</li>
+          <li><span class="price-check">&#10003;</span>Real project briefs and assignments</li>
+          <li><span class="price-check">&#10003;</span>TechNuVate certificate on completion</li>
+          <li><span class="price-check">&#10003;</span>Top performers get free Labs spot</li>
+        </ul>
+        <a href="enroll.html" class="price-btn price-btn-navy">Register at Partner Rate</a>
+      </div>
+      <div class="price-card featured rv d2">
+        <div class="price-featured-tag">Most Popular</div>
+        <div class="price-lbl">Early Bird</div>
+        <div class="price-amount">&#8358;60,000</div>
+        <div class="price-period">per course, per cohort</div>
+        <ul class="price-features">
+          <li><span class="price-check">&#10003;</span>For individuals who enroll before the early bird window closes</li>
+          <li><span class="price-check">&#10003;</span>Full course access and live sessions</li>
+          <li><span class="price-check">&#10003;</span>Real project briefs and assignments</li>
+          <li><span class="price-check">&#10003;</span>TechNuVate certificate on completion</li>
+          <li><span class="price-check">&#10003;</span>Top performers get free Labs spot</li>
+        </ul>
+        <a href="enroll.html" class="price-btn price-btn-white">Enroll Early</a>
+      </div>
+      <div class="price-card rv d3" style="opacity:.45;pointer-events:none;filter:grayscale(.3)">
+        <div class="price-lbl">Standard</div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:#F2F4F8;color:#8A9AB0;padding:4px 10px;border-radius:100px;display:inline-block;margin-bottom:8px">Not Yet Available</div>
+        <div class="price-amount">&#8358;80,000</div>
+        <div class="price-period">per course, per cohort</div>
+        <ul class="price-features">
+          <li><span class="price-check">&#10003;</span>Standard enrollment, open to everyone</li>
+          <li><span class="price-check">&#10003;</span>Full course access and live sessions</li>
+          <li><span class="price-check">&#10003;</span>Real project briefs and assignments</li>
+          <li><span class="price-check">&#10003;</span>TechNuVate certificate on completion</li>
+          <li><span class="price-check">&#10003;</span>Top performers get free Labs spot</li>
+        </ul>
+        <span style="display:block;width:100%;text-align:center;padding:13px;border-radius:8px;font-size:14px;font-weight:700;background:#F2F4F8;color:#8A9AB0;cursor:not-allowed">Enroll Now</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec sec-bg">
+  <div class="wrap" style="max-width:720px">
+    <div class="lbl rv">FAQs</div>
+    <h2 class="rv">Questions People Ask</h2>
+    <div class="faq-list">
+      <div class="faq-item rv d1">
+        <button class="faq-q" onclick="toggleFaq(this)">Do I need any technical background to join? <span class="faq-icon">+</span></button>
+        <div class="faq-a">No. All five tracks are designed for people starting from scratch. You do not need to know how to code, design, or work with data before joining. The only thing you need is willingness to learn and show up consistently.</div>
+      </div>
+      <div class="faq-item rv d2">
+        <button class="faq-q" onclick="toggleFaq(this)">How are the sessions delivered? <span class="faq-icon">+</span></button>
+        <div class="faq-a">All sessions are live and online. Classes run three times per week for two months, giving you a total of 24 live sessions per cohort. Consistent attendance is a core part of the TechNuVate Academy experience.</div>
+      </div>
+      <div class="faq-item rv d3">
+        <button class="faq-q" onclick="toggleFaq(this)">What happens after I finish the course? <span class="faq-icon">+</span></button>
+        <div class="faq-a">You receive your TechNuVate certificate. If you finish in the top 5 of your track, you get a free spot in TechNuVate Labs where you work on real client projects and build your professional portfolio. All graduates also become part of the TechNuVate alumni community.</div>
+      </div>
+      <div class="faq-item rv d4">
+        <button class="faq-q" onclick="toggleFaq(this)">Can I enroll in more than one track? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Yes. If you want to take two tracks simultaneously or in back-to-back cohorts, that is allowed. We recommend starting with one to get the full experience before adding a second.</div>
+      </div>
+      <div class="faq-item rv d1">
+        <button class="faq-q" onclick="toggleFaq(this)">What is the difference between partner pricing and early bird? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Partner pricing is for organisations, churches, schools, or communities enrolling multiple people at once. It is open for a limited window before each cohort. Early bird is for individuals who move fast and register while the discounted window is still open. Both close before the cohort starts, after which the standard price applies. All three tiers cover exactly the same course content and certificate.</div>
+      </div>
+      <div class="faq-item rv d3">
+        <button class="faq-q" onclick="toggleFaq(this)">What is your refund and deferral policy? <span class="faq-icon">+</span></button>
+        <div class="faq-a">TechNuVate does not offer refunds or cohort deferrals under any circumstances. Once payment is made, your spot is secured for that specific cohort only. If you are unable to attend, you will receive a Badge of Participation rather than a Certificate of Completion. Please make sure you are fully available and committed before enrolling.</div>
+      </div>
+      <div class="faq-item rv d4">
+        <button class="faq-q" onclick="toggleFaq(this)">What is the difference between a Certificate of Completion and a Badge of Participation? <span class="faq-icon">+</span></button>
+        <div class="faq-a">A Certificate of Completion is awarded only to students who attend all required sessions, submit all assignments, and meet the minimum standard TechNuVate sets for their track. A Badge of Participation is issued to students who paid and were part of the cohort but did not complete the full programme. Both are issued at the end of the cohort. There are no exceptions to this policy.</div>
+      </div>
+      <div class="faq-item rv d2">
+        <button class="faq-q" onclick="toggleFaq(this)">Who teaches the courses? <span class="faq-icon">+</span></button>
+        <div class="faq-a">Courses are taught by vetted tutors who are currently working in the relevant field. TechNuVate tutors are not just academics. They are practitioners who bring real-world examples and current industry knowledge into every session.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sec">
+  <div class="cta-box rv">
+    <div class="cta-lbl">Ready to Enroll?</div>
+    <h2 class="cta-t">Your Skill. Your Certificate.<br><span style="color:#93B4FF">Your Future.</span></h2>
+    <p class="cta-s">Pick your track, choose your pricing tier, and secure your spot in the next cohort before seats fill up.</p>
+    <div class="cta-btns">
+      <a href="enroll.html" class="btn-white">Enroll Now &rarr;</a>
+      <a href="labs.html" class="btn-ghost-w">Learn About Labs</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+
+<!-- NEWSLETTER -->
+<section style="background:#0D1F45;padding:56px 5%">
+  <div style="max-width:600px;margin:0 auto;text-align:center">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px">Stay in the loop</div>
+    <h2 style="font-size:clamp(24px,4vw,34px);font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:12px">Get updates before everyone else.</h2>
+    <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:32px">New cohort dates. Early bird alerts. Career tips. Studio opportunities. Only what matters — straight to your inbox.</p>
+    <form id="newsletter-form" onsubmit="submitNewsletter(event)" style="display:flex;gap:10px;max-width:460px;margin:0 auto;flex-wrap:wrap">
+      <input id="nl-email" type="email" placeholder="Enter your email address" required
+        style="flex:1;min-width:200px;padding:14px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(255,255,255,.4)'" onblur="this.style.borderColor='rgba(255,255,255,.15)'">
+      <button type="submit" id="nl-btn"
+        style="padding:14px 24px;background:#fff;color:#0D1F45;font-size:14px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .2s">
+        Subscribe &rarr;
+      </button>
+    </form>
+    <p id="nl-msg" style="font-size:12px;color:rgba(255,255,255,.4);margin-top:14px;display:none"></p>
+    <p style="font-size:11px;color:rgba(255,255,255,.2);margin-top:16px">No spam. Unsubscribe anytime. We respect your inbox.</p>
+  </div>
+</section>
+<script>
+function submitNewsletter(e) {
+  e.preventDefault();
+  var email = document.getElementById('nl-email').value.trim();
+  var btn = document.getElementById('nl-btn');
+  var msg = document.getElementById('nl-msg');
+  if (!email || email.indexOf('@') < 0) return;
+  btn.textContent = 'Subscribing...';
+  btn.disabled = true;
+  // Save to Supabase newsletter table
+  var SB_URL = typeof window.SB_URL !== 'undefined' ? window.SB_URL : 'YOUR_SUPABASE_URL_HERE';
+  var SB_KEY = typeof window.SB_KEY !== 'undefined' ? window.SB_KEY : 'YOUR_SUPABASE_ANON_KEY_HERE';
+  if (SB_URL && SB_URL !== 'YOUR_SUPABASE_URL_HERE') {
+    fetch(SB_URL + '/rest/v1/newsletter_subscribers', {
+      method: 'POST',
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ email: email, source: window.location.pathname })
+    }).catch(function(){});
+  }
+  setTimeout(function() {
+    document.getElementById('newsletter-form').style.display = 'none';
+    msg.textContent = '✓ You are on the list. Watch your inbox.';
+    msg.style.display = 'block';
+    msg.style.color = 'rgba(255,255,255,.7)';
+    msg.style.fontSize = '14px';
+  }, 600);
+}
+</script>
+<footer>
+  <div class="fwrap">
+    <div class="ftop">
+      <div>
+        <div class="flogo"><img src="data:image/png;base64,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" alt="TechNuVate"></div>
+        <p class="fdesc">A tech organisation training, deploying, and connecting talent in Africa and English speaking countries with real digital opportunity.</p>
+      </div>
+      <div>
+        <div class="fc-t">Our Arms</div>
+        <ul class="flinks">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="academy.html">TechNuVate Academy</a></li>
+          <li><a href="studio.html">TechNuVate Studio</a></li>
+          <li><a href="labs.html">TechNuVate Labs</a></li>
+          <li><a href="blog.html">Blog &amp; Events</a></li>
+          <li><a href="store.html">Merch Store</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="fc-t">Connect</div>
+        <ul class="flinks">
+          <li><a href="index.html#contact">Contact Us</a></li>
+          <li><a href="tutors.html">Become a Tutor</a></li>
+          <li><a href="join-team.html">Join the Team</a></li>
+          <li><a href="#newsletter-form" onclick="document.getElementById('nl-email').focus()">Subscribe to Newsletter</a></li>
+          <li>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.2);display:block;margin-bottom:10px;margin-top:6px">Follow Us</span>
+            <div style="display:flex;gap:7px;flex-wrap:wrap">
+              <a href="https://www.linkedin.com/company/technuvate" title="LinkedIn" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+              <a href="https://www.instagram.com/tech_nu_vate" title="Instagram" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+              <a href="https://x.com/technuvate" title="X" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+              <a href="https://www.youtube.com/@technuvate" title="YouTube" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></a>
+              <a href="https://www.tiktok.com/@tech_nu_vate" title="TikTok" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/></svg></a>
+              <a href="https://www.facebook.com/technuvate" title="Facebook" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div style="text-align:center;padding-top:4px">
+      <p style="font-size:12px;color:rgba(255,255,255,.18)">&copy; 2026 TechNuVate. All rights reserved. Learn. Build. Execute.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(btn){
+  var item=btn.parentElement;
+  var wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');});
+  if(!wasOpen) item.classList.add('open');
+}
+</script>
+<script>
+function toggleMenu(){
+  var m=document.getElementById('mobMenu');
+  var b=document.getElementById('hamBtn');
+  m.classList.toggle('open');
+  var s=b.querySelectorAll('span');
+  if(m.classList.contains('open')){
+    s[0].style.transform='rotate(45deg) translate(5px,5px)';
+    s[1].style.opacity='0';
+    s[2].style.transform='rotate(-45deg) translate(5px,-5px)';
+  } else {
+    s[0].style.transform='';s[1].style.opacity='';s[2].style.transform='';
+  }
+}
+document.addEventListener('click',function(e){
+  var m=document.getElementById('mobMenu');var b=document.getElementById('hamBtn');
+  if(m&&m.classList.contains('open')&&!m.contains(e.target)&&!b.contains(e.target)) toggleMenu();
+});
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('on');});
+},{threshold:0.08,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
+var u='hello',d='technuvate.com';
+var el=document.getElementById('em');
+if(el){el.innerHTML='<a href="mailto:'+u+'@'+d+'" style="color:#1B3A7A;text-decoration:none">'+u+'@'+d+'</a>';}
+
+var _notifyCurrentBtn = null;
+
+function notifyWhenOpen(btn) {
+  var card = btn.closest('.course-card');
+  var courseName = card ? card.querySelector('.course-t').textContent : 'This course';
+  _notifyCurrentBtn = btn;
+  document.getElementById('notifyCourseName').textContent = courseName;
+  document.getElementById('notifyEmailInput').value = '';
+  document.getElementById('notifyEmailErr').style.display = 'none';
+  document.getElementById('notifyFormArea').style.display = 'block';
+  document.getElementById('notifySuccessArea').style.display = 'none';
+  var sb = document.getElementById('notifySubmitBtn');
+  sb.disabled = true; sb.style.background = '#E4E8F0'; sb.style.color = '#8A9AB0'; sb.style.cursor = 'not-allowed';
+  var modal = document.getElementById('notifyModal');
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  setTimeout(function(){ document.getElementById('notifyEmailInput').focus(); }, 100);
+}
+
+function checkNotifyEmail() {
+  var email = document.getElementById('notifyEmailInput').value.trim();
+  var btn = document.getElementById('notifySubmitBtn');
+  var valid = email.length > 0 && email.indexOf('@') > 0;
+  btn.disabled = !valid;
+  btn.style.background = valid ? '#1B3A7A' : '#E4E8F0';
+  btn.style.color = valid ? '#fff' : '#8A9AB0';
+  btn.style.cursor = valid ? 'pointer' : 'not-allowed';
+}
+
+function submitNotify() {
+  var email = document.getElementById('notifyEmailInput').value.trim();
+  if (!email || email.indexOf('@') < 0) { document.getElementById('notifyEmailErr').style.display = 'block'; return; }
+  document.getElementById('notifyEmailErr').style.display = 'none';
+  var SB_URL = 'https://xnynghnhbeyeowcibuvz.supabase.co';
+  var SB_KEY = 'sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY';
+  var cname = document.getElementById('notifyCourseName').textContent.toLowerCase().replace(/ /g,'-');
+  fetch(SB_URL + '/rest/v1/newsletter_subscribers', {
+    method: 'POST',
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+    body: JSON.stringify({ email: email, source: 'course-notify-' + cname })
+  }).catch(function(){});
+  document.getElementById('notifyConfirmEmail').textContent = email;
+  document.getElementById('notifyFormArea').style.display = 'none';
+  document.getElementById('notifySuccessArea').style.display = 'block';
+  if (_notifyCurrentBtn) {
+    _notifyCurrentBtn.textContent = '\u2713 You are on the list';
+    _notifyCurrentBtn.style.background = 'rgba(5,150,105,.08)';
+    _notifyCurrentBtn.style.borderColor = 'rgba(5,150,105,.3)';
+    _notifyCurrentBtn.style.color = '#059669';
+    _notifyCurrentBtn.disabled = true;
+  }
+}
+
+function closeNotifyModal(e, force) {
+  if (force || (e && e.target === document.getElementById('notifyModal'))) {
+    document.getElementById('notifyModal').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+</script>
+
+<!-- NOTIFY ME MODAL -->
+<div id="notifyModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:flex-end;justify-content:center;padding:0" onclick="closeNotifyModal(event)">
+  <div id="notifyModalBox" style="background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:460px;padding:28px 24px 32px;position:relative">
+    <button onclick="closeNotifyModal(null,true)" style="position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:8px;background:#F2F4F8;border:none;cursor:pointer;font-size:18px;color:#6B7280;font-family:inherit">&#215;</button>
+    <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8A9AB0;margin-bottom:8px">Coming Soon</div>
+    <div id="notifyCourseName" style="font-size:18px;font-weight:800;color:#111827;letter-spacing:-.02em;margin-bottom:6px"></div>
+    <p style="font-size:13px;color:#6B7280;line-height:1.65;margin-bottom:22px">This course is not open yet. Drop your email and you will be the first to know when enrollment opens.</p>
+    <div id="notifyFormArea">
+      <label style="display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:7px">Your Email Address</label>
+      <input id="notifyEmailInput" type="email" placeholder="you@email.com" oninput="checkNotifyEmail()" style="width:100%;padding:13px 14px;border:1.5px solid #E4E8F0;border-radius:9px;font-family:inherit;font-size:14px;color:#111827;background:#fff;outline:none;margin-bottom:10px;transition:border-color .2s" onfocus="this.style.borderColor='#1B3A7A'" onblur="this.style.borderColor='#E4E8F0'">
+      <div id="notifyEmailErr" style="font-size:12px;color:#E53E3E;margin-bottom:10px;display:none">Please enter a valid email address.</div>
+      <button id="notifySubmitBtn" onclick="submitNotify()" disabled style="width:100%;padding:14px;background:#E4E8F0;color:#8A9AB0;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:not-allowed;font-family:inherit;transition:all .2s">Notify Me</button>
+    </div>
+    <div id="notifySuccessArea" style="display:none;text-align:center;padding:12px 0">
+      <div style="font-size:36px;margin-bottom:12px">&#127881;</div>
+      <div style="font-size:16px;font-weight:800;color:#111827;margin-bottom:8px">You&#8217;re on the list!</div>
+      <p style="font-size:13px;color:#6B7280;line-height:1.65">We will email you at <strong id="notifyConfirmEmail"></strong> as soon as this course opens for enrollment.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
