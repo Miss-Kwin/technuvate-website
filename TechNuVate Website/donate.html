@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Sponsor a Youth | TechNuVate</title>
-<meta name="description" content="Let us be your tithe house. Sponsor a young person to learn a tech skill in Africa. For as low as &#8358;2,000 or $1.">
+<meta name="description" content="Let us be your tithe house. Sponsor a young person to learn a tech skill in Africa. For as low as &#8358;2,000 or $2.">
 <script src="https://checkout.flutterwave.com/v3.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -62,7 +62,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:66px;display:flex;ali
 .don-widget-title{font-size:20px;font-weight:800;margin-bottom:4px}
 .don-widget-sub{font-size:13px;color:var(--muted);margin-bottom:22px}
 .progress-wrap{background:var(--bg);border-radius:14px;padding:20px;margin-bottom:22px}
-.progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+@media(max-width:600px){
+  .progress-top{flex-direction:column;align-items:flex-start;gap:8px}
+}
 .progress-raised{font-size:22px;font-weight:800;color:var(--navy)}
 .progress-goal{font-size:12px;color:var(--muted)}
 .progress-bar-track{background:#E4E8F0;border-radius:100px;height:11px;overflow:hidden;margin-bottom:10px}
@@ -177,7 +179,7 @@ footer{background:#060C1A;padding:40px 5% 24px;border-top:1px solid rgba(255,255
       <span>&rsaquo;</span>
       <span class="breadcrumb-cur">Donate</span>
     </div>
-    <div class="hero-badge"><span class="hero-dot"></span> Sponsor a Youth</div>
+    <p class="don-hero-sub">Paying it forward so another human can learn a skill is one of the most powerful things you can do. Start from as little as &#8358;2,000 or $2.</p>
     <h1>Let us be your<br><em>tithe house.</em></h1>
     <p class="don-hero-sub">Paying it forward so another human can learn a skill is one of the most powerful things you can do. Start from as little as &#8358;2,000 or $1.</p>
     <a href="#donate-widget" style="display:inline-flex;align-items:center;gap:9px;background:#93B4FF;color:#0D1F45;font-size:14px;font-weight:700;padding:14px 28px;border-radius:10px;text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Donate Now &darr;</a>
@@ -477,7 +479,7 @@ document.addEventListener('click',function(e){
 var FW_KEY = 'YOUR_FLUTTERWAVE_PUBLIC_KEY_HERE';
 var wCurrency = 'NGN';
 var wAmt = 0;
-var raised = 24500;
+var raised = 0; // Empty state
 var goal = 80000;
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -486,8 +488,9 @@ window.addEventListener('DOMContentLoaded', function() {
   setTimeout(function() {
     document.getElementById('w-bar').style.width = pct + '%';
     document.getElementById('w-empowered').textContent = empowered + (empowered !== 1 ? ' youths' : ' youth') + ' empowered';
-    document.getElementById('w-raised').textContent = '₦' + raised.toLocaleString();
-    document.getElementById('hp-raised').textContent = '₦' + raised.toLocaleString();
+    var raisedText = raised === 0 ? '₦0 (No donations yet)' : '₦' + raised.toLocaleString();
+    document.getElementById('w-raised').textContent = raisedText;
+    document.getElementById('hp-raised').textContent = raisedText;
     document.getElementById('hp-youths').textContent = empowered;
   }, 500);
 });
@@ -495,48 +498,93 @@ window.addEventListener('DOMContentLoaded', function() {
 function wSetCur(cur) {
   wCurrency = cur;
   wAmt = 0;
+  
+  // Toggle visibility of amount lists
   document.getElementById('w-amounts-ngn').style.display = cur === 'NGN' ? 'flex' : 'none';
   document.getElementById('w-amounts-usd').style.display = cur === 'USD' ? 'flex' : 'none';
+  
+  // Reset custom wrap and update symbol
   document.getElementById('w-custom-wrap').style.display = 'none';
   document.getElementById('w-symbol').textContent = cur === 'NGN' ? '₦' : '$';
+  
+  // Update custom input min/step/value
+  var customInput = document.getElementById('w-custom-input');
+  if (cur === 'NGN') {
+    customInput.min = '2000';
+    customInput.step = '1';
+    customInput.value = '2000';
+  } else {
+    customInput.min = '2';
+    customInput.step = '0.01';
+    customInput.value = '2';
+  }
+  
+  // Remove selection from all pills
   document.querySelectorAll('.don-pill').forEach(function(b) { b.classList.remove('sel'); });
+  
+  // Update button states
   document.getElementById('w-ngn').className = 'cur-btn ' + (cur === 'NGN' ? 'on' : 'off');
   document.getElementById('w-usd').className = 'cur-btn ' + (cur === 'USD' ? 'on' : 'off');
 }
 
 function wSelect(amt, cur, btn) {
   wAmt = amt;
+  wCurrency = cur;
   document.querySelectorAll('.don-pill').forEach(function(b) { b.classList.remove('sel'); });
   btn.classList.add('sel');
   document.getElementById('w-custom-wrap').style.display = 'none';
 }
 
-
-function toggleWBirthday(){
-  var v = document.getElementById('w-occasion') ? document.getElementById('w-occasion').value : '';
-  var w = document.getElementById('w-bday-wrap');
-  if(w) w.style.display = v==='birthday' ? 'block' : 'none';
+function toggleWBirthdayHonour() {
+  var occasion = document.getElementById('w-occasion').value;
+  var bdayWrap = document.getElementById('w-bday-wrap');
+  var honourWrap = document.getElementById('w-honour-wrap');
+  var nameWrap = document.getElementById('w-name-wrap');
+  
+  // Show/hide birthday
+  bdayWrap.style.display = (occasion === 'birthday') ? 'block' : 'none';
+  
+  // Show/hide honour field and name
+  honourWrap.style.display = (occasion === 'honour') ? 'block' : 'none';
+  nameWrap.style.display = (occasion === 'honour') ? 'none' : 'block';
 }
 
 function wCustom(btn) {
   document.querySelectorAll('.don-pill').forEach(function(b) { b.classList.remove('sel'); });
   btn.classList.add('sel');
   document.getElementById('w-custom-wrap').style.display = 'block';
-  document.getElementById('w-custom-input').focus();
-  wAmt = 0;
+  var customInput = document.getElementById('w-custom-input');
+  customInput.focus();
+  wAmt = parseFloat(customInput.value) || 0;
+}
+
+function validateCustomAmount(input) {
+  var minAmount = wCurrency === 'NGN' ? 2000 : 2;
+  var val = parseFloat(input.value);
+  
+  if (isNaN(val) || val < minAmount) {
+    input.value = minAmount;
+    wAmt = minAmount;
+  } else {
+    wAmt = val;
+  }
 }
 
 function wDonate() {
-  var min = wCurrency === 'NGN' ? 2000 : 1;
+  var min = wCurrency === 'NGN' ? 2000 : 2;
   if (!wAmt || wAmt < min) {
-    alert('Please select or enter a minimum of ' + (wCurrency === 'NGN' ? '₦2,000' : '$1') + ' to continue.');
+    alert('Please select or enter a minimum of ' + (wCurrency === 'NGN' ? '₦2,000' : '$2') + ' to continue.');
     return;
   }
+  
   var name = document.getElementById('w-name').value.trim() || 'Anonymous Donor';
+  var honourName = document.getElementById('w-honour-name').value.trim() || '';
   var email = document.getElementById('w-email').value.trim() || 'hello@technuvate.com';
   var btn = document.getElementById('w-btn');
+  
   btn.disabled = true;
   btn.textContent = 'Opening payment...';
+  
   FlutterwaveCheckout({
     public_key: FW_KEY,
     tx_ref: 'TNVDON-' + Date.now(),
@@ -546,11 +594,13 @@ function wDonate() {
     customer: { email: email, name: name },
     meta: {
       type: 'donation',
-      donor_name: (document.getElementById('w-name') ? document.getElementById('w-name').value.trim() : '') || 'Anonymous',
-      occasion: (document.getElementById('w-occasion') ? document.getElementById('w-occasion').value : ''),
-      birthday: (document.getElementById('w-bday-month') && document.getElementById('w-bday-day') ? document.getElementById('w-bday-month').value + ' ' + document.getElementById('w-bday-day').value : ''),
-      email_contact: (document.getElementById('w-email') ? document.getElementById('w-email').value.trim() : ''),
-      note: (document.getElementById('w-note') ? document.getElementById('w-note').value.trim() : '')
+      donor_name: name,
+      honour_name: honourName,
+      occasion: document.getElementById('w-occasion').value,
+      birthday_month: document.getElementById('w-bday-month').value,
+      birthday_day: document.getElementById('w-bday-day').value,
+      email_contact: email,
+      note: document.getElementById('w-note').value.trim()
     },
     customizations: {
       title: 'TechNuVate — Sponsor a Youth',
@@ -573,59 +623,6 @@ function wDonate() {
       }
     }
   });
-}
-<script>
-function toggleWBirthdayHonour() {
-  var occasion = document.getElementById('w-occasion').value;
-  var bdayWrap = document.getElementById('w-bday-wrap');
-  var honourWrap = document.getElementById('w-honour-wrap');
-  var nameWrap = document.getElementById('w-name-wrap');
-  
-  // Show/hide birthday
-  if (occasion === 'birthday') {
-    bdayWrap.style.display = 'block';
-  } else {
-    bdayWrap.style.display = 'none';
-  }
-  
-  // Show/hide honour field and hide name when honour is selected
-  if (occasion === 'honour') {
-    honourWrap.style.display = 'block';
-    nameWrap.style.display = 'none';
-  } else {
-    honourWrap.style.display = 'none';
-    nameWrap.style.display = 'block';
-  }
-}
-
-function validateCustomAmount(input) {
-  var currentCur = document.getElementById('w-ngn').classList.contains('on') ? 'NGN' : 'USD';
-  var minAmount = currentCur === 'NGN' ? 2000 : 2;
-  
-  // Enforce minimum
-  if (parseFloat(input.value) < minAmount) {
-    input.value = minAmount;
-  }
-  
-  // Update global variable
-  wAmt = parseFloat(input.value) || minAmount;
-}
-
-function wSetCur(cur) {
-  // Existing code...
-  // When switching currencies, reset custom input
-  var customInput = document.getElementById('w-custom-input');
-  if (cur === 'NGN') {
-    customInput.min = '2000';
-    customInput.step = '1';
-    customInput.value = '2000';
-    document.getElementById('w-symbol').textContent = '₦';
-  } else {
-    customInput.min = '2';
-    customInput.step = '0.01';
-    customInput.value = '2';
-    document.getElementById('w-symbol').textContent = '$';
-  }
 }
 </script>
 </body>
