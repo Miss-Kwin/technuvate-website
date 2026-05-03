@@ -67,7 +67,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:66px;display:flex;ali
 }
 .progress-raised{font-size:22px;font-weight:800;color:var(--navy)}
 .progress-goal{font-size:12px;color:var(--muted)}
-.progress-bar-track{background:#E4E8F0;border-radius:100px;height:11px;overflow:hidden;margin-bottom:10px}
+.progress-bar-track{background:#E4E8F0;border-radius:100px;height:11px;overflow:hidden;margin-top:12px;margin-bottom:10px}
 .progress-bar-fill{height:100%;background:linear-gradient(90deg,#1B3A7A,#4A6FA5);border-radius:100px;transition:width 1.4s cubic-bezier(.16,1,.3,1)}
 .progress-meta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
 .progress-empowered{font-weight:700;color:var(--navy)}
@@ -258,7 +258,7 @@ footer{background:#060C1A;padding:40px 5% 24px;border-top:1px solid rgba(255,255
       <div id="w-custom-wrap" style="display:none">
   <div class="custom-input-row">
     <span class="custom-symbol" id="w-symbol">&#8358;</span>
-    <input type="number" id="w-custom-input" placeholder="Enter amount" min="2000" step="1" oninput="validateCustomAmount(this)" value="2000">
+    <input type="number" id="w-custom-input" placeholder="Enter amount" oninput="validateCustomAmount(this)">
   </div>
 </div>
 
@@ -562,21 +562,21 @@ function wCustom(btn) {
 }
 
 function validateCustomAmount(input) {
-  var minAmount = wCurrency === 'NGN' ? 2000 : 2;
-  var val = parseFloat(input.value);
-  
-  if (isNaN(val) || val < minAmount) {
-    input.value = minAmount;
-    wAmt = minAmount;
-  } else {
-    wAmt = val;
+  var val = input.value;
+  // If empty, we let them keep typing without snapping back to 2000
+  if (val === "") {
+    wAmt = 0;
+    return;
   }
+  wAmt = parseFloat(val);
 }
 
 function wDonate() {
   var min = wCurrency === 'NGN' ? 2000 : 2;
+  var symbol = wCurrency === 'NGN' ? '₦' : '$';
+  
   if (!wAmt || wAmt < min) {
-    alert('Please select or enter a minimum of ' + (wCurrency === 'NGN' ? '₦2,000' : '$2') + ' to continue.');
+    alert('The minimum donation is ' + symbol + min.toLocaleString() + '. Please enter a valid amount.');
     return;
   }
   
