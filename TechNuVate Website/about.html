@@ -1,601 +1,1566 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>About Us, TechNuVate</title>
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Segoe UI',Helvetica,Arial,sans-serif;color:#111827;background:#fff;overflow-x:hidden;-webkit-text-size-adjust:100%}
-:root{--navy:#1B3A7A;--navy3:#0F2554;--grey:#8A9AB0;--gl:#F2F4F8;--gb:#E4E8F0;--soft:#6B7280}
-img{max-width:100%;display:block}
-a{-webkit-tap-highlight-color:transparent}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>About Us, TechNuVate</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
 
-/* ======== NAV ======== */
-nav{position:fixed;top:0;left:0;right:0;z-index:999;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;background:#fff;border-bottom:1px solid #E4E8F0;box-shadow:0 2px 10px rgba(0,0,0,.05)}
-.nav-logo img{height:58px;width:auto}
-.nav-right{display:flex;align-items:center;gap:4px}
-.nav-item{position:relative}
-.nav-item-btn{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;cursor:pointer;border:none;background:transparent;transition:background .2s,color .2s;white-space:nowrap;font-family:inherit}
-.nav-item-btn:hover{background:#F2F4F8;color:#1B3A7A}
-.nav-arrow{font-size:10px;transition:transform .2s}
-.nav-item:hover .nav-arrow{transform:rotate(180deg)}
-.nav-dropdown{position:absolute;top:calc(100% + 8px);left:0;background:#fff;border:1px solid #E4E8F0;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.1);min-width:190px;padding:6px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .2s,visibility .2s,transform .2s;z-index:1000}
-.nav-item:hover .nav-dropdown{opacity:1;visibility:visible;transform:translateY(0)}
-.nav-dropdown a{display:block;padding:10px 14px;font-size:13.5px;font-weight:500;color:#374151;text-decoration:none;border-radius:7px;transition:background .15s,color .15s}
-.nav-dropdown a:hover{background:#F2F4F8;color:#1B3A7A}
-.nav-btn{font-size:13px;font-weight:700;color:#fff;text-decoration:none;padding:10px 20px;border-radius:7px;background:#1B3A7A;white-space:nowrap;transition:background .2s;margin-left:6px}
-.nav-btn:hover{background:#0F2554}
-.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:transparent;border:none;margin-left:4px}
-.ham span{display:block;width:22px;height:2px;background:#374151;border-radius:2px;transition:all .3s}
-.mob-menu{display:none;position:fixed;top:66px;left:0;right:0;background:#fff;border-bottom:1px solid #E4E8F0;box-shadow:0 8px 24px rgba(0,0,0,.08);z-index:998;padding:12px 5% 20px}
-.mob-menu.open{display:block}
-.mob-section{margin-bottom:16px}
-.mob-section-title{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8A9AB0;padding:8px 0 6px;border-bottom:1px solid #F2F4F8;margin-bottom:6px}
-.mob-menu a{display:block;padding:10px 0;font-size:14px;font-weight:500;color:#374151;text-decoration:none;border-bottom:1px solid #F2F4F8}
-.mob-menu a:hover{color:#1B3A7A}
-.mob-cta{display:block;margin-top:14px;background:#1B3A7A;color:#ffffff!important;font-size:14px;font-weight:700;padding:13px;border-radius:8px;text-align:center;text-decoration:none;-webkit-text-fill-color:#fff}
-@media(max-width:700px){
-  .nav-item{display:none}
-  .nav-logo img{height:46px}
-  .ham{display:flex}
-  .nav-btn{display:none}
-}
+    html {
+      scroll-behavior: smooth
+    }
 
-/* ======== HERO ======== */
-.page-hero{padding:120px 5% 72px;background:#1B3A7A;position:relative;overflow:hidden}
-.page-hero-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
-.page-hero-glow{position:absolute;bottom:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 65%);pointer-events:none}
-.page-hero-inner{max-width:1100px;margin:0 auto}
-.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:20px}
-.breadcrumb a{font-size:12px;font-weight:600;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s}
-.breadcrumb a:hover{color:rgba(255,255,255,.8)}
-.breadcrumb span{font-size:12px;color:rgba(255,255,255,.25)}
-.breadcrumb-current{font-size:12px;font-weight:600;color:rgba(255,255,255,.7)}
-.page-hero h1{font-size:clamp(34px,5.5vw,64px);font-weight:800;color:#fff;line-height:1.06;letter-spacing:-.03em;margin-bottom:20px;max-width:700px}
-.page-hero h1 em{font-style:normal;color:#93B4FF}
-.page-hero-sub{font-size:clamp(15px,2vw,18px);font-weight:300;color:rgba(255,255,255,.55);line-height:1.8;max-width:560px}
+    body {
+      font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+      color: #111827;
+      background: #fff;
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%
+    }
 
-/* ======== SECTIONS ======== */
-.sec{padding:80px 5%}
-.sec-bg{background:#F2F4F8}
-.wrap{max-width:1100px;margin:0 auto}
-.lbl{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#8A9AB0;margin-bottom:12px;display:flex;align-items:center;gap:10px}
-.lbl::before{content:'';width:20px;height:1.5px;background:#8A9AB0;display:block;flex-shrink:0}
-h2{font-size:clamp(24px,4vw,42px);font-weight:800;color:#111827;line-height:1.1;letter-spacing:-.025em;margin-bottom:16px}
-h2 span{color:#1B3A7A}
-p{font-size:15px;font-weight:300;color:#6B7280;line-height:1.85}
+    :root {
+      --navy: #1B3A7A;
+      --navy3: #0F2554;
+      --grey: #8A9AB0;
+      --gl: #F2F4F8;
+      --gb: #E4E8F0;
+      --soft: #6B7280
+    }
 
-/* ======== MISSION ======== */
-.mission-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:center}
-.mission-l h2{margin-bottom:20px}
-.mission-l p{margin-bottom:16px}
-.mission-l p:last-child{margin-bottom:0}
-.mission-r{position:relative}
-.big-quote{background:#1B3A7A;border-radius:16px;padding:40px;position:relative;overflow:hidden}
-.big-quote::before{content:'"';position:absolute;top:-20px;left:20px;font-size:160px;font-weight:800;color:rgba(255,255,255,.06);line-height:1;font-family:Georgia,serif}
-.big-quote p{font-size:clamp(16px,2.2vw,20px);font-weight:300;color:#fff;line-height:1.7;font-style:italic;position:relative;z-index:1}
-.big-quote cite{display:block;margin-top:20px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);font-style:normal}
-@media(max-width:860px){.mission-grid{grid-template-columns:1fr;gap:36px}}
+    img {
+      max-width: 100%;
+      display: block
+    }
 
-/* ======== VALUES ======== */
-.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
-.value-card{background:#fff;border-radius:14px;padding:28px 22px;border:1.5px solid #E4E8F0;transition:border-color .25s,transform .25s}
-.value-card:hover{border-color:#1B3A7A;transform:translateY(-4px)}
-.value-ico{width:46px;height:46px;background:rgba(27,58,122,.07);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
-.value-t{font-size:16px;font-weight:800;color:#111827;margin-bottom:8px;letter-spacing:-.02em}
-.value-d{font-size:13px;font-weight:300;color:#6B7280;line-height:1.7}
-@media(max-width:860px){.values-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.values-grid{grid-template-columns:1fr}}
+    a {
+      -webkit-tap-highlight-color: transparent
+    }
 
-/* ======== STORY ======== */
-.story-wrap{max-width:720px;margin:0 auto}
-.story-wrap h2{margin-bottom:28px}
-.story-block{margin-bottom:28px;padding-left:20px;border-left:3px solid #E4E8F0;transition:border-color .2s}
-.story-block:hover{border-left-color:#1B3A7A}
-.story-year{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#1B3A7A;margin-bottom:6px}
-.story-block h3{font-size:17px;font-weight:800;color:#111827;margin-bottom:8px;letter-spacing:-.02em}
-.story-block p{font-size:14px;font-weight:300;color:#6B7280;line-height:1.8}
+    /* ======== NAV ======== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 999;
+      height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      background: #fff;
+      border-bottom: 1px solid #E4E8F0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, .05)
+    }
 
-/* ======== THREE ARMS ======== */
-.arms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
-.arm{background:#fff;border-radius:14px;padding:28px 22px;border:1.5px solid #E4E8F0;transition:border-color .25s,transform .25s,box-shadow .25s}
-.arm:hover{border-color:#1B3A7A;transform:translateY(-4px);box-shadow:0 12px 32px rgba(27,58,122,.1)}
-.arm-no{font-size:10px;font-weight:700;letter-spacing:.2em;color:#8A9AB0;margin-bottom:14px;text-transform:uppercase}
-.arm-ico{width:46px;height:46px;background:rgba(27,58,122,.07);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px}
-.arm-t{font-size:17px;font-weight:800;color:#111827;margin-bottom:4px;letter-spacing:-.02em}
-.arm-s{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#8A9AB0;margin-bottom:10px}
-.arm-d{font-size:13px;font-weight:300;color:#6B7280;line-height:1.7;margin-bottom:20px}
-.arm-lnk{font-size:13px;font-weight:700;color:#1B3A7A;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:gap .2s}
-.arm-lnk:hover{gap:12px}
-@media(max-width:860px){.arms-grid{grid-template-columns:1fr}}
+    .nav-logo img {
+      height: 58px;
+      width: auto
+    }
 
-/* ======== SDG ======== */
-.sdg-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-.sdg-r{display:grid;grid-template-columns:1fr 1fr;gap:3px;border-radius:14px;overflow:hidden}
-.sdg-card{background:#fff;padding:24px 20px}
-.sdg-num{font-size:36px;font-weight:800;color:#1B3A7A;line-height:1;margin-bottom:6px;letter-spacing:-.03em}
-.sdg-label{font-size:12px;font-weight:300;color:#6B7280;line-height:1.4}
-@media(max-width:860px){.sdg-grid{grid-template-columns:1fr;gap:32px}}
-@media(max-width:560px){.sdg-r{grid-template-columns:1fr}}
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 4px
+    }
 
-/* ======== CTA ======== */
-.cta-box{background:#1B3A7A;border-radius:18px;padding:56px 40px;text-align:center;max-width:1100px;margin:0 auto}
-.cta-lbl{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:16px}
-.cta-t{font-size:clamp(22px,4vw,42px);font-weight:800;color:#fff;line-height:1.1;letter-spacing:-.025em;margin-bottom:14px}
-.cta-s{font-size:15px;font-weight:300;color:rgba(255,255,255,.48);margin-bottom:32px;max-width:400px;margin-left:auto;margin-right:auto;line-height:1.7}
-.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-white{background:#fff;color:#1B3A7A;font-size:14px;font-weight:700;padding:13px 26px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,box-shadow .2s}
-.btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,.15)}
-.btn-ghost-w{border:1.5px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);font-size:14px;font-weight:600;padding:13px 24px;border-radius:8px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:border-color .2s,color .2s}
-.btn-ghost-w:hover{border-color:rgba(255,255,255,.6);color:#fff}
-@media(max-width:560px){.cta-box{padding:40px 20px}}
+    .nav-item {
+      position: relative
+    }
 
-/* ======== FOOTER ======== */
-footer{background:#060C1A;padding:52px 5% 28px}
-.fwrap{max-width:1100px;margin:0 auto}
-.ftop{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:22px}
-.flogo img{height:58px;width:auto;margin-bottom:14px}
-.fdesc{font-size:13px;font-weight:300;color:rgba(255,255,255,.28);line-height:1.7;max-width:210px}
-.fc-t{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.2);margin-bottom:14px}
-.flinks{list-style:none}
-.flinks li{margin-bottom:10px}
-.flinks a{font-size:13px;font-weight:300;color:rgba(255,255,255,.38);text-decoration:none;transition:color .2s}
-.flinks a:hover{color:rgba(255,255,255,.8)}
-@media(max-width:860px){.ftop{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.ftop{grid-template-columns:1fr}}
-@media(max-width:480px){.ftop{grid-template-columns:1fr}}
+    .nav-item-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      transition: background .2s, color .2s;
+      white-space: nowrap;
+      font-family: inherit
+    }
 
-@keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-@keyframes floatB{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
-/* ======== REVEAL ======== */
-.rv{opacity:0;transform:translateY(28px);transition:opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)}
-.rv.on{opacity:1;transform:translateY(0)}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
-</style>
-<style>
-.don-nudge{background:#1B3A7A;padding:13px 5%;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;text-align:center}
-.don-nudge-text{font-size:13px;font-weight:600;color:rgba(255,255,255,.8)}
-.don-nudge-text strong{color:#fff}
-.don-nudge-btn{display:inline-flex;align-items:center;gap:6px;background:#93B4FF;color:#0D1F45;font-size:12px;font-weight:700;padding:7px 16px;border-radius:100px;text-decoration:none;transition:opacity .2s;white-space:nowrap;flex-shrink:0}
-.don-nudge-btn:hover{opacity:.85}
-.don-nudge-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:0 0 0 8px;line-height:1;flex-shrink:0}
-.don-nudge-close:hover{color:#fff}
-@media(max-width:500px){.don-nudge{gap:10px;padding:12px 4%}.don-nudge-text{font-size:12px}}
-</style>
+    .nav-item-btn:hover {
+      background: #F2F4F8;
+      color: #1B3A7A
+    }
+
+    .nav-arrow {
+      font-size: 10px;
+      transition: transform .2s
+    }
+
+    .nav-item:hover .nav-arrow {
+      transform: rotate(180deg)
+    }
+
+    .nav-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      background: #fff;
+      border: 1px solid #E4E8F0;
+      border-radius: 10px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .1);
+      min-width: 190px;
+      padding: 6px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-6px);
+      transition: opacity .2s, visibility .2s, transform .2s;
+      z-index: 1000
+    }
+
+    .nav-item:hover .nav-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0)
+    }
+
+    .nav-dropdown a {
+      display: block;
+      padding: 10px 14px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #374151;
+      text-decoration: none;
+      border-radius: 7px;
+      transition: background .15s, color .15s
+    }
+
+    .nav-dropdown a:hover {
+      background: #F2F4F8;
+      color: #1B3A7A
+    }
+
+    .nav-btn {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 7px;
+      background: #1B3A7A;
+      white-space: nowrap;
+      transition: background .2s;
+      margin-left: 6px
+    }
+
+    .nav-btn:hover {
+      background: #0F2554
+    }
+
+    .ham {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      background: transparent;
+      border: none;
+      margin-left: 4px
+    }
+
+    .ham span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: #374151;
+      border-radius: 2px;
+      transition: all .3s
+    }
+
+    .mob-menu {
+      display: none;
+      position: fixed;
+      top: 66px;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-bottom: 1px solid #E4E8F0;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+      z-index: 998;
+      padding: 12px 5% 20px
+    }
+
+    .mob-menu.open {
+      display: block
+    }
+
+    .mob-section {
+      margin-bottom: 16px
+    }
+
+    .mob-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #8A9AB0;
+      padding: 8px 0 6px;
+      border-bottom: 1px solid #F2F4F8;
+      margin-bottom: 6px
+    }
+
+    .mob-menu a {
+      display: block;
+      padding: 10px 0;
+      font-size: 14px;
+      font-weight: 500;
+      color: #374151;
+      text-decoration: none;
+      border-bottom: 1px solid #F2F4F8
+    }
+
+    .mob-menu a:hover {
+      color: #1B3A7A
+    }
+
+    .mob-cta {
+      display: block;
+      margin-top: 14px;
+      background: #1B3A7A;
+      color: #ffffff !important;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 13px;
+      border-radius: 8px;
+      text-align: center;
+      text-decoration: none;
+      -webkit-text-fill-color: #fff
+    }
+
+    @media(max-width:700px) {
+      .nav-item {
+        display: none
+      }
+
+      .nav-logo img {
+        height: 46px
+      }
+
+      .ham {
+        display: flex
+      }
+
+      .nav-btn {
+        display: none
+      }
+    }
+
+    /* ======== HERO ======== */
+    .page-hero {
+      padding: 120px 5% 72px;
+      background: #1B3A7A;
+      position: relative;
+      overflow: hidden
+    }
+
+    .page-hero-dots {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255, 255, 255, .06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none
+    }
+
+    .page-hero-glow {
+      position: absolute;
+      bottom: -100px;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 255, 255, .04) 0%, transparent 65%);
+      pointer-events: none
+    }
+
+    .page-hero-inner {
+      max-width: 1100px;
+      margin: 0 auto
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px
+    }
+
+    .breadcrumb a {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, .45);
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    .breadcrumb a:hover {
+      color: rgba(255, 255, 255, .8)
+    }
+
+    .breadcrumb span {
+      font-size: 12px;
+      color: rgba(255, 255, 255, .25)
+    }
+
+    .breadcrumb-current {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, .7)
+    }
+
+    .page-hero h1 {
+      font-size: clamp(34px, 5.5vw, 64px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.06;
+      letter-spacing: -.03em;
+      margin-bottom: 20px;
+      max-width: 700px
+    }
+
+    .page-hero h1 em {
+      font-style: normal;
+      color: #93B4FF
+    }
+
+    .page-hero-sub {
+      font-size: clamp(15px, 2vw, 18px);
+      font-weight: 300;
+      color: rgba(255, 255, 255, .55);
+      line-height: 1.8;
+      max-width: 560px
+    }
+
+    /* ======== SECTIONS ======== */
+    .sec {
+      padding: 80px 5%
+    }
+
+    .sec-bg {
+      background: #F2F4F8
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto
+    }
+
+    .lbl {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: #8A9AB0;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .lbl::before {
+      content: '';
+      width: 20px;
+      height: 1.5px;
+      background: #8A9AB0;
+      display: block;
+      flex-shrink: 0
+    }
+
+    h2 {
+      font-size: clamp(24px, 4vw, 42px);
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.1;
+      letter-spacing: -.025em;
+      margin-bottom: 16px
+    }
+
+    h2 span {
+      color: #1B3A7A
+    }
+
+    p {
+      font-size: 15px;
+      font-weight: 300;
+      color: #6B7280;
+      line-height: 1.85
+    }
+
+    /* ======== MISSION ======== */
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: center
+    }
+
+    .mission-l h2 {
+      margin-bottom: 20px
+    }
+
+    .mission-l p {
+      margin-bottom: 16px
+    }
+
+    .mission-l p:last-child {
+      margin-bottom: 0
+    }
+
+    .mission-r {
+      position: relative
+    }
+
+    .big-quote {
+      background: #1B3A7A;
+      border-radius: 16px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden
+    }
+
+    .big-quote::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      font-size: 160px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, .06);
+      line-height: 1;
+      font-family: Georgia, serif
+    }
+
+    .big-quote p {
+      font-size: clamp(16px, 2.2vw, 20px);
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.7;
+      font-style: italic;
+      position: relative;
+      z-index: 1
+    }
+
+    .big-quote cite {
+      display: block;
+      margin-top: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .35);
+      font-style: normal
+    }
+
+    @media(max-width:860px) {
+      .mission-grid {
+        grid-template-columns: 1fr;
+        gap: 36px
+      }
+    }
+
+    /* ======== VALUES ======== */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 48px
+    }
+
+    .value-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 28px 22px;
+      border: 1.5px solid #E4E8F0;
+      transition: border-color .25s, transform .25s
+    }
+
+    .value-card:hover {
+      border-color: #1B3A7A;
+      transform: translateY(-4px)
+    }
+
+    .value-ico {
+      width: 46px;
+      height: 46px;
+      background: rgba(27, 58, 122, .07);
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 16px
+    }
+
+    .value-t {
+      font-size: 16px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 8px;
+      letter-spacing: -.02em
+    }
+
+    .value-d {
+      font-size: 13px;
+      font-weight: 300;
+      color: #6B7280;
+      line-height: 1.7
+    }
+
+    @media(max-width:860px) {
+      .values-grid {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media(max-width:560px) {
+      .values-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ======== STORY ======== */
+    .story-wrap {
+      max-width: 720px;
+      margin: 0 auto
+    }
+
+    .story-wrap h2 {
+      margin-bottom: 28px
+    }
+
+    .story-block {
+      margin-bottom: 28px;
+      padding-left: 20px;
+      border-left: 3px solid #E4E8F0;
+      transition: border-color .2s
+    }
+
+    .story-block:hover {
+      border-left-color: #1B3A7A
+    }
+
+    .story-year {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: #1B3A7A;
+      margin-bottom: 6px
+    }
+
+    .story-block h3 {
+      font-size: 17px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 8px;
+      letter-spacing: -.02em
+    }
+
+    .story-block p {
+      font-size: 14px;
+      font-weight: 300;
+      color: #6B7280;
+      line-height: 1.8
+    }
+
+    /* ======== THREE ARMS ======== */
+    .arms-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 44px
+    }
+
+    .arm {
+      background: #fff;
+      border-radius: 14px;
+      padding: 28px 22px;
+      border: 1.5px solid #E4E8F0;
+      transition: border-color .25s, transform .25s, box-shadow .25s
+    }
+
+    .arm:hover {
+      border-color: #1B3A7A;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(27, 58, 122, .1)
+    }
+
+    .arm-no {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      color: #8A9AB0;
+      margin-bottom: 14px;
+      text-transform: uppercase
+    }
+
+    .arm-ico {
+      width: 46px;
+      height: 46px;
+      background: rgba(27, 58, 122, .07);
+      border-radius: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 14px
+    }
+
+    .arm-t {
+      font-size: 17px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 4px;
+      letter-spacing: -.02em
+    }
+
+    .arm-s {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #8A9AB0;
+      margin-bottom: 10px
+    }
+
+    .arm-d {
+      font-size: 13px;
+      font-weight: 300;
+      color: #6B7280;
+      line-height: 1.7;
+      margin-bottom: 20px
+    }
+
+    .arm-lnk {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1B3A7A;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap .2s
+    }
+
+    .arm-lnk:hover {
+      gap: 12px
+    }
+
+    @media(max-width:860px) {
+      .arms-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ======== SDG ======== */
+    .sdg-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center
+    }
+
+    .sdg-r {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      border-radius: 14px;
+      overflow: hidden
+    }
+
+    .sdg-card {
+      background: #fff;
+      padding: 24px 20px
+    }
+
+    .sdg-num {
+      font-size: 36px;
+      font-weight: 800;
+      color: #1B3A7A;
+      line-height: 1;
+      margin-bottom: 6px;
+      letter-spacing: -.03em
+    }
+
+    .sdg-label {
+      font-size: 12px;
+      font-weight: 300;
+      color: #6B7280;
+      line-height: 1.4
+    }
+
+    @media(max-width:860px) {
+      .sdg-grid {
+        grid-template-columns: 1fr;
+        gap: 32px
+      }
+    }
+
+    @media(max-width:560px) {
+      .sdg-r {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* ======== CTA ======== */
+    .cta-box {
+      background: #1B3A7A;
+      border-radius: 18px;
+      padding: 56px 40px;
+      text-align: center;
+      max-width: 1100px;
+      margin: 0 auto
+    }
+
+    .cta-lbl {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .28);
+      margin-bottom: 16px
+    }
+
+    .cta-t {
+      font-size: clamp(22px, 4vw, 42px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -.025em;
+      margin-bottom: 14px
+    }
+
+    .cta-s {
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, .48);
+      margin-bottom: 32px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7
+    }
+
+    .cta-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap
+    }
+
+    .btn-white {
+      background: #fff;
+      color: #1B3A7A;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 13px 26px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform .2s, box-shadow .2s
+    }
+
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .15)
+    }
+
+    .btn-ghost-w {
+      border: 1.5px solid rgba(255, 255, 255, .25);
+      color: rgba(255, 255, 255, .7);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 13px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color .2s, color .2s
+    }
+
+    .btn-ghost-w:hover {
+      border-color: rgba(255, 255, 255, .6);
+      color: #fff
+    }
+
+    @media(max-width:560px) {
+      .cta-box {
+        padding: 40px 20px
+      }
+    }
+
+    /* ======== FOOTER ======== */
+    footer {
+      background: #060C1A;
+      padding: 52px 5% 28px
+    }
+
+    .fwrap {
+      max-width: 1100px;
+      margin: 0 auto
+    }
+
+    .ftop {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(255, 255, 255, .07);
+      margin-bottom: 22px
+    }
+
+    .flogo img {
+      height: 58px;
+      width: auto;
+      margin-bottom: 14px
+    }
+
+    .fdesc {
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, .28);
+      line-height: 1.7;
+      max-width: 210px
+    }
+
+    .fc-t {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .2);
+      margin-bottom: 14px
+    }
+
+    .flinks {
+      list-style: none
+    }
+
+    .flinks li {
+      margin-bottom: 10px
+    }
+
+    .flinks a {
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, .38);
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    .flinks a:hover {
+      color: rgba(255, 255, 255, .8)
+    }
+
+    @media(max-width:860px) {
+      .ftop {
+        grid-template-columns: 1fr 1fr
+      }
+    }
+
+    @media(max-width:480px) {
+      .ftop {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @media(max-width:480px) {
+      .ftop {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @keyframes floatA {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-12px)
+      }
+    }
+
+    @keyframes floatB {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-7px)
+      }
+    }
+
+    /* ======== REVEAL ======== */
+    .rv {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .65s cubic-bezier(.16, 1, .3, 1), transform .65s cubic-bezier(.16, 1, .3, 1)
+    }
+
+    .rv.on {
+      opacity: 1;
+      transform: translateY(0)
+    }
+
+    .d1 {
+      transition-delay: .1s
+    }
+
+    .d2 {
+      transition-delay: .2s
+    }
+
+    .d3 {
+      transition-delay: .3s
+    }
+
+    .d4 {
+      transition-delay: .4s
+    }
+  </style>
+  <style>
+    .don-nudge {
+      background: #1B3A7A;
+      padding: 13px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      text-align: center
+    }
+
+    .don-nudge-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, .8)
+    }
+
+    .don-nudge-text strong {
+      color: #fff
+    }
+
+    .don-nudge-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #93B4FF;
+      color: #0D1F45;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 16px;
+      border-radius: 100px;
+      text-decoration: none;
+      transition: opacity .2s;
+      white-space: nowrap;
+      flex-shrink: 0
+    }
+
+    .don-nudge-btn:hover {
+      opacity: .85
+    }
+
+    .don-nudge-close {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, .4);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 0 0 0 8px;
+      line-height: 1;
+      flex-shrink: 0
+    }
+
+    .don-nudge-close:hover {
+      color: #fff
+    }
+
+    @media(max-width:500px) {
+      .don-nudge {
+        gap: 10px;
+        padding: 12px 4%
+      }
+
+      .don-nudge-text {
+        font-size: 12px
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="index.html"><img src="data:image/png;base64,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" alt="TechNuVate" style="height:58px;width:auto"></a>
-  <div class="nav-right">
-    <div class="nav-item">
-      <button class="nav-item-btn">Meet Us <span class="nav-arrow">&#9660;</span></button>
-      <div class="nav-dropdown">
-        <a href="about.html" style="color:#1B3A7A;font-weight:700">About Us</a>
-        <a href="academy.html">TechNuVate Academy</a>
-        <a href="studio.html">TechNuVate Studio</a>
-        <a href="labs.html">TechNuVate Labs</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn">Work With Us <span class="nav-arrow">&#9660;</span></button>
-      <div class="nav-dropdown">
-        <a href="tutors.html">Become a Tutor</a>
-        <a href="join-team.html">Become a Team Member</a>
-      </div>
-    </div>
-    <a href="store.html" class="nav-item-btn" style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap" onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'" onmouseout="this.style.background='transparent';this.style.color='#374151'">Store</a>
-    <a href="blog.html" class="nav-item-btn" style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap" onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'" onmouseout="this.style.background='transparent';this.style.color='#374151'">Blog</a>
-    <a href="donate.html" class="nav-btn" style="background:transparent;border:1.5px solid #1B3A7A;color:#1B3A7A;margin-right:2px" onmouseover="this.style.background='rgba(27,58,122,.06)'" onmouseout="this.style.background='transparent'">&#10084;&#65039; Donate</a><a href="index.html#contact" class="nav-btn">Contact Us</a>
-    <button class="ham" id="hamBtn" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-<div class="mob-menu" id="mobMenu">
-  <div class="mob-section">
-    <a href="donate.html" style="display:block;background:#1B3A7A;color:#fff;font-weight:700;font-size:14px;padding:13px 16px;border-radius:10px;text-decoration:none;text-align:center;margin-bottom:4px">&#10084;&#65039; Donate Now</a>
-  </div>
-  <div class="mob-section">
-    <div class="mob-section-title">Meet Us</div>
-    <a href="about.html">About Us</a>
-    <a href="academy.html">TechNuVate Academy</a>
-    <a href="studio.html">TechNuVate Studio</a>
-    <a href="labs.html">TechNuVate Labs</a>
-  </div>
-  <div class="mob-section">
-    <div class="mob-section-title">Work With Us</div>
-    <a href="tutors.html">Become a Tutor</a>
-    <a href="join-team.html">Become a Team Member</a>
-  </div>
-  <div class="mob-section">
-    <div class="mob-section-title">Explore</div>
-    <a href="blog.html">Blog &amp; Events</a>
-    <a href="store.html">Merch Store</a>
-  </div>
-  <a href="index.html#contact" class="mob-cta">Contact Us</a>
-</div>
-
-    <a href="about.html">About Us</a>
-    <a href="academy.html">TechNuVate Academy</a>
-    <a href="studio.html">TechNuVate Studio</a>
-    <a href="labs.html">TechNuVate Labs</a>
-  </div>
-  <div class="mob-section">
-    <div class="mob-section-title">Work With Us</div>
-    <a href="tutors.html">Become a Tutor</a>
-    <a href="join-team.html">Become a Team Member</a>
-  </div>
-  <div class="mob-section">
-    <div class="mob-section-title">Resources</div>
-    <a href="blog.html">Blog</a>
-  </div>
-  <a href="index.html#contact" class="mob-cta" onclick="toggleMenu()">Contact Us</a>
-</div>
-
-<!-- PAGE HERO -->
-<section class="page-hero">
-  <div class="page-hero-dots"></div>
-  <div class="page-hero-glow"></div>
-  <!-- Alive visual layer -->
-  <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
-    <!-- Large circle top right -->
-    <div style="position:absolute;top:-120px;right:-80px;width:480px;height:480px;border-radius:50%;border:1.5px solid rgba(255,255,255,.07)"></div>
-    <div style="position:absolute;top:-60px;right:-20px;width:320px;height:320px;border-radius:50%;border:1.5px solid rgba(255,255,255,.05)"></div>
-    <!-- Small floating circles -->
-    <div style="position:absolute;top:120px;right:200px;width:14px;height:14px;border-radius:50%;background:rgba(147,180,255,.35);animation:floatA 4s ease-in-out infinite"></div>
-    <div style="position:absolute;top:200px;right:320px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);animation:floatB 5s ease-in-out infinite"></div>
-    <div style="position:absolute;bottom:80px;right:160px;width:10px;height:10px;border-radius:50%;background:rgba(147,180,255,.25);animation:floatA 6s ease-in-out infinite reverse"></div>
-    <div style="position:absolute;bottom:120px;right:420px;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15);animation:floatB 3.5s ease-in-out infinite"></div>
-    <!-- Horizontal accent line -->
-    <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)"></div>
-    <!-- Abstract grid fragment -->
-    <svg style="position:absolute;top:60px;right:60px;opacity:.07" width="280" height="280" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <line x1="0" y1="70" x2="280" y2="70" stroke="white" stroke-width="1"/>
-      <line x1="0" y1="140" x2="280" y2="140" stroke="white" stroke-width="1"/>
-      <line x1="0" y1="210" x2="280" y2="210" stroke="white" stroke-width="1"/>
-      <line x1="70" y1="0" x2="70" y2="280" stroke="white" stroke-width="1"/>
-      <line x1="140" y1="0" x2="140" y2="280" stroke="white" stroke-width="1"/>
-      <line x1="210" y1="0" x2="210" y2="280" stroke="white" stroke-width="1"/>
-      <circle cx="70" cy="70" r="4" fill="white"/>
-      <circle cx="140" cy="70" r="4" fill="white"/>
-      <circle cx="210" cy="70" r="4" fill="white"/>
-      <circle cx="70" cy="140" r="4" fill="white"/>
-      <circle cx="140" cy="140" r="6" fill="white"/>
-      <circle cx="210" cy="140" r="4" fill="white"/>
-      <circle cx="70" cy="210" r="4" fill="white"/>
-      <circle cx="140" cy="210" r="4" fill="white"/>
-      <circle cx="210" cy="210" r="4" fill="white"/>
-    </svg>
-    <!-- Text label floating -->
-    <div style="position:absolute;top:90px;right:50px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;opacity:.18">
-      <div style="background:rgba(255,255,255,.15);padding:5px 12px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#fff;white-space:nowrap">Learn</div>
-      <div style="background:rgba(255,255,255,.1);padding:5px 12px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#fff;white-space:nowrap">Build</div>
-      <div style="background:rgba(255,255,255,.07);padding:5px 12px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#fff;white-space:nowrap">Execute</div>
-    </div>
-  </div>
-  <div class="page-hero-inner">
-    <div class="breadcrumb">
-      <a href="index.html">Home</a>
-      <span>&rsaquo;</span>
-      <span class="breadcrumb-current">About Us</span>
-    </div>
-    <h1>We Exist to Bridge<br>a Gap That <em>Should Not Exist.</em></h1>
-    <p class="page-hero-sub">Africa and English speaking countries are full of talented, driven people. TechNuVate was built to make sure that talent has somewhere real to go.</p>
-  </div>
-</section>
-
-<!-- MISSION -->
-<section class="sec">
-  <div class="wrap">
-    <div class="mission-grid">
-      <div class="rv">
-        <div class="lbl">Our Mission</div>
-        <h2 style="margin-bottom:20px"><span style="background:linear-gradient(90deg,#1B3A7A 0%,#8A9AB0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Train. Deploy. Connect.</span></h2>
-        <p style="margin-bottom:16px">TechNuVate is a tech organization with three arms, Academy, Studio, and Labs, all working together as one ecosystem. The Academy trains people in practical digital skills. Labs puts those skills to work through structured real-world projects and mentorship. Studio delivers digital services to businesses, giving our talent a live stage to perform on real client work.</p>
-        <p style="margin-bottom:16px">We are not a school that just teaches and moves on. Every learner that comes through TechNuVate is meant to leave with something they can actually use, a certificate, a portfolio, a real project, and a clear path forward.</p>
-        <p>We serve Africa and English speaking countries. We operate 100% online. And we believe the gap between learning and opportunity is one that should never have existed in the first place.</p>
-      </div>
-      <div class="rv d2">
-        <div class="big-quote">
-          <p>Where you were born should never determine what you can become. TechNuVate exists to make sure talent in Africa and English speaking countries has a real shot at building a digital career.</p>
-          <cite>TechNuVate, Brand Promise</cite>
+  <!-- NAV -->
+  <nav>
+    <a href="index.html"><img
+        src="data:image/png;base64,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"
+        alt="TechNuVate" style="height:58px;width:auto"></a>
+    <div class="nav-right">
+      <div class="nav-item">
+        <button class="nav-item-btn">Meet Us <span class="nav-arrow">&#9660;</span></button>
+        <div class="nav-dropdown">
+          <a href="about.html" style="color:#1B3A7A;font-weight:700">About Us</a>
+          <a href="academy.html">TechNuVate Academy</a>
+          <a href="studio.html">TechNuVate Studio</a>
+          <a href="labs.html">TechNuVate Labs</a>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- VALUES -->
-<section class="sec sec-bg">
-  <div class="wrap">
-    <div style="text-align:center;margin-bottom:8px">
-      <div class="lbl rv" style="justify-content:center">What Drives Us</div>
-      <h2 class="rv"><span style="background:linear-gradient(90deg,#1B3A7A 0%,#8A9AB0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Our Core Values</span></h2>
-    </div>
-    <div class="values-grid">
-      <div class="value-card rv d1">
-        <div class="value-ico">&#127919;</div>
-        <div class="value-t">Practical Over Theoretical</div>
-        <p class="value-d">Every course we run is built around what you can actually do with the skill, not just what you know about it. Real projects. Real tools. Real outcomes.</p>
-      </div>
-      <div class="value-card rv d2">
-        <div class="value-ico">&#127760;</div>
-        <div class="value-t">Africa First</div>
-        <p class="value-d">We are built for Africa but welcome all English speaking talents. Everything we do is designed around the realities, opportunities, and challenges of this market.</p>
-      </div>
-      <div class="value-card rv d3">
-        <div class="value-ico">&#129309;</div>
-        <div class="value-t">Community Over Competition</div>
-        <p class="value-d">We grow together. TechNuVate learners, tutors, team members, and studio clients are all part of one ecosystem that lifts each other up.</p>
-      </div>
-      <div class="value-card rv d1">
-        <div class="value-ico">&#9889;</div>
-        <div class="value-t">Execution Matters</div>
-        <p class="value-d">Knowing is not enough. We have practical exercises built into every course to help learners understand how the tech world actually works. We do not just teach the skill, we teach you how to position yourself with it. Learn the tool. Then learn the game.</p>
-      </div>
-      <div class="value-card rv d2">
-        <div class="value-ico">&#128275;</div>
-        <div class="value-t">Access for Everyone</div>
-        <p class="value-d">We partner with organisations, communities, and individuals to help close the gap that money creates. Through partner pricing, community collaborations, and performance-based rewards, we explore every possible way to make sure that financial barriers do not get to decide whose talent gets developed.</p>
-      </div>
-      <div class="value-card rv d3">
-        <div class="value-ico">&#128200;</div>
-        <div class="value-t">Always Growing</div>
-        <p class="value-d">TechNuVate is built to evolve. New tracks, new partners, new cohorts. We are not done until every Africa and English speaking countriesn who wants a digital career has one.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STORY -->
-<section class="sec">
-  <div class="wrap">
-    <div class="story-wrap">
-      <div class="lbl rv">Our Story</div>
-      <h2 class="rv"><span style="background:linear-gradient(90deg,#1B3A7A 0%,#8A9AB0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">How We Got Here</span></h2>
-      <div class="story-block rv d1">
-        <div class="story-year">The Problem We Saw</div>
-        <h3>Talent Without a Bridge</h3>
-        <p>Across Africa, thousands of young people want digital careers but do not know where to start. On the other side, you have growing startups and small businesses, many of them operating on tight budgets, who need entry-level and junior digital talent they can actually afford. Not senior roles with big salaries. Practical, ready-to-work people who can come in and contribute from day one. This is the reality of most businesses in Africa. TechNuVate was built to sit exactly in that gap, producing the kind of talent that real African businesses need, at a level that is accessible for people who are just beginning.</p>
-      </div>
-      <div class="story-block rv d2">
-        <div class="story-year">The Idea</div>
-        <h3>One Ecosystem, Three Arms</h3>
-        <p>Instead of building just a training platform or just a recruitment agency, we decided to build both, and connect them. The Academy trains people. Labs gives them real experience. Studio deploys them into real client work. Each arm feeds the next.</p>
-      </div>
-      <div class="story-block rv d3">
-        <div class="story-year">Where We Are Now</div>
-        <h3>Building From the Ground Up</h3>
-        <p>TechNuVate is in its earliest and most exciting stage. We are assembling the team, running our first cohorts, onboarding tutors, building our community, and delivering real digital services through Studio. Every decision we are making right now is a foundation block. We are not waiting until everything is perfect to start. We are building while moving, and that is exactly the spirit we bring into everything we do.</p>
-      </div>
-      <div class="story-block rv d4">
-        <div class="story-year">Where We Are Going</div>
-        <h3>A Pan-African Digital Talent Ecosystem</h3>
-        <p>TechNuVate is currently serving Africa and English speaking countries and expanding across the globe. Our long-term goal is to be the organization that employers across Africa and globally come to when they need verified, work-ready digital talent, and the organization that talent comes to first when they want to build a career.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- THREE ARMS -->
-<section class="sec sec-bg">
-  <div class="wrap">
-    <div style="text-align:center;margin-bottom:8px">
-      <div class="lbl rv" style="justify-content:center">Our Structure</div>
-      <h2 class="rv">Three Arms. <span>One Ecosystem.</span></h2>
-    </div>
-    <div class="arms-grid">
-      <div class="arm rv d1">
-        <div class="arm-no">ARM 01</div>
-        <div class="arm-ico">&#127891;</div>
-        <div class="arm-t">TechNuVate Academy</div>
-        <div class="arm-s">Education Arm</div>
-        <p class="arm-d">Cohort-based training in digital and product skills. No coding required. Live sessions, real projects, and a certification.</p>
-        <a href="academy.html" class="arm-lnk">Explore Academy &rarr;</a>
-      </div>
-      <div class="arm rv d2">
-        <div class="arm-no">ARM 02</div>
-        <div class="arm-ico">&#128188;</div>
-        <div class="arm-t">TechNuVate Studio</div>
-        <div class="arm-s">Services Arm</div>
-        <p class="arm-d">We run digital campaigns, design products, manage brands, and deliver strategy for growing businesses and organisations. Studio is where TechNuVate certified talent gets deployed into real client work, solving real problems for real organisations.</p>
-        <a href="studio.html" class="arm-lnk">Explore Studio &rarr;</a>
-      </div>
-      <div class="arm rv d3">
-        <div class="arm-no">ARM 03</div>
-        <div class="arm-ico">&#129514;</div>
-        <div class="arm-t">TechNuVate Labs</div>
-        <div class="arm-s">Internship Arm</div>
-        <p class="arm-d">Labs is where learning becomes doing. Participants work on structured projects with real briefs, guided by mentors. They build portfolios, earn certificates, and get recommendation letters. Labs is not a recruitment desk. It is a training ground for people who are ready to move from knowing to delivering.</p>
-        <a href="labs.html" class="arm-lnk">Explore Labs &rarr;</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SDG / IMPACT -->
-<section class="sec">
-  <div class="wrap">
-    <div class="sdg-grid">
-      <div class="rv">
-        <div class="lbl">Our Impact Vision</div>
-        <h2><span style="background:linear-gradient(90deg,#1B3A7A 0%,#8A9AB0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Building More Than Careers.</span><br><span style="background:linear-gradient(90deg,#1B3A7A 0%,#8A9AB0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Building Change.</span></h2>
-        <p style="margin-bottom:16px">TechNuVate aligns with the United Nations Sustainable Development Goals. What we do is not just good for the people we train, it contributes to reducing inequality, improving the quality of education, and growing sustainable economies across Africa and English speaking countries.</p>
-        <p>Every learner who gets a job, every business that gets the talent it needs, and every IT student who completes a placement through TechNuVate is part of a bigger story.</p>
-      </div>
-      <div class="sdg-r rv d2">
-        <div class="sdg-card"><div class="sdg-num">SDG 4</div><div class="sdg-label">Quality Education, practical, accessible, outcome-focused training</div></div>
-        <div class="sdg-card"><div class="sdg-num">SDG 8</div><div class="sdg-label">Decent Work &amp; Economic Growth, building employable digital talent</div></div>
-        <div class="sdg-card"><div class="sdg-num">SDG 9</div><div class="sdg-label">Industry &amp; Innovation, no-code and low-code digital skill development</div></div>
-        <div class="sdg-card"><div class="sdg-num">SDG 10</div><div class="sdg-label">Reduced Inequalities, partner pricing and free spots for top performers</div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- DONATE CARD (after SDG) -->
-<section style="padding:0 5% 72px;background:#fff">
-  <div style="max-width:1000px;margin:0 auto">
-    <div style="background:linear-gradient(135deg,#0D1F45 0%,#1B3A7A 100%);border-radius:20px;padding:44px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:28px;position:relative;overflow:hidden">
-      <div style="position:absolute;top:-50px;right:-50px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(147,180,255,.1) 0%,transparent 70%);pointer-events:none"></div>
-      <div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.03) 1px,transparent 1px);background-size:22px 22px;pointer-events:none;border-radius:20px"></div>
-      <div style="position:relative;z-index:1;flex:1;min-width:240px">
-        <div style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px">Make a Difference</div>
-        <h3 style="font-size:clamp(20px,3vw,28px);font-weight:800;color:#fff;line-height:1.25;margin-bottom:10px">Believe in what we are building?<br><span style="color:#93B4FF">Help a youth access it.</span></h3>
-        <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;max-width:440px">Subsiding education for young Africans is at the heart of what TechNuVate does. Your donation, no matter how small, directly sponsors a young person's tech education. Tithe, birthday gift, or just because — it all counts.</p>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
-          <span style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 13px;font-size:12px;font-weight:600;color:rgba(255,255,255,.65)">&#127874; Birthday giving</span>
-          <span style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 13px;font-size:12px;font-weight:600;color:rgba(255,255,255,.65)">&#128591; Tithe re-routed</span>
-          <span style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 13px;font-size:12px;font-weight:600;color:rgba(255,255,255,.65)">&#128161; Pay it forward</span>
+      <div class="nav-item">
+        <button class="nav-item-btn">Work With Us <span class="nav-arrow">&#9660;</span></button>
+        <div class="nav-dropdown">
+          <a href="tutors.html">Become a Tutor</a>
+          <a href="join-team.html">Become a Team Member</a>
         </div>
       </div>
-      <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:11px;flex-shrink:0">
-        <a href="donate.html" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#93B4FF;color:#0D1F45;font-size:14px;font-weight:700;padding:14px 28px;border-radius:10px;text-decoration:none;transition:opacity .2s;white-space:nowrap" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
-          &#10084;&#65039;&nbsp; Sponsor a Youth
-        </a>
-        <a href="donate.html#donate-widget" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.8);font-size:13px;font-weight:600;padding:12px 28px;border-radius:10px;text-decoration:none;transition:background .2s;white-space:nowrap" onmouseover="this.style.background='rgba(255,255,255,.15)'" onmouseout="this.style.background='rgba(255,255,255,.08)'">
-          From &#8358;2,000 or $2 &rarr;
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="sec sec-bg">
-  <div class="cta-box rv">
-    <div class="cta-lbl">Ready to Begin?</div>
-    <h2 class="cta-t">You Have Read Our Story.<br>Now <span style="color:#93B4FF">Start Yours.</span></h2>
-    <p class="cta-s">Join Cohort 1 of TechNuVate Academy. Limited seats. Community partner pricing still open.</p>
-    <div class="cta-btns">
-      <a href="academy.html" class="btn-white">Browse Courses &rarr;</a>
-      <a href="index.html#contact" class="btn-ghost-w">Talk to Us</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-
-<!-- NEWSLETTER -->
-<section style="background:#0D1F45;padding:56px 5%">
-  <div style="max-width:600px;margin:0 auto;text-align:center">
-    <div style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px">Stay in the loop</div>
-    <h2 style="font-size:clamp(24px,4vw,34px);font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:12px">Get updates before everyone else.</h2>
-    <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:32px">New cohort dates. Early bird alerts. Career tips. Studio opportunities. Only what matters — straight to your inbox.</p>
-    <form id="newsletter-form" onsubmit="submitNewsletter(event)" style="display:flex;gap:10px;max-width:460px;margin:0 auto;flex-wrap:wrap">
-      <input id="nl-email" type="email" placeholder="Enter your email address" required
-        style="flex:1;min-width:200px;padding:14px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s"
-        onfocus="this.style.borderColor='rgba(255,255,255,.4)'" onblur="this.style.borderColor='rgba(255,255,255,.15)'">
-      <button type="submit" id="nl-btn"
-        style="padding:14px 24px;background:#fff;color:#0D1F45;font-size:14px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .2s">
-        Subscribe &rarr;
+      <a href="store.html" class="nav-item-btn"
+        style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap"
+        onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'"
+        onmouseout="this.style.background='transparent';this.style.color='#374151'">Store</a>
+      <a href="blog.html" class="nav-item-btn"
+        style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap"
+        onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'"
+        onmouseout="this.style.background='transparent';this.style.color='#374151'">Blog</a>
+      <a href="donate.html" class="nav-btn"
+        style="background:transparent;border:1.5px solid #1B3A7A;color:#1B3A7A;margin-right:2px"
+        onmouseover="this.style.background='rgba(27,58,122,.06)'"
+        onmouseout="this.style.background='transparent'">&#10084;&#65039; Donate</a><a href="index.html#contact"
+        class="nav-btn">Contact Us</a>
+      <button class="ham" id="hamBtn" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
       </button>
-    </form>
-    <p id="nl-msg" style="font-size:12px;color:rgba(255,255,255,.4);margin-top:14px;display:none"></p>
-    <p style="font-size:11px;color:rgba(255,255,255,.2);margin-top:16px">No spam. Unsubscribe anytime. We respect your inbox.</p>
-  </div>
-</section>
-<script>
-function submitNewsletter(e) {
-  e.preventDefault();
-  var email = document.getElementById('nl-email').value.trim();
-  var btn = document.getElementById('nl-btn');
-  var msg = document.getElementById('nl-msg');
-  if (!email || email.indexOf('@') < 0) return;
-  btn.textContent = 'Subscribing...';
-  btn.disabled = true;
-  // Save to Supabase newsletter table
-  var SB_URL = typeof window.SB_URL !== 'undefined' ? window.SB_URL : 'YOUR_SUPABASE_URL_HERE';
-  var SB_KEY = typeof window.SB_KEY !== 'undefined' ? window.SB_KEY : 'YOUR_SUPABASE_ANON_KEY_HERE';
-  if (SB_URL && SB_URL !== 'YOUR_SUPABASE_URL_HERE') {
-    fetch(SB_URL + '/rest/v1/newsletter_subscribers', {
-      method: 'POST',
-      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ email: email, source: window.location.pathname })
-    }).catch(function(){});
-  }
-  setTimeout(function() {
-    document.getElementById('newsletter-form').style.display = 'none';
-    msg.textContent = '✓ You are on the list. Watch your inbox.';
-    msg.style.display = 'block';
-    msg.style.color = 'rgba(255,255,255,.7)';
-    msg.style.fontSize = '14px';
-  }, 600);
-}
-</script>
-<footer>
-  <div class="fwrap">
-    <div class="ftop">
-      <div>
-        <div class="flogo"><img src="data:image/png;base64,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" alt="TechNuVate"></div>
-        <p class="fdesc">A tech organisation training, deploying, and connecting talent in Africa and English speaking countries with real digital opportunity.</p>
-      </div>
-      <div>
-        <div class="fc-t">Our Arms</div>
-        <ul class="flinks">
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="academy.html">TechNuVate Academy</a></li>
-          <li><a href="studio.html">TechNuVate Studio</a></li>
-          <li><a href="labs.html">TechNuVate Labs</a></li>
-          <li><a href="blog.html">Blog &amp; Events</a></li>
-          <li><a href="store.html">Merch Store</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="fc-t">Connect</div>
-        <ul class="flinks">
-          <li><a href="index.html#contact">Contact Us</a></li>
-          <li><a href="tutors.html">Become a Tutor</a></li>
-          <li><a href="join-team.html">Join the Team</a></li>
-          <li><a href="#newsletter-form" onclick="document.getElementById('nl-email').focus()">Subscribe to Newsletter</a></li>
-          <li>
-            <span style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.2);display:block;margin-bottom:10px;margin-top:6px">Follow Us</span>
-            <div style="display:flex;gap:7px;flex-wrap:wrap">
-              <a href="https://www.linkedin.com/company/technuvate" title="LinkedIn" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-              <a href="https://www.instagram.com/tech_nu_vate" title="Instagram" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-              <a href="https://x.com/technuvate" title="X" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-              <a href="https://www.youtube.com/@technuvate" title="YouTube" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></a>
-              <a href="https://www.tiktok.com/@tech_nu_vate" title="TikTok" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/></svg></a>
-              <a href="https://www.facebook.com/technuvate" title="Facebook" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-            </div>
-          </li>
-        </ul>
-      </div>
     </div>
-    <div style="text-align:center;padding-top:4px">
-      <p style="font-size:12px;color:rgba(255,255,255,.18)">&copy; 2026 TechNuVate. All rights reserved. Learn. Build. Execute.</p>
-    </div>
-  </div>
-</footer>
+  </nav>
 
-<script>
-function toggleMenu(){
-  var m=document.getElementById('mobMenu');
-  var b=document.getElementById('hamBtn');
-  m.classList.toggle('open');
-  var s=b.querySelectorAll('span');
-  if(m.classList.contains('open')){
-    s[0].style.transform='rotate(45deg) translate(5px,5px)';
-    s[1].style.opacity='0';
-    s[2].style.transform='rotate(-45deg) translate(5px,-5px)';
-  } else {
-    s[0].style.transform='';s[1].style.opacity='';s[2].style.transform='';
-  }
-}
-document.addEventListener('click',function(e){
-  var m=document.getElementById('mobMenu');
-  var b=document.getElementById('hamBtn');
-  if(m&&m.classList.contains('open')&&!m.contains(e.target)&&!b.contains(e.target)) toggleMenu();
-});
-var obs=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('on');});
-},{threshold:0.08,rootMargin:'0px 0px -20px 0px'});
-document.querySelectorAll('.rv').forEach(function(el){obs.observe(el);});
-</script>
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero-dots"></div>
+    <div class="page-hero-glow"></div>
+    <!-- Alive visual layer -->
+    <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
+      <!-- Large circle top right -->
+      <div
+        style="position:absolute;top:-120px;right:-80px;width:480px;height:480px;border-radius:50%;border:1.5px solid rgba(255,255,255,.07)">
+      </div>
+      <div
+        style="position:absolute;top:-60px;right:-20px;width:320px;height:320px;border-radius:50%;border:1.5px solid rgba(255,255,255,.05)">
+      </div>
+      <!-- Small floating circles -->
+      <div
+        style="position:absolute;top:120px;right:200px;width:14px;height:14px;border-radius:50%;background:rgba(147,180,255,.35);animation:floatA 4s ease-in-out infinite">
+      </div>
+      <div
+        style="position:absolute;top:200px;right:320px;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2);animation:floatB 5s ease-in-out infinite">
+      </div>
+      <div
+        style="position:absolute;bottom:80px;right:160px;width:10px;height:10px;border-radius:50%;background:rgba(147,180,255,.25);animation:floatA 6s ease-in-out infinite reverse">
+      </div>
+      <div
+        style="position:absolute;bottom:120px;right:420px;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.15);animation:floatB 3.5s ease-in-out infinite">
+      </div>
+      <!-- Horizontal accent line -->
+      <div
+        style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)">
+      </div>
+      <!-- Abstract grid fragment -->
+      <svg style="position:absolute;top:60px;right:60px;opacity:.07" width="280" height="280" viewBox="0 0 280 280"
+        fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="70" x2="280" y2="70" stroke="white" stroke-width="1" />
+        <line x1="0" y1="140" x2="280" y2="140" stroke="white" stroke-width="1" />
+        <line x1="0" y1="210" x2="280" y2="210" stroke="white" stroke-width="1" />
+        <line x1="70" y1="0" x2="70" y2="280" stroke="white" stroke-width="1" />
+        <line x1="140" y1="0" x2="140" y2="280" stroke="white" stroke-width="1" />
+        <line x1="210" y1="0" x2="210" y2="280" stroke="white" stroke-width="1" />
+        <circle cx="70" cy="70" r="4" fill="white" />
+        <circle cx="140" cy="70" r="4" fill="white" />
+        <circle cx="210" cy="70" r="4" fill="white" />
+        <circle cx="70" cy="140" r="4" fill="white" />
+        <circle cx="140" cy="140" r="6" fill="white" />
+        <circle cx="210" cy="140" r="4" fill="white" />
+        <circle cx="70" cy="210" r="4" fill="white" />
+        <circle cx="140" cy="210" r="4" fill="white" />
+        <circle cx="210" cy="210" r="4" fill="white" />
+      </svg>
+      <!-- Text label floating -->
+      <div
+        style="position:absolute;top:90px;right:50px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;opacity:.18">
+        <div
+          style="background:rgba(255,255,255,.15);padding:5px 12px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#fff;white-space:nowrap">
+          Learn</div>
+        <div
+          style="background:rgba(255,255,255,.1);padding:5px 12px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#fff;white-space:nowrap">
+          Build</div>
+        <div
+          style="background:rgba(255,255,255,.07);padding:5px 12px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#fff;white-space:nowrap">
+          Execute</div>
+      </div>
+    </div>
+    <div class="page-hero-inner">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>&rsaquo;</span>
+        <span class="breadcrumb-current">About Us</span>
+      </div>
+      <h1>We Exist to Bridge<br>a Gap That <em>Should Not Exist.</em></h1>
+      <p class="page-hero-sub">Africa and English speaking countries are full of talented, driven people. TechNuVate was
+        built to make sure that talent has somewhere real to go.</p>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="mission-grid">
+        <div class="rv">
+          <div class="lbl">Our Mission</div>
+          <h2 style="margin-bottom:20px"><span
+              style="background:linear-gradient(90deg,#1B3A7A 0%,#8A9AB0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Train.
+              Deploy. Connect.</span></h2>
+          <p style="margin-bottom:16px">TechNuVate is a tech organization with three arms, Academy, Studio, and Labs,
+            all working together as one ecosystem. The Academy trains people in practical digital skills. Labs puts
+            those skills to work through structured real-world projects and mentorship. Studio delivers digital services
+            to businesses, giving our talent a live stage to perform on real client work.</p>
+          <p style="margin-bottom:16px">We are not a school that just teaches and moves on. Every learner that comes
+            through TechNuVate is meant to leave with something they can actually use, a certificate, a portfolio, a
+            real project, and a clear path forward.</p>
+          <p>We serve Africa and English speaking countries. We operate 100% online. And we believe the gap between
+            learning and opportunity is one that should never have existed in the first place.</p>
+        </div>
+        <div class="rv d2">
+          <div class="big-quote">
+            <p>Where you were born should never determine what you can become. TechNuVate exists to make sure talent in
+              Africa and English speaking countries has a real shot at building a digital career.</p>
+            <cite>TechNuVate, Brand Promise</cite>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="sec sec-bg">
+    <div class="wrap">
+      <div style="text-align:center;margin-bottom:8px">
+        <div class="lbl rv" style="justify-content:center">What Drives Us</div>
+        <h2 class="rv"><span
+            style="background:linear-gradient(90deg,#1B3A7A 0%,#8A9AB0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Our
+            Core Values</span></h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-card rv d1">
+          <div class="value-ico">&#127919;</div>
+          <div class="value-t">Practical Over Theoretical</div>
+          <p class="value-d">Every course we run is built around what you can actually do with the skill, not just what
+            you know about it. Real projects. Real tools. Real outcomes.</p>
+        </div>
+        <div class="value-card rv d2">
+          <div class="value-ico">&#127760;</div>
+          <div class="value-t">Africa First</div>
+          <p class="value-d">We are built for Africa but welcome all English speaking talents. Everything we do is
+            designed around the realities, opportunities, and challenges of this market.</p>
+        </div>
+        <div class="value-card rv d3">
+          <div class="value-ico">&#129309;</div>
+          <div class="value-t">Community Over Competition</div>
+          <p class="value-d">We grow together. TechNuVate learners, tutors, team members, and studio clients are all
+            part of one ecosystem that lifts each other up.</p>
+        </div>
+        <div class="value-card rv d1">
+          <div class="value-ico">&#9889;</div>
+          <div class="value-t">Execution Matters</div>
+          <p class="value-d">Knowing is not enough. We have practical exercises built into every course to help learners
+            understand how the tech world actually works. We do not just teach the skill, we teach you how to position
+            yourself with it. Learn the tool. Then learn the game.</p>
+        </div>
+        <div class="value-card rv d2">
+          <div class="value-ico">&#128275;</div>
+          <div class="value-t">Access for Everyone</div>
+          <p class="value-d">We partner with organisations, communities, and individuals to help close the gap that
+            money creates. Through partner pricing, community collaborations, and performance-based rewards, we explore
+            every possible way to make sure that financial barriers do not get to decide whose talent gets developed.
+          </p>
+        </div>
+        <div class="value-card rv d3">
+          <div class="value-ico">&#128200;</div>
+          <div class="value-t">Always Growing</div>
+          <p class="value-d">TechNuVate is built to evolve. New tracks, new partners, new cohorts. We are not done until
+            every Africa and English speaking countriesn who wants a digital career has one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="story-wrap">
+        <div class="lbl rv">Our Story</div>
+        <h2 class="rv"><span
+            style="background:linear-gradient(90deg,#1B3A7A 0%,#8A9AB0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">How
+            We Got Here</span></h2>
+        <div class="story-block rv d1">
+          <div class="story-year">The Problem We Saw</div>
+          <h3>Talent Without a Bridge</h3>
+          <p>Across Africa, thousands of young people want digital careers but do not know where to start. On the other
+            side, you have growing startups and small businesses, many of them operating on tight budgets, who need
+            entry-level and junior digital talent they can actually afford. Not senior roles with big salaries.
+            Practical, ready-to-work people who can come in and contribute from day one. This is the reality of most
+            businesses in Africa. TechNuVate was built to sit exactly in that gap, producing the kind of talent that
+            real African businesses need, at a level that is accessible for people who are just beginning.</p>
+        </div>
+        <div class="story-block rv d2">
+          <div class="story-year">The Idea</div>
+          <h3>One Ecosystem, Three Arms</h3>
+          <p>Instead of building just a training platform or just a recruitment agency, we decided to build both, and
+            connect them. The Academy trains people. Labs gives them real experience. Studio deploys them into real
+            client work. Each arm feeds the next.</p>
+        </div>
+        <div class="story-block rv d3">
+          <div class="story-year">Where We Are Now</div>
+          <h3>Building From the Ground Up</h3>
+          <p>TechNuVate is in its earliest and most exciting stage. We are assembling the team, running our first
+            cohorts, onboarding tutors, building our community, and delivering real digital services through Studio.
+            Every decision we are making right now is a foundation block. We are not waiting until everything is perfect
+            to start. We are building while moving, and that is exactly the spirit we bring into everything we do.</p>
+        </div>
+        <div class="story-block rv d4">
+          <div class="story-year">Where We Are Going</div>
+          <h3>A Pan-African Digital Talent Ecosystem</h3>
+          <p>TechNuVate is currently serving Africa and English speaking countries and expanding across the globe. Our
+            long-term goal is to be the organization that employers across Africa and globally come to when they need
+            verified, work-ready digital talent, and the organization that talent comes to first when they want to build
+            a career.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THREE ARMS -->
+  <section class="sec sec-bg">
+    <div class="wrap">
+      <div style="text-align:center;margin-bottom:8px">
+        <div class="lbl rv" style="justify-content:center">Our Structure</div>
+        <h2 class="rv">Three Arms. <span>One Ecosystem.</span></h2>
+      </div>
+      <div class="arms-grid">
+        <div class="arm rv d1">
+          <div class="arm-no">ARM 01</div>
+          <div class="arm-ico">&#127891;</div>
+          <div class="arm-t">TechNuVate Academy</div>
+          <div class="arm-s">Education Arm</div>
+          <p class="arm-d">Cohort-based training in digital and product skills. No coding required. Live sessions, real
+            projects, and a certification.</p>
+          <a href="academy.html" class="arm-lnk">Explore Academy &rarr;</a>
+        </div>
+        <div class="arm rv d2">
+          <div class="arm-no">ARM 02</div>
+          <div class="arm-ico">&#128188;</div>
+          <div class="arm-t">TechNuVate Studio</div>
+          <div class="arm-s">Services Arm</div>
+          <p class="arm-d">We run digital campaigns, design products, manage brands, and deliver strategy for growing
+            businesses and organisations. Studio is where TechNuVate certified talent gets deployed into real client
+            work, solving real problems for real organisations.</p>
+          <a href="studio.html" class="arm-lnk">Explore Studio &rarr;</a>
+        </div>
+        <div class="arm rv d3">
+          <div class="arm-no">ARM 03</div>
+          <div class="arm-ico">&#129514;</div>
+          <div class="arm-t">TechNuVate Labs</div>
+          <div class="arm-s">Internship Arm</div>
+          <p class="arm-d">Labs is where learning becomes doing. Participants work on structured projects with real
+            briefs, guided by mentors. They build portfolios, earn certificates, and get recommendation letters. Labs is
+            not a recruitment desk. It is a training ground for people who are ready to move from knowing to delivering.
+          </p>
+          <a href="labs.html" class="arm-lnk">Explore Labs &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SDG / IMPACT -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="sdg-grid">
+        <div class="rv">
+          <div class="lbl">Our Impact Vision</div>
+          <h2><span
+              style="background:linear-gradient(90deg,#1B3A7A 0%,#8A9AB0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Building
+              More Than Careers.</span><br><span
+              style="background:linear-gradient(90deg,#1B3A7A 0%,#8A9AB0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Building
+              Change.</span></h2>
+          <p style="margin-bottom:16px">TechNuVate aligns with the United Nations Sustainable Development Goals. What we
+            do is not just good for the people we train, it contributes to reducing inequality, improving the quality of
+            education, and growing sustainable economies across Africa and English speaking countries.</p>
+          <p>Every learner who gets a job, every business that gets the talent it needs, and every IT student who
+            completes a placement through TechNuVate is part of a bigger story.</p>
+        </div>
+        <div class="sdg-r rv d2">
+          <div class="sdg-card">
+            <div class="sdg-num">SDG 4</div>
+            <div class="sdg-label">Quality Education, practical, accessible, outcome-focused training</div>
+          </div>
+          <div class="sdg-card">
+            <div class="sdg-num">SDG 8</div>
+            <div class="sdg-label">Decent Work &amp; Economic Growth, building employable digital talent</div>
+          </div>
+          <div class="sdg-card">
+            <div class="sdg-num">SDG 9</div>
+            <div class="sdg-label">Industry &amp; Innovation, no-code and low-code digital skill development</div>
+          </div>
+          <div class="sdg-card">
+            <div class="sdg-num">SDG 10</div>
+            <div class="sdg-label">Reduced Inequalities, partner pricing and free spots for top performers</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- DONATE CARD (after SDG) -->
+  <section style="padding:0 5% 72px;background:#fff">
+    <div style="max-width:1000px;margin:0 auto">
+      <div
+        style="background:linear-gradient(135deg,#0D1F45 0%,#1B3A7A 100%);border-radius:20px;padding:44px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:28px;position:relative;overflow:hidden">
+        <div
+          style="position:absolute;top:-50px;right:-50px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(147,180,255,.1) 0%,transparent 70%);pointer-events:none">
+        </div>
+        <div
+          style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.03) 1px,transparent 1px);background-size:22px 22px;pointer-events:none;border-radius:20px">
+        </div>
+        <div style="position:relative;z-index:1;flex:1;min-width:240px">
+          <div
+            style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px">
+            Make a Difference</div>
+          <h3 style="font-size:clamp(20px,3vw,28px);font-weight:800;color:#fff;line-height:1.25;margin-bottom:10px">
+            Believe in what we are building?<br><span style="color:#93B4FF">Help a youth access it.</span></h3>
+          <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;max-width:440px">Subsiding education for
+            young Africans is at the heart of what TechNuVate does. Your donation, no matter how small, directly
+            sponsors a young person's tech education. Tithe, birthday gift, or just because — it all counts.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+            <span
+              style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 13px;font-size:12px;font-weight:600;color:rgba(255,255,255,.65)">&#127874;
+              Birthday giving</span>
+            <span
+              style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 13px;font-size:12px;font-weight:600;color:rgba(255,255,255,.65)">&#128591;
+              Tithe re-routed</span>
+            <span
+              style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 13px;font-size:12px;font-weight:600;color:rgba(255,255,255,.65)">&#128161;
+              Pay it forward</span>
+          </div>
+        </div>
+        <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:11px;flex-shrink:0">
+          <a href="donate.html"
+            style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#93B4FF;color:#0D1F45;font-size:14px;font-weight:700;padding:14px 28px;border-radius:10px;text-decoration:none;transition:opacity .2s;white-space:nowrap"
+            onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+            &#10084;&#65039;&nbsp; Sponsor a Youth
+          </a>
+          <a href="donate.html#donate-widget"
+            style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.8);font-size:13px;font-weight:600;padding:12px 28px;border-radius:10px;text-decoration:none;transition:background .2s;white-space:nowrap"
+            onmouseover="this.style.background='rgba(255,255,255,.15)'"
+            onmouseout="this.style.background='rgba(255,255,255,.08)'">
+            From &#8358;2,000 or $2 &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="sec sec-bg">
+    <div class="cta-box rv">
+      <div class="cta-lbl">Ready to Begin?</div>
+      <h2 class="cta-t">You Have Read Our Story.<br>Now <span style="color:#93B4FF">Start Yours.</span></h2>
+      <p class="cta-s">Join Cohort 1 of TechNuVate Academy. Limited seats. Community partner pricing still open.</p>
+      <div class="cta-btns">
+        <a href="academy.html" class="btn-white">Browse Courses &rarr;</a>
+        <a href="index.html#contact" class="btn-ghost-w">Talk to Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+
+  <!-- NEWSLETTER -->
+  <section style="background:#0D1F45;padding:56px 5%">
+    <div style="max-width:600px;margin:0 auto;text-align:center">
+      <div
+        style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px">
+        Stay in the loop</div>
+      <h2 style="font-size:clamp(24px,4vw,34px);font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:12px">Get
+        updates before everyone else.</h2>
+      <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:32px">New cohort dates. Early
+        bird alerts. Career tips. Studio opportunities. Only what matters — straight to your inbox.</p>
+      <form id="newsletter-form" onsubmit="submitNewsletter(event)"
+        style="display:flex;gap:10px;max-width:460px;margin:0 auto;flex-wrap:wrap">
+        <input id="nl-email" type="email" placeholder="Enter your email address" required
+          style="flex:1;min-width:200px;padding:14px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s"
+          onfocus="this.style.borderColor='rgba(255,255,255,.4)'"
+          onblur="this.style.borderColor='rgba(255,255,255,.15)'">
+        <button type="submit" id="nl-btn"
+          style="padding:14px 24px;background:#fff;color:#0D1F45;font-size:14px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .2s">
+          Subscribe &rarr;
+        </button>
+      </form>
+      <p id="nl-msg" style="font-size:12px;color:rgba(255,255,255,.4);margin-top:14px;display:none"></p>
+      <p style="font-size:11px;color:rgba(255,255,255,.2);margin-top:16px">No spam. Unsubscribe anytime. We respect your
+        inbox.</p>
+    </div>
+  </section>
+  <script>
+    function submitNewsletter(e) {
+      e.preventDefault();
+      var email = document.getElementById('nl-email').value.trim();
+      var btn = document.getElementById('nl-btn');
+      var msg = document.getElementById('nl-msg');
+      if (!email || email.indexOf('@') < 0) return;
+      btn.textContent = 'Subscribing...';
+      btn.disabled = true;
+      // Save to Supabase newsletter table
+      var SB_URL = typeof window.SB_URL !== 'undefined' ? window.SB_URL : 'YOUR_SUPABASE_URL_HERE';
+      var SB_KEY = typeof window.SB_KEY !== 'undefined' ? window.SB_KEY : 'YOUR_SUPABASE_ANON_KEY_HERE';
+      if (SB_URL && SB_URL !== 'YOUR_SUPABASE_URL_HERE') {
+        fetch(SB_URL + '/rest/v1/newsletter_subscribers', {
+          method: 'POST',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ email: email, source: window.location.pathname })
+        }).catch(function () { });
+      }
+      setTimeout(function () {
+        document.getElementById('newsletter-form').style.display = 'none';
+        msg.textContent = '✓ You are on the list. Watch your inbox.';
+        msg.style.display = 'block';
+        msg.style.color = 'rgba(255,255,255,.7)';
+        msg.style.fontSize = '14px';
+      }, 600);
+    }
+  </script>
+  <footer>
+    <div class="fwrap">
+      <div class="ftop">
+        <div>
+          <div class="flogo"><img
+              src="data:image/png;base64,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"
+              alt="TechNuVate"></div>
+          <p class="fdesc">A tech organisation training, deploying, and connecting talent in Africa and English speaking
+            countries with real digital opportunity.</p>
+        </div>
+        <div>
+          <div class="fc-t">Our Arms</div>
+          <ul class="flinks">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="academy.html">TechNuVate Academy</a></li>
+            <li><a href="studio.html">TechNuVate Studio</a></li>
+            <li><a href="labs.html">TechNuVate Labs</a></li>
+            <li><a href="blog.html">Blog &amp; Events</a></li>
+            <li><a href="store.html">Merch Store</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="fc-t">Connect</div>
+          <ul class="flinks">
+            <li><a href="index.html#contact">Contact Us</a></li>
+            <li><a href="tutors.html">Become a Tutor</a></li>
+            <li><a href="join-team.html">Join the Team</a></li>
+            <li><a href="#newsletter-form" onclick="document.getElementById('nl-email').focus()">Subscribe to
+                Newsletter</a></li>
+            <li>
+              <span
+                style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.2);display:block;margin-bottom:10px;margin-top:6px">Follow
+                Us</span>
+              <div style="display:flex;gap:7px;flex-wrap:wrap">
+                <a href="https://www.linkedin.com/company/technuvate" title="LinkedIn"
+                  style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
+                    width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+                    <path
+                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg></a>
+                <a href="https://www.instagram.com/tech_nu_vate" title="Instagram"
+                  style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
+                    width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                  </svg></a>
+                <a href="https://x.com/technuvate" title="X"
+                  style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
+                    width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+                    <path
+                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg></a>
+                <a href="https://www.youtube.com/@technuvate" title="YouTube"
+                  style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
+                    width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+                    <path
+                      d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z" />
+                  </svg></a>
+                <a href="https://www.tiktok.com/@tech_nu_vate" title="TikTok"
+                  style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
+                    width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+                    <path
+                      d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z" />
+                  </svg></a>
+                <a href="https://www.facebook.com/technuvate" title="Facebook"
+                  style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
+                    width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+                    <path
+                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                  </svg></a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div style="text-align:center;padding-top:4px">
+        <p style="font-size:12px;color:rgba(255,255,255,.18)">&copy; 2026 TechNuVate. All rights reserved. Learn. Build.
+          Execute.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      var m = document.getElementById('mobMenu');
+      var b = document.getElementById('hamBtn');
+      m.classList.toggle('open');
+      var s = b.querySelectorAll('span');
+      if (m.classList.contains('open')) {
+        s[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+        s[1].style.opacity = '0';
+        s[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+      } else {
+        s[0].style.transform = ''; s[1].style.opacity = ''; s[2].style.transform = '';
+      }
+    }
+    document.addEventListener('click', function (e) {
+      var m = document.getElementById('mobMenu');
+      var b = document.getElementById('hamBtn');
+      if (m && m.classList.contains('open') && !m.contains(e.target) && !b.contains(e.target)) toggleMenu();
+    });
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('on'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+    document.querySelectorAll('.rv').forEach(function (el) { obs.observe(el); });
+  </script>
 </body>
+
 </html>
