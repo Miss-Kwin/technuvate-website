@@ -376,7 +376,8 @@
       background: #fff;
       outline: none;
       transition: border-color .2s, box-shadow .2s;
-      -webkit-appearance: none
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     .fi:focus,
@@ -1150,10 +1151,7 @@
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px">
               <div class="fg">
                 <label class="fl">Gender <span class="required">*</span></label>
-                <select class="fsel" id="gender" style="appearance:none;background-image:url(\"
-                  data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'
-                  viewBox='0 0 12 12' %3E%3Cpath fill='%238A9AB0' d='M6 8L1 3h10z'
-                  /%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 14px center">
+                <select class="fsel" id="gender" style="appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22%3E%3Cpath fill=%22%238A9AB0%22 d=%22M6 8L1 3h10z%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 14px center">
                   <option value="">Select</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
@@ -1162,10 +1160,9 @@
               </div>
               <div class="fg">
                 <label class="fl">Age Range <span class="required">*</span></label>
-                <select class="fsel" id="age-range" style="appearance:none;background-image:url(\"
-                  data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'
-                  viewBox='0 0 12 12' %3E%3Cpath fill='%238A9AB0' d='M6 8L1 3h10z'
-                  /%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 14px center">
+
+                <select class="fsel" id="age-range"
+                  style="appearance:none; background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22%3E%3Cpath fill=%22%238A9AB0%22 d=%22M6 8L1 3h10z%22/%3E%3C/svg%3E'); background-repeat:no-repeat; background-position:right 14px center;">
                   <option value="">Select</option>
                   <option value="Under 18">Under 18</option>
                   <option value="18 to 24">18 to 24</option>
