@@ -6,13 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Enroll — TechNuVate Academy</title>
   <script src="https://checkout.flutterwave.com/v3.js"></script>
+  <script src="js/env.js"></script>
   <style>
     *,
     *::before,
     *::after {
       margin: 0;
       padding: 0;
-      box-sizing:border-box
+      box-sizing: border-box
     }
 
     html {
@@ -305,7 +306,7 @@
       border-radius: 16px;
       padding: 36px 32px;
       border: 1.5px solid #E4E8F0;
-      width:100%;
+      width: 100%;
     }
 
     .form-title {
@@ -1084,7 +1085,7 @@
       style="display:block;background:#1B3A7A;color:#fff;font-weight:700;font-size:14px;padding:13px 16px;border-radius:10px;text-decoration:none;text-align:center;margin-bottom:4px">&#10084;&#65039;
       Donate Now</a>
   </div>
- 
+
   <div class="page">
     <div class="breadcrumb">
       <a href="index.html">Home</a><span>&rsaquo;</span>
@@ -1409,7 +1410,7 @@
       // CONFIGURATION — UPDATE BEFORE GOING LIVE
       // =========================================================
 
-      var FW_PUBLIC_KEY = 'FLUTTERWAVE_PUBLIC_KEY_HERE';
+      var FW_PUBLIC_KEY = window.APP_ENV.FW_PUBLIC_KEY;
 
       // ── Supabase + Resend config ─────────────────────────────────
       var SB_URL = 'https://xnynghnhbeyeowcibuvz.supabase.co';

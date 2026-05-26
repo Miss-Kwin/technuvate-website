@@ -664,6 +664,7 @@
     }
   </style>
   <script src="https://checkout.flutterwave.com/v3.js"></script>
+  <script src="js/env.js"></script>
   <style>
     .don-nudge {
       background: #1B3A7A;
@@ -1227,7 +1228,7 @@
 
   <script>
     const FORMSPREE = 'YOUR_FORMSPREE_ENDPOINT';
-    const FW_PUBLIC_KEY = 'FLUTTERWAVE_PUBLIC_KEY_HERE';
+    const FW_PUBLIC_KEY = window.APP_ENV.FW_PUBLIC_KEY;
 
     // ── Supabase + Resend config ─────────────────────────────────
     var SB_URL = 'https://xnynghnhbeyeowcibuvz.supabase.co';
