@@ -1783,7 +1783,7 @@
         btn.disabled = true;
         btn.querySelector('span').textContent = 'Opening payment...';
 
-        FlutterwaveCheckout({
+        var flutterwaveCheckoutInstance = FlutterwaveCheckout({
           public_key: FW_PUBLIC_KEY,
           tx_ref: generateTxRef(),
           amount: currentAmount,
@@ -1837,9 +1837,12 @@
                 'You are enrolled in ' + enrollmentData.course + ' \u2014 TechNuVate Academy',
                 buildEnrollStudentEmail(enrollmentData)
               );
-              document.getElementById('formContent').style.display = 'none';
-              document.getElementById('successState').style.display = 'block';
-              window.scrollTo({ top: 0, behavior: 'smooth' });
+              setTimeout(function () {
+                flutterwaveCheckoutInstance.close();
+                document.getElementById('formContent').style.display = 'none';
+                document.getElementById('successState').style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }, 300);
             } else {
               alert('Payment was not completed. Please try again.');
               btn.disabled = false;
