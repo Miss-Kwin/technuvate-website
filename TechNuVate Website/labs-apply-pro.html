@@ -1432,10 +1432,12 @@
               'Your Labs Professional Track application \u2014 TechNuVate',
               buildLabsProStudentEmail(payload)
             );
-            document.getElementById('formCard').style.display = 'none';
-            document.getElementById('successCard').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            flutterwaveCheckoutInstance.close();
+            setTimeout(function () {
+              flutterwaveCheckoutInstance.close();
+              document.getElementById('formCard').style.display = 'none';
+              document.getElementById('successCard').style.display = 'block';
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 300);
           }
         },
         onclose: function () {
