@@ -1334,6 +1334,48 @@
       if (el) el.addEventListener('input', function () { clearErr(id); });
     });
 
+      function buildLabsProAdminEmail(payload) {
+        return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#fff;color:#111;padding:24px;border:1px solid #eee;">'
+          + '<h2 style="margin-top:0;font-size:20px;border-bottom:2px solid #111;padding-bottom:10px;">New Labs Professional Track Application</h2>'
+          + '<table style="width:100%;border-collapse:collapse;margin-top:16px;">'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;width:160px;">Full Name</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.full_name + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Email</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.email + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Phone</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.phone + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Gender</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.gender + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Age Range</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.age_range + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Country</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.country + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">State/Region</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.state_region + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Skill Track</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;font-weight:700;">' + payload.skill_track + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Background</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.background + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Academy Cohort</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.academy_cohort + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Experience</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.experience + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Goal</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.goal + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">LinkedIn</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.linkedin + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Tx Ref</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;font-family:monospace;">' + payload.tx_ref + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Flw Tx ID</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;font-family:monospace;">' + payload.flw_tx_id + '</td></tr>'
+          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Amount</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;font-weight:700;">' + payload.amount + ' ' + payload.currency + '</td></tr>'
+          + '</table></div>';
+      }
+
+      function buildLabsProStudentEmail(payload) {
+        return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#fff;color:#333;padding:24px;border:1px solid #eee;">'
+          + '<h2 style="color:#1B3A7A;margin-top:0;font-size:20px;">Welcome to TechNuVate Labs!</h2>'
+          + '<p style="font-size:15px;line-height:1.6;">Dear ' + payload.full_name + ',</p>'
+          + '<p style="font-size:14px;line-height:1.6;">Your spot is secured for the <strong>' + payload.skill_track + '</strong> track in our Professional Labs program. Your payment was received successfully.</p>'
+          + '<div style="background:#F5F7FA;border-left:4px solid #1B3A7A;padding:12px 16px;margin:20px 0;font-size:13px;">'
+          + '<strong>Transaction Reference:</strong> ' + payload.tx_ref + '<br>'
+          + '<strong>Amount:</strong> ' + payload.amount + ' ' + payload.currency
+          + '</div>'
+          + '<h3 style="color:#1B3A7A;font-size:16px;margin-top:20px;border-bottom:1px solid #eee;padding-bottom:6px;">What Happens Next</h3>'
+          + '<ul style="padding-left:20px;line-height:1.6;font-size:14px;">'
+          + '<li><strong>Mentor Assigned:</strong> Your dedicated industry mentor will be assigned within 48 hours.</li>'
+          + '<li><strong>First Project Brief:</strong> Your first project brief will arrive shortly with detailed onboarding instructions.</li>'
+          + '</ul>'
+          + '<p style="font-size:14px;line-height:1.6;margin-top:24px;">Welcome aboard! We are excited to see what you will build.</p>'
+          + '<p style="font-size:14px;line-height:1.6;margin-top:20px;">Best regards,<br><strong>The TechNuVate Labs Team</strong></p>'
+          + '</div>';
+      }
+
     function submitForm() {
       var cb = document.getElementById('commitCheck');
       if (cb && !cb.checked) {
