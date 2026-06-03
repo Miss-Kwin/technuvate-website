@@ -552,7 +552,10 @@ function sendEmail(toAddress, subject, htmlBody) {
 }
 
 function buildLabsITAdminEmail(d) {
-  return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto">'
+  return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">'
+    + '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">'
+    + '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">'
+    + '</div>'
     + '<div style="background:#1B3A7A;padding:24px 32px">'
     + '<h2 style="color:#fff;margin:0;font-size:20px">&#127979; New IT Placement Application</h2>'
     + '<p style="color:rgba(255,255,255,.6);margin:6px 0 0;font-size:13px">Action required &mdash; review and respond within 48 hours</p></div>'
@@ -574,7 +577,10 @@ function buildLabsITAdminEmail(d) {
 }
 
 function buildLabsITStudentEmail(d) {
-  return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto">'
+  return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">'
+    + '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">'
+    + '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">'
+    + '</div>'
     + '<div style="background:#1B3A7A;padding:32px;text-align:center">'
     + '<h1 style="color:#fff;margin:0;font-size:24px">Application received &#9989;</h1>'
     + '<p style="color:rgba(255,255,255,.6);margin:8px 0 0;font-size:14px">TechNuVate Labs &mdash; IT Placement</p></div>'
