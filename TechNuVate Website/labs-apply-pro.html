@@ -1369,7 +1369,7 @@
       var currency = val('country') === 'Nigeria' ? 'NGN' : 'USD';
       var amount = currency === 'NGN' ? 7000 : 5;
 
-      FlutterwaveCheckout({
+      var flutterwaveCheckoutInstance = FlutterwaveCheckout({
         public_key: FW_PUBLIC_KEY,
         tx_ref: 'LABS-PRO-' + Date.now(),
         amount: amount,
@@ -1435,9 +1435,17 @@
             document.getElementById('formCard').style.display = 'none';
             document.getElementById('successCard').style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
+            flutterwaveCheckoutInstance.close();
           }
         },
-        onclose: function () { }
+        onclose: function () {
+          var btn = document.getElementById('submitBtn');
+          var spinner = document.getElementById('spinner');
+          var btnText = document.getElementById('btnText');
+          btn.disabled = false;
+          spinner.style.display = 'none';
+          btnText.textContent = 'Confirm and Pay';
+        }
       });
     }
   </script>
