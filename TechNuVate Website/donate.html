@@ -692,6 +692,125 @@
       margin-top: 10px
     }
 
+    /* ── Success card (shown after a completed donation) ── */
+    .don-success-wrap {
+      display: none;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 22px;
+      padding: 48px 32px;
+      box-shadow: 0 8px 40px rgba(27, 58, 122, .07);
+      text-align: center;
+      position: sticky;
+      top: 90px
+    }
+
+    .don-success-ico {
+      width: 72px;
+      height: 72px;
+      background: linear-gradient(135deg, #1B3A7A 0%, #2D6BE4 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 22px;
+      font-size: 30px;
+      box-shadow: 0 8px 24px rgba(27,58,122,.25)
+    }
+
+    .don-success-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #111827;
+      letter-spacing: -.02em;
+      margin-bottom: 10px
+    }
+
+    .don-success-sub {
+      font-size: 14px;
+      font-weight: 400;
+      color: #6B7280;
+      line-height: 1.7;
+      max-width: 320px;
+      margin: 0 auto 28px
+    }
+
+    .don-success-next {
+      background: #F2F4F8;
+      border-radius: 14px;
+      padding: 20px 22px;
+      text-align: left;
+      margin-bottom: 24px
+    }
+
+    .don-success-next-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #8A9AB0;
+      margin-bottom: 14px
+    }
+
+    .don-success-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      margin-bottom: 14px
+    }
+
+    .don-success-step:last-child {
+      margin-bottom: 0
+    }
+
+    .don-success-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px
+    }
+
+    .don-success-step-t {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 2px
+    }
+
+    .don-success-step-d {
+      font-size: 12px;
+      color: #6B7280;
+      line-height: 1.5;
+      margin: 0
+    }
+
+    .don-success-share {
+      display: inline-block;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 28px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background .2s
+    }
+
+    .don-success-share:hover {
+      background: #0F2554
+    }
+
     .how-section {
       background: var(--bg);
       padding: 72px 5%;
@@ -1053,7 +1172,8 @@
         </div>
       </div>
 
-      <div class="don-widget">
+      <!-- DONATION FORM CARD -->
+      <div class="don-widget" id="donationForm">
         <div class="don-widget-title">Make your donation</div>
         <div class="don-widget-sub">Minimum: $2 &nbsp;/&nbsp; &#8358;2,000</div>
         <div class="progress-wrap">
@@ -1218,6 +1338,39 @@
         </button>
         <p class="don-secure">Secured by Flutterwave &nbsp;&middot;&nbsp; Card, bank transfer, USSD accepted</p>
       </div>
+
+      <!-- SUCCESS CARD (hidden until a donation completes) -->
+      <div class="don-success-wrap" id="successCard">
+        <div class="don-success-ico">&#10003;</div>
+        <div class="don-success-title">Donation Received &#10084;&#65039;</div>
+        <p class="don-success-sub">Your payment went through. You have just helped sponsor a young person to learn a tech skill in Africa. That means everything.</p>
+        <div class="don-success-next">
+          <div class="don-success-next-label">What Happens Next</div>
+          <div class="don-success-step">
+            <div class="don-success-dot">1</div>
+            <div>
+              <div class="don-success-step-t">Your gift joins the pool</div>
+              <p class="don-success-step-d">Every donation is pooled. Once we hit &#8358;80,000, one student gets a full scholarship into a TechNuVate Academy cohort.</p>
+            </div>
+          </div>
+          <div class="don-success-step">
+            <div class="don-success-dot">2</div>
+            <div>
+              <div class="don-success-step-t">A student is selected</div>
+              <p class="don-success-step-d">We pick a qualified applicant who cannot afford the fee and onboard them into the next live cohort.</p>
+            </div>
+          </div>
+          <div class="don-success-step">
+            <div class="don-success-dot">3</div>
+            <div>
+              <div class="don-success-step-t">We celebrate you publicly</div>
+              <p class="don-success-step-d">Birthday or honour donors get a public shoutout on our ticker and social media, if you opted in.</p>
+            </div>
+          </div>
+        </div>
+        <a href="https://technuvate.com/donate.html" class="don-success-share">&#10084; Donate Again</a>
+      </div>
+
     </div>
   </div>
 
@@ -1624,7 +1777,7 @@
       btn.disabled = true;
       btn.textContent = 'Opening payment...';
 
-      FlutterwaveCheckout({
+      var flutterwaveCheckoutInstance = FlutterwaveCheckout({
         public_key: FW_KEY,
         tx_ref: 'TNVDON-' + Date.now(),
         amount: wAmt,
@@ -1648,18 +1801,20 @@
         },
         callback: function (response) {
           if (response.status === 'successful' || response.status === 'completed') {
-            btn.innerHTML = '❤️ Thank you! Your donation is received.';
-            btn.style.background = '#15803D';
+            setTimeout(function () {
+              flutterwaveCheckoutInstance.close();
+              document.getElementById('donationForm').style.display = 'none';
+              document.getElementById('successCard').style.display = 'block';
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 300);
           } else {
             btn.disabled = false;
-            btn.textContent = 'Donate Now';
+            btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
           }
         },
         onclose: function () {
-          if (btn.disabled && btn.textContent === 'Opening payment...') {
-            btn.disabled = false;
-            btn.textContent = 'Donate Now';
-          }
+          btn.disabled = false;
+          btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
         }
       });
     }
