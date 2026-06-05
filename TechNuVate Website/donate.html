@@ -692,6 +692,45 @@
       margin-top: 10px
     }
 
+    /* ── Inline thank-you banner (shown inside the form after a paid donation) ── */
+    .don-thankyou {
+      display: none;
+      background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+      border: 1.5px solid #BFDBFE;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 22px;
+      text-align: center
+    }
+
+    .don-thankyou-ico {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #1B3A7A 0%, #2D6BE4 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px;
+      font-size: 22px;
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(27,58,122,.22)
+    }
+
+    .don-thankyou-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #1B3A7A;
+      margin-bottom: 4px
+    }
+
+    .don-thankyou-sub {
+      font-size: 13px;
+      color: #3B5FA0;
+      line-height: 1.6;
+      margin: 0
+    }
+
     /* ── Success card (shown after a completed donation) ── */
     .don-success-wrap {
       display: none;
@@ -1174,6 +1213,14 @@
 
       <!-- DONATION FORM CARD -->
       <div class="don-widget" id="donationForm">
+
+        <!-- Thank-you banner — hidden by default, shown after a completed donation -->
+        <div class="don-thankyou" id="donationThankYou">
+          <div class="don-thankyou-ico">&#10003;</div>
+          <div class="don-thankyou-title">Donation Received &#10084;&#65039;</div>
+          <p class="don-thankyou-sub">Your payment went through. You have just helped sponsor a young person to learn a tech skill in Africa. That means everything.</p>
+        </div>
+
         <div class="don-widget-title">Make your donation</div>
         <div class="don-widget-sub">Minimum: $2 &nbsp;/&nbsp; &#8358;2,000</div>
         <div class="progress-wrap">
@@ -1337,38 +1384,6 @@
           Donate Now
         </button>
         <p class="don-secure">Secured by Flutterwave &nbsp;&middot;&nbsp; Card, bank transfer, USSD accepted</p>
-      </div>
-
-      <!-- SUCCESS CARD (hidden until a donation completes) -->
-      <div class="don-success-wrap" id="successCard">
-        <div class="don-success-ico">&#10003;</div>
-        <div class="don-success-title">Donation Received &#10084;&#65039;</div>
-        <p class="don-success-sub">Your payment went through. You have just helped sponsor a young person to learn a tech skill in Africa. That means everything.</p>
-        <div class="don-success-next">
-          <div class="don-success-next-label">What Happens Next</div>
-          <div class="don-success-step">
-            <div class="don-success-dot">1</div>
-            <div>
-              <div class="don-success-step-t">Your gift joins the pool</div>
-              <p class="don-success-step-d">Every donation is pooled. Once we hit &#8358;80,000, one student gets a full scholarship into a TechNuVate Academy cohort.</p>
-            </div>
-          </div>
-          <div class="don-success-step">
-            <div class="don-success-dot">2</div>
-            <div>
-              <div class="don-success-step-t">A student is selected</div>
-              <p class="don-success-step-d">We pick a qualified applicant who cannot afford the fee and onboard them into the next live cohort.</p>
-            </div>
-          </div>
-          <div class="don-success-step">
-            <div class="don-success-dot">3</div>
-            <div>
-              <div class="don-success-step-t">We celebrate you publicly</div>
-              <p class="don-success-step-d">Birthday or honour donors get a public shoutout on our ticker and social media, if you opted in.</p>
-            </div>
-          </div>
-        </div>
-        <a href="https://technuvate.com/donate.html" class="don-success-share">&#10084; Donate Again</a>
       </div>
 
     </div>
@@ -1801,20 +1816,25 @@
         },
         callback: function (response) {
           if (response.status === 'successful' || response.status === 'completed') {
-            setTimeout(function () {
-              flutterwaveCheckoutInstance.close();
-              document.getElementById('donationForm').style.display = 'none';
-              document.getElementById('successCard').style.display = 'block';
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 300);
+            // Set the flag — onclose will fire when the modal actually dismisses
+            window._donationPaid = true;
+            flutterwaveCheckoutInstance.close();
           } else {
+            // Failed / cancelled before modal closed — restore button immediately
             btn.disabled = false;
             btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
           }
         },
         onclose: function () {
+          // Always restore the button
           btn.disabled = false;
           btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
+          // Only show thank-you and scroll if payment actually completed
+          if (window._donationPaid) {
+            window._donationPaid = false;
+            document.getElementById('donationThankYou').style.display = 'block';
+            document.getElementById('donationForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
         }
       });
     }
