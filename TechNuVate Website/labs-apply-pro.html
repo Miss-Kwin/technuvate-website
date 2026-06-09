@@ -1,670 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Apply for Labs Professional Track | TechNuVate</title>
-  <style>
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box
-    }
-
-    html {
-      scroll-behavior: smooth
-    }
-
-    body {
-      font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-      color: #111827;
-      background: #F2F4F8;
-      overflow-x: hidden;
-      -webkit-text-size-adjust: 100%
-    }
-
-    img {
-      max-width: 100%;
-      display: block
-    }
-
-    a {
-      -webkit-tap-highlight-color: transparent
-    }
-
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 999;
-      height: 66px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 5%;
-      background: #fff;
-      border-bottom: 1px solid #E4E8F0;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, .05)
-    }
-
-    .nav-logo img {
-      height: 58px;
-      width: auto
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 4px
-    }
-
-    .nav-item {
-      position: relative
-    }
-
-    .nav-item-btn {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      transition: background .2s, color .2s;
-      white-space: nowrap;
-      font-family: inherit
-    }
-
-    .nav-item-btn:hover {
-      background: #F2F4F8;
-      color: #1B3A7A
-    }
-
-    .nav-arrow {
-      font-size: 10px;
-      transition: transform .2s
-    }
-
-    .nav-item:hover .nav-arrow {
-      transform: rotate(180deg)
-    }
-
-    .nav-dropdown {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 0;
-      background: #fff;
-      border: 1px solid #E4E8F0;
-      border-radius: 10px;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, .1);
-      min-width: 190px;
-      padding: 6px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-6px);
-      transition: opacity .2s, visibility .2s, transform .2s;
-      z-index: 1000
-    }
-
-    .nav-item:hover .nav-dropdown {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0)
-    }
-
-    .nav-dropdown a {
-      display: block;
-      padding: 10px 14px;
-      font-size: 13.5px;
-      font-weight: 500;
-      color: #374151;
-      text-decoration: none;
-      border-radius: 7px;
-      transition: background .15s, color .15s
-    }
-
-    .nav-dropdown a:hover {
-      background: #F2F4F8;
-      color: #1B3A7A
-    }
-
-    .nav-btn {
-      font-size: 13px;
-      font-weight: 700;
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 7px;
-      background: #1B3A7A;
-      white-space: nowrap;
-      transition: background .2s;
-      margin-left: 6px
-    }
-
-    .nav-btn:hover {
-      background: #0F2554
-    }
-
-    .ham {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 8px;
-      background: transparent;
-      border: none;
-      margin-left: 4px
-    }
-
-    .ham span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: #374151;
-      border-radius: 2px;
-      transition: all .3s
-    }
-
-    .mob-menu {
-      display: none;
-      position: fixed;
-      top: 66px;
-      left: 0;
-      right: 0;
-      background: #fff;
-      border-bottom: 1px solid #E4E8F0;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
-      z-index: 998;
-      padding: 12px 5% 20px
-    }
-
-    .mob-menu.open {
-      display: block
-    }
-
-    .mob-section {
-      margin-bottom: 16px
-    }
-
-    .mob-section-title {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: #8A9AB0;
-      padding: 8px 0 6px;
-      border-bottom: 1px solid #F2F4F8;
-      margin-bottom: 6px
-    }
-
-    .mob-menu a {
-      display: block;
-      padding: 10px 0;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      text-decoration: none;
-      border-bottom: 1px solid #F2F4F8
-    }
-
-    .mob-menu a:hover {
-      color: #1B3A7A
-    }
-
-    .mob-cta {
-      display: block;
-      margin-top: 14px;
-      background: #1B3A7A;
-      color: #fff !important;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 13px;
-      border-radius: 8px;
-      text-align: center;
-      text-decoration: none
-    }
-
-    @media(max-width:700px) {
-      .nav-item {
-        display: none
-      }
-
-      .nav-logo img {
-        height: 46px
-      }
-
-      .ham {
-        display: flex
-      }
-
-      .nav-btn {
-        display: none
-      }
-    }
-
-    .page-wrap {
-      max-width: 1060px;
-      margin: 0 auto;
-      padding: 100px 20px 60px
-    }
-
-    .breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 28px;
-      flex-wrap: wrap
-    }
-
-    .breadcrumb a {
-      font-size: 12px;
-      font-weight: 600;
-      color: #8A9AB0;
-      text-decoration: none
-    }
-
-    .breadcrumb a:hover {
-      color: #1B3A7A
-    }
-
-    .breadcrumb span {
-      font-size: 12px;
-      color: #CBD5E0
-    }
-
-    .breadcrumb-cur {
-      font-size: 12px;
-      font-weight: 600;
-      color: #374151
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 28px;
-      align-items: start
-    }
-
-    @media(max-width:860px) {
-      .layout {
-        grid-template-columns: 1fr
-      }
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 32px;
-      border: 1px solid #E4E8F0;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, .04)
-    }
-
-    .card-title {
-      font-size: 22px;
-      font-weight: 800;
-      color: #111827;
-      letter-spacing: -.025em;
-      margin-bottom: 6px
-    }
-
-    .card-sub {
-      font-size: 14px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.65;
-      margin-bottom: 28px
-    }
-
-    .divider {
-      height: 1px;
-      background: #F2F4F8;
-      margin: 24px 0
-    }
-
-    .fg {
-      margin-bottom: 18px
-    }
-
-    .fg label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: #374151;
-      margin-bottom: 7px
-    }
-
-    .fg label span {
-      color: #E53E3E;
-      margin-left: 2px
-    }
-
-    .fi {
-      width: 100%;
-      padding: 12px 14px;
-      font-size: 14px;
-      font-family: inherit;
-      border: 1.5px solid #E4E8F0;
-      border-radius: 9px;
-      color: #111827;
-      background: #fff;
-      transition: border-color .2s, box-shadow .2s;
-      outline: none
-    }
-
-    .fi:focus {
-      border-color: #1B3A7A;
-      box-shadow: 0 0 0 3px rgba(27, 58, 122, .08)
-    }
-
-    .fi::placeholder {
-      color: #CBD5E0
-    }
-
-    select.fi {
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238A9AB0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center
-    }
-
-    textarea.fi {
-      resize: vertical;
-      min-height: 100px;
-      line-height: 1.6
-    }
-
-    .row2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px
-    }
-
-    @media(max-width:500px) {
-      .row2 {
-        grid-template-columns: 1fr
-      }
-    }
-
-    .hint {
-      font-size: 12px;
-      font-weight: 300;
-      color: #8A9AB0;
-      margin-top: 5px;
-      line-height: 1.5
-    }
-
-    .err {
-      font-size: 12px;
-      color: #E53E3E;
-      margin-top: 4px;
-      display: none
-    }
-
-    .fi.invalid {
-      border-color: #E53E3E
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 15px;
-      background: #1B3A7A;
-      color: #fff;
-      font-size: 15px;
-      font-weight: 700;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background .2s, transform .15s;
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px
-    }
-
-    .submit-btn:hover {
-      background: #0F2554;
-      transform: translateY(-1px)
-    }
-
-    .submit-btn:disabled {
-      background: #8A9AB0;
-      cursor: not-allowed;
-      transform: none
-    }
-
-    @keyframes pulse-dot {
-
-      0%,
-      100% {
-        opacity: 1
-      }
-
-      50% {
-        opacity: .3
-      }
-    }
-
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2.5px solid rgba(255, 255, 255, .35);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      display: none
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg)
-      }
-    }
-
-    .sidebar-card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 24px;
-      border: 1px solid #E4E8F0;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, .04);
-      position: sticky;
-      top: 86px
-    }
-
-    .s-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 100px;
-      margin-bottom: 14px;
-      background: rgba(27, 58, 122, .08);
-      color: #1B3A7A
-    }
-
-    .s-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: #111827;
-      margin-bottom: 4px;
-      letter-spacing: -.02em
-    }
-
-    .s-sub {
-      font-size: 13px;
-      font-weight: 300;
-      color: #8A9AB0;
-      margin-bottom: 18px;
-      line-height: 1.5
-    }
-
-    .meta-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 11px 0;
-      border-bottom: 1px solid #F2F4F8;
-      font-size: 13px
-    }
-
-    .meta-lbl {
-      font-weight: 400;
-      color: #8A9AB0
-    }
-
-    .meta-val {
-      font-weight: 600;
-      color: #111827;
-      text-align: right
-    }
-
-    .price-box {
-      background: #F2F4F8;
-      border-radius: 10px;
-      padding: 16px;
-      margin-top: 16px;
-      text-align: center
-    }
-
-    .price-n {
-      font-size: 32px;
-      font-weight: 800;
-      color: #1B3A7A;
-      letter-spacing: -.03em
-    }
-
-    .price-l {
-      font-size: 12px;
-      font-weight: 300;
-      color: #8A9AB0;
-      margin-top: 2px
-    }
-
-    .notice-box {
-      background: rgba(27, 58, 122, .05);
-      border: 1px solid rgba(27, 58, 122, .12);
-      border-radius: 10px;
-      padding: 14px;
-      margin-top: 16px;
-      font-size: 12px;
-      font-weight: 400;
-      color: #374151;
-      line-height: 1.65
-    }
-
-    .notice-box strong {
-      color: #1B3A7A
-    }
-
-    .success-wrap {
-      display: none;
-      text-align: center;
-      padding: 48px 32px
-    }
-
-    .success-ico {
-      width: 72px;
-      height: 72px;
-      background: #1B3A7A;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-      font-size: 32px
-    }
-
-    .success-t {
-      font-size: 22px;
-      font-weight: 800;
-      color: #111827;
-      margin-bottom: 10px;
-      letter-spacing: -.02em
-    }
-
-    .success-s {
-      font-size: 14px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.7;
-      max-width: 380px;
-      margin: 0 auto 28px
-    }
-
-    .next-steps {
-      background: #F2F4F8;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: left
-    }
-
-    .next-step {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      margin-bottom: 14px
-    }
-
-    .next-step:last-child {
-      margin-bottom: 0
-    }
-
-    .ns-dot {
-      width: 24px;
-      height: 24px;
-      min-width: 24px;
-      background: #1B3A7A;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 700;
-      color: #fff;
-      margin-top: 1px
-    }
-
-    .ns-t {
-      font-size: 13px;
-      font-weight: 600;
-      color: #111827;
-      margin-bottom: 2px
-    }
-
-    .ns-d {
-      font-size: 12px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.55
-    }
-
-    footer {
-      background: #060C1A;
-      padding: 52px 5% 28px
-    }
-
-    .fwrap {
-      max-width: 1100px;
-      margin: 0 auto
-    }
-  </style>
-  <script src="https://checkout.flutterwave.com/v3.js"></script>
-  <script src="js/env.js"></script>
   <style>
     .don-nudge {
       background: #1B3A7A;
@@ -738,8 +78,7 @@
 <body>
 
   <nav>
-    <a href="index.html"><img
-        src="data:image/png;base64,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"
+    <a href="index.html"><img src=\"logo.webp\"
         alt="TechNuVate" style="height:58px;width:auto"></a>
     <div class="nav-right">
       <div class="nav-item">
@@ -802,7 +141,7 @@
                   style="width:8px;height:8px;border-radius:50%;background:#22C55E;display:inline-block;animation:pulse-dot 2s infinite;flex-shrink:0"></span>
                 <span id="cohortBadge"
                   style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff">Cohort
-                  1 — Now Open</span>
+                  1 â€” Now Open</span>
               </div>
               <div style="display:flex;gap:16px;flex-wrap:wrap">
                 <div style="text-align:center">
@@ -1027,13 +366,13 @@
             <select class="fi" id="track">
               <option value="">Select the skill you want to build a portfolio in</option>
               <option value="Digital Marketing">Digital Marketing</option>
-              <option value="Product Design (UI/UX)">Product Design (UI/UX)</option>
-              <option value="Graphics Design">Graphics Design</option>
+              <option value="Product Design">Product Design</option>
               <option value="Product Management">Product Management</option>
               <option value="Data Analytics">Data Analytics</option>
-              <option value="Video Editing and Content Production">Video Editing and Content Production</option>
-              <option value="Community Building and Management">Community Building and Management</option>
+              <option value="Video Editing and Content Creation">Video Editing and Content Creation</option>
+              <option value="Product Marketing">Product Marketing</option>
               <option value="Social Media Marketing">Social Media Marketing</option>
+              <option value="Community Management">Community Management</option>
             </select>
             <div class="err" id="track-err">Please select a skill track.</div>
           </div>
@@ -1141,7 +480,7 @@
       <!-- SIDEBAR -->
       <div>
         <div class="sidebar-card">
-          <div class="s-badge" id="cohortLabel">Labs Professional Track — Cohort 1</div>
+          <div class="s-badge" id="cohortLabel">Labs Professional Track â€” Cohort 1</div>
           <div class="s-title">Build a Portfolio. Get Evaluated.</div>
           <p class="s-sub">One structured placement. Real project briefs. Professional feedback. A portfolio you can
             show.</p>
@@ -1175,7 +514,7 @@
       <h2 style="font-size:clamp(24px,4vw,34px);font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:12px">Get
         updates before everyone else.</h2>
       <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:32px">New cohort dates. Early
-        bird alerts. Career tips. Studio opportunities. Only what matters — straight to your inbox.</p>
+        bird alerts. Career tips. Studio opportunities. Only what matters â€” straight to your inbox.</p>
       <form id="newsletter-form" onsubmit="submitNewsletter(event)"
         style="display:flex;gap:10px;max-width:460px;margin:0 auto;flex-wrap:wrap">
         <input id="nl-email" type="email" placeholder="Enter your email address" required
@@ -1213,7 +552,7 @@
       }
       setTimeout(function () {
         document.getElementById('newsletter-form').style.display = 'none';
-        msg.textContent = '✓ You are on the list. Watch your inbox.';
+        msg.textContent = 'âœ“ You are on the list. Watch your inbox.';
         msg.style.display = 'block';
         msg.style.color = 'rgba(255,255,255,.7)';
         msg.style.fontSize = '14px';
@@ -1230,7 +569,7 @@
     const FORMSPREE = 'YOUR_FORMSPREE_ENDPOINT';
     const FW_PUBLIC_KEY = window.APP_ENV.FW_PUBLIC_KEY;
 
-    // ── Supabase + Resend config ─────────────────────────────────
+    // â”€â”€ Supabase + Resend config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     var SB_URL = 'https://xnynghnhbeyeowcibuvz.supabase.co';
     var SB_KEY = 'sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY';
     var RESEND_KEY = 're_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd';
@@ -1256,20 +595,20 @@
       }).catch(function (e) { console.error('Resend error:', e); });
     }
 
-    // ─── COHORT CONFIGURATION ───────────────────────────────────────────
+    // â”€â”€â”€ COHORT CONFIGURATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     // Update these values before each new cohort opens
     const COHORT_NUMBER = 1;
     const COHORT_START = new Date(2026, 7, 4);   // 4 August 2026 (month is 0-indexed)
-    const PAYMENT_DEADLINE = new Date(2026, 6, 25); // 25 July 2026 — last day to pay and secure a spot
+    const PAYMENT_DEADLINE = new Date(2026, 6, 25); // 25 July 2026 â€” last day to pay and secure a spot
     const SPOTS_TOTAL = 30;
     const SPOTS_LEFT = 18; // update manually as spots fill
-    // ────────────────────────────────────────────────────────────────────
+    // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
     function setText(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
     function initCohort() {
       var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      setText('cohortBadge', 'Cohort ' + COHORT_NUMBER + ' — Now Open');
-      setText('cohortLabel', 'Labs Professional Track — Cohort ' + COHORT_NUMBER);
+      setText('cohortBadge', 'Cohort ' + COHORT_NUMBER + ' â€” Now Open');
+      setText('cohortLabel', 'Labs Professional Track â€” Cohort ' + COHORT_NUMBER);
       setText('cohortStartLabel', COHORT_START.getDate() + ' ' + months[COHORT_START.getMonth()] + ' ' + COHORT_START.getFullYear());
       setText('deadlineLabel', PAYMENT_DEADLINE.getDate() + ' ' + months[PAYMENT_DEADLINE.getMonth()] + ' ' + PAYMENT_DEADLINE.getFullYear());
       setText('spotsLabel', SPOTS_LEFT + ' of ' + SPOTS_TOTAL);
@@ -1500,50 +839,152 @@
     }
   </script>
 
-  <footer style="background:#060C1A;padding:36px 5% 24px;margin-top:0">
-    <div style="max-width:1100px;margin:0 auto;text-align:center">
-      <div style="display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-bottom:18px">
-        <a href="https://www.linkedin.com/company/technuvate" title="LinkedIn"
-          style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
-            width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-            <path
-              d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-          </svg></a>
-        <a href="https://www.instagram.com/tech_nu_vate" title="Instagram"
-          style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
-            width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-            <path
-              d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-          </svg></a>
-        <a href="https://x.com/technuvate" title="X"
-          style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
-            width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-            <path
-              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-          </svg></a>
-        <a href="https://www.youtube.com/@technuvate" title="YouTube"
-          style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
-            width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-            <path
-              d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z" />
-          </svg></a>
-        <a href="https://www.tiktok.com/@tech_nu_vate" title="TikTok"
-          style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
-            width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-            <path
-              d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z" />
-          </svg></a>
-        <a href="https://www.facebook.com/technuvate" title="Facebook"
-          style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
-            width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-            <path
-              d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-          </svg></a>
+  <footer>
+    <div class="fwrap">
+      <div class="ftop">
+        <div>
+          <div class="flogo">
+            <img src="logo.webp"
+              alt="TechNuVate" />
+          </div>
+          <p class="fdesc">
+            A tech organisation training, deploying, and connecting talent in
+            Africa and English speaking countries with real digital
+            opportunity.
+          </p>
+        </div>
+        <div>
+          <div class="fc-t">Our Arms</div>
+          <ul class="flinks">
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="academy.html">TechNuVate Academy</a></li>
+            <li><a href="studio.html">TechNuVate Studio</a></li>
+            <li><a href="labs.html">TechNuVate Labs</a></li>
+            <li><a href="blog.html">Blog &amp; Events</a></li>
+            <li><a href="store.html">Merch Store</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="fc-t">Connect</div>
+          <ul class="flinks">
+            <li><a href="index.html#contact">Contact Us</a></li>
+            <li><a href="tutors.html">Become a Tutor</a></li>
+            <li><a href="join-team.html">Join the Team</a></li>
+            <li>
+              <a href="#newsletter-form" onclick="document.getElementById('nl-email').focus()">Subscribe to
+                Newsletter</a>
+            </li>
+            <li>
+              <span style="
+                    font-size: 10px;
+                    font-weight: 700;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    color: rgba(255, 255, 255, 0.2);
+                    display: block;
+                    margin-bottom: 10px;
+                    margin-top: 6px;
+                  ">Follow Us</span>
+              <div style="display: flex; gap: 7px; flex-wrap: wrap">
+                <a href="https://www.linkedin.com/company/technuvate" title="LinkedIn" style="
+                      width: 32px;
+                      height: 32px;
+                      border-radius: 7px;
+                      background: rgba(255, 255, 255, 0.07);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      text-decoration: none;
+                    "><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+                    <path
+                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg></a>
+                <a href="https://www.instagram.com/tech_nu_vate" title="Instagram" style="
+                      width: 32px;
+                      height: 32px;
+                      border-radius: 7px;
+                      background: rgba(255, 255, 255, 0.07);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      text-decoration: none;
+                    "><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                  </svg></a>
+                <a href="https://x.com/technuvate" title="X" style="
+                      width: 32px;
+                      height: 32px;
+                      border-radius: 7px;
+                      background: rgba(255, 255, 255, 0.07);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      text-decoration: none;
+                    "><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+                    <path
+                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg></a>
+                <a href="https://www.youtube.com/@technuvate" title="YouTube" style="
+                      width: 32px;
+                      height: 32px;
+                      border-radius: 7px;
+                      background: rgba(255, 255, 255, 0.07);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      text-decoration: none;
+                    "><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+                    <path
+                      d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z" />
+                  </svg></a>
+                <a href="https://www.tiktok.com/@tech_nu_vate" title="TikTok" style="
+                      width: 32px;
+                      height: 32px;
+                      border-radius: 7px;
+                      background: rgba(255, 255, 255, 0.07);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      text-decoration: none;
+                    "><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+                    <path
+                      d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z" />
+                  </svg></a>
+                <a href="https://www.facebook.com/technuvate" title="Facebook" style="
+                      width: 32px;
+                      height: 32px;
+                      border-radius: 7px;
+                      background: rgba(255, 255, 255, 0.07);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      text-decoration: none;
+                    "><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+                    <path
+                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                  </svg></a>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
-      <p style="font-size:12px;color:rgba(255,255,255,.18)">&copy; 2026 TechNuVate. All rights reserved. Learn. Build.
-        Execute.</p>
+      <div style="text-align: center; padding-top: 4px">
+        <p style="font-size: 12px; color: rgba(255, 255, 255, 0.18)">
+          &copy; 2026 TechNuVate. All rights reserved. Learn. Build. Execute.
+        </p>
+      </div>
     </div>
   </footer>
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
+  <script src="js/env.js"></script>
 </body>
 
 </html>
+
