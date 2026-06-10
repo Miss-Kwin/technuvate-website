@@ -1,790 +1,2197 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Apply for IT Placement | TechNuVate Labs</title>
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Segoe UI',Helvetica,Arial,sans-serif;color:#111827;background:#F2F4F8;overflow-x:hidden;-webkit-text-size-adjust:100%}
-img{max-width:100%;display:block}
-a{-webkit-tap-highlight-color:transparent}
-nav{position:fixed;top:0;left:0;right:0;z-index:999;height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;background:#fff;border-bottom:1px solid #E4E8F0;box-shadow:0 2px 10px rgba(0,0,0,.05)}
-.nav-logo img{height:58px;width:auto}
-.nav-right{display:flex;align-items:center;gap:4px}
-.nav-item{position:relative}
-.nav-item-btn{display:flex;align-items:center;gap:5px;font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;cursor:pointer;border:none;background:transparent;transition:background .2s,color .2s;white-space:nowrap;font-family:inherit}
-.nav-item-btn:hover{background:#F2F4F8;color:#1B3A7A}
-.nav-arrow{font-size:10px;transition:transform .2s}
-.nav-item:hover .nav-arrow{transform:rotate(180deg)}
-.nav-dropdown{position:absolute;top:calc(100% + 8px);left:0;background:#fff;border:1px solid #E4E8F0;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.1);min-width:190px;padding:6px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .2s,visibility .2s,transform .2s;z-index:1000}
-.nav-item:hover .nav-dropdown{opacity:1;visibility:visible;transform:translateY(0)}
-.nav-dropdown a{display:block;padding:10px 14px;font-size:13.5px;font-weight:500;color:#374151;text-decoration:none;border-radius:7px;transition:background .15s,color .15s}
-.nav-dropdown a:hover{background:#F2F4F8;color:#1B3A7A}
-.nav-btn{font-size:13px;font-weight:700;color:#fff;text-decoration:none;padding:10px 20px;border-radius:7px;background:#1B3A7A;white-space:nowrap;transition:background .2s;margin-left:6px}
-.nav-btn:hover{background:#0F2554}
-.ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:transparent;border:none;margin-left:4px}
-.ham span{display:block;width:22px;height:2px;background:#374151;border-radius:2px;transition:all .3s}
-.mob-menu{display:none;position:fixed;top:66px;left:0;right:0;background:#fff;border-bottom:1px solid #E4E8F0;box-shadow:0 8px 24px rgba(0,0,0,.08);z-index:998;padding:12px 5% 20px}
-.mob-menu.open{display:block}
-.mob-section{margin-bottom:16px}
-.mob-section-title{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8A9AB0;padding:8px 0 6px;border-bottom:1px solid #F2F4F8;margin-bottom:6px}
-.mob-menu a{display:block;padding:10px 0;font-size:14px;font-weight:500;color:#374151;text-decoration:none;border-bottom:1px solid #F2F4F8}
-.mob-menu a:hover{color:#1B3A7A}
-.mob-cta{display:block;margin-top:14px;background:#1B3A7A;color:#fff!important;font-size:14px;font-weight:700;padding:13px;border-radius:8px;text-align:center;text-decoration:none}
-@media(max-width:700px){.nav-item{display:none}.nav-logo img{height:46px}.ham{display:flex}.nav-btn{display:none}}
-.page-wrap{max-width:1060px;margin:0 auto;padding:100px 20px 60px}
-.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:28px;flex-wrap:wrap}
-.breadcrumb a{font-size:12px;font-weight:600;color:#8A9AB0;text-decoration:none}
-.breadcrumb a:hover{color:#1B3A7A}
-.breadcrumb span{font-size:12px;color:#CBD5E0}
-.breadcrumb-cur{font-size:12px;font-weight:600;color:#374151}
-.layout{display:grid;grid-template-columns:1fr 360px;gap:28px;align-items:start}
-@media(max-width:860px){.layout{grid-template-columns:1fr}}
-.card{background:#fff;border-radius:16px;padding:32px;border:1px solid #E4E8F0;box-shadow:0 2px 12px rgba(0,0,0,.04)}
-.card-title{font-size:22px;font-weight:800;color:#111827;letter-spacing:-.025em;margin-bottom:6px}
-.card-sub{font-size:14px;font-weight:300;color:#6B7280;line-height:1.65;margin-bottom:28px}
-.divider{height:1px;background:#F2F4F8;margin:24px 0}
-.fg{margin-bottom:18px}
-.fg label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:7px}
-.fg label span{color:#E53E3E;margin-left:2px}
-.fi{width:100%;padding:12px 14px;font-size:14px;font-family:inherit;border:1.5px solid #E4E8F0;border-radius:9px;color:#111827;background:#fff;transition:border-color .2s,box-shadow .2s;outline:none}
-.fi:focus{border-color:#1B3A7A;box-shadow:0 0 0 3px rgba(27,58,122,.08)}
-.fi::placeholder{color:#CBD5E0}
-select.fi{cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238A9AB0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
-textarea.fi{resize:vertical;min-height:90px;line-height:1.6}
-.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:500px){.row2{grid-template-columns:1fr}}
-.hint{font-size:12px;font-weight:300;color:#8A9AB0;margin-top:5px;line-height:1.5}
-.err{font-size:12px;color:#E53E3E;margin-top:4px;display:none}
-.fi.invalid{border-color:#E53E3E}
-.section-head{font-size:14px;font-weight:800;color:#111827;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #F2F4F8}
-.submit-btn{width:100%;padding:15px;background:#1B3A7A;color:#fff;font-size:15px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:inherit;transition:background .2s,transform .15s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:10px}
-.submit-btn:hover{background:#0F2554;transform:translateY(-1px)}
-.submit-btn:disabled{background:#8A9AB0;cursor:not-allowed;transform:none}
-.spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
-@keyframes spin{to{transform:rotate(360deg)}}
-.sidebar-card{background:#fff;border-radius:16px;padding:24px;border:1px solid #E4E8F0;box-shadow:0 2px 12px rgba(0,0,0,.04);position:sticky;top:86px}
-.s-badge{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:5px 12px;border-radius:100px;margin-bottom:14px;background:rgba(27,58,122,.08);color:#1B3A7A}
-.s-title{font-size:17px;font-weight:800;color:#111827;margin-bottom:4px;letter-spacing:-.02em}
-.s-sub{font-size:13px;font-weight:300;color:#8A9AB0;margin-bottom:18px;line-height:1.5}
-.meta-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #F2F4F8;font-size:13px}
-.meta-lbl{font-weight:400;color:#8A9AB0}
-.meta-val{font-weight:600;color:#111827;text-align:right;max-width:55%}
-.price-box{background:#F2F4F8;border-radius:10px;padding:16px;margin-top:16px;text-align:center}
-.price-n{font-size:32px;font-weight:800;color:#1B3A7A;letter-spacing:-.03em}
-.price-l{font-size:12px;font-weight:300;color:#8A9AB0;margin-top:2px}
-.notice-box{background:rgba(27,58,122,.05);border:1px solid rgba(27,58,122,.12);border-radius:10px;padding:14px;margin-top:16px;font-size:12px;font-weight:400;color:#374151;line-height:1.65}
-.notice-box strong{color:#1B3A7A}
-.state-pill{display:inline-block;background:#F2F4F8;border:1px solid #E4E8F0;border-radius:100px;font-size:11px;font-weight:600;color:#374151;padding:4px 10px;margin:2px}
-.success-wrap{display:none;text-align:center;padding:48px 32px}
-.success-ico{width:72px;height:72px;background:#1B3A7A;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:32px}
-.success-t{font-size:22px;font-weight:800;color:#111827;margin-bottom:10px;letter-spacing:-.02em}
-.success-s{font-size:14px;font-weight:300;color:#6B7280;line-height:1.7;max-width:400px;margin:0 auto 28px}
-.next-steps{background:#F2F4F8;border-radius:12px;padding:20px;text-align:left}
-.next-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px}
-.next-step:last-child{margin-bottom:0}
-.ns-dot{width:24px;height:24px;min-width:24px;background:#1B3A7A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;margin-top:1px}
-.ns-t{font-size:13px;font-weight:600;color:#111827;margin-bottom:2px}
-.ns-d{font-size:12px;font-weight:300;color:#6B7280;line-height:1.55}
-footer{background:#060C1A;padding:52px 5% 28px}
-.fwrap{max-width:1100px;margin:0 auto}
-</style>
-<script src="https://checkout.flutterwave.com/v3.js"></script>
-<style>
-.don-nudge{background:#1B3A7A;padding:13px 5%;display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;text-align:center}
-.don-nudge-text{font-size:13px;font-weight:600;color:rgba(255,255,255,.8)}
-.don-nudge-text strong{color:#fff}
-.don-nudge-btn{display:inline-flex;align-items:center;gap:6px;background:#93B4FF;color:#0D1F45;font-size:12px;font-weight:700;padding:7px 16px;border-radius:100px;text-decoration:none;transition:opacity .2s;white-space:nowrap;flex-shrink:0}
-.don-nudge-btn:hover{opacity:.85}
-.don-nudge-close{background:none;border:none;color:rgba(255,255,255,.4);font-size:18px;cursor:pointer;padding:0 0 0 8px;line-height:1;flex-shrink:0}
-.don-nudge-close:hover{color:#fff}
-@media(max-width:500px){.don-nudge{gap:10px;padding:12px 4%}.don-nudge-text{font-size:12px}}
-</style>
-</head>
-<body>
-
-<nav>
-  <a href="index.html"><img src="nav-logo.webp" alt="TechNuVate" style="height:58px;width:auto"></a>
-  <div class="nav-right">
-    <div class="nav-item">
-      <button class="nav-item-btn">Meet Us <span class="nav-arrow">&#9660;</span></button>
-      <div class="nav-dropdown">
-        <a href="about.html">About Us</a>
-        <a href="academy.html">TechNuVate Academy</a>
-        <a href="studio.html">TechNuVate Studio</a>
-        <a href="labs.html">TechNuVate Labs</a>
-      </div>
-    </div>
-    <div class="nav-item">
-      <button class="nav-item-btn">Work With Us <span class="nav-arrow">&#9660;</span></button>
-      <div class="nav-dropdown">
-        <a href="tutors.html">Become a Tutor</a>
-        <a href="join-team.html">Become a Team Member</a>
-      </div>
-    </div>
-    <a href="store.html" class="nav-item-btn" style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap" onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'" onmouseout="this.style.background='transparent';this.style.color='#374151'">Store</a>
-    <a href="blog.html" class="nav-item-btn" style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap" onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'" onmouseout="this.style.background='transparent';this.style.color='#374151'">Blog</a>
-    <a href="donate.html" class="nav-btn" style="background:transparent;border:1.5px solid #1B3A7A;color:#1B3A7A;margin-right:2px" onmouseover="this.style.background='rgba(27,58,122,.06)'" onmouseout="this.style.background='transparent'">&#10084;&#65039; Donate</a><a href="index.html#contact" class="nav-btn">Contact Us</a>
-    <button class="ham" id="hamBtn" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
-<div class="page-wrap">
-  <div class="breadcrumb">
-    <a href="index.html">Home</a><span>&rsaquo;</span>
-    <a href="labs.html">Labs</a><span>&rsaquo;</span>
-    <span class="breadcrumb-cur">IT Placement Application</span>
-  </div>
-
-  <div class="layout">
-    <!-- FORM -->
-    <div>
-      <div class="card" id="formCard">
-        <div class="card-title">Industrial Training Placement</div>
-        <p class="card-sub">Fill in your details and upload your documents. We will review your application and get back to you within 48 hours. If you are eligible, we confirm your placement and you complete payment to secure your spot.</p>
-
-        <!-- PERSONAL DETAILS -->
-        <div class="section-head">Personal Details</div>
-
-        <div class="fg">
-          <label for="fullname">Full Name <span>*</span></label>
-          <input class="fi" id="fullname" type="text" placeholder="Amara Okafor">
-          <div class="err" id="fullname-err">Please enter your full name.</div>
-        </div>
-
-        <div class="row2">
-          <div class="fg">
-            <label for="gender">Gender <span>*</span></label>
-            <select class="fi" id="gender">
-              <option value="">Select</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Non-binary / They">Non-binary / They</option>
-            </select>
-            <div class="err" id="gender-err">Please select your gender.</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <title>Apply for IT Placement | TechNuVate Labs</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+        color: #111827;
+        background: #f2f4f8;
+        overflow-x: hidden;
+        -webkit-text-size-adjust: 100%;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        height: 66px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 5%;
+        background: #fff;
+        border-bottom: 1px solid #e4e8f0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+      .nav-logo img {
+        height: 58px;
+        width: auto;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .nav-item {
+        position: relative;
+      }
+      .nav-item-btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        transition:
+          background 0.2s,
+          color 0.2s;
+        white-space: nowrap;
+        font-family: inherit;
+      }
+      .nav-item-btn:hover {
+        background: #f2f4f8;
+        color: #1b3a7a;
+      }
+      .nav-arrow {
+        font-size: 10px;
+        transition: transform 0.2s;
+      }
+      .nav-item:hover .nav-arrow {
+        transform: rotate(180deg);
+      }
+      .nav-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        background: #fff;
+        border: 1px solid #e4e8f0;
+        border-radius: 10px;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+        min-width: 190px;
+        padding: 6px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-6px);
+        transition:
+          opacity 0.2s,
+          visibility 0.2s,
+          transform 0.2s;
+        z-index: 1000;
+      }
+      .nav-item:hover .nav-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+      .nav-dropdown a {
+        display: block;
+        padding: 10px 14px;
+        font-size: 13.5px;
+        font-weight: 500;
+        color: #374151;
+        text-decoration: none;
+        border-radius: 7px;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+      .nav-dropdown a:hover {
+        background: #f2f4f8;
+        color: #1b3a7a;
+      }
+      .nav-btn {
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 7px;
+        background: #1b3a7a;
+        white-space: nowrap;
+        transition: background 0.2s;
+        margin-left: 6px;
+      }
+      .nav-btn:hover {
+        background: #0f2554;
+      }
+      .ham {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 8px;
+        background: transparent;
+        border: none;
+        margin-left: 4px;
+      }
+      .ham span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: #374151;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
+      .mob-menu {
+        display: none;
+        position: fixed;
+        top: 66px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e4e8f0;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        z-index: 998;
+        padding: 12px 5% 20px;
+      }
+      .mob-menu.open {
+        display: block;
+      }
+      .mob-section {
+        margin-bottom: 16px;
+      }
+      .mob-section-title {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #8a9ab0;
+        padding: 8px 0 6px;
+        border-bottom: 1px solid #f2f4f8;
+        margin-bottom: 6px;
+      }
+      .mob-menu a {
+        display: block;
+        padding: 10px 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
+        text-decoration: none;
+        border-bottom: 1px solid #f2f4f8;
+      }
+      .mob-menu a:hover {
+        color: #1b3a7a;
+      }
+      .mob-cta {
+        display: block;
+        margin-top: 14px;
+        background: #1b3a7a;
+        color: #fff !important;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 13px;
+        border-radius: 8px;
+        text-align: center;
+        text-decoration: none;
+      }
+      @media (max-width: 700px) {
+        .nav-item {
+          display: none;
+        }
+        .nav-logo img {
+          height: 46px;
+        }
+        .ham {
+          display: flex;
+        }
+        .nav-btn {
+          display: none;
+        }
+      }
+      .page-wrap {
+        max-width: 1060px;
+        margin: 0 auto;
+        padding: 100px 20px 60px;
+      }
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+      }
+      .breadcrumb a {
+        font-size: 12px;
+        font-weight: 600;
+        color: #8a9ab0;
+        text-decoration: none;
+      }
+      .breadcrumb a:hover {
+        color: #1b3a7a;
+      }
+      .breadcrumb span {
+        font-size: 12px;
+        color: #cbd5e0;
+      }
+      .breadcrumb-cur {
+        font-size: 12px;
+        font-weight: 600;
+        color: #374151;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 28px;
+        align-items: start;
+      }
+      @media (max-width: 860px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+      .card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 32px;
+        border: 1px solid #e4e8f0;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+      }
+      .card-title {
+        font-size: 22px;
+        font-weight: 800;
+        color: #111827;
+        letter-spacing: -0.025em;
+        margin-bottom: 6px;
+      }
+      .card-sub {
+        font-size: 14px;
+        font-weight: 300;
+        color: #6b7280;
+        line-height: 1.65;
+        margin-bottom: 28px;
+      }
+      .divider {
+        height: 1px;
+        background: #f2f4f8;
+        margin: 24px 0;
+      }
+      .fg {
+        margin-bottom: 18px;
+      }
+      .fg label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 7px;
+      }
+      .fg label span {
+        color: #e53e3e;
+        margin-left: 2px;
+      }
+      .fi {
+        width: 100%;
+        padding: 12px 14px;
+        font-size: 14px;
+        font-family: inherit;
+        border: 1.5px solid #e4e8f0;
+        border-radius: 9px;
+        color: #111827;
+        background: #fff;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        outline: none;
+      }
+      .fi:focus {
+        border-color: #1b3a7a;
+        box-shadow: 0 0 0 3px rgba(27, 58, 122, 0.08);
+      }
+      .fi::placeholder {
+        color: #cbd5e0;
+      }
+      select.fi {
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238A9AB0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+      }
+      textarea.fi {
+        resize: vertical;
+        min-height: 90px;
+        line-height: 1.6;
+      }
+      .row2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      @media (max-width: 500px) {
+        .row2 {
+          grid-template-columns: 1fr;
+        }
+      }
+      .hint {
+        font-size: 12px;
+        font-weight: 300;
+        color: #8a9ab0;
+        margin-top: 5px;
+        line-height: 1.5;
+      }
+      .err {
+        font-size: 12px;
+        color: #e53e3e;
+        margin-top: 4px;
+        display: none;
+      }
+      .fi.invalid {
+        border-color: #e53e3e;
+      }
+      .section-head {
+        font-size: 14px;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 16px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f2f4f8;
+      }
+      .submit-btn {
+        width: 100%;
+        padding: 15px;
+        background: #1b3a7a;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 700;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: inherit;
+        transition:
+          background 0.2s,
+          transform 0.15s;
+        margin-top: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+      .submit-btn:hover {
+        background: #0f2554;
+        transform: translateY(-1px);
+      }
+      .submit-btn:disabled {
+        background: #8a9ab0;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .spinner {
+        width: 18px;
+        height: 18px;
+        border: 2.5px solid rgba(255, 255, 255, 0.35);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        display: none;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .sidebar-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 24px;
+        border: 1px solid #e4e8f0;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        position: sticky;
+        top: 86px;
+      }
+      .s-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        border-radius: 100px;
+        margin-bottom: 14px;
+        background: rgba(27, 58, 122, 0.08);
+        color: #1b3a7a;
+      }
+      .s-title {
+        font-size: 17px;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 4px;
+        letter-spacing: -0.02em;
+      }
+      .s-sub {
+        font-size: 13px;
+        font-weight: 300;
+        color: #8a9ab0;
+        margin-bottom: 18px;
+        line-height: 1.5;
+      }
+      .meta-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 11px 0;
+        border-bottom: 1px solid #f2f4f8;
+        font-size: 13px;
+      }
+      .meta-lbl {
+        font-weight: 400;
+        color: #8a9ab0;
+      }
+      .meta-val {
+        font-weight: 600;
+        color: #111827;
+        text-align: right;
+        max-width: 55%;
+      }
+      .price-box {
+        background: #f2f4f8;
+        border-radius: 10px;
+        padding: 16px;
+        margin-top: 16px;
+        text-align: center;
+      }
+      .price-n {
+        font-size: 32px;
+        font-weight: 800;
+        color: #1b3a7a;
+        letter-spacing: -0.03em;
+      }
+      .price-l {
+        font-size: 12px;
+        font-weight: 300;
+        color: #8a9ab0;
+        margin-top: 2px;
+      }
+      .notice-box {
+        background: rgba(27, 58, 122, 0.05);
+        border: 1px solid rgba(27, 58, 122, 0.12);
+        border-radius: 10px;
+        padding: 14px;
+        margin-top: 16px;
+        font-size: 12px;
+        font-weight: 400;
+        color: #374151;
+        line-height: 1.65;
+      }
+      .notice-box strong {
+        color: #1b3a7a;
+      }
+      .state-pill {
+        display: inline-block;
+        background: #f2f4f8;
+        border: 1px solid #e4e8f0;
+        border-radius: 100px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #374151;
+        padding: 4px 10px;
+        margin: 2px;
+      }
+      .success-wrap {
+        display: none;
+        text-align: center;
+        padding: 48px 32px;
+      }
+      .success-ico {
+        width: 72px;
+        height: 72px;
+        background: #1b3a7a;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 32px;
+      }
+      .success-t {
+        font-size: 22px;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 10px;
+        letter-spacing: -0.02em;
+      }
+      .success-s {
+        font-size: 14px;
+        font-weight: 300;
+        color: #6b7280;
+        line-height: 1.7;
+        max-width: 400px;
+        margin: 0 auto 28px;
+      }
+      .next-steps {
+        background: #f2f4f8;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: left;
+      }
+      .next-step {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin-bottom: 14px;
+      }
+      .next-step:last-child {
+        margin-bottom: 0;
+      }
+      .ns-dot {
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        background: #1b3a7a;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        color: #fff;
+        margin-top: 1px;
+      }
+      .ns-t {
+        font-size: 13px;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: 2px;
+      }
+      .ns-d {
+        font-size: 12px;
+        font-weight: 300;
+        color: #6b7280;
+        line-height: 1.55;
+      }
+      footer {
+        background: #060c1a;
+        padding: 52px 5% 28px;
+      }
+      .fwrap {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+    </style>
+    <script src="https://checkout.flutterwave.com/v3.js"></script>
+    <style>
+      .don-nudge {
+        background: #1b3a7a;
+        padding: 13px 5%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        text-align: center;
+      }
+      .don-nudge-text {
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .don-nudge-text strong {
+        color: #fff;
+      }
+      .don-nudge-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #93b4ff;
+        color: #0d1f45;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 7px 16px;
+        border-radius: 100px;
+        text-decoration: none;
+        transition: opacity 0.2s;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .don-nudge-btn:hover {
+        opacity: 0.85;
+      }
+      .don-nudge-close {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 18px;
+        cursor: pointer;
+        padding: 0 0 0 8px;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+      .don-nudge-close:hover {
+        color: #fff;
+      }
+      @media (max-width: 500px) {
+        .don-nudge {
+          gap: 10px;
+          padding: 12px 4%;
+        }
+        .don-nudge-text {
+          font-size: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html"
+        ><img
+          src="nav-logo.webp"
+          alt="TechNuVate"
+          style="height: 58px; width: auto"
+      /></a>
+      <div class="nav-right">
+        <div class="nav-item">
+          <button class="nav-item-btn">
+            Meet Us <span class="nav-arrow">&#9660;</span>
+          </button>
+          <div class="nav-dropdown">
+            <a href="about.html">About Us</a>
+            <a href="academy.html">TechNuVate Academy</a>
+            <a href="studio.html">TechNuVate Studio</a>
+            <a href="labs.html">TechNuVate Labs</a>
           </div>
-          <div class="fg">
-            <label for="age">Age Range <span>*</span></label>
-            <select class="fi" id="age">
-              <option value="">Select</option>
-              <option value="Under 18">Under 18</option>
-              <option value="18 to 24">18 to 24</option>
-              <option value="25 to 30">25 to 30</option>
-              <option value="31 to 35">31 to 35</option>
-              <option value="36 to 40">36 to 40</option>
-              <option value="41 and above">41 and above</option>
-            </select>
-            <div class="err" id="age-err">Please select your age range.</div>
+        </div>
+        <div class="nav-item">
+          <button class="nav-item-btn">
+            Work With Us <span class="nav-arrow">&#9660;</span>
+          </button>
+          <div class="nav-dropdown">
+            <a href="tutors.html">Become a Tutor</a>
+            <a href="join-team.html">Become a Team Member</a>
           </div>
         </div>
-
-        <div class="row2">
-          <div class="fg">
-            <label for="email">Email Address <span>*</span></label>
-            <input class="fi" id="email" type="email" placeholder="amara@email.com">
-            <div class="err" id="email-err">Please enter a valid email address.</div>
-          </div>
-          <div class="fg">
-            <label for="phone">Phone Number <span>*</span></label>
-            <input class="fi" id="phone" type="tel" placeholder="+234 800 000 0000">
-            <div class="err" id="phone-err">Please enter your phone number.</div>
-          <p class="hint">WhatsApp preferred. If you do not use WhatsApp, a reachable mobile number works fine.</p>
-          </div>
-        </div>
-
-        <div class="row2">
-          <div class="fg">
-            <label for="state">State of Residence <span>*</span></label>
-            <select class="fi" id="state" onchange="checkState()">
-              <option value="">Select state</option>
-              <option value="Rivers State">Rivers State</option>
-              <option value="Bayelsa State">Bayelsa State</option>
-              <option value="Abia State">Abia State</option>
-              <option value="Akwa Ibom State">Akwa Ibom State</option>
-              <option value="Other">Other state</option>
-            </select>
-            <div class="err" id="state-err">Please select your state.</div>
-            <div id="other-state-box" style="display:none;margin-top:10px">
-              <input class="fi" id="other-state-name" type="text" placeholder="Type your state name">
-              <div class="err" id="other-state-name-err">Please enter your state name.</div>
-            </div>
-          </div>
-          <div class="fg">
-            <label for="city">City <span>*</span></label>
-            <input class="fi" id="city" type="text" placeholder="e.g. Port Harcourt">
-            <div class="err" id="city-err">Please enter your city.</div>
-          </div>
-        </div>
-
-        <div id="other-state-notice" style="display:none;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:14px;margin-top:12px;margin-bottom:6px;font-size:13px;color:#92400E;line-height:1.65">
-          <strong>Note:</strong> IT placement is currently open to students in Rivers State, Bayelsa State, Abia State and Akwa Ibom State. If you are from another state and you are open to handling the logistics of waybilling your logbook to our Port Harcourt office yourself, you are still welcome to apply. We will review your application and reach out to discuss.
-        </div>
-
-        <div class="divider"></div>
-
-        <!-- ACADEMIC DETAILS -->
-        <div class="section-head">Academic Details</div>
-
-        <div class="row2">
-          <div class="fg">
-            <label for="institution">School Name <span>*</span></label>
-            <input class="fi" id="institution" type="text" placeholder="e.g. University of Port Harcourt">
-            <div class="err" id="institution-err">Please enter your school name.</div>
-          </div>
-          <div class="fg">
-            <label for="institution-type">Institution Type <span>*</span></label>
-            <select class="fi" id="institution-type">
-              <option value="">Select one</option>
-              <option value="University">University</option>
-              <option value="Polytechnic">Polytechnic</option>
-              <option value="College of Education">College of Education</option>
-              <option value="Monotechnic">Monotechnic</option>
-            </select>
-            <div class="err" id="institution-type-err">Please select your institution type.</div>
-          </div>
-        </div>
-
-        <div class="row2">
-          <div class="fg">
-            <label for="course">Course of Study <span>*</span></label>
-            <select class="fi" id="course" onchange="handleCourse()">
-              <option value="">Select your course</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Business Administration">Business Administration</option>
-              <option value="Mass Communication">Mass Communication</option>
-              <option value="Management">Management</option>
-              <option value="Public Relations">Public Relations</option>
-              <option value="Advertising">Advertising</option>
-              <option value="Accounting">Accounting</option>
-              <option value="Computer Science">Computer Science</option>
-              <option value="Journalism">Journalism</option>
-              <option value="Economics">Economics</option>
-              <option value="Sociology">Sociology</option>
-              <option value="English Language">English Language</option>
-              <option value="Other">Other (please specify below)</option>
-            </select>
-            <div class="err" id="course-err">Please select your course.</div>
-            <div id="course-other-box" style="display:none;margin-top:10px">
-              <input class="fi" id="course-other-input" type="text" placeholder="Tell us your course of study">
-              <div class="err" id="course-other-input-err">Please enter your course of study.</div>
-            </div>
-          </div>
-          <div class="fg">
-            <label for="level">Current Level <span>*</span></label>
-            <select class="fi" id="level" onchange="handleLevel()">
-              <option value="">Select level</option>
-              <option value="200 Level">200 Level</option>
-              <option value="300 Level">300 Level</option>
-              <option value="HND 1">HND 1</option>
-              <option value="Other">Other</option>
-            </select>
-            <div class="err" id="level-err">Please select your current level.</div>
-            <div id="level-other-box" style="display:none;margin-top:10px">
-              <input class="fi" id="level-other-input" type="text" placeholder="Tell us your current level">
-              <div class="err" id="level-other-input-err">Please enter your current level.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row2">
-          <div class="fg">
-            <label for="it-start">Expected IT Start Date <span>*</span></label>
-            <input class="fi" id="it-start" type="month" min="2026-01">
-            <div class="err" id="it-start-err">Please select your IT start date.</div>
-          </div>
-          <div class="fg">
-            <label for="it-duration">IT Duration <span>*</span></label>
-            <select class="fi" id="it-duration">
-              <option value="">Select duration</option>
-              <option value="3 months">3 months</option>
-              <option value="4 months">4 months</option>
-              <option value="6 months">6 months</option>
-              <option value="1 year">1 year (SIWES)</option>
-            </select>
-            <div class="err" id="it-duration-err">Please select your IT duration.</div>
-          </div>
-        </div>
-
-        <div class="fg">
-          <label for="supervisor">School IT Supervisor Name <span style="font-size:12px;font-weight:300;color:#8A9AB0">(optional)</span></label>
-          <input class="fi" id="supervisor" type="text" placeholder="The name your school assigned as your IT supervisor">
-          <p class="hint">This is the lecturer or staff member your school assigned to oversee your industrial training. You can leave this blank if not yet assigned. We will need it later for the logbook.</p>
-        </div>
-          <div class="fg">
-            <label for="supervisor-email">Supervisor Email Address <span style="font-size:12px;font-weight:300;color:#8A9AB0">(optional)</span></label>
-            <input class="fi" id="supervisor-email" type="email" placeholder="supervisor@university.edu.ng">
-            <p class="hint">If provided, we may reach out to your supervisor to coordinate logbook signing or confirm your placement details.</p>
-          </div>
-
-
-        <div class="divider"></div>
-
-        <!-- INTEREST AND GOALS -->
-        <div class="section-head">About You</div>
-        <p style="font-size:13px;font-weight:300;color:#6B7280;line-height:1.65;margin-bottom:20px">We use your answers below to decide which area of work is the best fit for you. Be honest. There are no wrong answers here.</p>
-
-        <div class="fg">
-          <label for="strength">What would you say you are naturally good at? <span>*</span></label>
-          <select class="fi" id="strength">
-            <option value="">Select what fits you best</option>
-            <option value="Writing and storytelling">Writing and telling stories</option>
-            <option value="Talking to and working with people">Talking to and working with people</option>
-            <option value="Visual and creative work">Visual and creative work (design, photos, video)</option>
-            <option value="Numbers, data and analysis">Numbers, data and analysis</option>
-            <option value="Planning and organising">Planning and organising things</option>
-            <option value="Research and finding information">Research and finding information</option>
-          </select>
-          <div class="err" id="strength-err">Please select what you are naturally good at.</div>
-        </div>
-
-<div class="fg">
-          <label for="people-comfort">How comfortable are you interacting with people you do not know? <span>*</span></label>
-          <select class="fi" id="people-comfort">
-            <option value="">Select one</option>
-            <option value="Very comfortable">Very comfortable, I enjoy it</option>
-            <option value="Comfortable when needed">Comfortable when I need to be</option>
-            <option value="I prefer to work behind the scenes">I prefer to work behind the scenes</option>
-          </select>
-          <div class="err" id="people-comfort-err">Please select your comfort level.</div>
-        </div>
-
-        <div class="fg">
-          <label for="digital-skill">What tools or platforms are you already familiar with? <span style="color:#E53E3E">*</span></label>
-          <textarea class="fi" id="digital-skill" placeholder="e.g. Canva, Microsoft Word, Instagram, WhatsApp Business, Excel, Google Docs. If none, just say none." style="min-height:80px"></textarea>
-            <div class="err" id="digital-skill-err" style="font-size:12px;color:#E53E3E;margin-top:4px;display:none">Please tell us what tools or platforms you are familiar with.</div>
-        </div>
-
-        <div class="fg">
-          <label for="motivation">Why do you want to do your IT with TechNuVate Labs? <span>*</span></label>
-          <textarea class="fi" id="motivation" placeholder="Tell us what you are hoping to get out of this placement."></textarea>
-          <div class="err" id="motivation-err">Please tell us why you want to join.</div>
-        </div>
-
-        <div class="divider"></div>
-
-        <!-- DOCUMENTS -->
-        <div class="section-head">Required Documents</div>
-        <div style="background:rgba(27,58,122,.05);border:1px solid rgba(27,58,122,.12);border-radius:10px;padding:16px 18px;margin-bottom:20px;font-size:13px;color:#374151;line-height:1.75">
-          <strong style="color:#1B3A7A;display:block;margin-bottom:8px">Please review each document carefully before uploading.</strong>
-          Make sure documents are clear, complete and readable. Blurry, cropped or incomplete files will delay your review. Accepted formats are JPG, PNG and PDF only. Maximum 5MB per file.
-        </div>
-
-        <div class="fg">
-          <label for="doc-it-letter">IT Request Letter from your School <span>*</span></label>
-          <input class="fi" id="doc-it-letter" type="file" accept=".jpg,.jpeg,.png,.pdf" style="padding:10px 14px;cursor:pointer">
-          <p class="hint">This is the official letter from your department or institution requesting a placement for you.</p>
-          <div class="err" id="doc-it-letter-err">Please upload your IT request letter.</div>
-        </div>
-
-        <div class="fg">
-          <label for="doc-id">School ID Card or Admission Letter <span>*</span></label>
-          <input class="fi" id="doc-id" type="file" accept=".jpg,.jpeg,.png,.pdf" style="padding:10px 14px;cursor:pointer">
-          <p class="hint">A photocopy or scanned copy of your current school ID or admission letter.</p>
-          <div class="err" id="doc-id-err">Please upload your school ID or admission letter.</div>
-        </div>
-
-        <div class="fg">
-          <label for="doc-passport">Passport Photograph <span>*</span></label>
-          <input class="fi" id="doc-passport" type="file" accept=".jpg,.jpeg,.png" style="padding:10px 14px;cursor:pointer">
-          <p class="hint">A clear headshot on a plain background. No selfies or photos taken in dark or busy environments.</p>
-          <div class="err" id="doc-passport-err">Please upload your passport photograph.</div>
-        </div>
-
-
-        <!-- COMMITMENT CHECKBOX -->
-        <div style="background:rgba(251,191,36,.07);border:1.5px solid rgba(251,191,36,.25);border-radius:10px;padding:16px 18px;margin-bottom:18px">
-          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer">
-            <input type="checkbox" id="commitCheck" style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:#1B3A7A;cursor:pointer">
-            <span style="font-size:13px;font-weight:500;color:#78350F;line-height:1.6">I understand that TechNuVate does not offer refunds on placement fees. I confirm that I am available for and committed to this industrial training placement. I understand that if I do not actively participate, my logbook will not be signed and my placement will not be officially completed.</span>
-          </label>
-          <div id="commitErr" style="font-size:12px;color:#E53E3E;margin-top:6px;display:none">You must confirm this before submitting your application.</div>
-        </div>
-
-        <button class="submit-btn" id="submitBtn" onclick="submitForm()">
-          <span id="btnText">Submit Application</span>
-          <div class="spinner" id="spinner"></div>
+        <a
+          href="store.html"
+          class="nav-item-btn"
+          style="
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition:
+              background 0.2s,
+              color 0.2s;
+            white-space: nowrap;
+          "
+          onmouseover="
+            this.style.background = '#F2F4F8';
+            this.style.color = '#1B3A7A';
+          "
+          onmouseout="
+            this.style.background = 'transparent';
+            this.style.color = '#374151';
+          "
+          >Store</a
+        >
+        <a
+          href="blog.html"
+          class="nav-item-btn"
+          style="
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition:
+              background 0.2s,
+              color 0.2s;
+            white-space: nowrap;
+          "
+          onmouseover="
+            this.style.background = '#F2F4F8';
+            this.style.color = '#1B3A7A';
+          "
+          onmouseout="
+            this.style.background = 'transparent';
+            this.style.color = '#374151';
+          "
+          >Blog</a
+        >
+        <a
+          href="donate.html"
+          class="nav-btn"
+          style="
+            background: transparent;
+            border: 1.5px solid #1b3a7a;
+            color: #1b3a7a;
+            margin-right: 2px;
+          "
+          onmouseover="this.style.background = 'rgba(27,58,122,.06)'"
+          onmouseout="this.style.background = 'transparent'"
+          >&#10084;&#65039; Donate</a
+        ><a href="index.html#contact" class="nav-btn">Contact Us</a>
+        <button
+          class="ham"
+          id="hamBtn"
+          onclick="toggleMenu()"
+          aria-label="Menu"
+        >
+          <span></span><span></span><span></span>
         </button>
-        <p style="font-size:12px;font-weight:300;color:#8A9AB0;text-align:center;margin-top:12px;line-height:1.5">No payment is taken here. We review your application first. If you are eligible, we send you a payment link to complete your placement.</p>
+      </div>
+    </nav>
+
+    <div class="page-wrap">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a><span>&rsaquo;</span>
+        <a href="labs.html">Labs</a><span>&rsaquo;</span>
+        <span class="breadcrumb-cur">IT Placement Application</span>
       </div>
 
-      <!-- SUCCESS -->
-      <div class="card success-wrap" id="successCard">
-        <div class="success-ico">&#10003;</div>
-        <div class="success-t">Application Received</div>
-        <p class="success-s">We have received your application and documents. Our team will review everything and reach out within 48 hours to let you know if your placement is confirmed.</p>
-        <div class="next-steps">
-          <div style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8A9AB0;margin-bottom:14px">What Happens Next</div>
-          <div class="next-step">
-            <div class="ns-dot">1</div>
-            <div>
-              <div class="ns-t">We review your application</div>
-              <p class="ns-d">Our team reviews your details and confirms your placement eligibility based on your course and state.</p>
+      <div class="layout">
+        <!-- FORM -->
+        <div>
+          <div class="card" id="formCard">
+            <div class="card-title">Industrial Training Placement</div>
+            <p class="card-sub">
+              Fill in your details and upload your documents. We will review
+              your application and get back to you within 48 hours. If you are
+              eligible, we confirm your placement and you complete payment to
+              secure your spot.
+            </p>
+
+            <!-- PERSONAL DETAILS -->
+            <div class="section-head">Personal Details</div>
+
+            <div class="fg">
+              <label for="fullname">Full Name <span>*</span></label>
+              <input
+                class="fi"
+                id="fullname"
+                type="text"
+                placeholder="Amara Okafor"
+              />
+              <div class="err" id="fullname-err">
+                Please enter your full name.
+              </div>
+            </div>
+
+            <div class="row2">
+              <div class="fg">
+                <label for="gender">Gender <span>*</span></label>
+                <select class="fi" id="gender">
+                  <option value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Non-binary / They">Non-binary / They</option>
+                </select>
+                <div class="err" id="gender-err">
+                  Please select your gender.
+                </div>
+              </div>
+              <div class="fg">
+                <label for="age">Age Range <span>*</span></label>
+                <select class="fi" id="age">
+                  <option value="">Select</option>
+                  <option value="Under 18">Under 18</option>
+                  <option value="18 to 24">18 to 24</option>
+                  <option value="25 to 30">25 to 30</option>
+                  <option value="31 to 35">31 to 35</option>
+                  <option value="36 to 40">36 to 40</option>
+                  <option value="41 and above">41 and above</option>
+                </select>
+                <div class="err" id="age-err">
+                  Please select your age range.
+                </div>
+              </div>
+            </div>
+
+            <div class="row2">
+              <div class="fg">
+                <label for="email">Email Address <span>*</span></label>
+                <input
+                  class="fi"
+                  id="email"
+                  type="email"
+                  placeholder="amara@email.com"
+                />
+                <div class="err" id="email-err">
+                  Please enter a valid email address.
+                </div>
+              </div>
+              <div class="fg">
+                <label for="phone">Phone Number <span>*</span></label>
+                <input
+                  class="fi"
+                  id="phone"
+                  type="tel"
+                  placeholder="+234 800 000 0000"
+                />
+                <div class="err" id="phone-err">
+                  Please enter your phone number.
+                </div>
+                <p class="hint">
+                  WhatsApp preferred. If you do not use WhatsApp, a reachable
+                  mobile number works fine.
+                </p>
+              </div>
+            </div>
+
+            <div class="row2">
+              <div class="fg">
+                <label for="state">State of Residence <span>*</span></label>
+                <select class="fi" id="state" onchange="checkState()">
+                  <option value="">Select state</option>
+                  <option value="Rivers State">Rivers State</option>
+                  <option value="Bayelsa State">Bayelsa State</option>
+                  <option value="Abia State">Abia State</option>
+                  <option value="Akwa Ibom State">Akwa Ibom State</option>
+                  <option value="Other">Other state</option>
+                </select>
+                <div class="err" id="state-err">Please select your state.</div>
+                <div
+                  id="other-state-box"
+                  style="display: none; margin-top: 10px"
+                >
+                  <input
+                    class="fi"
+                    id="other-state-name"
+                    type="text"
+                    placeholder="Type your state name"
+                  />
+                  <div class="err" id="other-state-name-err">
+                    Please enter your state name.
+                  </div>
+                </div>
+              </div>
+              <div class="fg">
+                <label for="city">City <span>*</span></label>
+                <input
+                  class="fi"
+                  id="city"
+                  type="text"
+                  placeholder="e.g. Port Harcourt"
+                />
+                <div class="err" id="city-err">Please enter your city.</div>
+              </div>
+            </div>
+
+            <div
+              id="other-state-notice"
+              style="
+                display: none;
+                background: rgba(251, 191, 36, 0.08);
+                border: 1px solid rgba(251, 191, 36, 0.3);
+                border-radius: 10px;
+                padding: 14px;
+                margin-top: 12px;
+                margin-bottom: 6px;
+                font-size: 13px;
+                color: #92400e;
+                line-height: 1.65;
+              "
+            >
+              <strong>Note:</strong> IT placement is currently open to students
+              in Rivers State, Bayelsa State, Abia State and Akwa Ibom State. If
+              you are from another state and you are open to handling the
+              logistics of waybilling your logbook to our Port Harcourt office
+              yourself, you are still welcome to apply. We will review your
+              application and reach out to discuss.
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- ACADEMIC DETAILS -->
+            <div class="section-head">Academic Details</div>
+
+            <div class="row2">
+              <div class="fg">
+                <label for="institution">School Name <span>*</span></label>
+                <input
+                  class="fi"
+                  id="institution"
+                  type="text"
+                  placeholder="e.g. University of Port Harcourt"
+                />
+                <div class="err" id="institution-err">
+                  Please enter your school name.
+                </div>
+              </div>
+              <div class="fg">
+                <label for="institution-type"
+                  >Institution Type <span>*</span></label
+                >
+                <select class="fi" id="institution-type">
+                  <option value="">Select one</option>
+                  <option value="University">University</option>
+                  <option value="Polytechnic">Polytechnic</option>
+                  <option value="College of Education">
+                    College of Education
+                  </option>
+                  <option value="Monotechnic">Monotechnic</option>
+                </select>
+                <div class="err" id="institution-type-err">
+                  Please select your institution type.
+                </div>
+              </div>
+            </div>
+
+            <div class="row2">
+              <div class="fg">
+                <label for="course">Course of Study <span>*</span></label>
+                <select class="fi" id="course" onchange="handleCourse()">
+                  <option value="">Select your course</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Business Administration">
+                    Business Administration
+                  </option>
+                  <option value="Mass Communication">Mass Communication</option>
+                  <option value="Management">Management</option>
+                  <option value="Public Relations">Public Relations</option>
+                  <option value="Advertising">Advertising</option>
+                  <option value="Accounting">Accounting</option>
+                  <option value="Computer Science">Computer Science</option>
+                  <option value="Journalism">Journalism</option>
+                  <option value="Economics">Economics</option>
+                  <option value="Sociology">Sociology</option>
+                  <option value="English Language">English Language</option>
+                  <option value="Other">Other (please specify below)</option>
+                </select>
+                <div class="err" id="course-err">
+                  Please select your course.
+                </div>
+                <div
+                  id="course-other-box"
+                  style="display: none; margin-top: 10px"
+                >
+                  <input
+                    class="fi"
+                    id="course-other-input"
+                    type="text"
+                    placeholder="Tell us your course of study"
+                  />
+                  <div class="err" id="course-other-input-err">
+                    Please enter your course of study.
+                  </div>
+                </div>
+              </div>
+              <div class="fg">
+                <label for="level">Current Level <span>*</span></label>
+                <select class="fi" id="level" onchange="handleLevel()">
+                  <option value="">Select level</option>
+                  <option value="200 Level">200 Level</option>
+                  <option value="300 Level">300 Level</option>
+                  <option value="HND 1">HND 1</option>
+                  <option value="Other">Other</option>
+                </select>
+                <div class="err" id="level-err">
+                  Please select your current level.
+                </div>
+                <div
+                  id="level-other-box"
+                  style="display: none; margin-top: 10px"
+                >
+                  <input
+                    class="fi"
+                    id="level-other-input"
+                    type="text"
+                    placeholder="Tell us your current level"
+                  />
+                  <div class="err" id="level-other-input-err">
+                    Please enter your current level.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row2">
+              <div class="fg">
+                <label for="it-start"
+                  >Expected IT Start Date <span>*</span></label
+                >
+                <input class="fi" id="it-start" type="month" min="2026-01" />
+                <div class="err" id="it-start-err">
+                  Please select your IT start date.
+                </div>
+              </div>
+              <div class="fg">
+                <label for="it-duration">IT Duration <span>*</span></label>
+                <select class="fi" id="it-duration">
+                  <option value="">Select duration</option>
+                  <option value="3 months">3 months</option>
+                  <option value="4 months">4 months</option>
+                  <option value="6 months">6 months</option>
+                  <option value="1 year">1 year (SIWES)</option>
+                </select>
+                <div class="err" id="it-duration-err">
+                  Please select your IT duration.
+                </div>
+              </div>
+            </div>
+
+            <div class="fg">
+              <label for="supervisor"
+                >School IT Supervisor Name
+                <span style="font-size: 12px; font-weight: 300; color: #8a9ab0"
+                  >(optional)</span
+                ></label
+              >
+              <input
+                class="fi"
+                id="supervisor"
+                type="text"
+                placeholder="The name your school assigned as your IT supervisor"
+              />
+              <p class="hint">
+                This is the lecturer or staff member your school assigned to
+                oversee your industrial training. You can leave this blank if
+                not yet assigned. We will need it later for the logbook.
+              </p>
+            </div>
+            <div class="fg">
+              <label for="supervisor-email"
+                >Supervisor Email Address
+                <span style="font-size: 12px; font-weight: 300; color: #8a9ab0"
+                  >(optional)</span
+                ></label
+              >
+              <input
+                class="fi"
+                id="supervisor-email"
+                type="email"
+                placeholder="supervisor@university.edu.ng"
+              />
+              <p class="hint">
+                If provided, we may reach out to your supervisor to coordinate
+                logbook signing or confirm your placement details.
+              </p>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- INTEREST AND GOALS -->
+            <div class="section-head">About You</div>
+            <p
+              style="
+                font-size: 13px;
+                font-weight: 300;
+                color: #6b7280;
+                line-height: 1.65;
+                margin-bottom: 20px;
+              "
+            >
+              We use your answers below to decide which area of work is the best
+              fit for you. Be honest. There are no wrong answers here.
+            </p>
+
+            <div class="fg">
+              <label for="strength"
+                >What would you say you are naturally good at?
+                <span>*</span></label
+              >
+              <select class="fi" id="strength">
+                <option value="">Select what fits you best</option>
+                <option value="Writing and storytelling">
+                  Writing and telling stories
+                </option>
+                <option value="Talking to and working with people">
+                  Talking to and working with people
+                </option>
+                <option value="Visual and creative work">
+                  Visual and creative work (design, photos, video)
+                </option>
+                <option value="Numbers, data and analysis">
+                  Numbers, data and analysis
+                </option>
+                <option value="Planning and organising">
+                  Planning and organising things
+                </option>
+                <option value="Research and finding information">
+                  Research and finding information
+                </option>
+              </select>
+              <div class="err" id="strength-err">
+                Please select what you are naturally good at.
+              </div>
+            </div>
+
+            <div class="fg">
+              <label for="people-comfort"
+                >How comfortable are you interacting with people you do not
+                know? <span>*</span></label
+              >
+              <select class="fi" id="people-comfort">
+                <option value="">Select one</option>
+                <option value="Very comfortable">
+                  Very comfortable, I enjoy it
+                </option>
+                <option value="Comfortable when needed">
+                  Comfortable when I need to be
+                </option>
+                <option value="I prefer to work behind the scenes">
+                  I prefer to work behind the scenes
+                </option>
+              </select>
+              <div class="err" id="people-comfort-err">
+                Please select your comfort level.
+              </div>
+            </div>
+
+            <div class="fg">
+              <label for="digital-skill"
+                >What tools or platforms are you already familiar with?
+                <span style="color: #e53e3e">*</span></label
+              >
+              <textarea
+                class="fi"
+                id="digital-skill"
+                placeholder="e.g. Canva, Microsoft Word, Instagram, WhatsApp Business, Excel, Google Docs. If none, just say none."
+                style="min-height: 80px"
+              ></textarea>
+              <div
+                class="err"
+                id="digital-skill-err"
+                style="
+                  font-size: 12px;
+                  color: #e53e3e;
+                  margin-top: 4px;
+                  display: none;
+                "
+              >
+                Please tell us what tools or platforms you are familiar with.
+              </div>
+            </div>
+
+            <div class="fg">
+              <label for="motivation"
+                >Why do you want to do your IT with TechNuVate Labs?
+                <span>*</span></label
+              >
+              <textarea
+                class="fi"
+                id="motivation"
+                placeholder="Tell us what you are hoping to get out of this placement."
+              ></textarea>
+              <div class="err" id="motivation-err">
+                Please tell us why you want to join.
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- DOCUMENTS -->
+            <div class="section-head">Required Documents</div>
+            <div
+              style="
+                background: rgba(27, 58, 122, 0.05);
+                border: 1px solid rgba(27, 58, 122, 0.12);
+                border-radius: 10px;
+                padding: 16px 18px;
+                margin-bottom: 20px;
+                font-size: 13px;
+                color: #374151;
+                line-height: 1.75;
+              "
+            >
+              <strong style="color: #1b3a7a; display: block; margin-bottom: 8px"
+                >Please review each document carefully before uploading.</strong
+              >
+              Make sure documents are clear, complete and readable. Blurry,
+              cropped or incomplete files will delay your review. Accepted
+              formats are JPG, PNG and PDF only. Maximum 5MB per file.
+            </div>
+
+            <div class="fg">
+              <label for="doc-it-letter"
+                >IT Request Letter from your School <span>*</span></label
+              >
+              <input
+                class="fi"
+                id="doc-it-letter"
+                type="file"
+                accept=".jpg,.jpeg,.png,.pdf"
+                style="padding: 10px 14px; cursor: pointer"
+              />
+              <p class="hint">
+                This is the official letter from your department or institution
+                requesting a placement for you.
+              </p>
+              <div class="err" id="doc-it-letter-err">
+                Please upload your IT request letter.
+              </div>
+            </div>
+
+            <div class="fg">
+              <label for="doc-id"
+                >School ID Card or Admission Letter <span>*</span></label
+              >
+              <input
+                class="fi"
+                id="doc-id"
+                type="file"
+                accept=".jpg,.jpeg,.png,.pdf"
+                style="padding: 10px 14px; cursor: pointer"
+              />
+              <p class="hint">
+                A photocopy or scanned copy of your current school ID or
+                admission letter.
+              </p>
+              <div class="err" id="doc-id-err">
+                Please upload your school ID or admission letter.
+              </div>
+            </div>
+
+            <div class="fg">
+              <label for="doc-passport"
+                >Passport Photograph <span>*</span></label
+              >
+              <input
+                class="fi"
+                id="doc-passport"
+                type="file"
+                accept=".jpg,.jpeg,.png"
+                style="padding: 10px 14px; cursor: pointer"
+              />
+              <p class="hint">
+                A clear headshot on a plain background. No selfies or photos
+                taken in dark or busy environments.
+              </p>
+              <div class="err" id="doc-passport-err">
+                Please upload your passport photograph.
+              </div>
+            </div>
+
+            <!-- COMMITMENT CHECKBOX -->
+            <div
+              style="
+                background: rgba(251, 191, 36, 0.07);
+                border: 1.5px solid rgba(251, 191, 36, 0.25);
+                border-radius: 10px;
+                padding: 16px 18px;
+                margin-bottom: 18px;
+              "
+            >
+              <label
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 12px;
+                  cursor: pointer;
+                "
+              >
+                <input
+                  type="checkbox"
+                  id="commitCheck"
+                  style="
+                    margin-top: 3px;
+                    width: 16px;
+                    height: 16px;
+                    flex-shrink: 0;
+                    accent-color: #1b3a7a;
+                    cursor: pointer;
+                  "
+                />
+                <span
+                  style="
+                    font-size: 13px;
+                    font-weight: 500;
+                    color: #78350f;
+                    line-height: 1.6;
+                  "
+                  >I understand that TechNuVate does not offer refunds on
+                  placement fees. I confirm that I am available for and
+                  committed to this industrial training placement. I understand
+                  that if I do not actively participate, my logbook will not be
+                  signed and my placement will not be officially
+                  completed.</span
+                >
+              </label>
+              <div
+                id="commitErr"
+                style="
+                  font-size: 12px;
+                  color: #e53e3e;
+                  margin-top: 6px;
+                  display: none;
+                "
+              >
+                You must confirm this before submitting your application.
+              </div>
+            </div>
+
+            <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+              <span id="btnText">Submit Application</span>
+              <div class="spinner" id="spinner"></div>
+            </button>
+            <p
+              style="
+                font-size: 12px;
+                font-weight: 300;
+                color: #8a9ab0;
+                text-align: center;
+                margin-top: 12px;
+                line-height: 1.5;
+              "
+            >
+              No payment is taken here. We review your application first. If you
+              are eligible, we send you a payment link to complete your
+              placement.
+            </p>
+          </div>
+
+          <!-- SUCCESS -->
+          <div class="card success-wrap" id="successCard">
+            <div class="success-ico">&#10003;</div>
+            <div class="success-t">Application Received</div>
+            <p class="success-s">
+              We have received your application and documents. Our team will
+              review everything and reach out within 48 hours to let you know if
+              your placement is confirmed.
+            </p>
+            <div class="next-steps">
+              <div
+                style="
+                  font-size: 11px;
+                  font-weight: 700;
+                  letter-spacing: 0.14em;
+                  text-transform: uppercase;
+                  color: #8a9ab0;
+                  margin-bottom: 14px;
+                "
+              >
+                What Happens Next
+              </div>
+              <div class="next-step">
+                <div class="ns-dot">1</div>
+                <div>
+                  <div class="ns-t">We review your application</div>
+                  <p class="ns-d">
+                    Our team reviews your details and confirms your placement
+                    eligibility based on your course and state.
+                  </p>
+                </div>
+              </div>
+              <div class="next-step">
+                <div class="ns-dot">2</div>
+                <div>
+                  <div class="ns-t">We review your application</div>
+                  <p class="ns-d">
+                    We go through your documents, check your eligibility, and
+                    confirm whether your placement can proceed.
+                  </p>
+                </div>
+              </div>
+              <div class="next-step">
+                <div class="ns-dot">3</div>
+                <div>
+                  <div class="ns-t">You receive a payment link</div>
+                  <p class="ns-d">
+                    If approved, we send you the &#8358;100,000 placement fee
+                    link. Once paid, your onboarding details and first brief
+                    follow immediately.
+                  </p>
+                </div>
+              </div>
+              <div class="next-step">
+                <div class="ns-dot">4</div>
+                <div>
+                  <div class="ns-t">Logbook at the end</div>
+                  <p class="ns-d">
+                    When your IT period is complete, you waybill your logbook to
+                    our Port Harcourt office. We sign, stamp, and return it to
+                    you.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="next-step">
-            <div class="ns-dot">2</div>
-            <div>
-              <div class="ns-t">We review your application</div>
-              <p class="ns-d">We go through your documents, check your eligibility, and confirm whether your placement can proceed.</p>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div>
+          <div class="sidebar-card">
+            <div class="s-badge">IT Placement</div>
+            <div class="s-title">Industrial Training at TechNuVate Labs</div>
+            <p class="s-sub">
+              Do your IT from the comfort of your state. Real work. Real
+              mentorship. A properly stamped logbook.
+            </p>
+
+            <div class="meta-row">
+              <span class="meta-lbl">Format</span
+              ><span class="meta-val">Fully remote</span>
             </div>
-          </div>
-          <div class="next-step">
-            <div class="ns-dot">3</div>
-            <div>
-              <div class="ns-t">You receive a payment link</div>
-              <p class="ns-d">If approved, we send you the &#8358;100,000 placement fee link. Once paid, your onboarding details and first brief follow immediately.</p>
+            <div class="meta-row">
+              <span class="meta-lbl">Eligible states</span>
+              <span class="meta-val">Rivers, Bayelsa, Abia, Akwa Ibom</span>
             </div>
-          </div>
-          <div class="next-step">
-            <div class="ns-dot">4</div>
-            <div>
-              <div class="ns-t">Logbook at the end</div>
-              <p class="ns-d">When your IT period is complete, you waybill your logbook to our Port Harcourt office. We sign, stamp, and return it to you.</p>
+            <div class="meta-row">
+              <span class="meta-lbl">Logbook</span
+              ><span class="meta-val">Signed and stamped</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-lbl">IT Letter</span
+              ><span class="meta-val">Issued on completion</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-lbl">Portfolio</span
+              ><span class="meta-val">Included</span>
+            </div>
+
+            <div class="price-box">
+              <div class="price-n">&#8358;100,000</div>
+              <div class="price-l">
+                Payable only after your application is approved
+              </div>
+            </div>
+
+            <div class="notice-box">
+              <strong>No payment here.</strong> Submit your application first.
+              We review your documents and eligibility, then send you the
+              placement fee link if you qualify.
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SIDEBAR -->
-    <div>
-      <div class="sidebar-card">
-        <div class="s-badge">IT Placement</div>
-        <div class="s-title">Industrial Training at TechNuVate Labs</div>
-        <p class="s-sub">Do your IT from the comfort of your state. Real work. Real mentorship. A properly stamped logbook.</p>
-
-        <div class="meta-row"><span class="meta-lbl">Format</span><span class="meta-val">Fully remote</span></div>
-        <div class="meta-row"><span class="meta-lbl">Eligible states</span>
-          <span class="meta-val">Rivers, Bayelsa, Abia, Akwa Ibom</span>
+    <!-- NEWSLETTER -->
+    <section style="background: #0d1f45; padding: 56px 5%">
+      <div style="max-width: 600px; margin: 0 auto; text-align: center">
+        <div
+          style="
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 14px;
+          "
+        >
+          Stay in the loop
         </div>
-        <div class="meta-row"><span class="meta-lbl">Logbook</span><span class="meta-val">Signed and stamped</span></div>
-        <div class="meta-row"><span class="meta-lbl">IT Letter</span><span class="meta-val">Issued on completion</span></div>
-        <div class="meta-row"><span class="meta-lbl">Portfolio</span><span class="meta-val">Included</span></div>
-
-        <div class="price-box">
-          <div class="price-n">&#8358;100,000</div>
-          <div class="price-l">Payable only after your application is approved</div>
-        </div>
-
-        <div class="notice-box">
-          <strong>No payment here.</strong> Submit your application first. We review your documents and eligibility, then send you the placement fee link if you qualify.
-        </div>
+        <h2
+          style="
+            font-size: clamp(24px, 4vw, 34px);
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+          "
+        >
+          Get updates before everyone else.
+        </h2>
+        <p
+          style="
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.75;
+            margin-bottom: 32px;
+          "
+        >
+          New cohort dates. Early bird alerts. Career tips. Studio
+          opportunities. Only what matters — straight to your inbox.
+        </p>
+        <form
+          id="newsletter-form"
+          onsubmit="submitNewsletter(event)"
+          style="
+            display: flex;
+            gap: 10px;
+            max-width: 460px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+          "
+        >
+          <input
+            id="nl-email"
+            type="email"
+            placeholder="Enter your email address"
+            required
+            style="
+              flex: 1;
+              min-width: 200px;
+              padding: 14px 16px;
+              border-radius: 10px;
+              border: 1.5px solid rgba(255, 255, 255, 0.15);
+              background: rgba(255, 255, 255, 0.08);
+              color: #fff;
+              font-family: inherit;
+              font-size: 14px;
+              outline: none;
+              transition: border-color 0.2s;
+            "
+            onfocus="this.style.borderColor = 'rgba(255,255,255,.4)'"
+            onblur="this.style.borderColor = 'rgba(255,255,255,.15)'"
+          />
+          <button
+            type="submit"
+            id="nl-btn"
+            style="
+              padding: 14px 24px;
+              background: #fff;
+              color: #0d1f45;
+              font-size: 14px;
+              font-weight: 700;
+              border: none;
+              border-radius: 10px;
+              cursor: pointer;
+              font-family: inherit;
+              white-space: nowrap;
+              transition: opacity 0.2s;
+            "
+          >
+            Subscribe &rarr;
+          </button>
+        </form>
+        <p
+          id="nl-msg"
+          style="
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 14px;
+            display: none;
+          "
+        ></p>
+        <p
+          style="
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.2);
+            margin-top: 16px;
+          "
+        >
+          No spam. Unsubscribe anytime. We respect your inbox.
+        </p>
       </div>
-    </div>
-  </div>
-</div>
+    </section>
+    <script>
+      function submitNewsletter(e) {
+        e.preventDefault();
+        var email = document.getElementById("nl-email").value.trim();
+        var btn = document.getElementById("nl-btn");
+        var msg = document.getElementById("nl-msg");
+        if (!email || email.indexOf("@") < 0) return;
+        btn.textContent = "Subscribing...";
+        btn.disabled = true;
+        // Save to Supabase newsletter table
+        var SB_URL =
+          typeof window.SB_URL !== "undefined"
+            ? window.SB_URL
+            : "YOUR_SUPABASE_URL_HERE";
+        var SB_KEY =
+          typeof window.SB_KEY !== "undefined"
+            ? window.SB_KEY
+            : "YOUR_SUPABASE_ANON_KEY_HERE";
+        if (SB_URL && SB_URL !== "YOUR_SUPABASE_URL_HERE") {
+          fetch(SB_URL + "/rest/v1/newsletter_subscribers", {
+            method: "POST",
+            headers: {
+              apikey: SB_KEY,
+              Authorization: "Bearer " + SB_KEY,
+              "Content-Type": "application/json",
+              Prefer: "return=minimal",
+            },
+            body: JSON.stringify({
+              email: email,
+              source: window.location.pathname,
+            }),
+          }).catch(function () {});
+        }
+        setTimeout(function () {
+          document.getElementById("newsletter-form").style.display = "none";
+          msg.textContent = "✓ You are on the list. Watch your inbox.";
+          msg.style.display = "block";
+          msg.style.color = "rgba(255,255,255,.7)";
+          msg.style.fontSize = "14px";
+        }, 600);
+      }
+    </script>
+    <footer>
+      <div class="fwrap"></div>
+    </footer>
 
+    <script>
+      const FORMSPREE = "YOUR_FORMSPREE_ENDPOINT"; // no longer used
 
-<!-- NEWSLETTER -->
-<section style="background:#0D1F45;padding:56px 5%">
-  <div style="max-width:600px;margin:0 auto;text-align:center">
-    <div style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px">Stay in the loop</div>
-    <h2 style="font-size:clamp(24px,4vw,34px);font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:12px">Get updates before everyone else.</h2>
-    <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:32px">New cohort dates. Early bird alerts. Career tips. Studio opportunities. Only what matters — straight to your inbox.</p>
-    <form id="newsletter-form" onsubmit="submitNewsletter(event)" style="display:flex;gap:10px;max-width:460px;margin:0 auto;flex-wrap:wrap">
-      <input id="nl-email" type="email" placeholder="Enter your email address" required
-        style="flex:1;min-width:200px;padding:14px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s"
-        onfocus="this.style.borderColor='rgba(255,255,255,.4)'" onblur="this.style.borderColor='rgba(255,255,255,.15)'">
-      <button type="submit" id="nl-btn"
-        style="padding:14px 24px;background:#fff;color:#0D1F45;font-size:14px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .2s">
-        Subscribe &rarr;
-      </button>
-    </form>
-    <p id="nl-msg" style="font-size:12px;color:rgba(255,255,255,.4);margin-top:14px;display:none"></p>
-    <p style="font-size:11px;color:rgba(255,255,255,.2);margin-top:16px">No spam. Unsubscribe anytime. We respect your inbox.</p>
-  </div>
-</section>
-<script>
-function submitNewsletter(e) {
-  e.preventDefault();
-  var email = document.getElementById('nl-email').value.trim();
-  var btn = document.getElementById('nl-btn');
-  var msg = document.getElementById('nl-msg');
-  if (!email || email.indexOf('@') < 0) return;
-  btn.textContent = 'Subscribing...';
-  btn.disabled = true;
-  // Save to Supabase newsletter table
-  var SB_URL = typeof window.SB_URL !== 'undefined' ? window.SB_URL : 'YOUR_SUPABASE_URL_HERE';
-  var SB_KEY = typeof window.SB_KEY !== 'undefined' ? window.SB_KEY : 'YOUR_SUPABASE_ANON_KEY_HERE';
-  if (SB_URL && SB_URL !== 'YOUR_SUPABASE_URL_HERE') {
-    fetch(SB_URL + '/rest/v1/newsletter_subscribers', {
-      method: 'POST',
-      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ email: email, source: window.location.pathname })
-    }).catch(function(){});
-  }
-  setTimeout(function() {
-    document.getElementById('newsletter-form').style.display = 'none';
-    msg.textContent = '✓ You are on the list. Watch your inbox.';
-    msg.style.display = 'block';
-    msg.style.color = 'rgba(255,255,255,.7)';
-    msg.style.fontSize = '14px';
-  }, 600);
-}
-</script>
-<footer>
-  <div class="fwrap">
-    
-  </div>
-</footer>
+      // ── Supabase config ──────────────────────────────────────────
+      var SB_URL = "https://xnynghnhbeyeowcibuvz.supabase.co";
+      var RESEND_KEY = "re_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd";
+      var ADMIN_EMAIL = "labs@technuvate.com"; // IT placement notifications go here
+      var SB_KEY = "sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY";
 
-<script>
-const FORMSPREE = 'YOUR_FORMSPREE_ENDPOINT'; // no longer used
+      // Send email via Resend
+      function sendEmail(toAddress, subject, htmlBody) {
+        if (
+          !RESEND_KEY ||
+          RESEND_KEY === "re_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd"
+        )
+          return;
+        fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + RESEND_KEY,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: "TechNuVate Labs <labs@technuvate.com>",
+            to: [toAddress],
+            subject: subject,
+            html: htmlBody,
+          }),
+        }).catch(function (e) {
+          console.error("Resend error:", e);
+        });
+      }
 
-// ── Supabase config ──────────────────────────────────────────
-var SB_URL      = 'https://xnynghnhbeyeowcibuvz.supabase.co';
-var RESEND_KEY  = 're_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd';
-var ADMIN_EMAIL = 'labs@technuvate.com';  // IT placement notifications go here
-var SB_KEY = 'sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY';
+      function buildLabsITAdminEmail(d) {
+        return (
+          '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">' +
+          '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">' +
+          '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">' +
+          "</div>" +
+          '<div style="background:#1B3A7A;padding:24px 32px">' +
+          '<h2 style="color:#fff;margin:0;font-size:20px">&#127979; New IT Placement Application</h2>' +
+          '<p style="color:rgba(255,255,255,.6);margin:6px 0 0;font-size:13px">Action required &mdash; review and respond within 48 hours</p></div>' +
+          '<div style="padding:28px 32px;background:#FFF7ED;border-left:4px solid #F59E0B">' +
+          '<p style="margin:0;font-size:13px;font-weight:600;color:#B45309">&#9888; This student is waiting for your response. Follow up quickly.</p></div>' +
+          '<div style="padding:28px 32px;background:#F5F7FA">' +
+          '<table style="width:100%;border-collapse:collapse">' +
+          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px;width:140px">Name</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:600">' +
+          d.full_name +
+          "</td></tr>" +
+          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Email</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' +
+          d.email +
+          "</td></tr>" +
+          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Phone</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' +
+          d.phone +
+          "</td></tr>" +
+          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">University</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:700;color:#1B3A7A">' +
+          (d.university || "Not provided") +
+          "</td></tr>" +
+          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Department</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' +
+          (d.department || "Not provided") +
+          "</td></tr>" +
+          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">IT Duration</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:700">' +
+          (d.it_duration || "Not provided") +
+          "</td></tr>" +
+          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Start Date</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' +
+          (d.start_date || "Not provided") +
+          "</td></tr>" +
+          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Skill Interest</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' +
+          (d.skill_interest || "Not provided") +
+          "</td></tr>" +
+          '<tr><td style="padding:10px 0;color:#8A9AB0;font-size:13px">Motivation</td><td style="padding:10px 0;font-size:13px;color:#374151">' +
+          (d.motivation || "Not provided") +
+          "</td></tr>" +
+          "</table></div>" +
+          '<div style="padding:20px 32px;text-align:center;background:#fff"><p style="font-size:12px;color:#8A9AB0;margin:0">TechNuVate Labs &mdash; IT Placement Application</p></div></div>'
+        );
+      }
 
-// Send email via Resend
-function sendEmail(toAddress, subject, htmlBody) {
-  if (!RESEND_KEY || RESEND_KEY === 're_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd') return;
-  fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { 'Authorization': 'Bearer ' + RESEND_KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: 'TechNuVate Labs <labs@technuvate.com>', to: [toAddress], subject: subject, html: htmlBody })
-  }).catch(function(e) { console.error('Resend error:', e); });
-}
+      function buildLabsITStudentEmail(d) {
+        return (
+          '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">' +
+          '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">' +
+          '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">' +
+          "</div>" +
+          '<div style="background:#1B3A7A;padding:32px;text-align:center">' +
+          '<h1 style="color:#fff;margin:0;font-size:24px">Application received &#9989;</h1>' +
+          '<p style="color:rgba(255,255,255,.6);margin:8px 0 0;font-size:14px">TechNuVate Labs &mdash; IT Placement</p></div>' +
+          '<div style="padding:32px;background:#F5F7FA">' +
+          '<p style="font-size:15px;color:#111827;line-height:1.7">Hi <strong>' +
+          d.full_name.split(" ")[0] +
+          "</strong>,</p>" +
+          '<p style="font-size:14px;color:#6B7280;line-height:1.75">We have received your IT placement application. Our team will review it and get back to you within <strong style="color:#111827">48 to 72 hours</strong>.</p>' +
+          '<div style="background:#fff;border:1px solid #E4E8F0;border-radius:12px;padding:20px;margin:20px 0">' +
+          '<p style="margin:0 0 10px;font-size:13px;font-weight:700;color:#374151">What happens next?</p>' +
+          '<p style="margin:0 0 8px;font-size:13px;color:#6B7280;line-height:1.65">&#8226; We review your application for eligibility</p>' +
+          '<p style="margin:0 0 8px;font-size:13px;color:#6B7280;line-height:1.65">&#8226; If accepted, we send you a confirmation with payment details</p>' +
+          '<p style="margin:0;font-size:13px;color:#6B7280;line-height:1.65">&#8226; After payment, your placement is confirmed and onboarding begins</p></div>' +
+          '<p style="font-size:13px;color:#6B7280">Questions? Email <a href="mailto:hello@technuvate.com" style="color:#1B3A7A">hello@technuvate.com</a></p></div>' +
+          '<div style="padding:20px 32px;text-align:center;background:#fff"><p style="font-size:12px;color:#8A9AB0;margin:0">TechNuVate &mdash; Learn. Build. Execute.</p></div></div>'
+        );
+      }
 
-function buildLabsITAdminEmail(d) {
-  return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">'
-    + '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">'
-    + '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">'
-    + '</div>'
-    + '<div style="background:#1B3A7A;padding:24px 32px">'
-    + '<h2 style="color:#fff;margin:0;font-size:20px">&#127979; New IT Placement Application</h2>'
-    + '<p style="color:rgba(255,255,255,.6);margin:6px 0 0;font-size:13px">Action required &mdash; review and respond within 48 hours</p></div>'
-    + '<div style="padding:28px 32px;background:#FFF7ED;border-left:4px solid #F59E0B">'
-    + '<p style="margin:0;font-size:13px;font-weight:600;color:#B45309">&#9888; This student is waiting for your response. Follow up quickly.</p></div>'
-    + '<div style="padding:28px 32px;background:#F5F7FA">'
-    + '<table style="width:100%;border-collapse:collapse">'
-    + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px;width:140px">Name</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:600">' + d.full_name + '</td></tr>'
-    + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Email</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + d.email + '</td></tr>'
-    + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Phone</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + d.phone + '</td></tr>'
-    + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">University</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:700;color:#1B3A7A">' + (d.university||'Not provided') + '</td></tr>'
-    + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Department</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + (d.department||'Not provided') + '</td></tr>'
-    + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">IT Duration</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:700">' + (d.it_duration||'Not provided') + '</td></tr>'
-    + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Start Date</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + (d.start_date||'Not provided') + '</td></tr>'
-    + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Skill Interest</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + (d.skill_interest||'Not provided') + '</td></tr>'
-    + '<tr><td style="padding:10px 0;color:#8A9AB0;font-size:13px">Motivation</td><td style="padding:10px 0;font-size:13px;color:#374151">' + (d.motivation||'Not provided') + '</td></tr>'
-    + '</table></div>'
-    + '<div style="padding:20px 32px;text-align:center;background:#fff"><p style="font-size:12px;color:#8A9AB0;margin:0">TechNuVate Labs &mdash; IT Placement Application</p></div></div>';
-}
+      function saveToSupabase(table, data, onSuccess, onFail) {
+        if (SB_URL === "https://xnynghnhbeyeowcibuvz.supabase.co") {
+          // Supabase not yet configured — skip silently, show success anyway
+          if (onSuccess) onSuccess();
+          return;
+        }
+        fetch(SB_URL + "/rest/v1/" + table, {
+          method: "POST",
+          headers: {
+            apikey: SB_KEY,
+            Authorization: "Bearer " + SB_KEY,
+            "Content-Type": "application/json",
+            Prefer: "return=minimal",
+          },
+          body: JSON.stringify(data),
+        })
+          .then(function (r) {
+            if (r.ok) {
+              if (onSuccess) onSuccess();
+            } else {
+              console.error("Supabase save failed:", r.status);
+              if (onFail) onFail();
+            }
+          })
+          .catch(function (e) {
+            console.error("Supabase error:", e);
+            if (onFail) onFail();
+          });
+      }
 
-function buildLabsITStudentEmail(d) {
-  return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">'
-    + '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">'
-    + '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">'
-    + '</div>'
-    + '<div style="background:#1B3A7A;padding:32px;text-align:center">'
-    + '<h1 style="color:#fff;margin:0;font-size:24px">Application received &#9989;</h1>'
-    + '<p style="color:rgba(255,255,255,.6);margin:8px 0 0;font-size:14px">TechNuVate Labs &mdash; IT Placement</p></div>'
-    + '<div style="padding:32px;background:#F5F7FA">'
-    + '<p style="font-size:15px;color:#111827;line-height:1.7">Hi <strong>' + d.full_name.split(' ')[0] + '</strong>,</p>'
-    + '<p style="font-size:14px;color:#6B7280;line-height:1.75">We have received your IT placement application. Our team will review it and get back to you within <strong style="color:#111827">48 to 72 hours</strong>.</p>'
-    + '<div style="background:#fff;border:1px solid #E4E8F0;border-radius:12px;padding:20px;margin:20px 0">'
-    + '<p style="margin:0 0 10px;font-size:13px;font-weight:700;color:#374151">What happens next?</p>'
-    + '<p style="margin:0 0 8px;font-size:13px;color:#6B7280;line-height:1.65">&#8226; We review your application for eligibility</p>'
-    + '<p style="margin:0 0 8px;font-size:13px;color:#6B7280;line-height:1.65">&#8226; If accepted, we send you a confirmation with payment details</p>'
-    + '<p style="margin:0;font-size:13px;color:#6B7280;line-height:1.65">&#8226; After payment, your placement is confirmed and onboarding begins</p></div>'
-    + '<p style="font-size:13px;color:#6B7280">Questions? Email <a href="mailto:hello@technuvate.com" style="color:#1B3A7A">hello@technuvate.com</a></p></div>'
-    + '<div style="padding:20px 32px;text-align:center;background:#fff"><p style="font-size:12px;color:#8A9AB0;margin:0">TechNuVate &mdash; Learn. Build. Execute.</p></div></div>';
-}
+      const FW_PUBLIC_KEY = "FLUTTERWAVE_PUBLIC_KEY_HERE";
 
-function saveToSupabase(table, data, onSuccess, onFail) {
-  if (SB_URL === 'https://xnynghnhbeyeowcibuvz.supabase.co') {
-    // Supabase not yet configured — skip silently, show success anyway
-    if (onSuccess) onSuccess();
-    return;
-  }
-  fetch(SB_URL + '/rest/v1/' + table, {
-    method: 'POST',
-    headers: {
-      'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + SB_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify(data)
-  })
-  .then(function(r) {
-    if (r.ok) { if (onSuccess) onSuccess(); }
-    else { console.error('Supabase save failed:', r.status); if (onFail) onFail(); }
-  })
-  .catch(function(e) {
-    console.error('Supabase error:', e);
-    if (onFail) onFail();
-  });
-}
+      function toggleMenu() {
+        var m = document.getElementById("mobMenu");
+        var b = document.getElementById("hamBtn");
+        m.classList.toggle("open");
+        var s = b.querySelectorAll("span");
+        if (m.classList.contains("open")) {
+          s[0].style.transform = "rotate(45deg) translate(5px,5px)";
+          s[1].style.opacity = "0";
+          s[2].style.transform = "rotate(-45deg) translate(5px,-5px)";
+        } else {
+          s[0].style.transform = "";
+          s[1].style.opacity = "";
+          s[2].style.transform = "";
+        }
+      }
+      document.addEventListener("click", function (e) {
+        var m = document.getElementById("mobMenu");
+        var b = document.getElementById("hamBtn");
+        if (
+          m &&
+          m.classList.contains("open") &&
+          !m.contains(e.target) &&
+          !b.contains(e.target)
+        )
+          toggleMenu();
+      });
 
-const FW_PUBLIC_KEY = 'FLUTTERWAVE_PUBLIC_KEY_HERE';
+      function handleCourse() {
+        var v = document.getElementById("course").value;
+        document.getElementById("course-other-box").style.display =
+          v === "Other" ? "block" : "none";
+        if (v !== "Other")
+          document.getElementById("course-other-input").value = "";
+      }
+      function handleLevel() {
+        var v = document.getElementById("level").value;
+        var box = document.getElementById("level-other-box");
+        box.style.display = v === "Other" ? "block" : "none";
+        if (v !== "Other")
+          document.getElementById("level-other-input").value = "";
+      }
+      function checkState() {
+        var s = document.getElementById("state").value;
+        var allowed = [
+          "Rivers State",
+          "Bayelsa State",
+          "Abia State",
+          "Akwa Ibom State",
+        ];
+        var isOther = s === "Other";
+        var isOutside = s && !allowed.includes(s);
+        document.getElementById("other-state-box").style.display = isOther
+          ? "block"
+          : "none";
+        document.getElementById("other-state-notice").style.display = isOutside
+          ? "block"
+          : "none";
+        if (!isOther) document.getElementById("other-state-name").value = "";
+      }
 
-function toggleMenu(){
-  var m=document.getElementById('mobMenu');var b=document.getElementById('hamBtn');
-  m.classList.toggle('open');
-  var s=b.querySelectorAll('span');
-  if(m.classList.contains('open')){s[0].style.transform='rotate(45deg) translate(5px,5px)';s[1].style.opacity='0';s[2].style.transform='rotate(-45deg) translate(5px,-5px)';}
-  else{s[0].style.transform='';s[1].style.opacity='';s[2].style.transform='';}
-}
-document.addEventListener('click',function(e){
-  var m=document.getElementById('mobMenu');var b=document.getElementById('hamBtn');
-  if(m&&m.classList.contains('open')&&!m.contains(e.target)&&!b.contains(e.target))toggleMenu();
-});
+      function val(id) {
+        return document.getElementById(id).value.trim();
+      }
+      function showErr(id, msg) {
+        var e = document.getElementById(id + "-err");
+        if (e) {
+          e.textContent = msg;
+          e.style.display = "block";
+        }
+        var f = document.getElementById(id);
+        if (f) f.classList.add("invalid");
+      }
+      function clearErr(id) {
+        var e = document.getElementById(id + "-err");
+        if (e) e.style.display = "none";
+        var f = document.getElementById(id);
+        if (f) f.classList.remove("invalid");
+      }
 
-function handleCourse(){
-  var v = document.getElementById('course').value;
-  document.getElementById('course-other-box').style.display = v === 'Other' ? 'block' : 'none';
-  if(v !== 'Other') document.getElementById('course-other-input').value = '';
-}
-function handleLevel(){
-  var v = document.getElementById('level').value;
-  var box = document.getElementById('level-other-box');
-  box.style.display = v === 'Other' ? 'block' : 'none';
-  if(v !== 'Other') document.getElementById('level-other-input').value = '';
-}
-function checkState(){
-  var s=document.getElementById('state').value;
-  var allowed=['Rivers State','Bayelsa State','Abia State','Akwa Ibom State'];
-  var isOther = s === 'Other';
-  var isOutside = s && !allowed.includes(s);
-  document.getElementById('other-state-box').style.display = isOther ? 'block' : 'none';
-  document.getElementById('other-state-notice').style.display = isOutside ? 'block' : 'none';
-  if(!isOther) document.getElementById('other-state-name').value = '';
-}
+      [
+        "fullname",
+        "email",
+        "phone",
+        "state",
+        "city",
+        "institution",
+        "course",
+        "level",
+        "it-start",
+        "it-duration",
+        "interest",
+        "motivation",
+      ].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el)
+          el.addEventListener("input", function () {
+            clearErr(id);
+          });
+        if (el)
+          el.addEventListener("change", function () {
+            clearErr(id);
+          });
+      });
 
-function val(id){return document.getElementById(id).value.trim();}
-function showErr(id,msg){var e=document.getElementById(id+'-err');if(e){e.textContent=msg;e.style.display='block';}var f=document.getElementById(id);if(f)f.classList.add('invalid');}
-function clearErr(id){var e=document.getElementById(id+'-err');if(e)e.style.display='none';var f=document.getElementById(id);if(f)f.classList.remove('invalid');}
+      function submitForm() {
+        var ok = true;
+        if (!val("gender")) {
+          showErr("gender", "Please select your gender.");
+          ok = false;
+        } else clearErr("gender");
+        if (!val("age")) {
+          showErr("age", "Please select your age range.");
+          ok = false;
+        } else clearErr("age");
+        // Other state name
+        if (
+          document.getElementById("state").value === "Other" &&
+          !val("other-state-name")
+        ) {
+          showErr("other-state-name", "Please enter your state name.");
+          ok = false;
+        } else clearErr("other-state-name");
+        // Course other
+        if (val("course") === "Other" && !val("course-other-input")) {
+          showErr("course-other-input", "Please enter your course of study.");
+          ok = false;
+        } else clearErr("course-other-input");
+        // Level other
+        if (val("level") === "Other" && !val("level-other-input")) {
+          showErr("level-other-input", "Please enter your current level.");
+          ok = false;
+        } else clearErr("level-other-input");
 
-['fullname','email','phone','state','city','institution','course','level','it-start','it-duration','interest','motivation'].forEach(function(id){
-  var el=document.getElementById(id);
-  if(el)el.addEventListener('input',function(){clearErr(id);});
-  if(el)el.addEventListener('change',function(){clearErr(id);});
-});
+        var required = [
+          ["fullname", "Please enter your full name."],
+          ["state", "Please select your state."],
+          ["city", "Please enter your city."],
+          ["institution", "Please enter your school name."],
+          ["institution-type", "Please select your institution type."],
+          ["course", "Please select your course."],
+          ["level", "Please select your current level."],
+          ["it-start", "Please select your IT start date."],
+          ["it-duration", "Please select your IT duration."],
+          ["strength", "Please tell us what you are naturally good at."],
+          ["people-comfort", "Please select your comfort level."],
+          ["motivation", "Please tell us why you want to join."],
+          [
+            "digital-skill",
+            "Please tell us what tools or platforms you are familiar with.",
+          ],
+        ];
+        // Email check
+        var em = val("email");
+        if (!em || !/^[^@]+@[^@]+\.[^@]+$/.test(em)) {
+          showErr("email", "Please enter a valid email address.");
+          ok = false;
+        } else clearErr("email");
+        if (!val("phone")) {
+          showErr("phone", "Please enter your WhatsApp number.");
+          ok = false;
+        } else clearErr("phone");
 
-function submitForm(){
-  var ok=true;
-  if(!val('gender')){showErr('gender','Please select your gender.');ok=false;}else clearErr('gender');
-  if(!val('age')){showErr('age','Please select your age range.');ok=false;}else clearErr('age');
-  // Other state name
-  if(document.getElementById('state').value === 'Other' && !val('other-state-name')){
-    showErr('other-state-name','Please enter your state name.');ok=false;
-  } else clearErr('other-state-name');
-  // Course other
-  if(val('course') === 'Other' && !val('course-other-input')){
-    showErr('course-other-input','Please enter your course of study.');ok=false;
-  } else clearErr('course-other-input');
-  // Level other
-  if(val('level') === 'Other' && !val('level-other-input')){
-    showErr('level-other-input','Please enter your current level.');ok=false;
-  } else clearErr('level-other-input');
+        required.forEach(function (r) {
+          if (!val(r[0])) {
+            showErr(r[0], r[1]);
+            ok = false;
+          } else clearErr(r[0]);
+        });
+        // Document uploads
+        if (!document.getElementById("doc-it-letter").files.length) {
+          showErr("doc-it-letter", "Please upload your IT request letter.");
+          ok = false;
+        } else clearErr("doc-it-letter");
+        if (!document.getElementById("doc-id").files.length) {
+          showErr(
+            "doc-id",
+            "Please upload your school ID or admission letter.",
+          );
+          ok = false;
+        } else clearErr("doc-id");
+        if (!document.getElementById("doc-passport").files.length) {
+          showErr("doc-passport", "Please upload your passport photograph.");
+          ok = false;
+        } else clearErr("doc-passport");
+        // Double-check all required fields have been touched
+        if (!ok) {
+          var errEl = document.querySelector(
+            '.err[style*="block"], .fi.invalid',
+          );
+          if (errEl) {
+            errEl.scrollIntoView({ behavior: "smooth", block: "center" });
+          } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+          return;
+        }
 
-  var required=[
-    ['fullname','Please enter your full name.'],
-    ['state','Please select your state.'],
-    ['city','Please enter your city.'],
-    ['institution','Please enter your school name.'],
-    ['institution-type','Please select your institution type.'],
-    ['course','Please select your course.'],
-    ['level','Please select your current level.'],
-    ['it-start','Please select your IT start date.'],
-    ['it-duration','Please select your IT duration.'],
-    ['strength','Please tell us what you are naturally good at.'],
-    ['people-comfort','Please select your comfort level.'],
-    ['motivation','Please tell us why you want to join.'],
-    ['digital-skill','Please tell us what tools or platforms you are familiar with.']
-  ];
-  // Email check
-  var em=val('email');
-  if(!em||!/^[^@]+@[^@]+\.[^@]+$/.test(em)){showErr('email','Please enter a valid email address.');ok=false;}else clearErr('email');
-  if(!val('phone')){showErr('phone','Please enter your WhatsApp number.');ok=false;}else clearErr('phone');
+        var btn = document.getElementById("submitBtn");
+        var spinner = document.getElementById("spinner");
+        var btnText = document.getElementById("btnText");
+        btn.disabled = true;
+        spinner.style.display = "block";
+        btnText.textContent = "Submitting...";
 
-  required.forEach(function(r){
-    if(!val(r[0])){showErr(r[0],r[1]);ok=false;}else clearErr(r[0]);
-  });
-  // Document uploads
-  if(!document.getElementById('doc-it-letter').files.length){showErr('doc-it-letter','Please upload your IT request letter.');ok=false;}else clearErr('doc-it-letter');
-  if(!document.getElementById('doc-id').files.length){showErr('doc-id','Please upload your school ID or admission letter.');ok=false;}else clearErr('doc-id');
-  if(!document.getElementById('doc-passport').files.length){showErr('doc-passport','Please upload your passport photograph.');ok=false;}else clearErr('doc-passport');
-  // Double-check all required fields have been touched
-  if(!ok){
-    var errEl = document.querySelector('.err[style*="block"], .fi.invalid');
-    if(errEl){ errEl.scrollIntoView({behavior:'smooth', block:'center'}); }
-    else { window.scrollTo({top:0,behavior:'smooth'}); }
-    return;
-  }
+        var actualState =
+          val("state") === "Other" ? val("other-state-name") : val("state");
+        var actualLevel =
+          val("level") === "Other" ? val("level-other-input") : val("level");
+        var payload = {
+          full_name: val("fullname"),
+          email: val("email"),
+          phone: val("phone"),
+          gender: val("gender") || "",
+          university: val("university") || "",
+          department: val("department") || "",
+          level: val("level") || "",
+          matric_no: val("matric") || "",
+          it_duration: val("duration") || "",
+          start_date: val("start-date") || "",
+          skill_interest: val("skill") || "",
+          prior_skills: val("skills") || "",
+          motivation: val("motivation") || "",
+          linkedin: val("linkedin") || "",
+          country: val("country") || "Nigeria",
+          state_region: val("state") || "",
+        };
 
-  var btn=document.getElementById('submitBtn');
-  var spinner=document.getElementById('spinner');
-  var btnText=document.getElementById('btnText');
-  btn.disabled=true;spinner.style.display='block';btnText.textContent='Submitting...';
+        // Save IT application to Supabase and send emails
+        saveToSupabase(
+          "labs_it_applications",
+          payload,
+          function () {
+            sendEmail(
+              ADMIN_EMAIL,
+              "\uD83C\uDFEB IT Placement Application: " +
+                payload.full_name +
+                " (" +
+                (payload.university || "Unknown Uni") +
+                ")",
+              buildLabsITAdminEmail(payload),
+            );
+            sendEmail(
+              payload.email,
+              "We received your IT placement application \u2014 TechNuVate Labs",
+              buildLabsITStudentEmail(payload),
+            );
+            btn.disabled = false;
+            spinner.style.display = "none";
+            btnText.textContent = "Submit Application";
+            document.getElementById("formCard").style.display = "none";
+            document.getElementById("successCard").style.display = "block";
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          },
+          function () {
+            btn.disabled = false;
+            spinner.style.display = "none";
+            btnText.textContent = "Submit Application";
+            document.getElementById("formCard").style.display = "none";
+            document.getElementById("successCard").style.display = "block";
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          },
+        );
+      }
+    </script>
 
-  var actualState = val('state') === 'Other' ? val('other-state-name') : val('state');
-  var actualLevel = val('level') === 'Other' ? val('level-other-input') : val('level');
-  var payload = {
-    full_name:      val('fullname'),
-    email:          val('email'),
-    phone:          val('phone'),
-    gender:         val('gender') || '',
-    university:     val('university') || '',
-    department:     val('department') || '',
-    level:          val('level') || '',
-    matric_no:      val('matric') || '',
-    it_duration:    val('duration') || '',
-    start_date:     val('start-date') || '',
-    skill_interest: val('skill') || '',
-    prior_skills:   val('skills') || '',
-    motivation:     val('motivation') || '',
-    linkedin:       val('linkedin') || '',
-    country:        val('country') || 'Nigeria',
-    state_region:   val('state') || ''
-  };
-
-  // Save IT application to Supabase and send emails
-  saveToSupabase('labs_it_applications', payload,
-    function() {
-      sendEmail(
-        ADMIN_EMAIL,
-        '\uD83C\uDFEB IT Placement Application: ' + payload.full_name + ' (' + (payload.university||'Unknown Uni') + ')',
-        buildLabsITAdminEmail(payload)
-      );
-      sendEmail(
-        payload.email,
-        'We received your IT placement application \u2014 TechNuVate Labs',
-        buildLabsITStudentEmail(payload)
-      );
-      btn.disabled=false; spinner.style.display='none'; btnText.textContent='Submit Application';
-      document.getElementById('formCard').style.display = 'none';
-      document.getElementById('successCard').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    },
-    function() {
-      btn.disabled=false; spinner.style.display='none'; btnText.textContent='Submit Application';
-      document.getElementById('formCard').style.display = 'none';
-      document.getElementById('successCard').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  );
-}
-</script>
-
-<footer style="background:#060C1A;padding:36px 5% 24px;margin-top:0">
-  <div style="max-width:1100px;margin:0 auto;text-align:center">
-    <div style="display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-bottom:18px">
-      <a href="https://www.linkedin.com/company/technuvate" title="LinkedIn" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
-      <a href="https://www.instagram.com/tech_nu_vate" title="Instagram" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
-      <a href="https://x.com/technuvate" title="X" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
-      <a href="https://www.youtube.com/@technuvate" title="YouTube" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg></a>
-      <a href="https://www.tiktok.com/@tech_nu_vate" title="TikTok" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/></svg></a>
-      <a href="https://www.facebook.com/technuvate" title="Facebook" style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
-    </div>
-    <p style="font-size:12px;color:rgba(255,255,255,.18)">&copy; 2026 TechNuVate. All rights reserved. Learn. Build. Execute.</p>
-  </div>
-</footer>
-</body>
+    <footer style="background: #060c1a; padding: 36px 5% 24px; margin-top: 0">
+      <div style="max-width: 1100px; margin: 0 auto; text-align: center">
+        <div
+          style="
+            display: flex;
+            justify-content: center;
+            gap: 7px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+          "
+        >
+          <a
+            href="https://www.linkedin.com/company/technuvate"
+            title="LinkedIn"
+            style="
+              width: 32px;
+              height: 32px;
+              border-radius: 7px;
+              background: rgba(255, 255, 255, 0.07);
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-decoration: none;
+            "
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="rgba(255,255,255,.5)"
+            >
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+              /></svg
+          ></a>
+          <a
+            href="https://www.instagram.com/tech_nu_vate"
+            title="Instagram"
+            style="
+              width: 32px;
+              height: 32px;
+              border-radius: 7px;
+              background: rgba(255, 255, 255, 0.07);
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-decoration: none;
+            "
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="rgba(255,255,255,.5)"
+            >
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+              /></svg
+          ></a>
+          <a
+            href="https://x.com/technuvate"
+            title="X"
+            style="
+              width: 32px;
+              height: 32px;
+              border-radius: 7px;
+              background: rgba(255, 255, 255, 0.07);
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-decoration: none;
+            "
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="rgba(255,255,255,.5)"
+            >
+              <path
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+              /></svg
+          ></a>
+          <a
+            href="https://www.youtube.com/@technuvate"
+            title="YouTube"
+            style="
+              width: 32px;
+              height: 32px;
+              border-radius: 7px;
+              background: rgba(255, 255, 255, 0.07);
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-decoration: none;
+            "
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="rgba(255,255,255,.5)"
+            >
+              <path
+                d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"
+              /></svg
+          ></a>
+          <a
+            href="https://www.tiktok.com/@tech_nu_vate"
+            title="TikTok"
+            style="
+              width: 32px;
+              height: 32px;
+              border-radius: 7px;
+              background: rgba(255, 255, 255, 0.07);
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-decoration: none;
+            "
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="rgba(255,255,255,.5)"
+            >
+              <path
+                d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"
+              /></svg
+          ></a>
+          <a
+            href="https://www.facebook.com/technuvate"
+            title="Facebook"
+            style="
+              width: 32px;
+              height: 32px;
+              border-radius: 7px;
+              background: rgba(255, 255, 255, 0.07);
+              border: 1px solid rgba(255, 255, 255, 0.1);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-decoration: none;
+            "
+            ><svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="rgba(255,255,255,.5)"
+            >
+              <path
+                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+              /></svg
+          ></a>
+        </div>
+        <p style="font-size: 12px; color: rgba(255, 255, 255, 0.18)">
+          &copy; 2026 TechNuVate. All rights reserved. Learn. Build. Execute.
+        </p>
+      </div>
+    </footer>
+  </body>
 </html>
