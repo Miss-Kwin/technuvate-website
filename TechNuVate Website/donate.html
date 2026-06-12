@@ -7,8 +7,6 @@
   <title>Sponsor a Youth | TechNuVate</title>
   <meta name="description"
     content="Let us be your tithe house. Sponsor a young person to learn a tech skill in Africa. For as low as &#8358;2,000 or $2.">
-  <script src="https://checkout.flutterwave.com/v3.js"></script>
-  <script src="js/env.js"></script>
   <style>
     *,
     *::before,
@@ -1496,61 +1494,6 @@
     }
   </style>
 
-  <script>
-    (function () {
-      var SB_URL = 'https://xnynghnhbeyeowcibuvz.supabase.co';
-      var SB_KEY = 'sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY';
-
-      // Seed data shown before Supabase is connected
-      var seedFeeds = [
-        '❤️ <strong>Anonymous</strong> just donated <strong>₦5,000</strong>',
-        '🎂 Happy birthday <strong>Chisom O.</strong>! Thank you for paying it forward 🎉',
-        '❤️ <strong>David A.</strong> just donated <strong>₦2,000</strong>',
-        '🙏 <strong>A faithful giver</strong> donated their tithe — <strong>₦10,000</strong>',
-        '❤️ <strong>Ngozi F.</strong> just donated <strong>$5</strong>',
-        '🎂 Shoutout to <strong>Emeka B.</strong> celebrating his birthday by giving back 🎉',
-        '❤️ <strong>Anonymous</strong> just donated <strong>₦20,000</strong> — half a scholarship!',
-        '💜 <strong>In honour of Mama Blessing</strong> — ₦5,000 donated',
-        '❤️ <strong>Adaeze M.</strong> donated <strong>₦2,000</strong>',
-        '🎂 Birthday shoutout to <strong>Tunde K.</strong> — thanks for sponsoring a youth! 🎉',
-      ];
-
-      function renderTicker(messages) {
-        var track = document.getElementById('don-ticker-track');
-        if (!track) return;
-        var doubled = messages.concat(messages);
-        track.innerHTML = doubled.map(function (m) {
-          return '<span class="don-ticker-item"><span>' + m + '</span></span>';
-        }).join('');
-      }
-
-      function loadFromSupabase() {
-        if (SB_URL === 'https://xnynghnhbeyeowcibuvz.supabase.co') {
-          renderTicker(seedFeeds);
-          return;
-        }
-        fetch(SB_URL + '/rest/v1/donations_ticker?select=ticker_message&order=created_at.desc', {
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
-        })
-          .then(function (r) { return r.json(); })
-          .then(function (data) {
-            if (!data || !data.length) { renderTicker(seedFeeds); return; }
-            renderTicker(data.map(function (d) { return d.ticker_message || ''; }).filter(Boolean));
-          })
-          .catch(function () { renderTicker(seedFeeds); });
-      }
-
-      // Load on page ready, then refresh every 60 seconds
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadFromSupabase);
-      } else {
-        loadFromSupabase();
-      }
-      setInterval(loadFromSupabase, 60000);
-    })();
-  </script>
-
-
   <section class="how-section">
     <div class="how-wrap">
       <div
@@ -1667,6 +1610,61 @@
     </div>
   </footer>
 
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
+  <script src="js/env.js"></script>
+  <script>
+    (function () {
+      var SB_URL = 'https://xnynghnhbeyeowcibuvz.supabase.co';
+      var SB_KEY = 'sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY';
+
+      // Seed data shown before Supabase is connected
+      var seedFeeds = [
+        '❤️ <strong>Anonymous</strong> just donated <strong>₦5,000</strong>',
+        '🎂 Happy birthday <strong>Chisom O.</strong>! Thank you for paying it forward 🎉',
+        '❤️ <strong>David A.</strong> just donated <strong>₦2,000</strong>',
+        '🙏 <strong>A faithful giver</strong> donated their tithe — <strong>₦10,000</strong>',
+        '❤️ <strong>Ngozi F.</strong> just donated <strong>$5</strong>',
+        '🎂 Shoutout to <strong>Emeka B.</strong> celebrating his birthday by giving back 🎉',
+        '❤️ <strong>Anonymous</strong> just donated <strong>₦20,000</strong> — half a scholarship!',
+        '💜 <strong>In honour of Mama Blessing</strong> — ₦5,000 donated',
+        '❤️ <strong>Adaeze M.</strong> donated <strong>₦2,000</strong>',
+        '🎂 Birthday shoutout to <strong>Tunde K.</strong> — thanks for sponsoring a youth! 🎉',
+      ];
+
+      function renderTicker(messages) {
+        var track = document.getElementById('don-ticker-track');
+        if (!track) return;
+        var doubled = messages.concat(messages);
+        track.innerHTML = doubled.map(function (m) {
+          return '<span class="don-ticker-item"><span>' + m + '</span></span>';
+        }).join('');
+      }
+
+      function loadFromSupabase() {
+        if (SB_URL === 'https://xnynghnhbeyeowcibuvz.supabase.co') {
+          renderTicker(seedFeeds);
+          return;
+        }
+        fetch(SB_URL + '/rest/v1/donations_ticker?select=ticker_message&order=created_at.desc', {
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            if (!data || !data.length) { renderTicker(seedFeeds); return; }
+            renderTicker(data.map(function (d) { return d.ticker_message || ''; }).filter(Boolean));
+          })
+          .catch(function () { renderTicker(seedFeeds); });
+      }
+
+      // Load on page ready, then refresh every 60 seconds
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadFromSupabase);
+      } else {
+        loadFromSupabase();
+      }
+      setInterval(loadFromSupabase, 60000);
+    })();
+  </script>
   <script>
     function toggleMenu() {
       var m = document.getElementById('mobMenu'); var b = document.getElementById('hamBtn');
@@ -1680,7 +1678,6 @@
       if (m && m.classList.contains('open') && !m.contains(e.target) && !b.contains(e.target)) toggleMenu();
     });
   </script>
-
   <script>
     var FW_KEY = window.APP_ENV.FW_PUBLIC_KEY;
     var wCurrency = 'NGN';

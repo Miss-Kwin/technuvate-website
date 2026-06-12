@@ -5,8 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Enroll — TechNuVate Academy</title>
-  <script src="https://checkout.flutterwave.com/v3.js"></script>
-  <script src="js/env.js"></script>
   <style>
     *,
     *::before,
@@ -1408,479 +1406,6 @@
       </div>
     </div>
 
-    <script>
-      // =========================================================
-      // CONFIGURATION — UPDATE BEFORE GOING LIVE
-      // =========================================================
-
-      var FW_PUBLIC_KEY = window.APP_ENV.FW_PUBLIC_KEY;
-
-      // ── Supabase + Resend config ─────────────────────────────────
-      var SB_URL = 'https://xnynghnhbeyeowcibuvz.supabase.co';
-      var SB_KEY = 'sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY';
-      var RESEND_KEY = 're_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd';
-      var ADMIN_EMAIL = 'academy@technuvate.com';  // enrollment notifications go here
-
-      // Save a record to Supabase
-      function saveToSupabase(table, data, onSuccess, onFail) {
-        if (!SB_URL || SB_URL === 'https://xnynghnhbeyeowcibuvz.supabase.co') {
-          if (onSuccess) onSuccess(); return;
-        }
-        fetch(SB_URL + '/rest/v1/' + table, {
-          method: 'POST',
-          headers: {
-            'apikey': SB_KEY,
-            'Authorization': 'Bearer ' + SB_KEY,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=minimal'
-          },
-          body: JSON.stringify(data)
-        }).then(function (r) {
-          if (r.ok) { if (onSuccess) onSuccess(); }
-          else { console.error('Supabase save failed:', r.status); if (onFail) onFail(); }
-        }).catch(function (e) {
-          console.error('Supabase error:', e); if (onFail) onFail();
-        });
-      }
-
-      // Send email via Resend
-      function sendEmail(toAddress, subject, htmlBody) {
-        if (!RESEND_KEY || RESEND_KEY === 're_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd') return;
-        fetch('https://api.resend.com/emails', {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + RESEND_KEY,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            from: 'TechNuVate Academy <academy@technuvate.com>',
-            to: [toAddress],
-            subject: subject,
-            html: htmlBody
-          })
-        }).catch(function (e) { console.error('Resend error:', e); });
-      }
-
-      function buildEnrollAdminEmail(d) {
-        return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">'
-          + '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">'
-          + '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">'
-          + '</div>'
-          + '<div style="background:#1B3A7A;padding:24px 32px">'
-          + '<h2 style="color:#fff;margin:0;font-size:20px">&#127891; New Academy Enrollment</h2></div>'
-          + '<div style="padding:28px 32px;background:#F5F7FA">'
-          + '<table style="width:100%;border-collapse:collapse">'
-          + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px;width:140px">Name</td>'
-          + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:600">' + d.full_name + '</td></tr>'
-          + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Email</td>'
-          + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + d.email + '</td></tr>'
-          + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Phone</td>'
-          + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + d.phone + '</td></tr>'
-          + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Course</td>'
-          + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:700;color:#1B3A7A">' + d.course + '</td></tr>'
-          + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Country</td>'
-          + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + (d.country || 'Not provided') + '</td></tr>'
-          + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Tier</td>'
-          + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + d.pricing_tier + '</td></tr>'
-          + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Amount Paid</td>'
-          + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:700">' + d.amount + ' ' + d.currency + '</td></tr>'
-          + '<tr><td style="padding:10px 0;color:#8A9AB0;font-size:13px">Tx Ref</td>'
-          + '<td style="padding:10px 0;font-size:13px;color:#374151">' + d.tx_ref + '</td></tr>'
-          + '</table></div>'
-          + '<div style="padding:20px 32px;text-align:center;background:#fff">'
-          + '<p style="font-size:12px;color:#8A9AB0;margin:0">TechNuVate Academy &mdash; Enrollment Notification</p></div></div>';
-      }
-
-      function buildEnrollStudentEmail(d) {
-        return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">'
-          + '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">'
-          + '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">'
-          + '</div>'
-          + '<div style="background:#1B3A7A;padding:32px;text-align:center">'
-          + '<h1 style="color:#fff;margin:0;font-size:24px">You are in! &#127881;</h1>'
-          + '<p style="color:rgba(255,255,255,.6);margin:8px 0 0;font-size:14px">Your enrollment is confirmed.</p></div>'
-          + '<div style="padding:32px;background:#F5F7FA">'
-          + '<p style="font-size:15px;color:#111827;line-height:1.7">Hi <strong>' + d.full_name.split(' ')[0] + '</strong>,</p>'
-          + '<p style="font-size:14px;color:#6B7280;line-height:1.75">Your enrollment for <strong style="color:#1B3A7A">' + d.course + '</strong> has been confirmed and your payment received. Welcome to TechNuVate Academy.</p>'
-          + '<div style="background:#fff;border:1px solid #E4E8F0;border-radius:12px;padding:20px;margin:20px 0">'
-          + '<p style="margin:0 0 8px;font-size:13px;font-weight:700;color:#374151">What happens next?</p>'
-          + '<p style="margin:0;font-size:13px;color:#6B7280;line-height:1.7">We will send you a welcome message with your cohort start date, session schedule, and access details before your first class. Keep an eye on this email.</p></div>'
-          + '<p style="font-size:13px;color:#6B7280;line-height:1.7">If you have any questions in the meantime, reply to this email or reach us at <a href="mailto:hello@technuvate.com" style="color:#1B3A7A">hello@technuvate.com</a>.</p></div>'
-          + '<div style="padding:20px 32px;text-align:center;background:#fff">'
-          + '<p style="font-size:12px;color:#8A9AB0;margin:0">TechNuVate &mdash; Learn. Build. Execute.</p></div></div>';
-      }
-
-
-      // Prices in both currencies
-      // NGN prices
-      var PRICES_NGN = { partner: 40000, earlybird: 60000, standard: 80000 };
-      // USD prices (set these to whatever you decide)
-      var PRICES_USD = { partner: 30, earlybird: 45, standard: 60 };
-
-      var activeCurrency = 'NGN'; // default
-
-      // Set your public launch date. Early bird runs for exactly 3 weeks from this date.
-      // Format: new Date(YEAR, MONTH (0=Jan, 11=Dec), DAY, HOUR, MINUTE)
-      var LAUNCH_DATE = new Date(2026, 4, 1, 0, 0, 0); // UPDATE THIS to your actual launch date
-      var EARLY_BIRD_DEADLINE = new Date(LAUNCH_DATE.getTime() + (21 * 24 * 60 * 60 * 1000)); // 3 weeks after launch
-
-      // Partner codes.
-      // Structure: 'CODE': { org: 'Organisation Name', cohort: 'Cohort 1' }
-      // Each code is unique and single-use on your backend.
-      // On this frontend, we just validate that the code exists.
-      // Your backend (or Flutterwave webhook) receives the code in the
-      // payment metadata so you can track registrations per partner.
-      //
-      // How to generate codes:
-      // Give each community a batch of random codes, e.g.:
-      // She Code Africa (30 codes): SCA2X7K, SCA9M3P, SCA4R8T ...
-      // WeTech Community (20 codes): WTC6B2N, WTC1K9Q, WTC5J4M ...
-      // Each code is given to one interested member. When they use it here,
-      // the code and their payment is recorded — you see exactly how many
-      // came through each partner by filtering by org name in your records.
-      var PARTNER_CODES = {
-        'SCA2X7K': { org: 'She Code Africa', cohort: 'Cohort 1' },
-        'SCA9M3P': { org: 'She Code Africa', cohort: 'Cohort 1' },
-        'SCA4R8T': { org: 'She Code Africa', cohort: 'Cohort 1' },
-        'WTC6B2N': { org: 'WeTech Community', cohort: 'Cohort 1' },
-        'WTC1K9Q': { org: 'WeTech Community', cohort: 'Cohort 1' }
-        // Add more codes here before launch
-      };
-
-      // =========================================================
-
-      var currentTile = 'earlybird';
-      var currentAmount = 60000;
-      var partnerCodeVerified = false;
-      var partnerOrg = '';
-      var earlyBirdActive = new Date() < EARLY_BIRD_DEADLINE;
-
-      function formatDeadline(d) {
-        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
-      }
-
-      function setCurrency(cur) {
-        activeCurrency = cur;
-        // Toggle button styles
-        var ngnBtn = document.getElementById('btn-ngn');
-        var usdBtn = document.getElementById('btn-usd');
-        if (cur === 'NGN') {
-          ngnBtn.style.background = '#1B3A7A'; ngnBtn.style.color = '#fff';
-          usdBtn.style.background = 'transparent'; usdBtn.style.color = '#6B7280';
-        } else {
-          usdBtn.style.background = '#1B3A7A'; usdBtn.style.color = '#fff';
-          ngnBtn.style.background = 'transparent'; ngnBtn.style.color = '#6B7280';
-        }
-        // Update tile displayed prices
-        var prices = cur === 'NGN' ? PRICES_NGN : PRICES_USD;
-        var sym = cur === 'NGN' ? '&#8358;' : '$';
-        document.getElementById('amt-partner').innerHTML = sym + prices.partner.toLocaleString();
-        document.getElementById('amt-earlybird').innerHTML = sym + prices.earlybird.toLocaleString();
-        document.getElementById('amt-standard').innerHTML = sym + prices.standard.toLocaleString();
-        // Update current amount
-        currentAmount = prices[currentTile];
-        // Update note
-        var note = document.getElementById('currencyNote');
-        if (note) note.textContent = cur === 'NGN'
-          ? 'Payment will be charged in Nigerian Naira (NGN).'
-          : 'Payment will be charged in US Dollars (USD).';
-        // Also update pay button label directly
-        document.getElementById('btnAmount').innerHTML = sym + currentAmount.toLocaleString();
-        updateSummary();
-      }
-
-      function init() {
-        document.getElementById('ebDeadlineText').textContent = formatDeadline(EARLY_BIRD_DEADLINE);
-
-        if (earlyBirdActive) {
-          startCountdown();
-          document.getElementById('countdownBar').style.display = 'flex';
-          document.getElementById('tile-standard').classList.add('tile-disabled');
-          document.getElementById('standardBadge').textContent = 'Not Yet Available';
-          document.getElementById('standardBadge').className = 'tile-badge badge-closed';
-          selectTile('earlybird');
-        } else {
-          document.getElementById('countdownBar').style.display = 'none';
-          document.getElementById('ebClosesLabel').textContent = 'Early bird pricing has closed.';
-          document.getElementById('tile-earlybird').classList.add('tile-disabled');
-          document.getElementById('earlybirdBadge').className = 'tile-badge badge-closed';
-          document.getElementById('earlybirdBadge').textContent = 'Closed';
-          document.getElementById('tile-standard').classList.remove('tile-disabled');
-          document.getElementById('standardBadge').textContent = 'Open';
-          document.getElementById('standardBadge').className = 'tile-badge badge-standard';
-          selectTile('standard');
-        }
-      }
-
-      function pad(n) { return n < 10 ? '0' + n : '' + n; }
-
-      function startCountdown() {
-        function tick() {
-          var diff = EARLY_BIRD_DEADLINE - new Date();
-          if (diff <= 0) {
-            earlyBirdActive = false;
-            document.getElementById('countdownTime').textContent = '00:00:00';
-            document.getElementById('tile-earlybird').classList.add('tile-disabled');
-            document.getElementById('earlybirdBadge').className = 'tile-badge badge-closed';
-            document.getElementById('earlybirdBadge').textContent = 'Closed';
-            document.getElementById('ebClosesLabel').textContent = 'Early bird pricing has closed.';
-            document.getElementById('tile-standard').classList.remove('tile-disabled');
-            document.getElementById('standardBadge').textContent = 'Open';
-            document.getElementById('standardBadge').className = 'tile-badge badge-standard';
-            document.getElementById('countdownBar').style.display = 'none';
-            if (currentTile === 'earlybird') selectTile('standard');
-            return;
-          }
-          var d = Math.floor(diff / 86400000);
-          var h = Math.floor((diff % 86400000) / 3600000);
-          var m = Math.floor((diff % 3600000) / 60000);
-          var s = Math.floor((diff % 60000) / 1000);
-          var t = (d > 0 ? d + 'd ' : '') + pad(h) + ':' + pad(m) + ':' + pad(s);
-          document.getElementById('countdownTime').textContent = t;
-          setTimeout(tick, 1000);
-        }
-        tick();
-      }
-
-      function selectTile(tier) {
-        var el = document.getElementById('tile-' + tier);
-        if (!el || el.classList.contains('tile-disabled')) return;
-        if (tier === 'standard' && earlyBirdActive) return;
-        if (tier === 'earlybird' && !earlyBirdActive) return;
-
-        document.querySelectorAll('.price-tile').forEach(function (t) { t.classList.remove('tile-selected'); });
-        el.classList.add('tile-selected');
-        currentTile = tier;
-
-        if (tier === 'partner') {
-          document.getElementById('partnerCodeBox').classList.add('visible');
-          var prices = activeCurrency === 'NGN' ? PRICES_NGN : PRICES_USD;
-          currentAmount = prices['partner'];
-        } else {
-          document.getElementById('partnerCodeBox').classList.remove('visible');
-          document.getElementById('codeValid').style.display = 'none';
-          document.getElementById('codeInvalid').style.display = 'none';
-          partnerCodeVerified = false;
-          partnerOrg = '';
-          var prices = activeCurrency === 'NGN' ? PRICES_NGN : PRICES_USD;
-          currentAmount = prices[tier];
-        }
-        updateSummary();
-      }
-
-      function verifyCode(e) {
-        e.stopPropagation();
-        var code = document.getElementById('partnerCode').value.trim().toUpperCase();
-        var validEl = document.getElementById('codeValid');
-        var invalidEl = document.getElementById('codeInvalid');
-        if (PARTNER_CODES[code]) {
-          partnerCodeVerified = true;
-          partnerOrg = PARTNER_CODES[code].org;
-          validEl.style.display = 'flex';
-          invalidEl.style.display = 'none';
-          document.getElementById('partnerCode').style.borderColor = '#15803D';
-        } else {
-          partnerCodeVerified = false;
-          partnerOrg = '';
-          invalidEl.style.display = 'flex';
-          validEl.style.display = 'none';
-          document.getElementById('partnerCode').style.borderColor = '#E53935';
-        }
-      }
-
-      function getSelectedState() {
-        var c = document.getElementById('country').value;
-        if (c === 'Nigeria') return document.getElementById('stateInput').value || '';
-        if (c && c !== 'Other') return document.getElementById('otherStateInput').value || '';
-        return '';
-      }
-      function clearFieldErr(id) { var e = document.getElementById(id + '-err'); if (e) e.style.display = 'none'; }
-      function handleCountry() {
-        var v = document.getElementById('country').value;
-        var otherBox = document.getElementById('otherCountryBox');
-        var stateBox = document.getElementById('stateBox');
-        var otherStateBox = document.getElementById('otherStateBox');
-        otherBox.classList.toggle('visible', v === 'Other');
-        stateBox.style.display = (v && v !== 'Other') ? 'block' : 'none';
-        otherStateBox.style.display = 'none';
-        document.getElementById('stateInput').innerHTML = '';
-        if (v === 'Other') { document.getElementById('otherCountry').focus(); }
-        if (v === 'Nigeria') {
-          var opts = '<option value="">Select state</option>' + '<option value="Abia">Abia</option>\n<option value="Adamawa">Adamawa</option>\n<option value="Akwa Ibom">Akwa Ibom</option>\n<option value="Anambra">Anambra</option>\n<option value="Bauchi">Bauchi</option>\n<option value="Bayelsa">Bayelsa</option>\n<option value="Benue">Benue</option>\n<option value="Borno">Borno</option>\n<option value="Cross River">Cross River</option>\n<option value="Delta">Delta</option>\n<option value="Ebonyi">Ebonyi</option>\n<option value="Edo">Edo</option>\n<option value="Ekiti">Ekiti</option>\n<option value="Enugu">Enugu</option>\n<option value="FCT (Abuja)">FCT (Abuja)</option>\n<option value="Gombe">Gombe</option>\n<option value="Imo">Imo</option>\n<option value="Jigawa">Jigawa</option>\n<option value="Kaduna">Kaduna</option>\n<option value="Kano">Kano</option>\n<option value="Katsina">Katsina</option>\n<option value="Kebbi">Kebbi</option>\n<option value="Kogi">Kogi</option>\n<option value="Kwara">Kwara</option>\n<option value="Lagos">Lagos</option>\n<option value="Nasarawa">Nasarawa</option>\n<option value="Niger">Niger</option>\n<option value="Ogun">Ogun</option>\n<option value="Ondo">Ondo</option>\n<option value="Osun">Osun</option>\n<option value="Oyo">Oyo</option>\n<option value="Plateau">Plateau</option>\n<option value="Rivers">Rivers</option>\n<option value="Sokoto">Sokoto</option>\n<option value="Taraba">Taraba</option>\n<option value="Yobe">Yobe</option>\n<option value="Zamfara">Zamfara</option>';
-          document.getElementById('stateInput').innerHTML = opts;
-        } else if (v && v !== 'Other') {
-          document.getElementById('otherStateBox').style.display = 'block';
-          stateBox.style.display = 'none';
-        }
-      }
-
-      function updateSummary() {
-        var course = document.getElementById('course').value;
-        document.getElementById('summCourse').textContent = course || 'No course selected yet';
-        var tierNames = { partner: 'Partner Pricing', earlybird: 'Early Bird', standard: 'Standard' };
-        document.getElementById('summTier').textContent = tierNames[currentTile];
-        var sym = activeCurrency === 'NGN' ? '&#8358;' : '$';
-        var altPrices = activeCurrency === 'NGN' ? PRICES_USD : PRICES_NGN;
-        var altSym = activeCurrency === 'NGN' ? '$' : '&#8358;';
-        document.getElementById('summPrice').innerHTML = sym + currentAmount.toLocaleString();
-        var usdEl = document.getElementById('summUSD');
-        if (usdEl) usdEl.innerHTML = '\u2248 ' + altSym + altPrices[currentTile].toLocaleString() + ' ' + (activeCurrency === 'NGN' ? 'USD' : 'NGN');
-        document.getElementById('btnAmount').innerHTML = sym + currentAmount.toLocaleString();
-      }
-
-      function getCountry() {
-        var sel = document.getElementById('country').value;
-        if (sel === 'Other') return document.getElementById('otherCountry').value.trim();
-        return sel;
-      }
-
-      function generateTxRef() {
-        return 'TNV-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
-      }
-
-      function initiatePayment() {
-        var cb = document.getElementById('commitCheck');
-        if (cb && !cb.checked) {
-          document.getElementById('commitErr').style.display = 'block';
-          cb.closest('div').scrollIntoView({ behavior: 'smooth', block: 'center' });
-          return;
-        }
-        if (cb) document.getElementById('commitErr').style.display = 'none';
-        var fullname = document.getElementById('fullname').value.trim();
-        var email = document.getElementById('email').value.trim();
-        var phone = document.getElementById('phone').value.trim();
-        var country = getCountry();
-        var course = document.getElementById('course').value;
-
-        var ok = true;
-        var firstErr = null;
-        function markErr(id, msg) {
-          var f = document.getElementById(id);
-          var e = document.getElementById(id + '-err') || document.getElementById(id.replace('course', 'course') + '-err');
-          if (f) f.style.borderColor = '#E53E3E';
-          if (e) { e.style.display = 'block'; e.textContent = msg; }
-          if (!firstErr && f) firstErr = f;
-          ok = false;
-        }
-        function clearErr(id) {
-          var f = document.getElementById(id);
-          var e = document.getElementById(id + '-err');
-          if (f) f.style.borderColor = '';
-          if (e) e.style.display = 'none';
-        }
-        if (!fullname) { markErr('fullname', 'Please enter your full name.'); } else clearErr('fullname');
-        if (!email || email.indexOf('@') === -1) { markErr('email', 'Please enter a valid email address.'); } else clearErr('email');
-        if (!phone) { markErr('phone', 'Please enter your WhatsApp number.'); } else clearErr('phone');
-        if (!country) { markErr('country', 'Please select or enter your country.'); }
-        if (!course) {
-          var cEl = document.getElementById('course');
-          if (cEl) { cEl.style.borderColor = '#E53E3E'; if (!firstErr) firstErr = cEl; }
-          ok = false;
-        }
-        if (currentTile === 'partner' && !partnerCodeVerified) {
-          var pcEl = document.getElementById('partnerCode');
-          if (pcEl) { pcEl.style.borderColor = '#E53E3E'; if (!firstErr) firstErr = pcEl; }
-          ok = false;
-        }
-        if (!ok) {
-          if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          return;
-        }
-
-        var btn = document.getElementById('payBtn');
-        btn.disabled = true;
-        btn.querySelector('span').textContent = 'Opening payment...';
-
-        var flutterwaveCheckoutInstance = FlutterwaveCheckout({
-          public_key: FW_PUBLIC_KEY,
-          tx_ref: generateTxRef(),
-          amount: currentAmount,
-          currency: activeCurrency,
-          payment_options: 'card,banktransfer,ussd,mobilemoney',
-          customer: {
-            email: email,
-            phone_number: phone,
-            name: fullname
-          },
-          meta: {
-            course: course,
-            pricing_tier: currentTile,
-            partner_code: currentTile === 'partner' ? document.getElementById('partnerCode').value.trim().toUpperCase() : '',
-            partner_org: partnerOrg,
-            country: country
-          },
-          customizations: {
-            title: 'TechNuVate Academy',
-            description: course + ' — ' + currentTile + ' enrollment',
-            logo: 'https://technuvate.com/technuvate-logo-dark.png'
-          },
-          callback: function (response) {
-            if (response.status === 'successful' || response.status === 'completed') {
-              // Save enrollment to Supabase
-              var enrollmentData = {
-                tx_ref: response.tx_ref,
-                flw_tx_id: String(response.transaction_id || ''),
-                amount: currentAmount,
-                currency: activeCurrency,
-                pricing_tier: currentTile,
-                payment_status: 'paid',
-                full_name: document.getElementById('fullname').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                phone: document.getElementById('phone').value.trim(),
-                country: document.getElementById('country') ? document.getElementById('country').value : '',
-                course: document.getElementById('course').value,
-                partner_code: currentTile === 'partner' ? document.getElementById('partnerCode').value.trim().toUpperCase() : '',
-                partner_org: partnerOrg || ''
-              };
-              saveToSupabase('enrollments', enrollmentData);
-              // Email admin
-              sendEmail(
-                ADMIN_EMAIL,
-                '\uD83C\uDFEB New Enrollment: ' + enrollmentData.full_name + ' \u2014 ' + enrollmentData.course,
-                buildEnrollAdminEmail(enrollmentData)
-              );
-              // Email student
-              sendEmail(
-                enrollmentData.email,
-                'You are enrolled in ' + enrollmentData.course + ' \u2014 TechNuVate Academy',
-                buildEnrollStudentEmail(enrollmentData)
-              );
-              setTimeout(function () {
-                flutterwaveCheckoutInstance.close();
-                document.getElementById('formContent').style.display = 'none';
-                document.getElementById('successState').style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }, 300);
-            } else {
-              alert('Payment was not completed. Please try again.');
-              btn.disabled = false;
-              btn.querySelector('span').textContent = 'Pay Now and Secure Your Spot';
-            }
-          },
-          onclose: function () {
-            btn.disabled = false;
-            btn.querySelector('span').textContent = 'Pay Now and Secure Your Spot';
-          }
-        });
-      }
-
-      function toggleMenu() {
-        var m = document.getElementById('mobMenu'); var b = document.getElementById('hamBtn');
-        m.classList.toggle('open');
-        var s = b.querySelectorAll('span');
-        if (m.classList.contains('open')) {
-          s[0].style.transform = 'rotate(45deg) translate(5px,5px)'; s[1].style.opacity = '0'; s[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
-        } else { s[0].style.transform = ''; s[1].style.opacity = ''; s[2].style.transform = ''; }
-      }
-      document.addEventListener('click', function (e) {
-        var m = document.getElementById('mobMenu'); var b = document.getElementById('hamBtn');
-        if (m && m.classList.contains('open') && !m.contains(e.target) && !b.contains(e.target)) toggleMenu();
-      });
-
-      init();
-    </script>
-
   </div><!-- close .page -->
 
 
@@ -1910,34 +1435,6 @@
         inbox.</p>
     </div>
   </section>
-  <script>
-    function submitNewsletter(e) {
-      e.preventDefault();
-      var email = document.getElementById('nl-email').value.trim();
-      var btn = document.getElementById('nl-btn');
-      var msg = document.getElementById('nl-msg');
-      if (!email || email.indexOf('@') < 0) return;
-      btn.textContent = 'Subscribing...';
-      btn.disabled = true;
-      // Save to Supabase newsletter table
-      var SB_URL = typeof window.SB_URL !== 'undefined' ? window.SB_URL : 'YOUR_SUPABASE_URL_HERE';
-      var SB_KEY = typeof window.SB_KEY !== 'undefined' ? window.SB_KEY : 'YOUR_SUPABASE_ANON_KEY_HERE';
-      if (SB_URL && SB_URL !== 'YOUR_SUPABASE_URL_HERE') {
-        fetch(SB_URL + '/rest/v1/newsletter_subscribers', {
-          method: 'POST',
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-          body: JSON.stringify({ email: email, source: window.location.pathname })
-        }).catch(function () { });
-      }
-      setTimeout(function () {
-        document.getElementById('newsletter-form').style.display = 'none';
-        msg.textContent = '✓ You are on the list. Watch your inbox.';
-        msg.style.display = 'block';
-        msg.style.color = 'rgba(255,255,255,.7)';
-        msg.style.fontSize = '14px';
-      }, 600);
-    }
-  </script>
   <footer>
     <div class="fwrap">
       <div class="ftop">
@@ -2018,6 +1515,509 @@
       </div>
     </div>
   </footer>
+
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
+  <script src="js/env.js"></script>
+  <script>
+    // =========================================================
+    // CONFIGURATION — UPDATE BEFORE GOING LIVE
+    // =========================================================
+
+    var FW_PUBLIC_KEY = window.APP_ENV.FW_PUBLIC_KEY;
+
+    // ── Supabase + Resend config ─────────────────────────────────
+    var SB_URL = 'https://xnynghnhbeyeowcibuvz.supabase.co';
+    var SB_KEY = 'sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY';
+    var RESEND_KEY = 're_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd';
+    var ADMIN_EMAIL = 'academy@technuvate.com';  // enrollment notifications go here
+
+    // Save a record to Supabase
+    function saveToSupabase(table, data, onSuccess, onFail) {
+      if (!SB_URL || SB_URL === 'https://xnynghnhbeyeowcibuvz.supabase.co') {
+        if (onSuccess) onSuccess(); return;
+      }
+      fetch(SB_URL + '/rest/v1/' + table, {
+        method: 'POST',
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(data)
+      }).then(function (r) {
+        if (r.ok) { if (onSuccess) onSuccess(); }
+        else { console.error('Supabase save failed:', r.status); if (onFail) onFail(); }
+      }).catch(function (e) {
+        console.error('Supabase error:', e); if (onFail) onFail();
+      });
+    }
+
+    // Send email via Resend
+    function sendEmail(toAddress, subject, htmlBody) {
+      if (!RESEND_KEY || RESEND_KEY === 're_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd') return;
+      fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer ' + RESEND_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'TechNuVate Academy <academy@technuvate.com>',
+          to: [toAddress],
+          subject: subject,
+          html: htmlBody
+        })
+      }).catch(function (e) { console.error('Resend error:', e); });
+    }
+
+    function buildEnrollAdminEmail(d) {
+      return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">'
+        + '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">'
+        + '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">'
+        + '</div>'
+        + '<div style="background:#1B3A7A;padding:24px 32px">'
+        + '<h2 style="color:#fff;margin:0;font-size:20px">&#127891; New Academy Enrollment</h2></div>'
+        + '<div style="padding:28px 32px;background:#F5F7FA">'
+        + '<table style="width:100%;border-collapse:collapse">'
+        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px;width:140px">Name</td>'
+        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:600">' + d.full_name + '</td></tr>'
+        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Email</td>'
+        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + d.email + '</td></tr>'
+        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Phone</td>'
+        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + d.phone + '</td></tr>'
+        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Course</td>'
+        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:700;color:#1B3A7A">' + d.course + '</td></tr>'
+        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Country</td>'
+        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + (d.country || 'Not provided') + '</td></tr>'
+        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Tier</td>'
+        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + d.pricing_tier + '</td></tr>'
+        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Amount Paid</td>'
+        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:700">' + d.amount + ' ' + d.currency + '</td></tr>'
+        + '<tr><td style="padding:10px 0;color:#8A9AB0;font-size:13px">Tx Ref</td>'
+        + '<td style="padding:10px 0;font-size:13px;color:#374151">' + d.tx_ref + '</td></tr>'
+        + '</table></div>'
+        + '<div style="padding:20px 32px;text-align:center;background:#fff">'
+        + '<p style="font-size:12px;color:#8A9AB0;margin:0">TechNuVate Academy &mdash; Enrollment Notification</p></div></div>';
+    }
+
+    function buildEnrollStudentEmail(d) {
+      return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">'
+        + '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">'
+        + '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">'
+        + '</div>'
+        + '<div style="background:#1B3A7A;padding:32px;text-align:center">'
+        + '<h1 style="color:#fff;margin:0;font-size:24px">You are in! &#127881;</h1>'
+        + '<p style="color:rgba(255,255,255,.6);margin:8px 0 0;font-size:14px">Your enrollment is confirmed.</p></div>'
+        + '<div style="padding:32px;background:#F5F7FA">'
+        + '<p style="font-size:15px;color:#111827;line-height:1.7">Hi <strong>' + d.full_name.split(' ')[0] + '</strong>,</p>'
+        + '<p style="font-size:14px;color:#6B7280;line-height:1.75">Your enrollment for <strong style="color:#1B3A7A">' + d.course + '</strong> has been confirmed and your payment received. Welcome to TechNuVate Academy.</p>'
+        + '<div style="background:#fff;border:1px solid #E4E8F0;border-radius:12px;padding:20px;margin:20px 0">'
+        + '<p style="margin:0 0 8px;font-size:13px;font-weight:700;color:#374151">What happens next?</p>'
+        + '<p style="margin:0;font-size:13px;color:#6B7280;line-height:1.7">We will send you a welcome message with your cohort start date, session schedule, and access details before your first class. Keep an eye on this email.</p></div>'
+        + '<p style="font-size:13px;color:#6B7280;line-height:1.7">If you have any questions in the meantime, reply to this email or reach us at <a href="mailto:hello@technuvate.com" style="color:#1B3A7A">hello@technuvate.com</a>.</p></div>'
+        + '<div style="padding:20px 32px;text-align:center;background:#fff">'
+        + '<p style="font-size:12px;color:#8A9AB0;margin:0">TechNuVate &mdash; Learn. Build. Execute.</p></div></div>';
+    }
+
+
+    // Prices in both currencies
+    // NGN prices
+    var PRICES_NGN = { partner: 40000, earlybird: 60000, standard: 80000 };
+    // USD prices (set these to whatever you decide)
+    var PRICES_USD = { partner: 30, earlybird: 45, standard: 60 };
+
+    var activeCurrency = 'NGN'; // default
+
+    // Set your public launch date. Early bird runs for exactly 3 weeks from this date.
+    // Format: new Date(YEAR, MONTH (0=Jan, 11=Dec), DAY, HOUR, MINUTE)
+    var LAUNCH_DATE = new Date(2026, 4, 1, 0, 0, 0); // UPDATE THIS to your actual launch date
+    var EARLY_BIRD_DEADLINE = new Date(LAUNCH_DATE.getTime() + (21 * 24 * 60 * 60 * 1000)); // 3 weeks after launch
+
+    // Partner codes.
+    // Structure: 'CODE': { org: 'Organisation Name', cohort: 'Cohort 1' }
+    // Each code is unique and single-use on your backend.
+    // On this frontend, we just validate that the code exists.
+    // Your backend (or Flutterwave webhook) receives the code in the
+    // payment metadata so you can track registrations per partner.
+    //
+    // How to generate codes:
+    // Give each community a batch of random codes, e.g.:
+    // She Code Africa (30 codes): SCA2X7K, SCA9M3P, SCA4R8T ...
+    // WeTech Community (20 codes): WTC6B2N, WTC1K9Q, WTC5J4M ...
+    // Each code is given to one interested member. When they use it here,
+    // the code and their payment is recorded — you see exactly how many
+    // came through each partner by filtering by org name in your records.
+    var PARTNER_CODES = {
+      'SCA2X7K': { org: 'She Code Africa', cohort: 'Cohort 1' },
+      'SCA9M3P': { org: 'She Code Africa', cohort: 'Cohort 1' },
+      'SCA4R8T': { org: 'She Code Africa', cohort: 'Cohort 1' },
+      'WTC6B2N': { org: 'WeTech Community', cohort: 'Cohort 1' },
+      'WTC1K9Q': { org: 'WeTech Community', cohort: 'Cohort 1' }
+      // Add more codes here before launch
+    };
+
+    // =========================================================
+
+    var currentTile = 'earlybird';
+    var currentAmount = 60000;
+    var partnerCodeVerified = false;
+    var partnerOrg = '';
+    var earlyBirdActive = new Date() < EARLY_BIRD_DEADLINE;
+
+    function formatDeadline(d) {
+      var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+    }
+
+    function setCurrency(cur) {
+      activeCurrency = cur;
+      // Toggle button styles
+      var ngnBtn = document.getElementById('btn-ngn');
+      var usdBtn = document.getElementById('btn-usd');
+      if (cur === 'NGN') {
+        ngnBtn.style.background = '#1B3A7A'; ngnBtn.style.color = '#fff';
+        usdBtn.style.background = 'transparent'; usdBtn.style.color = '#6B7280';
+      } else {
+        usdBtn.style.background = '#1B3A7A'; usdBtn.style.color = '#fff';
+        ngnBtn.style.background = 'transparent'; ngnBtn.style.color = '#6B7280';
+      }
+      // Update tile displayed prices
+      var prices = cur === 'NGN' ? PRICES_NGN : PRICES_USD;
+      var sym = cur === 'NGN' ? '&#8358;' : '$';
+      document.getElementById('amt-partner').innerHTML = sym + prices.partner.toLocaleString();
+      document.getElementById('amt-earlybird').innerHTML = sym + prices.earlybird.toLocaleString();
+      document.getElementById('amt-standard').innerHTML = sym + prices.standard.toLocaleString();
+      // Update current amount
+      currentAmount = prices[currentTile];
+      // Update note
+      var note = document.getElementById('currencyNote');
+      if (note) note.textContent = cur === 'NGN'
+        ? 'Payment will be charged in Nigerian Naira (NGN).'
+        : 'Payment will be charged in US Dollars (USD).';
+      // Also update pay button label directly
+      document.getElementById('btnAmount').innerHTML = sym + currentAmount.toLocaleString();
+      updateSummary();
+    }
+
+    function init() {
+      document.getElementById('ebDeadlineText').textContent = formatDeadline(EARLY_BIRD_DEADLINE);
+
+      if (earlyBirdActive) {
+        startCountdown();
+        document.getElementById('countdownBar').style.display = 'flex';
+        document.getElementById('tile-standard').classList.add('tile-disabled');
+        document.getElementById('standardBadge').textContent = 'Not Yet Available';
+        document.getElementById('standardBadge').className = 'tile-badge badge-closed';
+        selectTile('earlybird');
+      } else {
+        document.getElementById('countdownBar').style.display = 'none';
+        document.getElementById('ebClosesLabel').textContent = 'Early bird pricing has closed.';
+        document.getElementById('tile-earlybird').classList.add('tile-disabled');
+        document.getElementById('earlybirdBadge').className = 'tile-badge badge-closed';
+        document.getElementById('earlybirdBadge').textContent = 'Closed';
+        document.getElementById('tile-standard').classList.remove('tile-disabled');
+        document.getElementById('standardBadge').textContent = 'Open';
+        document.getElementById('standardBadge').className = 'tile-badge badge-standard';
+        selectTile('standard');
+      }
+    }
+
+    function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+    function startCountdown() {
+      function tick() {
+        var diff = EARLY_BIRD_DEADLINE - new Date();
+        if (diff <= 0) {
+          earlyBirdActive = false;
+          document.getElementById('countdownTime').textContent = '00:00:00';
+          document.getElementById('tile-earlybird').classList.add('tile-disabled');
+          document.getElementById('earlybirdBadge').className = 'tile-badge badge-closed';
+          document.getElementById('earlybirdBadge').textContent = 'Closed';
+          document.getElementById('ebClosesLabel').textContent = 'Early bird pricing has closed.';
+          document.getElementById('tile-standard').classList.remove('tile-disabled');
+          document.getElementById('standardBadge').textContent = 'Open';
+          document.getElementById('standardBadge').className = 'tile-badge badge-standard';
+          document.getElementById('countdownBar').style.display = 'none';
+          if (currentTile === 'earlybird') selectTile('standard');
+          return;
+        }
+        var d = Math.floor(diff / 86400000);
+        var h = Math.floor((diff % 86400000) / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        var t = (d > 0 ? d + 'd ' : '') + pad(h) + ':' + pad(m) + ':' + pad(s);
+        document.getElementById('countdownTime').textContent = t;
+        setTimeout(tick, 1000);
+      }
+      tick();
+    }
+
+    function selectTile(tier) {
+      var el = document.getElementById('tile-' + tier);
+      if (!el || el.classList.contains('tile-disabled')) return;
+      if (tier === 'standard' && earlyBirdActive) return;
+      if (tier === 'earlybird' && !earlyBirdActive) return;
+
+      document.querySelectorAll('.price-tile').forEach(function (t) { t.classList.remove('tile-selected'); });
+      el.classList.add('tile-selected');
+      currentTile = tier;
+
+      if (tier === 'partner') {
+        document.getElementById('partnerCodeBox').classList.add('visible');
+        var prices = activeCurrency === 'NGN' ? PRICES_NGN : PRICES_USD;
+        currentAmount = prices['partner'];
+      } else {
+        document.getElementById('partnerCodeBox').classList.remove('visible');
+        document.getElementById('codeValid').style.display = 'none';
+        document.getElementById('codeInvalid').style.display = 'none';
+        partnerCodeVerified = false;
+        partnerOrg = '';
+        var prices = activeCurrency === 'NGN' ? PRICES_NGN : PRICES_USD;
+        currentAmount = prices[tier];
+      }
+      updateSummary();
+    }
+
+    function verifyCode(e) {
+      e.stopPropagation();
+      var code = document.getElementById('partnerCode').value.trim().toUpperCase();
+      var validEl = document.getElementById('codeValid');
+      var invalidEl = document.getElementById('codeInvalid');
+      if (PARTNER_CODES[code]) {
+        partnerCodeVerified = true;
+        partnerOrg = PARTNER_CODES[code].org;
+        validEl.style.display = 'flex';
+        invalidEl.style.display = 'none';
+        document.getElementById('partnerCode').style.borderColor = '#15803D';
+      } else {
+        partnerCodeVerified = false;
+        partnerOrg = '';
+        invalidEl.style.display = 'flex';
+        validEl.style.display = 'none';
+        document.getElementById('partnerCode').style.borderColor = '#E53935';
+      }
+    }
+
+    function getSelectedState() {
+      var c = document.getElementById('country').value;
+      if (c === 'Nigeria') return document.getElementById('stateInput').value || '';
+      if (c && c !== 'Other') return document.getElementById('otherStateInput').value || '';
+      return '';
+    }
+    function clearFieldErr(id) { var e = document.getElementById(id + '-err'); if (e) e.style.display = 'none'; }
+    function handleCountry() {
+      var v = document.getElementById('country').value;
+      var otherBox = document.getElementById('otherCountryBox');
+      var stateBox = document.getElementById('stateBox');
+      var otherStateBox = document.getElementById('otherStateBox');
+      otherBox.classList.toggle('visible', v === 'Other');
+      stateBox.style.display = (v && v !== 'Other') ? 'block' : 'none';
+      otherStateBox.style.display = 'none';
+      document.getElementById('stateInput').innerHTML = '';
+      if (v === 'Other') { document.getElementById('otherCountry').focus(); }
+      if (v === 'Nigeria') {
+        var opts = '<option value="">Select state</option>' + '<option value="Abia">Abia</option>\n<option value="Adamawa">Adamawa</option>\n<option value="Akwa Ibom">Akwa Ibom</option>\n<option value="Anambra">Anambra</option>\n<option value="Bauchi">Bauchi</option>\n<option value="Bayelsa">Bayelsa</option>\n<option value="Benue">Benue</option>\n<option value="Borno">Borno</option>\n<option value="Cross River">Cross River</option>\n<option value="Delta">Delta</option>\n<option value="Ebonyi">Ebonyi</option>\n<option value="Edo">Edo</option>\n<option value="Ekiti">Ekiti</option>\n<option value="Enugu">Enugu</option>\n<option value="FCT (Abuja)">FCT (Abuja)</option>\n<option value="Gombe">Gombe</option>\n<option value="Imo">Imo</option>\n<option value="Jigawa">Jigawa</option>\n<option value="Kaduna">Kaduna</option>\n<option value="Kano">Kano</option>\n<option value="Katsina">Katsina</option>\n<option value="Kebbi">Kebbi</option>\n<option value="Kogi">Kogi</option>\n<option value="Kwara">Kwara</option>\n<option value="Lagos">Lagos</option>\n<option value="Nasarawa">Nasarawa</option>\n<option value="Niger">Niger</option>\n<option value="Ogun">Ogun</option>\n<option value="Ondo">Ondo</option>\n<option value="Osun">Osun</option>\n<option value="Oyo">Oyo</option>\n<option value="Plateau">Plateau</option>\n<option value="Rivers">Rivers</option>\n<option value="Sokoto">Sokoto</option>\n<option value="Taraba">Taraba</option>\n<option value="Yobe">Yobe</option>\n<option value="Zamfara">Zamfara</option>';
+        document.getElementById('stateInput').innerHTML = opts;
+      } else if (v && v !== 'Other') {
+        document.getElementById('otherStateBox').style.display = 'block';
+        stateBox.style.display = 'none';
+      }
+    }
+
+    function updateSummary() {
+      var course = document.getElementById('course').value;
+      document.getElementById('summCourse').textContent = course || 'No course selected yet';
+      var tierNames = { partner: 'Partner Pricing', earlybird: 'Early Bird', standard: 'Standard' };
+      document.getElementById('summTier').textContent = tierNames[currentTile];
+      var sym = activeCurrency === 'NGN' ? '&#8358;' : '$';
+      var altPrices = activeCurrency === 'NGN' ? PRICES_USD : PRICES_NGN;
+      var altSym = activeCurrency === 'NGN' ? '$' : '&#8358;';
+      document.getElementById('summPrice').innerHTML = sym + currentAmount.toLocaleString();
+      var usdEl = document.getElementById('summUSD');
+      if (usdEl) usdEl.innerHTML = '\u2248 ' + altSym + altPrices[currentTile].toLocaleString() + ' ' + (activeCurrency === 'NGN' ? 'USD' : 'NGN');
+      document.getElementById('btnAmount').innerHTML = sym + currentAmount.toLocaleString();
+    }
+
+    function getCountry() {
+      var sel = document.getElementById('country').value;
+      if (sel === 'Other') return document.getElementById('otherCountry').value.trim();
+      return sel;
+    }
+
+    function generateTxRef() {
+      return 'TNV-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
+    }
+
+    function initiatePayment() {
+      var cb = document.getElementById('commitCheck');
+      if (cb && !cb.checked) {
+        document.getElementById('commitErr').style.display = 'block';
+        cb.closest('div').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      if (cb) document.getElementById('commitErr').style.display = 'none';
+      var fullname = document.getElementById('fullname').value.trim();
+      var email = document.getElementById('email').value.trim();
+      var phone = document.getElementById('phone').value.trim();
+      var country = getCountry();
+      var course = document.getElementById('course').value;
+
+      var ok = true;
+      var firstErr = null;
+      function markErr(id, msg) {
+        var f = document.getElementById(id);
+        var e = document.getElementById(id + '-err') || document.getElementById(id.replace('course', 'course') + '-err');
+        if (f) f.style.borderColor = '#E53E3E';
+        if (e) { e.style.display = 'block'; e.textContent = msg; }
+        if (!firstErr && f) firstErr = f;
+        ok = false;
+      }
+      function clearErr(id) {
+        var f = document.getElementById(id);
+        var e = document.getElementById(id + '-err');
+        if (f) f.style.borderColor = '';
+        if (e) e.style.display = 'none';
+      }
+      if (!fullname) { markErr('fullname', 'Please enter your full name.'); } else clearErr('fullname');
+      if (!email || email.indexOf('@') === -1) { markErr('email', 'Please enter a valid email address.'); } else clearErr('email');
+      if (!phone) { markErr('phone', 'Please enter your WhatsApp number.'); } else clearErr('phone');
+      if (!country) { markErr('country', 'Please select or enter your country.'); }
+      if (!course) {
+        var cEl = document.getElementById('course');
+        if (cEl) { cEl.style.borderColor = '#E53E3E'; if (!firstErr) firstErr = cEl; }
+        ok = false;
+      }
+      if (currentTile === 'partner' && !partnerCodeVerified) {
+        var pcEl = document.getElementById('partnerCode');
+        if (pcEl) { pcEl.style.borderColor = '#E53E3E'; if (!firstErr) firstErr = pcEl; }
+        ok = false;
+      }
+      if (!ok) {
+        if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      var btn = document.getElementById('payBtn');
+      btn.disabled = true;
+      btn.querySelector('span').textContent = 'Opening payment...';
+
+      var flutterwaveCheckoutInstance = FlutterwaveCheckout({
+        public_key: FW_PUBLIC_KEY,
+        tx_ref: generateTxRef(),
+        amount: currentAmount,
+        currency: activeCurrency,
+        payment_options: 'card,banktransfer,ussd,mobilemoney',
+        customer: {
+          email: email,
+          phone_number: phone,
+          name: fullname
+        },
+        meta: {
+          course: course,
+          pricing_tier: currentTile,
+          partner_code: currentTile === 'partner' ? document.getElementById('partnerCode').value.trim().toUpperCase() : '',
+          partner_org: partnerOrg,
+          country: country
+        },
+        customizations: {
+          title: 'TechNuVate Academy',
+          description: course + ' — ' + currentTile + ' enrollment',
+          logo: 'https://technuvate.com/technuvate-logo-dark.png'
+        },
+        callback: function (response) {
+          if (response.status === 'successful' || response.status === 'completed') {
+            // Save enrollment to Supabase
+            var enrollmentData = {
+              tx_ref: response.tx_ref,
+              flw_tx_id: String(response.transaction_id || ''),
+              amount: currentAmount,
+              currency: activeCurrency,
+              pricing_tier: currentTile,
+              payment_status: 'paid',
+              full_name: document.getElementById('fullname').value.trim(),
+              email: document.getElementById('email').value.trim(),
+              phone: document.getElementById('phone').value.trim(),
+              country: document.getElementById('country') ? document.getElementById('country').value : '',
+              course: document.getElementById('course').value,
+              partner_code: currentTile === 'partner' ? document.getElementById('partnerCode').value.trim().toUpperCase() : '',
+              partner_org: partnerOrg || ''
+            };
+            saveToSupabase('enrollments', enrollmentData);
+            // Email admin
+            sendEmail(
+              ADMIN_EMAIL,
+              '\uD83C\uDFEB New Enrollment: ' + enrollmentData.full_name + ' \u2014 ' + enrollmentData.course,
+              buildEnrollAdminEmail(enrollmentData)
+            );
+            // Email student
+            sendEmail(
+              enrollmentData.email,
+              'You are enrolled in ' + enrollmentData.course + ' \u2014 TechNuVate Academy',
+              buildEnrollStudentEmail(enrollmentData)
+            );
+            setTimeout(function () {
+              flutterwaveCheckoutInstance.close();
+              document.getElementById('formContent').style.display = 'none';
+              document.getElementById('successState').style.display = 'block';
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 300);
+          } else {
+            alert('Payment was not completed. Please try again.');
+            btn.disabled = false;
+            btn.querySelector('span').textContent = 'Pay Now and Secure Your Spot';
+          }
+        },
+        onclose: function () {
+          btn.disabled = false;
+          btn.querySelector('span').textContent = 'Pay Now and Secure Your Spot';
+        }
+      });
+    }
+
+    function toggleMenu() {
+      var m = document.getElementById('mobMenu'); var b = document.getElementById('hamBtn');
+      m.classList.toggle('open');
+      var s = b.querySelectorAll('span');
+      if (m.classList.contains('open')) {
+        s[0].style.transform = 'rotate(45deg) translate(5px,5px)'; s[1].style.opacity = '0'; s[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+      } else { s[0].style.transform = ''; s[1].style.opacity = ''; s[2].style.transform = ''; }
+    }
+    document.addEventListener('click', function (e) {
+      var m = document.getElementById('mobMenu'); var b = document.getElementById('hamBtn');
+      if (m && m.classList.contains('open') && !m.contains(e.target) && !b.contains(e.target)) toggleMenu();
+    });
+
+    init();
+  </script>
+  <script>
+    function submitNewsletter(e) {
+      e.preventDefault();
+      var email = document.getElementById('nl-email').value.trim();
+      var btn = document.getElementById('nl-btn');
+      var msg = document.getElementById('nl-msg');
+      if (!email || email.indexOf('@') < 0) return;
+      btn.textContent = 'Subscribing...';
+      btn.disabled = true;
+      // Save to Supabase newsletter table
+      var SB_URL = typeof window.SB_URL !== 'undefined' ? window.SB_URL : 'YOUR_SUPABASE_URL_HERE';
+      var SB_KEY = typeof window.SB_KEY !== 'undefined' ? window.SB_KEY : 'YOUR_SUPABASE_ANON_KEY_HERE';
+      if (SB_URL && SB_URL !== 'YOUR_SUPABASE_URL_HERE') {
+        fetch(SB_URL + '/rest/v1/newsletter_subscribers', {
+          method: 'POST',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ email: email, source: window.location.pathname })
+        }).catch(function () { });
+      }
+      setTimeout(function () {
+        document.getElementById('newsletter-form').style.display = 'none';
+        msg.textContent = '✓ You are on the list. Watch your inbox.';
+        msg.style.display = 'block';
+        msg.style.color = 'rgba(255,255,255,.7)';
+        msg.style.fontSize = '14px';
+      }, 600);
+    }
+  </script>
 </body>
 
 </html>

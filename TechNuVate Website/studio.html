@@ -1,2355 +1,3363 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <title>TechNuVate Studio — Digital Services for Growing Businesses</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>TechNuVate Studio — Digital Services for Growing Businesses</title>
-  <style>
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box
-    }
+      html {
+        scroll-behavior: smooth;
+      }
 
-    html {
-      scroll-behavior: smooth
-    }
+      body {
+        font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+        color: #111827;
+        background: #fff;
+        overflow-x: hidden;
+        -webkit-text-size-adjust: 100%;
+      }
 
-    body {
-      font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-      color: #111827;
-      background: #fff;
-      overflow-x: hidden;
-      -webkit-text-size-adjust: 100%
-    }
+      img {
+        max-width: 100%;
+        display: block;
+      }
 
-    img {
-      max-width: 100%;
-      display: block
-    }
+      a {
+        -webkit-tap-highlight-color: transparent;
+      }
 
-    a {
-      -webkit-tap-highlight-color: transparent
-    }
-
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 999;
-      height: 66px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 5%;
-      background: #fff;
-      border-bottom: 1px solid #E4E8F0;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, .05)
-    }
-
-    .nav-logo img {
-      height: 58px;
-      width: auto
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 4px
-    }
-
-    .nav-item {
-      position: relative
-    }
-
-    .nav-item-btn {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      transition: background .2s, color .2s;
-      white-space: nowrap;
-      font-family: inherit
-    }
-
-    .nav-item-btn:hover {
-      background: #F2F4F8;
-      color: #1B3A7A
-    }
-
-    .nav-arrow {
-      font-size: 10px;
-      transition: transform .2s
-    }
-
-    .nav-item:hover .nav-arrow {
-      transform: rotate(180deg)
-    }
-
-    .nav-dropdown {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 0;
-      background: #fff;
-      border: 1px solid #E4E8F0;
-      border-radius: 10px;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, .1);
-      min-width: 190px;
-      padding: 6px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-6px);
-      transition: opacity .2s, visibility .2s, transform .2s;
-      z-index: 1000
-    }
-
-    .nav-item:hover .nav-dropdown {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0)
-    }
-
-    .nav-dropdown a {
-      display: block;
-      padding: 10px 14px;
-      font-size: 13.5px;
-      font-weight: 500;
-      color: #374151;
-      text-decoration: none;
-      border-radius: 7px;
-      transition: background .15s, color .15s
-    }
-
-    .nav-dropdown a:hover {
-      background: #F2F4F8;
-      color: #1B3A7A
-    }
-
-    .nav-btn {
-      font-size: 13px;
-      font-weight: 700;
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 7px;
-      background: #1B3A7A;
-      white-space: nowrap;
-      transition: background .2s;
-      margin-left: 6px
-    }
-
-    .nav-btn:hover {
-      background: #0F2554
-    }
-
-    .ham {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 8px;
-      background: transparent;
-      border: none;
-      margin-left: 4px
-    }
-
-    .ham span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: #374151;
-      border-radius: 2px;
-      transition: all .3s
-    }
-
-    .mob-menu {
-      display: none;
-      position: fixed;
-      top: 66px;
-      left: 0;
-      right: 0;
-      background: #fff;
-      border-bottom: 1px solid #E4E8F0;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
-      z-index: 998;
-      padding: 12px 5% 20px
-    }
-
-    .mob-menu.open {
-      display: block
-    }
-
-    .mob-section {
-      margin-bottom: 16px
-    }
-
-    .mob-section-title {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: #8A9AB0;
-      padding: 8px 0 6px;
-      border-bottom: 1px solid #F2F4F8;
-      margin-bottom: 6px
-    }
-
-    .mob-menu a {
-      display: block;
-      padding: 10px 0;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      text-decoration: none;
-      border-bottom: 1px solid #F2F4F8
-    }
-
-    .mob-menu a:hover {
-      color: #1B3A7A
-    }
-
-    .mob-cta {
-      display: block;
-      margin-top: 14px;
-      background: #1B3A7A;
-      color: #ffffff !important;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 13px;
-      border-radius: 8px;
-      text-align: center;
-      text-decoration: none;
-      -webkit-text-fill-color: #fff
-    }
-
-    @media(max-width:700px) {
-      .nav-item {
-        display: none
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        height: 66px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 5%;
+        background: #fff;
+        border-bottom: 1px solid #e4e8f0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
       }
 
       .nav-logo img {
-        height: 46px
+        height: 58px;
+        width: auto;
       }
 
-      .ham {
-        display: flex
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .nav-item {
+        position: relative;
+      }
+
+      .nav-item-btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        transition:
+          background 0.2s,
+          color 0.2s;
+        white-space: nowrap;
+        font-family: inherit;
+      }
+
+      .nav-item-btn:hover {
+        background: #f2f4f8;
+        color: #1b3a7a;
+      }
+
+      .nav-arrow {
+        font-size: 10px;
+        transition: transform 0.2s;
+      }
+
+      .nav-item:hover .nav-arrow {
+        transform: rotate(180deg);
+      }
+
+      .nav-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        background: #fff;
+        border: 1px solid #e4e8f0;
+        border-radius: 10px;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1);
+        min-width: 190px;
+        padding: 6px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-6px);
+        transition:
+          opacity 0.2s,
+          visibility 0.2s,
+          transform 0.2s;
+        z-index: 1000;
+      }
+
+      .nav-item:hover .nav-dropdown {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .nav-dropdown a {
+        display: block;
+        padding: 10px 14px;
+        font-size: 13.5px;
+        font-weight: 500;
+        color: #374151;
+        text-decoration: none;
+        border-radius: 7px;
+        transition:
+          background 0.15s,
+          color 0.15s;
+      }
+
+      .nav-dropdown a:hover {
+        background: #f2f4f8;
+        color: #1b3a7a;
       }
 
       .nav-btn {
-        display: none
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 7px;
+        background: #1b3a7a;
+        white-space: nowrap;
+        transition: background 0.2s;
+        margin-left: 6px;
       }
-    }
 
-    /* HERO */
-    .page-hero {
-      padding: 120px 5% 80px;
-      background: #1B3A7A;
-      position: relative;
-      overflow: hidden
-    }
+      .nav-btn:hover {
+        background: #0f2554;
+      }
 
-    .hero-dots {
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(255, 255, 255, .06) 1px, transparent 1px);
-      background-size: 28px 28px;
-      pointer-events: none
-    }
+      .ham {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 8px;
+        background: transparent;
+        border: none;
+        margin-left: 4px;
+      }
 
-    .hero-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center
-    }
+      .ham span {
+        display: block;
+        width: 22px;
+        height: 2px;
+        background: #374151;
+        border-radius: 2px;
+        transition: all 0.3s;
+      }
 
-    .breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 20px
-    }
+      .mob-menu {
+        display: none;
+        position: fixed;
+        top: 66px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border-bottom: 1px solid #e4e8f0;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        z-index: 998;
+        padding: 12px 5% 20px;
+      }
 
-    .breadcrumb a {
-      font-size: 12px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, .45);
-      text-decoration: none
-    }
+      .mob-menu.open {
+        display: block;
+      }
 
-    .breadcrumb a:hover {
-      color: rgba(255, 255, 255, .8)
-    }
+      .mob-section {
+        margin-bottom: 16px;
+      }
 
-    .breadcrumb span {
-      font-size: 12px;
-      color: rgba(255, 255, 255, .25)
-    }
+      .mob-section-title {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #8a9ab0;
+        padding: 8px 0 6px;
+        border-bottom: 1px solid #f2f4f8;
+        margin-bottom: 6px;
+      }
 
-    .breadcrumb-current {
-      font-size: 12px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, .7)
-    }
+      .mob-menu a {
+        display: block;
+        padding: 10px 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #374151;
+        text-decoration: none;
+        border-bottom: 1px solid #f2f4f8;
+      }
 
-    .hero-lbl {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, .35);
-      margin-bottom: 14px
-    }
+      .mob-menu a:hover {
+        color: #1b3a7a;
+      }
 
-    .page-hero h1 {
-      font-size: clamp(30px, 5vw, 58px);
-      font-weight: 800;
-      color: #fff;
-      line-height: 1.08;
-      letter-spacing: -.03em;
-      margin-bottom: 18px
-    }
+      .mob-cta {
+        display: block;
+        margin-top: 14px;
+        background: #1b3a7a;
+        color: #ffffff !important;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 13px;
+        border-radius: 8px;
+        text-align: center;
+        text-decoration: none;
+        -webkit-text-fill-color: #fff;
+      }
 
-    .page-hero h1 em {
-      font-style: normal;
-      color: #93B4FF
-    }
+      @media (max-width: 700px) {
+        .nav-item {
+          display: none;
+        }
 
-    .page-hero-sub {
-      font-size: 15px;
-      font-weight: 300;
-      color: rgba(255, 255, 255, .55);
-      line-height: 1.8;
-      margin-bottom: 28px
-    }
+        .nav-logo img {
+          height: 46px;
+        }
 
-    .hero-cta-row {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap
-    }
+        .ham {
+          display: flex;
+        }
 
-    .btn-white {
-      background: #fff;
-      color: #1B3A7A;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 13px 26px;
-      border-radius: 8px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: transform .2s, box-shadow .2s
-    }
+        .nav-btn {
+          display: none;
+        }
+      }
 
-    .btn-white:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, .15)
-    }
+      /* HERO */
+      .page-hero {
+        padding: 120px 5% 80px;
+        background: #1b3a7a;
+        position: relative;
+        overflow: hidden;
+      }
 
-    .btn-ghost-w {
-      border: 1.5px solid rgba(255, 255, 255, .25);
-      color: rgba(255, 255, 255, .7);
-      font-size: 14px;
-      font-weight: 600;
-      padding: 13px 24px;
-      border-radius: 8px;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: border-color .2s, color .2s
-    }
+      .hero-dots {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.06) 1px,
+          transparent 1px
+        );
+        background-size: 28px 28px;
+        pointer-events: none;
+      }
 
-    .btn-ghost-w:hover {
-      border-color: rgba(255, 255, 255, .6);
-      color: #fff
-    }
-
-    .hero-right {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3px;
-      border-radius: 14px;
-      overflow: hidden
-    }
-
-    .hero-stat {
-      background: rgba(255, 255, 255, .07);
-      padding: 22px 18px;
-      border: 1px solid rgba(255, 255, 255, .06)
-    }
-
-    .hero-stat-n {
-      font-size: 28px;
-      font-weight: 800;
-      color: #fff;
-      line-height: 1;
-      margin-bottom: 5px
-    }
-
-    .hero-stat-l {
-      font-size: 11px;
-      font-weight: 400;
-      color: rgba(255, 255, 255, .4);
-      line-height: 1.4
-    }
-
-    @media(max-width:860px) {
       .hero-inner {
-        grid-template-columns: 1fr;
-        gap: 36px
-      }
-    }
-
-    /* SECTIONS */
-    .sec {
-      padding: 80px 5%
-    }
-
-    .sec-bg {
-      background: #F2F4F8
-    }
-
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto
-    }
-
-    .lbl {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: #8A9AB0;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px
-    }
-
-    .lbl::before {
-      content: '';
-      width: 20px;
-      height: 1.5px;
-      background: #8A9AB0;
-      display: block;
-      flex-shrink: 0
-    }
-
-    h2 {
-      font-size: clamp(24px, 4vw, 42px);
-      font-weight: 800;
-      color: #111827;
-      line-height: 1.1;
-      letter-spacing: -.025em;
-      margin-bottom: 16px
-    }
-
-    .grad {
-      background: linear-gradient(90deg, #1B3A7A 0%, #8A9AB0 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text
-    }
-
-    p.body {
-      font-size: 15px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.85
-    }
-
-    /* SERVICES */
-    .services-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 44px
-    }
-
-    .srv-card {
-      background: #fff;
-      border-radius: 14px;
-      padding: 28px 24px;
-      border: 1.5px solid #E4E8F0;
-      transition: border-color .25s, transform .25s, box-shadow .25s
-    }
-
-    .srv-card:hover {
-      border-color: #1B3A7A;
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(27, 58, 122, .09)
-    }
-
-    .srv-ico {
-      width: 48px;
-      height: 48px;
-      background: rgba(27, 58, 122, .07);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      margin-bottom: 16px
-    }
-
-    .srv-t {
-      font-size: 17px;
-      font-weight: 800;
-      color: #111827;
-      margin-bottom: 8px;
-      letter-spacing: -.02em
-    }
-
-    .srv-d {
-      font-size: 13px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.75;
-      margin-bottom: 16px
-    }
-
-    .srv-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px
-    }
-
-    .srv-pill {
-      font-size: 11px;
-      font-weight: 600;
-      color: #1B3A7A;
-      background: rgba(27, 58, 122, .07);
-      padding: 4px 10px;
-      border-radius: 100px
-    }
-
-    @media(max-width:700px) {
-      .services-grid {
-        grid-template-columns: 1fr
-      }
-    }
-
-    /* WHO WE WORK WITH */
-    .who-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-top: 44px
-    }
-
-    .who-card {
-      background: #fff;
-      border-radius: 14px;
-      padding: 24px 20px;
-      border: 1.5px solid #E4E8F0;
-      text-align: center;
-      transition: border-color .25s, transform .25s
-    }
-
-    .who-card:hover {
-      border-color: #1B3A7A;
-      transform: translateY(-4px)
-    }
-
-    .who-ico {
-      font-size: 32px;
-      margin-bottom: 12px
-    }
-
-    .who-t {
-      font-size: 15px;
-      font-weight: 800;
-      color: #111827;
-      margin-bottom: 6px;
-      letter-spacing: -.02em
-    }
-
-    .who-d {
-      font-size: 13px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.65
-    }
-
-    @media(max-width:700px) {
-      .who-grid {
-        grid-template-columns: 1fr
-      }
-    }
-
-    /* HOW IT WORKS */
-    .hiw-steps {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 3px;
-      margin-top: 44px
-    }
-
-    .hiw-step {
-      background: #fff;
-      padding: 28px 22px
-    }
-
-    .hiw-step:first-child {
-      border-radius: 12px 0 0 12px
-    }
-
-    .hiw-step:last-child {
-      border-radius: 0 12px 12px 0
-    }
-
-    .hiw-no {
-      font-size: 40px;
-      font-weight: 800;
-      color: rgba(27, 58, 122, .07);
-      line-height: 1;
-      margin-bottom: 12px
-    }
-
-    .hiw-ico {
-      font-size: 22px;
-      margin-bottom: 12px
-    }
-
-    .hiw-t {
-      font-size: 14px;
-      font-weight: 800;
-      color: #111827;
-      margin-bottom: 6px
-    }
-
-    .hiw-d {
-      font-size: 12.5px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.65
-    }
-
-    @media(max-width:860px) {
-      .hiw-steps {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 12px
+        gap: 60px;
+        align-items: center;
+      }
+
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .breadcrumb a {
+        font-size: 12px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.45);
+        text-decoration: none;
+      }
+
+      .breadcrumb a:hover {
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      .breadcrumb span {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.25);
+      }
+
+      .breadcrumb-current {
+        font-size: 12px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .hero-lbl {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        margin-bottom: 14px;
+      }
+
+      .page-hero h1 {
+        font-size: clamp(30px, 5vw, 58px);
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        margin-bottom: 18px;
+      }
+
+      .page-hero h1 em {
+        font-style: normal;
+        color: #93b4ff;
+      }
+
+      .page-hero-sub {
+        font-size: 15px;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.55);
+        line-height: 1.8;
+        margin-bottom: 28px;
+      }
+
+      .hero-cta-row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .btn-white {
+        background: #fff;
+        color: #1b3a7a;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 13px 26px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
+      }
+
+      .btn-white:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .btn-ghost-w {
+        border: 1.5px solid rgba(255, 255, 255, 0.25);
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+        font-weight: 600;
+        padding: 13px 24px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+
+      .btn-ghost-w:hover {
+        border-color: rgba(255, 255, 255, 0.6);
+        color: #fff;
+      }
+
+      .hero-right {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3px;
+        border-radius: 14px;
+        overflow: hidden;
+      }
+
+      .hero-stat {
+        background: rgba(255, 255, 255, 0.07);
+        padding: 22px 18px;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      .hero-stat-n {
+        font-size: 28px;
+        font-weight: 800;
+        color: #fff;
+        line-height: 1;
+        margin-bottom: 5px;
+      }
+
+      .hero-stat-l {
+        font-size: 11px;
+        font-weight: 400;
+        color: rgba(255, 255, 255, 0.4);
+        line-height: 1.4;
+      }
+
+      @media (max-width: 860px) {
+        .hero-inner {
+          grid-template-columns: 1fr;
+          gap: 36px;
+        }
+      }
+
+      /* SECTIONS */
+      .sec {
+        padding: 80px 5%;
+      }
+
+      .sec-bg {
+        background: #f2f4f8;
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .lbl {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #8a9ab0;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .lbl::before {
+        content: "";
+        width: 20px;
+        height: 1.5px;
+        background: #8a9ab0;
+        display: block;
+        flex-shrink: 0;
+      }
+
+      h2 {
+        font-size: clamp(24px, 4vw, 42px);
+        font-weight: 800;
+        color: #111827;
+        line-height: 1.1;
+        letter-spacing: -0.025em;
+        margin-bottom: 16px;
+      }
+
+      .grad {
+        background: linear-gradient(90deg, #1b3a7a 0%, #8a9ab0 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      p.body {
+        font-size: 15px;
+        font-weight: 300;
+        color: #6b7280;
+        line-height: 1.85;
+      }
+
+      /* SERVICES */
+      .services-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin-top: 44px;
+      }
+
+      .srv-card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 28px 24px;
+        border: 1.5px solid #e4e8f0;
+        transition:
+          border-color 0.25s,
+          transform 0.25s,
+          box-shadow 0.25s;
+      }
+
+      .srv-card:hover {
+        border-color: #1b3a7a;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(27, 58, 122, 0.09);
+      }
+
+      .srv-ico {
+        width: 48px;
+        height: 48px;
+        background: rgba(27, 58, 122, 0.07);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 16px;
+      }
+
+      .srv-t {
+        font-size: 17px;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+      }
+
+      .srv-d {
+        font-size: 13px;
+        font-weight: 300;
+        color: #6b7280;
+        line-height: 1.75;
+        margin-bottom: 16px;
+      }
+
+      .srv-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .srv-pill {
+        font-size: 11px;
+        font-weight: 600;
+        color: #1b3a7a;
+        background: rgba(27, 58, 122, 0.07);
+        padding: 4px 10px;
+        border-radius: 100px;
+      }
+
+      @media (max-width: 700px) {
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* WHO WE WORK WITH */
+      .who-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 44px;
+      }
+
+      .who-card {
+        background: #fff;
+        border-radius: 14px;
+        padding: 24px 20px;
+        border: 1.5px solid #e4e8f0;
+        text-align: center;
+        transition:
+          border-color 0.25s,
+          transform 0.25s;
+      }
+
+      .who-card:hover {
+        border-color: #1b3a7a;
+        transform: translateY(-4px);
+      }
+
+      .who-ico {
+        font-size: 32px;
+        margin-bottom: 12px;
+      }
+
+      .who-t {
+        font-size: 15px;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 6px;
+        letter-spacing: -0.02em;
+      }
+
+      .who-d {
+        font-size: 13px;
+        font-weight: 300;
+        color: #6b7280;
+        line-height: 1.65;
+      }
+
+      @media (max-width: 700px) {
+        .who-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* HOW IT WORKS */
+      .hiw-steps {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 3px;
+        margin-top: 44px;
       }
 
       .hiw-step {
-        border-radius: 12px !important
+        background: #fff;
+        padding: 28px 22px;
       }
-    }
 
-    @media(max-width:480px) {
-      .hiw-steps {
-        grid-template-columns: 1fr
+      .hiw-step:first-child {
+        border-radius: 12px 0 0 12px;
       }
-    }
 
-    /* TALENT SECTION */
-    .talent-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center
-    }
+      .hiw-step:last-child {
+        border-radius: 0 12px 12px 0;
+      }
 
-    .talent-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px
-    }
+      .hiw-no {
+        font-size: 40px;
+        font-weight: 800;
+        color: rgba(27, 58, 122, 0.07);
+        line-height: 1;
+        margin-bottom: 12px;
+      }
 
-    .talent-card {
-      background: #F2F4F8;
-      border-radius: 12px;
-      padding: 20px 16px;
-      border: 1px solid #E4E8F0
-    }
+      .hiw-ico {
+        font-size: 22px;
+        margin-bottom: 12px;
+      }
 
-    .talent-card-t {
-      font-size: 13px;
-      font-weight: 700;
-      color: #111827;
-      margin-bottom: 4px
-    }
+      .hiw-t {
+        font-size: 14px;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 6px;
+      }
 
-    .talent-card-d {
-      font-size: 12px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.6
-    }
+      .hiw-d {
+        font-size: 12.5px;
+        font-weight: 300;
+        color: #6b7280;
+        line-height: 1.65;
+      }
 
-    @media(max-width:860px) {
+      @media (max-width: 860px) {
+        .hiw-steps {
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+
+        .hiw-step {
+          border-radius: 12px !important;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hiw-steps {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* TALENT SECTION */
       .talent-grid {
-        grid-template-columns: 1fr;
-        gap: 36px
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
       }
 
       .talent-cards {
-        grid-template-columns: 1fr
-      }
-    }
-
-    /* CTA */
-    .cta-box {
-      background: #1B3A7A;
-      border-radius: 18px;
-      padding: 56px 40px;
-      text-align: center;
-      max-width: 1100px;
-      margin: 0 auto
-    }
-
-    .cta-lbl {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, .28);
-      margin-bottom: 16px
-    }
-
-    .cta-t {
-      font-size: clamp(22px, 4vw, 42px);
-      font-weight: 800;
-      color: #fff;
-      line-height: 1.1;
-      letter-spacing: -.025em;
-      margin-bottom: 14px
-    }
-
-    .cta-s {
-      font-size: 15px;
-      font-weight: 300;
-      color: rgba(255, 255, 255, .48);
-      margin-bottom: 32px;
-      max-width: 420px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.7
-    }
-
-    .cta-btns {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap
-    }
-
-    @media(max-width:560px) {
-      .cta-box {
-        padding: 40px 20px
-      }
-    }
-
-    /* FOOTER */
-    footer {
-      background: #060C1A;
-      padding: 52px 5% 28px
-    }
-
-    .fwrap {
-      max-width: 1100px;
-      margin: 0 auto
-    }
-
-    .ftop {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr;
-      gap: 32px;
-      padding-bottom: 32px;
-      border-bottom: 1px solid rgba(255, 255, 255, .07);
-      margin-bottom: 22px
-    }
-
-    .flogo img {
-      height: 58px;
-      width: auto;
-      margin-bottom: 14px
-    }
-
-    .fdesc {
-      font-size: 13px;
-      font-weight: 300;
-      color: rgba(255, 255, 255, .28);
-      line-height: 1.7;
-      max-width: 210px
-    }
-
-    .fc-t {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, .2);
-      margin-bottom: 14px
-    }
-
-    .flinks {
-      list-style: none
-    }
-
-    .flinks li {
-      margin-bottom: 10px
-    }
-
-    .flinks a {
-      font-size: 13px;
-      font-weight: 300;
-      color: rgba(255, 255, 255, .38);
-      text-decoration: none;
-      transition: color .2s
-    }
-
-    .flinks a:hover {
-      color: rgba(255, 255, 255, .8)
-    }
-
-    @media(max-width:860px) {
-      .ftop {
-        grid-template-columns: 1fr 1fr
-      }
-    }
-
-    @media(max-width:480px) {
-      .ftop {
-        grid-template-columns: 1fr
-      }
-    }
-
-    @media(max-width:480px) {
-      .ftop {
-        grid-template-columns: 1fr
-      }
-    }
-
-
-    /* POPUP MODAL */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(6, 12, 26, .7);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      backdrop-filter: blur(4px)
-    }
-
-    .modal-overlay.open {
-      display: flex
-    }
-
-    .modal-box {
-      background: #fff;
-      border-radius: 18px;
-      width: 100%;
-      max-width: 620px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, .25);
-      animation: modalIn .3s cubic-bezier(.16, 1, .3, 1)
-    }
-
-    @keyframes modalIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px)
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0)
-      }
-    }
-
-    .modal-head {
-      padding: 28px 28px 0;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px
-    }
-
-    .modal-head-text h3 {
-      font-size: 20px;
-      font-weight: 800;
-      color: #111827;
-      letter-spacing: -.02em;
-      margin-bottom: 4px
-    }
-
-    .modal-head-text p {
-      font-size: 13px;
-      font-weight: 300;
-      color: #6B7280
-    }
-
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 22px;
-      color: #8A9AB0;
-      cursor: pointer;
-      padding: 4px;
-      line-height: 1;
-      flex-shrink: 0;
-      transition: color .2s
-    }
-
-    .modal-close:hover {
-      color: #111827
-    }
-
-    .modal-body {
-      padding: 24px 28px 28px
-    }
-
-    .m-divider {
-      height: 1px;
-      background: #F2F4F8;
-      margin: 20px 0
-    }
-
-    .m-lbl {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: #8A9AB0;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px
-    }
-
-    .m-lbl::before {
-      content: '';
-      width: 14px;
-      height: 1.5px;
-      background: #E4E8F0;
-      display: block
-    }
-
-    .m-fg {
-      margin-bottom: 14px
-    }
-
-    .m-fl {
-      display: block;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: #6B7280;
-      margin-bottom: 7px
-    }
-
-    .m-fi,
-    .m-fsel,
-    .m-fta {
-      width: 100%;
-      padding: 11px 14px;
-      border: 1.5px solid #E4E8F0;
-      border-radius: 9px;
-      font-family: inherit;
-      font-size: 14px;
-      color: #111827;
-      background: #fff;
-      outline: none;
-      transition: border-color .2s, box-shadow .2s;
-      appearance: none;
-      -webkit-appearance: none;
-    }
-
-    .m-fi:focus,
-    .m-fsel:focus,
-    .m-fta:focus {
-      border-color: #1B3A7A;
-      box-shadow: 0 0 0 3px rgba(27, 58, 122, .08)
-    }
-
-    .m-fi::placeholder,
-    .m-fta::placeholder {
-      color: #C4CBD6
-    }
-
-    .m-fta {
-      resize: vertical;
-      min-height: 90px
-    }
-
-    .m-fsel {
-      cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A9AB0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      padding-right: 36px
-    }
-
-    .m-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 14px
-    }
-
-    .required {
-      color: #E53935;
-      margin-left: 2px
-    }
-
-    .radio-group {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap
-    }
-
-    .radio-opt {
-      border: 1.5px solid #E4E8F0;
-      border-radius: 8px;
-      padding: 9px 14px;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 500;
-      color: #374151;
-      transition: border-color .2s, background .2s, color .2s;
-      user-select: none
-    }
-
-    .radio-opt:hover {
-      border-color: #1B3A7A
-    }
-
-    .radio-opt.selected {
-      border-color: #1B3A7A;
-      background: rgba(27, 58, 122, .05);
-      color: #1B3A7A;
-      font-weight: 700
-    }
-
-    /* Conditional question boxes */
-    .cond-box {
-      display: none;
-      margin-top: 14px;
-      padding: 16px;
-      background: #F9FAFB;
-      border-radius: 10px;
-      border: 1px solid #E4E8F0
-    }
-
-    .cond-box.visible {
-      display: block
-    }
-
-    .m-submit {
-      width: 100%;
-      background: #1B3A7A;
-      color: #fff;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 700;
-      padding: 14px;
-      border: none;
-      border-radius: 9px;
-      cursor: pointer;
-      transition: background .2s, transform .2s;
-      margin-top: 6px
-    }
-
-    .m-submit:hover {
-      background: #0F2554;
-      transform: translateY(-2px)
-    }
-
-    .m-note {
-      font-size: 11px;
-      color: #8A9AB0;
-      text-align: center;
-      margin-top: 10px;
-      line-height: 1.6
-    }
-
-    /* Success */
-    .modal-success {
-      display: none;
-      text-align: center;
-      padding: 40px 28px
-    }
-
-    .modal-success-ico {
-      font-size: 48px;
-      margin-bottom: 16px
-    }
-
-    .modal-success-t {
-      font-size: 20px;
-      font-weight: 800;
-      color: #111827;
-      margin-bottom: 8px
-    }
-
-    .modal-success-d {
-      font-size: 13px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.75;
-      max-width: 320px;
-      margin: 0 auto 24px
-    }
-
-    .modal-back {
-      background: #1B3A7A;
-      color: #fff;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer
-    }
-
-    @media(max-width:560px) {
-      .m-row {
-        grid-template-columns: 1fr
-      }
-    }
-
-    /* REVEAL */
-    .rv {
-      opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .65s cubic-bezier(.16, 1, .3, 1), transform .65s cubic-bezier(.16, 1, .3, 1)
-    }
-
-    .rv.on {
-      opacity: 1;
-      transform: translateY(0)
-    }
-
-    .d1 {
-      transition-delay: .1s
-    }
-
-    .d2 {
-      transition-delay: .2s
-    }
-
-    .d3 {
-      transition-delay: .3s
-    }
-
-    .d4 {
-      transition-delay: .4s
-    }
-
-    /* FAQ */
-    .faq-sec {
-      padding: 80px 5%;
-      background: #F2F4F8
-    }
-
-    .faq-wrap {
-      max-width: 820px;
-      margin: 0 auto
-    }
-
-    .faq-lbl {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: #8A9AB0;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px
-    }
-
-    .faq-lbl::before {
-      content: '';
-      width: 20px;
-      height: 1.5px;
-      background: #8A9AB0;
-      display: block;
-      flex-shrink: 0
-    }
-
-    .faq-h {
-      font-size: clamp(22px, 4vw, 38px);
-      font-weight: 800;
-      color: #111827;
-      line-height: 1.1;
-      letter-spacing: -.025em;
-      margin-bottom: 8px
-    }
-
-    .faq-sub {
-      font-size: 15px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.8;
-      margin-bottom: 36px
-    }
-
-    .faq-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px
-    }
-
-    .faq-item {
-      border: 1.5px solid #E4E8F0;
-      border-radius: 12px;
-      overflow: hidden;
-      background: #fff
-    }
-
-    .faq-q {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 20px;
-      background: #fff;
-      border: none;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 600;
-      color: #111827;
-      text-align: left;
-      cursor: pointer;
-      transition: background .2s
-    }
-
-    .faq-q:hover {
-      background: #F2F4F8
-    }
-
-    .faq-icon {
-      font-size: 18px;
-      color: #1B3A7A;
-      transition: transform .3s;
-      flex-shrink: 0
-    }
-
-    .faq-a {
-      display: none;
-      padding: 0 20px 18px;
-      font-size: 13.5px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.75
-    }
-
-    .faq-item.open .faq-a {
-      display: block
-    }
-
-    .faq-item.open .faq-icon {
-      transform: rotate(45deg)
-    }
-
-    .faq-item.open .faq-q {
-      background: #F2F4F8
-    }
-  </style>
-  <style>
-    .don-nudge {
-      background: #1B3A7A;
-      padding: 13px 5%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      text-align: center
-    }
-
-    .don-nudge-text {
-      font-size: 13px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, .8)
-    }
-
-    .don-nudge-text strong {
-      color: #fff
-    }
-
-    .don-nudge-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #93B4FF;
-      color: #0D1F45;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 7px 16px;
-      border-radius: 100px;
-      text-decoration: none;
-      transition: opacity .2s;
-      white-space: nowrap;
-      flex-shrink: 0
-    }
-
-    .don-nudge-btn:hover {
-      opacity: .85
-    }
-
-    .don-nudge-close {
-      background: none;
-      border: none;
-      color: rgba(255, 255, 255, .4);
-      font-size: 18px;
-      cursor: pointer;
-      padding: 0 0 0 8px;
-      line-height: 1;
-      flex-shrink: 0
-    }
-
-    .don-nudge-close:hover {
-      color: #fff
-    }
-
-    @media(max-width:500px) {
-      .don-nudge {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 10px;
-        padding: 12px 4%
+      }
+
+      .talent-card {
+        background: #f2f4f8;
+        border-radius: 12px;
+        padding: 20px 16px;
+        border: 1px solid #e4e8f0;
+      }
+
+      .talent-card-t {
+        font-size: 13px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 4px;
+      }
+
+      .talent-card-d {
+        font-size: 12px;
+        font-weight: 300;
+        color: #6b7280;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 860px) {
+        .talent-grid {
+          grid-template-columns: 1fr;
+          gap: 36px;
+        }
+
+        .talent-cards {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* CTA */
+      .cta-box {
+        background: #1b3a7a;
+        border-radius: 18px;
+        padding: 56px 40px;
+        text-align: center;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .cta-lbl {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.28);
+        margin-bottom: 16px;
+      }
+
+      .cta-t {
+        font-size: clamp(22px, 4vw, 42px);
+        font-weight: 800;
+        color: #fff;
+        line-height: 1.1;
+        letter-spacing: -0.025em;
+        margin-bottom: 14px;
+      }
+
+      .cta-s {
+        font-size: 15px;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.48);
+        margin-bottom: 32px;
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.7;
+      }
+
+      .cta-btns {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 560px) {
+        .cta-box {
+          padding: 40px 20px;
+        }
+      }
+
+      /* FOOTER */
+      footer {
+        background: #060c1a;
+        padding: 52px 5% 28px;
+      }
+
+      .fwrap {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .ftop {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr;
+        gap: 32px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        margin-bottom: 22px;
+      }
+
+      .flogo img {
+        height: 58px;
+        width: auto;
+        margin-bottom: 14px;
+      }
+
+      .fdesc {
+        font-size: 13px;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.28);
+        line-height: 1.7;
+        max-width: 210px;
+      }
+
+      .fc-t {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.2);
+        margin-bottom: 14px;
+      }
+
+      .flinks {
+        list-style: none;
+      }
+
+      .flinks li {
+        margin-bottom: 10px;
+      }
+
+      .flinks a {
+        font-size: 13px;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.38);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+
+      .flinks a:hover {
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      @media (max-width: 860px) {
+        .ftop {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .ftop {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .ftop {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* POPUP MODAL */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(6, 12, 26, 0.7);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        backdrop-filter: blur(4px);
+      }
+
+      .modal-overlay.open {
+        display: flex;
+      }
+
+      .modal-box {
+        background: #fff;
+        border-radius: 18px;
+        width: 100%;
+        max-width: 620px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+        animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      @keyframes modalIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .modal-head {
+        padding: 28px 28px 0;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .modal-head-text h3 {
+        font-size: 20px;
+        font-weight: 800;
+        color: #111827;
+        letter-spacing: -0.02em;
+        margin-bottom: 4px;
+      }
+
+      .modal-head-text p {
+        font-size: 13px;
+        font-weight: 300;
+        color: #6b7280;
+      }
+
+      .modal-close {
+        background: none;
+        border: none;
+        font-size: 22px;
+        color: #8a9ab0;
+        cursor: pointer;
+        padding: 4px;
+        line-height: 1;
+        flex-shrink: 0;
+        transition: color 0.2s;
+      }
+
+      .modal-close:hover {
+        color: #111827;
+      }
+
+      .modal-body {
+        padding: 24px 28px 28px;
+      }
+
+      .m-divider {
+        height: 1px;
+        background: #f2f4f8;
+        margin: 20px 0;
+      }
+
+      .m-lbl {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #8a9ab0;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .m-lbl::before {
+        content: "";
+        width: 14px;
+        height: 1.5px;
+        background: #e4e8f0;
+        display: block;
+      }
+
+      .m-fg {
+        margin-bottom: 14px;
+      }
+
+      .m-fl {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #6b7280;
+        margin-bottom: 7px;
+      }
+
+      .m-fi,
+      .m-fsel,
+      .m-fta {
+        width: 100%;
+        padding: 11px 14px;
+        border: 1.5px solid #e4e8f0;
+        border-radius: 9px;
+        font-family: inherit;
+        font-size: 14px;
+        color: #111827;
+        background: #fff;
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+
+      .m-fi:focus,
+      .m-fsel:focus,
+      .m-fta:focus {
+        border-color: #1b3a7a;
+        box-shadow: 0 0 0 3px rgba(27, 58, 122, 0.08);
+      }
+
+      .m-fi::placeholder,
+      .m-fta::placeholder {
+        color: #c4cbd6;
+      }
+
+      .m-fta {
+        resize: vertical;
+        min-height: 90px;
+      }
+
+      .m-fsel {
+        cursor: pointer;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A9AB0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 14px center;
+        padding-right: 36px;
+      }
+
+      .m-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .required {
+        color: #e53935;
+        margin-left: 2px;
+      }
+
+      .radio-group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .radio-opt {
+        border: 1.5px solid #e4e8f0;
+        border-radius: 8px;
+        padding: 9px 14px;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 500;
+        color: #374151;
+        transition:
+          border-color 0.2s,
+          background 0.2s,
+          color 0.2s;
+        user-select: none;
+      }
+
+      .radio-opt:hover {
+        border-color: #1b3a7a;
+      }
+
+      .radio-opt.selected {
+        border-color: #1b3a7a;
+        background: rgba(27, 58, 122, 0.05);
+        color: #1b3a7a;
+        font-weight: 700;
+      }
+
+      /* Conditional question boxes */
+      .cond-box {
+        display: none;
+        margin-top: 14px;
+        padding: 16px;
+        background: #f9fafb;
+        border-radius: 10px;
+        border: 1px solid #e4e8f0;
+      }
+
+      .cond-box.visible {
+        display: block;
+      }
+
+      .m-submit {
+        width: 100%;
+        background: #1b3a7a;
+        color: #fff;
+        font-family: inherit;
+        font-size: 15px;
+        font-weight: 700;
+        padding: 14px;
+        border: none;
+        border-radius: 9px;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          transform 0.2s;
+        margin-top: 6px;
+      }
+
+      .m-submit:hover {
+        background: #0f2554;
+        transform: translateY(-2px);
+      }
+
+      .m-note {
+        font-size: 11px;
+        color: #8a9ab0;
+        text-align: center;
+        margin-top: 10px;
+        line-height: 1.6;
+      }
+
+      /* Success */
+      .modal-success {
+        display: none;
+        text-align: center;
+        padding: 40px 28px;
+      }
+
+      .modal-success-ico {
+        font-size: 48px;
+        margin-bottom: 16px;
+      }
+
+      .modal-success-t {
+        font-size: 20px;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 8px;
+      }
+
+      .modal-success-d {
+        font-size: 13px;
+        font-weight: 300;
+        color: #6b7280;
+        line-height: 1.75;
+        max-width: 320px;
+        margin: 0 auto 24px;
+      }
+
+      .modal-back {
+        background: #1b3a7a;
+        color: #fff;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      @media (max-width: 560px) {
+        .m-row {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* REVEAL */
+      .rv {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .rv.on {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .d1 {
+        transition-delay: 0.1s;
+      }
+
+      .d2 {
+        transition-delay: 0.2s;
+      }
+
+      .d3 {
+        transition-delay: 0.3s;
+      }
+
+      .d4 {
+        transition-delay: 0.4s;
+      }
+
+      /* FAQ */
+      .faq-sec {
+        padding: 80px 5%;
+        background: #f2f4f8;
+      }
+
+      .faq-wrap {
+        max-width: 820px;
+        margin: 0 auto;
+      }
+
+      .faq-lbl {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #8a9ab0;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .faq-lbl::before {
+        content: "";
+        width: 20px;
+        height: 1.5px;
+        background: #8a9ab0;
+        display: block;
+        flex-shrink: 0;
+      }
+
+      .faq-h {
+        font-size: clamp(22px, 4vw, 38px);
+        font-weight: 800;
+        color: #111827;
+        line-height: 1.1;
+        letter-spacing: -0.025em;
+        margin-bottom: 8px;
+      }
+
+      .faq-sub {
+        font-size: 15px;
+        font-weight: 300;
+        color: #6b7280;
+        line-height: 1.8;
+        margin-bottom: 36px;
+      }
+
+      .faq-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .faq-item {
+        border: 1.5px solid #e4e8f0;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #fff;
+      }
+
+      .faq-q {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 20px;
+        background: #fff;
+        border: none;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        color: #111827;
+        text-align: left;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .faq-q:hover {
+        background: #f2f4f8;
+      }
+
+      .faq-icon {
+        font-size: 18px;
+        color: #1b3a7a;
+        transition: transform 0.3s;
+        flex-shrink: 0;
+      }
+
+      .faq-a {
+        display: none;
+        padding: 0 20px 18px;
+        font-size: 13.5px;
+        font-weight: 300;
+        color: #6b7280;
+        line-height: 1.75;
+      }
+
+      .faq-item.open .faq-a {
+        display: block;
+      }
+
+      .faq-item.open .faq-icon {
+        transform: rotate(45deg);
+      }
+
+      .faq-item.open .faq-q {
+        background: #f2f4f8;
+      }
+    </style>
+    <style>
+      .don-nudge {
+        background: #1b3a7a;
+        padding: 13px 5%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        text-align: center;
       }
 
       .don-nudge-text {
-        font-size: 12px
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.8);
       }
-    }
-  </style>
-  <link rel="icon" type="image/png" href="favicon.png">
-</head>
 
-<body>
+      .don-nudge-text strong {
+        color: #fff;
+      }
 
-  <nav>
-    <a href="index.html"><img
-        src="nav-logo.webp" alt="TechNuVate" style="height:58px;width:auto"></a>
-    <div class="nav-right">
-      <div class="nav-item">
-        <button class="nav-item-btn">Meet Us <span class="nav-arrow">&#9660;</span></button>
-        <div class="nav-dropdown">
-          <a href="about.html">About Us</a>
-          <a href="academy.html">TechNuVate Academy</a>
-          <a href="studio.html" style="color:#1B3A7A;font-weight:700">TechNuVate Studio</a>
-          <a href="labs.html">TechNuVate Labs</a>
-        </div>
-      </div>
-      <div class="nav-item">
-        <button class="nav-item-btn">Work With Us <span class="nav-arrow">&#9660;</span></button>
-        <div class="nav-dropdown">
-          <a href="tutors.html">Become a Tutor</a>
-          <a href="join-team.html">Become a Team Member</a>
-        </div>
-      </div>
-      <a href="store.html" class="nav-item-btn"
-        style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap"
-        onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'"
-        onmouseout="this.style.background='transparent';this.style.color='#374151'">Store</a>
-      <a href="blog.html" class="nav-item-btn"
-        style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap"
-        onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'"
-        onmouseout="this.style.background='transparent';this.style.color='#374151'">Blog</a>
-      <a href="donate.html" class="nav-btn"
-        style="background:transparent;border:1.5px solid #1B3A7A;color:#1B3A7A;margin-right:2px"
-        onmouseover="this.style.background='rgba(27,58,122,.06)'"
-        onmouseout="this.style.background='transparent'">&#10084;&#65039; Donate</a><a href="index.html#contact"
-        class="nav-btn">Contact Us</a>
-      <button class="ham" id="hamBtn" onclick="toggleMenu()" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
+      .don-nudge-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #93b4ff;
+        color: #0d1f45;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 7px 16px;
+        border-radius: 100px;
+        text-decoration: none;
+        transition: opacity 0.2s;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
 
-  <!-- HERO -->
-  <section class="page-hero">
-    <div class="hero-dots"></div>
-    <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
-      <div
-        style="position:absolute;top:-80px;right:-60px;width:420px;height:420px;border-radius:50%;border:1.5px solid rgba(255,255,255,.07)">
-      </div>
-      <div
-        style="position:absolute;top:20px;right:50px;width:260px;height:260px;border-radius:50%;border:1px solid rgba(255,255,255,.04)">
-      </div>
-      <div
-        style="position:absolute;bottom:40px;left:3%;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(147,180,255,.07) 0%,transparent 70%)">
-      </div>
-    </div>
-    <div class="hero-inner">
-      <div>
-        <div class="breadcrumb">
-          <a href="index.html">Home</a><span>&rsaquo;</span>
-          <span class="breadcrumb-current">Studio</span>
-        </div>
-        <div class="hero-lbl">ARM 02 &mdash; TechNuVate Studio</div>
-        <h1>Digital Services.<br>Real Results.<br><em>Delivered.</em></h1>
-        <p class="page-hero-sub">TechNuVate Studio delivers digital services to growing businesses and organisations. We
-          run campaigns, design products, manage brands, and develop strategy — all executed by certified talent from
-          our own ecosystem.</p>
-        <div class="hero-cta-row">
-          <a href="#services" class="btn-white">See What We Offer &darr;</a>
-          <a href="index.html#contact" class="btn-ghost-w">Work With Us</a>
-        </div>
-      </div>
-      <div class="hero-right">
-        <div class="hero-stat">
-          <div class="hero-stat-n">7+</div>
-          <div class="hero-stat-l">Service areas across digital</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-n">100%</div>
-          <div class="hero-stat-l">Remote delivery, anywhere</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-n">Vetted</div>
-          <div class="hero-stat-l">Talent from TechNuVate ecosystem</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-n">Flexible</div>
-          <div class="hero-stat-l">Project-based or retainer</div>
-        </div>
-      </div>
-    </div>
-  </section>
+      .don-nudge-btn:hover {
+        opacity: 0.85;
+      }
 
-  <!-- WHAT WE DO -->
-  <section class="sec">
-    <div class="wrap">
-      <div class="lbl rv">What Studio Does</div>
-      <h2 class="rv"><span class="grad">We Do the Digital Work</span><br>So You Can Focus on Growing.</h2>
-      <p class="body rv d2" style="max-width:560px">You do not need a full in-house team to run your digital presence
-        properly. TechNuVate Studio gives you access to skilled, vetted digital professionals on a project or retainer
-        basis — without the overhead.</p>
-    </div>
-  </section>
+      .don-nudge-close {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 18px;
+        cursor: pointer;
+        padding: 0 0 0 8px;
+        line-height: 1;
+        flex-shrink: 0;
+      }
 
-  <!-- SERVICES -->
-  <section id="services" class="sec sec-bg">
-    <div class="wrap">
-      <div class="lbl rv">Our Services</div>
-      <h2 class="rv">What We Deliver</h2>
-      <div class="services-grid">
+      .don-nudge-close:hover {
+        color: #fff;
+      }
 
-        <div class="srv-card rv d1">
-          <div class="srv-ico">&#128227;</div>
-          <div class="srv-t">Digital Marketing</div>
-          <p class="srv-d">We plan and run digital campaigns that reach the right audience, build brand awareness, and
-            drive measurable results. From strategy to execution, we manage the full pipeline.</p>
-          <div class="srv-pills">
-            <span class="srv-pill">Social Media Management</span>
-            <span class="srv-pill">Paid Ads</span>
-            <span class="srv-pill">Email Campaigns</span>
-            <span class="srv-pill">SEO</span>
+      @media (max-width: 500px) {
+        .don-nudge {
+          gap: 10px;
+          padding: 12px 4%;
+        }
+
+        .don-nudge-text {
+          font-size: 12px;
+        }
+      }
+    </style>
+    <link rel="icon" type="image/png" href="favicon.png" />
+  </head>
+
+  <body>
+    <nav>
+      <a href="index.html"
+        ><img
+          src="nav-logo.webp"
+          alt="TechNuVate"
+          style="height: 58px; width: auto"
+      /></a>
+      <div class="nav-right">
+        <div class="nav-item">
+          <button class="nav-item-btn">
+            Meet Us <span class="nav-arrow">&#9660;</span>
+          </button>
+          <div class="nav-dropdown">
+            <a href="about.html">About Us</a>
+            <a href="academy.html">TechNuVate Academy</a>
+            <a href="studio.html" style="color: #1b3a7a; font-weight: 700"
+              >TechNuVate Studio</a
+            >
+            <a href="labs.html">TechNuVate Labs</a>
           </div>
         </div>
-
-        <div class="srv-card rv d2">
-          <div class="srv-ico">&#127912;</div>
-          <div class="srv-t">Product and Brand Design</div>
-          <p class="srv-d">We design digital products, brand identities, and visual systems that communicate clearly and
-            look sharp. From UI design to full brand kits, we make your brand look the part.</p>
-          <div class="srv-pills">
-            <span class="srv-pill">UI/UX Design</span>
-            <span class="srv-pill">Brand Identity</span>
-            <span class="srv-pill">Pitch Decks</span>
-            <span class="srv-pill">Design Systems</span>
+        <div class="nav-item">
+          <button class="nav-item-btn">
+            Work With Us <span class="nav-arrow">&#9660;</span>
+          </button>
+          <div class="nav-dropdown">
+            <a href="tutors.html">Become a Tutor</a>
+            <a href="join-team.html">Become a Team Member</a>
           </div>
         </div>
-
-        <div class="srv-card rv d1">
-          <div class="srv-ico">&#128202;</div>
-          <div class="srv-t">Digital Strategy and Consulting</div>
-          <p class="srv-d">Not sure where to start with your digital presence? We help businesses understand their
-            digital gaps, set priorities, and build a clear plan they can actually execute.</p>
-          <div class="srv-pills">
-            <span class="srv-pill">Digital Audit</span>
-            <span class="srv-pill">Go-to-Market Strategy</span>
-            <span class="srv-pill">Content Strategy</span>
-          </div>
-        </div>
-
-        <div class="srv-card rv d2">
-          <div class="srv-ico">&#127916;</div>
-          <div class="srv-t">Content Production</div>
-          <p class="srv-d">We create content that works — short-form videos, social content, graphics, and written copy
-            built for the platforms your audience is actually on.</p>
-          <div class="srv-pills">
-            <span class="srv-pill">Video Editing</span>
-            <span class="srv-pill">Copywriting</span>
-            <span class="srv-pill">Graphics</span>
-            <span class="srv-pill">Short-Form Content</span>
-          </div>
-        </div>
-
-        <div class="srv-card rv d1">
-          <div class="srv-ico">&#128101;</div>
-          <div class="srv-t">Community Building and Management</div>
-          <p class="srv-d">We help brands build, grow, and manage online communities that convert followers into loyal
-            advocates. We create the systems and run the day-to-day so you do not have to.</p>
-          <div class="srv-pills">
-            <span class="srv-pill">Community Setup</span>
-            <span class="srv-pill">Engagement Strategy</span>
-            <span class="srv-pill">Moderation</span>
-          </div>
-        </div>
-
-        <div class="srv-card rv d2">
-          <div class="srv-ico">&#128200;</div>
-          <div class="srv-t">Data and Analytics Support</div>
-          <p class="srv-d">We help businesses understand what their data is telling them. We set up dashboards, track
-            performance, and give you clear reports so your decisions are based on what is actually happening.</p>
-          <div class="srv-pills">
-            <span class="srv-pill">Dashboard Setup</span>
-            <span class="srv-pill">Performance Reporting</span>
-            <span class="srv-pill">Analytics Audit</span>
-          </div>
-        </div>
-
-        <div class="srv-card rv d1">
-          <div class="srv-ico">&#128202;</div>
-          <div class="srv-t">Product Management Support</div>
-          <p class="srv-d">You have a product you want to build, launch, or grow but you need structured thinking behind
-            it. We help you define the vision, plan the roadmap, write user stories, and manage the delivery process so
-            your product gets to users the right way.</p>
-          <div class="srv-pills">
-            <span class="srv-pill">Product Roadmapping</span>
-            <span class="srv-pill">User Research</span>
-            <span class="srv-pill">Launch Strategy</span>
-            <span class="srv-pill">Feature Prioritisation</span>
-          </div>
-        </div>
-
-        <div class="srv-card rv d1">
-          <div class="srv-ico">&#127760;</div>
-          <div class="srv-t">Website Creation</div>
-          <p class="srv-d">We design and build websites that represent your brand professionally and work well on every
-            device. Whether you need a landing page, a portfolio, or a full multi-page business website, we handle the
-            design, build, and launch.</p>
-          <div class="srv-pills">
-            <span class="srv-pill">Landing Pages</span>
-            <span class="srv-pill">Business Websites</span>
-            <span class="srv-pill">Portfolio Sites</span>
-            <span class="srv-pill">Mobile Responsive</span>
-          </div>
-        </div>
-
-        <div class="srv-card rv d1">
-          <div class="srv-ico">&#127979;</div>
-          <div class="srv-t">Team Training &amp; Business Structure</div>
-          <p class="srv-d">Your team is your biggest asset. If they are not aligned, skilled, or structured correctly,
-            even the best strategy falls flat. TechNuVate Studio comes into your business — online or onsite — and
-            builds the training and operational structure your team needs to perform. From digital skills workshops and
-            internal capability building to full department restructuring and process documentation, we travel anywhere
-            and we get it done right.</p>
-          <div class="srv-pills">
-            <span class="srv-pill">Onsite &amp; Online Delivery</span>
-            <span class="srv-pill">Digital Skills Training</span>
-            <span class="srv-pill">Team Structure Design</span>
-            <span class="srv-pill">Process Documentation</span>
-            <span class="srv-pill">We Travel to You</span>
-          </div>
-        </div>
-
-        <div class="srv-card rv d2">
-          <div class="srv-ico">&#127381;</div>
-          <div class="srv-t" id="branding-merch">Branding &amp; Merchandise Production</div>
-          <p class="srv-d">Your brand lives beyond your screen. Whether you are launching a business, rewarding your
-            team, impressing a client, or building brand equity through physical touchpoints — TechNuVate Studio handles
-            the full production. We design and produce branded jotters, flex banners, keychains, company merchandise,
-            premium invite cards, T-shirts, hoodies, and custom branded items built to the standard your brand deserves.
-            Give us your identity. We will put it on everything that matters.</p>
-          <div class="srv-pills">
-            <span class="srv-pill">Branded Jotters &amp; Stationery</span>
-            <span class="srv-pill">Flex Banners &amp; Signage</span>
-            <span class="srv-pill">T-shirts &amp; Hoodies</span>
-            <span class="srv-pill">Premium Invite Cards</span>
-            <span class="srv-pill">Keychains &amp; Merchandise</span>
-            <span class="srv-pill">Custom Corporate Gifts</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- WHO WE WORK WITH -->
-  <section class="sec">
-    <div class="wrap">
-      <div style="text-align:center;margin-bottom:8px">
-        <div class="lbl rv" style="justify-content:center">Who We Serve</div>
-        <h2 class="rv" style="text-align:center">Built for <span class="grad">Growing Organisations</span></h2>
-        <p class="body rv d2" style="text-align:center;max-width:480px;margin:0 auto">We specifically serve
-          organisations that need digital expertise but are not yet at the scale to hire a full in-house team.</p>
-      </div>
-      <div class="who-grid">
-        <div class="who-card rv d1">
-          <div class="who-ico">&#128640;</div>
-          <div class="who-t">Startups and Early-Stage Businesses</div>
-          <p class="who-d">You have a product or idea and need to build your digital presence from scratch. We help you
-            launch, get visible, and start attracting the right people.</p>
-        </div>
-        <div class="who-card rv d2">
-          <div class="who-ico">&#127968;</div>
-          <div class="who-t">SMEs and Growing Brands</div>
-          <p class="who-d">You are already running but your digital presence is not keeping up with where your business
-            is going. We step in and bring it up to speed.</p>
-        </div>
-        <div class="who-card rv d3">
-          <div class="who-ico">&#127758;</div>
-          <div class="who-t">NGOs and Social Impact Organisations</div>
-          <p class="who-d">You have a mission that deserves to be seen. We help you communicate it clearly, build a
-            community around it, and amplify your impact online.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section class="sec sec-bg">
-    <div class="wrap">
-      <div class="lbl rv">How It Works</div>
-      <h2 class="rv"><span class="grad">Simple from Start to Delivery</span></h2>
-      <div class="hiw-steps">
-        <div class="hiw-step rv d1">
-          <div class="hiw-no">01</div>
-          <div class="hiw-ico">&#128172;</div>
-          <div class="hiw-t">Tell Us What You Need</div>
-          <p class="hiw-d">Reach out through our contact form. Tell us about your business and what you are trying to
-            achieve. No long forms, no commitment.</p>
-        </div>
-        <div class="hiw-step rv d2">
-          <div class="hiw-no">02</div>
-          <div class="hiw-ico">&#128203;</div>
-          <div class="hiw-t">We Put Together a Plan</div>
-          <p class="hiw-d">We review your brief and come back with a clear scope of work, timeline, and pricing. You
-            decide what fits and we adjust if needed.</p>
-        </div>
-        <div class="hiw-step rv d3">
-          <div class="hiw-no">03</div>
-          <div class="hiw-ico">&#129514;</div>
-          <div class="hiw-t">We Assign the Right Team</div>
-          <p class="hiw-d">Your project is handled by vetted TechNuVate talent with the exact skills it needs. You deal
-            with one point of contact throughout.</p>
-        </div>
-        <div class="hiw-step rv d4">
-          <div class="hiw-no">04</div>
-          <div class="hiw-ico">&#127942;</div>
-          <div class="hiw-t">We Deliver and You Grow</div>
-          <p class="hiw-d">We execute, review, and deliver. You get the output and a clear record of what was done and
-            what it achieved.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TALENT SECTION -->
-  <section class="sec">
-    <div class="wrap">
-      <div class="talent-grid">
-        <div class="rv">
-          <div class="lbl">Our Talent</div>
-          <h2>Everyone Who Works on <span class="grad">Your Project Is TechNuVate Certified.</span></h2>
-          <p class="body" style="margin-bottom:20px">Studio does not hire random freelancers from the internet. Every
-            person who works on a client project is either a TechNuVate Academy graduate or a Labs-certified talent who
-            has already proven what they can do in a structured, reviewed environment.</p>
-          <p class="body">This means the quality you get from Studio is directly connected to the standard we hold in
-            our training. When you work with Studio, you are also supporting the growth of African digital talent.</p>
-        </div>
-        <div class="rv d2">
-          <div class="talent-cards">
-            <div class="talent-card">
-              <div class="talent-card-t">&#127891; Academy Trained</div>
-              <p class="talent-card-d">Every talent has completed a structured TechNuVate course with real project
-                assessments.</p>
-            </div>
-            <div class="talent-card">
-              <div class="talent-card-t">&#129514; Labs Verified</div>
-              <p class="talent-card-d">Top performers go through Labs where their skills are tested on live client
-                briefs before Studio deployment.</p>
-            </div>
-            <div class="talent-card">
-              <div class="talent-card-t">&#128200; Performance Tracked</div>
-              <p class="talent-card-d">We track delivery quality, client feedback, and output standards across every
-                project.</p>
-            </div>
-            <div class="talent-card">
-              <div class="talent-card-t">&#127757; Africa-Based</div>
-              <p class="talent-card-d">Our talent pool is Africa and English speaking countriesn professionals working
-                remotely and delivering globally.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- FAQ -->
-  <section class="faq-sec">
-    <div class="faq-wrap">
-      <div class="faq-lbl rv">Common Questions</div>
-      <h2 class="faq-h rv">Frequently Asked <span
-          style="background:linear-gradient(90deg,#1B3A7A,#8A9AB0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Questions</span>
-      </h2>
-      <p class="faq-sub rv">Everything you need to know before working with TechNuVate Studio.</p>
-      <div class="faq-list">
-        <div class="faq-item rv d1">
-          <button class="faq-q" onclick="toggleFaq(this)">How does the Studio engagement process work? <span
-              class="faq-icon">+</span></button>
-          <div class="faq-a">You fill in the contact form telling us what you need. We review it and come back to you
-            within 48 hours to discuss scope, timeline, and pricing. Once agreed we begin work. Simple.</div>
-        </div>
-        <div class="faq-item rv d2">
-          <button class="faq-q" onclick="toggleFaq(this)">Do you work with individuals or only businesses? <span
-              class="faq-icon">+</span></button>
-          <div class="faq-a">We work with both. Whether you are a solo entrepreneur, a startup, an SME, or an
-            established organisation, if you need professional digital services delivered we can help.</div>
-        </div>
-        <div class="faq-item rv d3">
-          <button class="faq-q" onclick="toggleFaq(this)">How is pricing structured for Studio services? <span
-              class="faq-icon">+</span></button>
-          <div class="faq-a">Pricing depends on the scope and complexity of the work. We do not have fixed packages
-            because every brief is different. Once you tell us what you need we give you a clear quote before any work
-            begins. No surprises.</div>
-        </div>
-        <div class="faq-item rv d4">
-          <button class="faq-q" onclick="toggleFaq(this)">Can I request more than one service at the same time? <span
-              class="faq-icon">+</span></button>
-          <div class="faq-a">Yes. Many clients work with us across multiple services simultaneously. For example digital
-            marketing running alongside content production and community management. We coordinate everything from our
-            end so you have one point of contact.</div>
-        </div>
-        <div class="faq-item rv d1">
-          <button class="faq-q" onclick="toggleFaq(this)">How long does a typical project take? <span
-              class="faq-icon">+</span></button>
-          <div class="faq-a">It depends entirely on the service and scope. A social media setup could take a week. A
-            full brand and website build could take four to six weeks. We give you a clear timeline as part of the brief
-            discussion before work begins.</div>
-        </div>
-        <div class="faq-item rv d2">
-          <button class="faq-q" onclick="toggleFaq(this)">Is there a minimum contract period? <span
-              class="faq-icon">+</span></button>
-          <div class="faq-a">We work on a project by project basis or on a retainer depending on what suits you. There
-            is no forced minimum period. We earn your continued business by delivering results.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="sec sec-bg">
-    <div class="cta-box rv">
-      <div class="cta-lbl">Ready to Work Together?</div>
-      <p class="cta-t">Tell Us What You Need.<br><span style="color:#93B4FF">We Will Handle the Rest.</span></p>
-      <p class="cta-s">No long onboarding. No agency retainers you cannot afford. Just good digital work done by people
-        who know what they are doing.</p>
-      <div class="cta-btns">
-        <button onclick="openModal()"
-          style="background:#fff;color:#1B3A7A;font-size:14px;font-weight:700;padding:13px 26px;border-radius:8px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:transform .2s,box-shadow .2s;font-family:inherit"
-          onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">Start
-          a Project &rarr;</button>
-        <a href="about.html" class="btn-ghost-w">Learn About TechNuVate</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-
-  <!-- NEWSLETTER -->
-  <section style="background:#0D1F45;padding:56px 5%">
-    <div style="max-width:600px;margin:0 auto;text-align:center">
-      <div
-        style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px">
-        Stay in the loop</div>
-      <h2 style="font-size:clamp(24px,4vw,34px);font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:12px">Get
-        updates before everyone else.</h2>
-      <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:32px">New cohort dates. Early
-        bird alerts. Career tips. Studio opportunities. Only what matters — straight to your inbox.</p>
-      <form id="newsletter-form" onsubmit="submitNewsletter(event)"
-        style="display:flex;gap:10px;max-width:460px;margin:0 auto;flex-wrap:wrap">
-        <input id="nl-email" type="email" placeholder="Enter your email address" required
-          style="flex:1;min-width:200px;padding:14px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s"
-          onfocus="this.style.borderColor='rgba(255,255,255,.4)'"
-          onblur="this.style.borderColor='rgba(255,255,255,.15)'">
-        <button type="submit" id="nl-btn"
-          style="padding:14px 24px;background:#fff;color:#0D1F45;font-size:14px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .2s">
-          Subscribe &rarr;
+        <a
+          href="store.html"
+          class="nav-item-btn"
+          style="
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition:
+              background 0.2s,
+              color 0.2s;
+            white-space: nowrap;
+          "
+          onmouseover="
+            this.style.background = '#F2F4F8';
+            this.style.color = '#1B3A7A';
+          "
+          onmouseout="
+            this.style.background = 'transparent';
+            this.style.color = '#374151';
+          "
+          >Store</a
+        >
+        <a
+          href="blog.html"
+          class="nav-item-btn"
+          style="
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition:
+              background 0.2s,
+              color 0.2s;
+            white-space: nowrap;
+          "
+          onmouseover="
+            this.style.background = '#F2F4F8';
+            this.style.color = '#1B3A7A';
+          "
+          onmouseout="
+            this.style.background = 'transparent';
+            this.style.color = '#374151';
+          "
+          >Blog</a
+        >
+        <a
+          href="donate.html"
+          class="nav-btn"
+          style="
+            background: transparent;
+            border: 1.5px solid #1b3a7a;
+            color: #1b3a7a;
+            margin-right: 2px;
+          "
+          onmouseover="this.style.background = 'rgba(27,58,122,.06)'"
+          onmouseout="this.style.background = 'transparent'"
+          >&#10084;&#65039; Donate</a
+        ><a href="index.html#contact" class="nav-btn">Contact Us</a>
+        <button
+          class="ham"
+          id="hamBtn"
+          onclick="toggleMenu()"
+          aria-label="Menu"
+        >
+          <span></span><span></span><span></span>
         </button>
-      </form>
-      <p id="nl-msg" style="font-size:12px;color:rgba(255,255,255,.4);margin-top:14px;display:none"></p>
-      <p style="font-size:11px;color:rgba(255,255,255,.2);margin-top:16px">No spam. Unsubscribe anytime. We respect your
-        inbox.</p>
-    </div>
-  </section>
-  <script>
-    function submitNewsletter(e) {
-      e.preventDefault();
-      var email = document.getElementById('nl-email').value.trim();
-      var btn = document.getElementById('nl-btn');
-      var msg = document.getElementById('nl-msg');
-      if (!email || email.indexOf('@') < 0) return;
-      btn.textContent = 'Subscribing...';
-      btn.disabled = true;
-      // Save to Supabase newsletter table
-      var SB_URL = typeof window.SB_URL !== 'undefined' ? window.SB_URL : 'YOUR_SUPABASE_URL_HERE';
-      var SB_KEY = typeof window.SB_KEY !== 'undefined' ? window.SB_KEY : 'YOUR_SUPABASE_ANON_KEY_HERE';
-      if (SB_URL && SB_URL !== 'YOUR_SUPABASE_URL_HERE') {
-        fetch(SB_URL + '/rest/v1/newsletter_subscribers', {
-          method: 'POST',
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-          body: JSON.stringify({ email: email, source: window.location.pathname })
-        }).catch(function () { });
-      }
-      setTimeout(function () {
-        document.getElementById('newsletter-form').style.display = 'none';
-        msg.textContent = '✓ You are on the list. Watch your inbox.';
-        msg.style.display = 'block';
-        msg.style.color = 'rgba(255,255,255,.7)';
-        msg.style.fontSize = '14px';
-      }, 600);
-    }
-  </script>
-  <footer>
-    <div class="fwrap">
-      <div class="ftop">
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="page-hero">
+      <div class="hero-dots"></div>
+      <div
+        style="
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          overflow: hidden;
+        "
+      >
+        <div
+          style="
+            position: absolute;
+            top: -80px;
+            right: -60px;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.07);
+          "
+        ></div>
+        <div
+          style="
+            position: absolute;
+            top: 20px;
+            right: 50px;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+          "
+        ></div>
+        <div
+          style="
+            position: absolute;
+            bottom: 40px;
+            left: 3%;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(
+              circle,
+              rgba(147, 180, 255, 0.07) 0%,
+              transparent 70%
+            );
+          "
+        ></div>
+      </div>
+      <div class="hero-inner">
         <div>
-          <div class="flogo"><img
-              src="footer-logo.webp" alt="TechNuVate"></div>
-          <p class="fdesc">A tech organisation training, deploying, and connecting talent in Africa and English speaking
-            countries with real digital opportunity.</p>
+          <div class="breadcrumb">
+            <a href="index.html">Home</a><span>&rsaquo;</span>
+            <span class="breadcrumb-current">Studio</span>
+          </div>
+          <div class="hero-lbl">ARM 02 &mdash; TechNuVate Studio</div>
+          <h1>Digital Services.<br />Real Results.<br /><em>Delivered.</em></h1>
+          <p class="page-hero-sub">
+            TechNuVate Studio delivers digital services to growing businesses
+            and organisations. We run campaigns, design products, manage brands,
+            and develop strategy — all executed by certified talent from our own
+            ecosystem.
+          </p>
+          <div class="hero-cta-row">
+            <a href="#services" class="btn-white">See What We Offer &darr;</a>
+            <a href="index.html#contact" class="btn-ghost-w">Work With Us</a>
+          </div>
         </div>
-        <div>
-          <div class="fc-t">Our Arms</div>
-          <ul class="flinks">
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="academy.html">TechNuVate Academy</a></li>
-            <li><a href="studio.html">TechNuVate Studio</a></li>
-            <li><a href="labs.html">TechNuVate Labs</a></li>
-            <li><a href="blog.html">Blog &amp; Events</a></li>
-            <li><a href="store.html">Merch Store</a></li>
-          </ul>
+        <div class="hero-right">
+          <div class="hero-stat">
+            <div class="hero-stat-n">7+</div>
+            <div class="hero-stat-l">Service areas across digital</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-n">100%</div>
+            <div class="hero-stat-l">Remote delivery, anywhere</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-n">Vetted</div>
+            <div class="hero-stat-l">Talent from TechNuVate ecosystem</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-n">Flexible</div>
+            <div class="hero-stat-l">Project-based or retainer</div>
+          </div>
         </div>
-        <div>
-          <div class="fc-t">Connect</div>
-          <ul class="flinks">
-            <li><a href="index.html#contact">Contact Us</a></li>
-            <li><a href="tutors.html">Become a Tutor</a></li>
-            <li><a href="join-team.html">Join the Team</a></li>
-            <li><a href="#newsletter-form" onclick="document.getElementById('nl-email').focus()">Subscribe to
-                Newsletter</a></li>
-            <li>
-              <span
-                style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.2);display:block;margin-bottom:10px;margin-top:6px">Follow
-                Us</span>
-              <div style="display:flex;gap:7px;flex-wrap:wrap">
-                <a href="https://www.linkedin.com/company/technuvate" title="LinkedIn"
-                  style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
-                    width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-                    <path
-                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                  </svg></a>
-                <a href="https://www.instagram.com/tech_nu_vate" title="Instagram"
-                  style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
-                    width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-                    <path
-                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-                  </svg></a>
-                <a href="https://x.com/technuvate" title="X"
-                  style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
-                    width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-                    <path
-                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                  </svg></a>
-                <a href="https://www.youtube.com/@technuvate" title="YouTube"
-                  style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
-                    width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-                    <path
-                      d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z" />
-                  </svg></a>
-                <a href="https://www.tiktok.com/@tech_nu_vate" title="TikTok"
-                  style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
-                    width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-                    <path
-                      d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z" />
-                  </svg></a>
-                <a href="https://www.facebook.com/technuvate" title="Facebook"
-                  style="width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;text-decoration:none"><svg
-                    width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-                    <path
-                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                  </svg></a>
+      </div>
+    </section>
+
+    <!-- WHAT WE DO -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="lbl rv">What Studio Does</div>
+        <h2 class="rv">
+          <span class="grad">We Do the Digital Work</span><br />So You Can Focus
+          on Growing.
+        </h2>
+        <p class="body rv d2" style="max-width: 560px">
+          You do not need a full in-house team to run your digital presence
+          properly. TechNuVate Studio gives you access to skilled, vetted
+          digital professionals on a project or retainer basis — without the
+          overhead.
+        </p>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="sec sec-bg">
+      <div class="wrap">
+        <div class="lbl rv">Our Services</div>
+        <h2 class="rv">What We Deliver</h2>
+        <div class="services-grid">
+          <div class="srv-card rv d1">
+            <div class="srv-ico">&#128227;</div>
+            <div class="srv-t">Digital Marketing</div>
+            <p class="srv-d">
+              We plan and run digital campaigns that reach the right audience,
+              build brand awareness, and drive measurable results. From strategy
+              to execution, we manage the full pipeline.
+            </p>
+            <div class="srv-pills">
+              <span class="srv-pill">Social Media Management</span>
+              <span class="srv-pill">Paid Ads</span>
+              <span class="srv-pill">Email Campaigns</span>
+              <span class="srv-pill">SEO</span>
+            </div>
+          </div>
+
+          <div class="srv-card rv d2">
+            <div class="srv-ico">&#127912;</div>
+            <div class="srv-t">Product and Brand Design</div>
+            <p class="srv-d">
+              We design digital products, brand identities, and visual systems
+              that communicate clearly and look sharp. From UI design to full
+              brand kits, we make your brand look the part.
+            </p>
+            <div class="srv-pills">
+              <span class="srv-pill">UI/UX Design</span>
+              <span class="srv-pill">Brand Identity</span>
+              <span class="srv-pill">Pitch Decks</span>
+              <span class="srv-pill">Design Systems</span>
+            </div>
+          </div>
+
+          <div class="srv-card rv d1">
+            <div class="srv-ico">&#128202;</div>
+            <div class="srv-t">Digital Strategy and Consulting</div>
+            <p class="srv-d">
+              Not sure where to start with your digital presence? We help
+              businesses understand their digital gaps, set priorities, and
+              build a clear plan they can actually execute.
+            </p>
+            <div class="srv-pills">
+              <span class="srv-pill">Digital Audit</span>
+              <span class="srv-pill">Go-to-Market Strategy</span>
+              <span class="srv-pill">Content Strategy</span>
+            </div>
+          </div>
+
+          <div class="srv-card rv d2">
+            <div class="srv-ico">&#127916;</div>
+            <div class="srv-t">Content Production</div>
+            <p class="srv-d">
+              We create content that works — short-form videos, social content,
+              graphics, and written copy built for the platforms your audience
+              is actually on.
+            </p>
+            <div class="srv-pills">
+              <span class="srv-pill">Video Editing</span>
+              <span class="srv-pill">Copywriting</span>
+              <span class="srv-pill">Graphics</span>
+              <span class="srv-pill">Short-Form Content</span>
+            </div>
+          </div>
+
+          <div class="srv-card rv d1">
+            <div class="srv-ico">&#128101;</div>
+            <div class="srv-t">Community Building and Management</div>
+            <p class="srv-d">
+              We help brands build, grow, and manage online communities that
+              convert followers into loyal advocates. We create the systems and
+              run the day-to-day so you do not have to.
+            </p>
+            <div class="srv-pills">
+              <span class="srv-pill">Community Setup</span>
+              <span class="srv-pill">Engagement Strategy</span>
+              <span class="srv-pill">Moderation</span>
+            </div>
+          </div>
+
+          <div class="srv-card rv d2">
+            <div class="srv-ico">&#128200;</div>
+            <div class="srv-t">Data and Analytics Support</div>
+            <p class="srv-d">
+              We help businesses understand what their data is telling them. We
+              set up dashboards, track performance, and give you clear reports
+              so your decisions are based on what is actually happening.
+            </p>
+            <div class="srv-pills">
+              <span class="srv-pill">Dashboard Setup</span>
+              <span class="srv-pill">Performance Reporting</span>
+              <span class="srv-pill">Analytics Audit</span>
+            </div>
+          </div>
+
+          <div class="srv-card rv d1">
+            <div class="srv-ico">&#128202;</div>
+            <div class="srv-t">Product Management Support</div>
+            <p class="srv-d">
+              You have a product you want to build, launch, or grow but you need
+              structured thinking behind it. We help you define the vision, plan
+              the roadmap, write user stories, and manage the delivery process
+              so your product gets to users the right way.
+            </p>
+            <div class="srv-pills">
+              <span class="srv-pill">Product Roadmapping</span>
+              <span class="srv-pill">User Research</span>
+              <span class="srv-pill">Launch Strategy</span>
+              <span class="srv-pill">Feature Prioritisation</span>
+            </div>
+          </div>
+
+          <div class="srv-card rv d1">
+            <div class="srv-ico">&#127760;</div>
+            <div class="srv-t">Website Creation</div>
+            <p class="srv-d">
+              We design and build websites that represent your brand
+              professionally and work well on every device. Whether you need a
+              landing page, a portfolio, or a full multi-page business website,
+              we handle the design, build, and launch.
+            </p>
+            <div class="srv-pills">
+              <span class="srv-pill">Landing Pages</span>
+              <span class="srv-pill">Business Websites</span>
+              <span class="srv-pill">Portfolio Sites</span>
+              <span class="srv-pill">Mobile Responsive</span>
+            </div>
+          </div>
+
+          <div class="srv-card rv d1">
+            <div class="srv-ico">&#127979;</div>
+            <div class="srv-t">Team Training &amp; Business Structure</div>
+            <p class="srv-d">
+              Your team is your biggest asset. If they are not aligned, skilled,
+              or structured correctly, even the best strategy falls flat.
+              TechNuVate Studio comes into your business — online or onsite —
+              and builds the training and operational structure your team needs
+              to perform. From digital skills workshops and internal capability
+              building to full department restructuring and process
+              documentation, we travel anywhere and we get it done right.
+            </p>
+            <div class="srv-pills">
+              <span class="srv-pill">Onsite &amp; Online Delivery</span>
+              <span class="srv-pill">Digital Skills Training</span>
+              <span class="srv-pill">Team Structure Design</span>
+              <span class="srv-pill">Process Documentation</span>
+              <span class="srv-pill">We Travel to You</span>
+            </div>
+          </div>
+
+          <div class="srv-card rv d2">
+            <div class="srv-ico">&#127381;</div>
+            <div class="srv-t" id="branding-merch">
+              Branding &amp; Merchandise Production
+            </div>
+            <p class="srv-d">
+              Your brand lives beyond your screen. Whether you are launching a
+              business, rewarding your team, impressing a client, or building
+              brand equity through physical touchpoints — TechNuVate Studio
+              handles the full production. We design and produce branded
+              jotters, flex banners, keychains, company merchandise, premium
+              invite cards, T-shirts, hoodies, and custom branded items built to
+              the standard your brand deserves. Give us your identity. We will
+              put it on everything that matters.
+            </p>
+            <div class="srv-pills">
+              <span class="srv-pill">Branded Jotters &amp; Stationery</span>
+              <span class="srv-pill">Flex Banners &amp; Signage</span>
+              <span class="srv-pill">T-shirts &amp; Hoodies</span>
+              <span class="srv-pill">Premium Invite Cards</span>
+              <span class="srv-pill">Keychains &amp; Merchandise</span>
+              <span class="srv-pill">Custom Corporate Gifts</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHO WE WORK WITH -->
+    <section class="sec">
+      <div class="wrap">
+        <div style="text-align: center; margin-bottom: 8px">
+          <div class="lbl rv" style="justify-content: center">Who We Serve</div>
+          <h2 class="rv" style="text-align: center">
+            Built for <span class="grad">Growing Organisations</span>
+          </h2>
+          <p
+            class="body rv d2"
+            style="text-align: center; max-width: 480px; margin: 0 auto"
+          >
+            We specifically serve organisations that need digital expertise but
+            are not yet at the scale to hire a full in-house team.
+          </p>
+        </div>
+        <div class="who-grid">
+          <div class="who-card rv d1">
+            <div class="who-ico">&#128640;</div>
+            <div class="who-t">Startups and Early-Stage Businesses</div>
+            <p class="who-d">
+              You have a product or idea and need to build your digital presence
+              from scratch. We help you launch, get visible, and start
+              attracting the right people.
+            </p>
+          </div>
+          <div class="who-card rv d2">
+            <div class="who-ico">&#127968;</div>
+            <div class="who-t">SMEs and Growing Brands</div>
+            <p class="who-d">
+              You are already running but your digital presence is not keeping
+              up with where your business is going. We step in and bring it up
+              to speed.
+            </p>
+          </div>
+          <div class="who-card rv d3">
+            <div class="who-ico">&#127758;</div>
+            <div class="who-t">NGOs and Social Impact Organisations</div>
+            <p class="who-d">
+              You have a mission that deserves to be seen. We help you
+              communicate it clearly, build a community around it, and amplify
+              your impact online.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="sec sec-bg">
+      <div class="wrap">
+        <div class="lbl rv">How It Works</div>
+        <h2 class="rv">
+          <span class="grad">Simple from Start to Delivery</span>
+        </h2>
+        <div class="hiw-steps">
+          <div class="hiw-step rv d1">
+            <div class="hiw-no">01</div>
+            <div class="hiw-ico">&#128172;</div>
+            <div class="hiw-t">Tell Us What You Need</div>
+            <p class="hiw-d">
+              Reach out through our contact form. Tell us about your business
+              and what you are trying to achieve. No long forms, no commitment.
+            </p>
+          </div>
+          <div class="hiw-step rv d2">
+            <div class="hiw-no">02</div>
+            <div class="hiw-ico">&#128203;</div>
+            <div class="hiw-t">We Put Together a Plan</div>
+            <p class="hiw-d">
+              We review your brief and come back with a clear scope of work,
+              timeline, and pricing. You decide what fits and we adjust if
+              needed.
+            </p>
+          </div>
+          <div class="hiw-step rv d3">
+            <div class="hiw-no">03</div>
+            <div class="hiw-ico">&#129514;</div>
+            <div class="hiw-t">We Assign the Right Team</div>
+            <p class="hiw-d">
+              Your project is handled by vetted TechNuVate talent with the exact
+              skills it needs. You deal with one point of contact throughout.
+            </p>
+          </div>
+          <div class="hiw-step rv d4">
+            <div class="hiw-no">04</div>
+            <div class="hiw-ico">&#127942;</div>
+            <div class="hiw-t">We Deliver and You Grow</div>
+            <p class="hiw-d">
+              We execute, review, and deliver. You get the output and a clear
+              record of what was done and what it achieved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TALENT SECTION -->
+    <section class="sec">
+      <div class="wrap">
+        <div class="talent-grid">
+          <div class="rv">
+            <div class="lbl">Our Talent</div>
+            <h2>
+              Everyone Who Works on
+              <span class="grad">Your Project Is TechNuVate Certified.</span>
+            </h2>
+            <p class="body" style="margin-bottom: 20px">
+              Studio does not hire random freelancers from the internet. Every
+              person who works on a client project is either a TechNuVate
+              Academy graduate or a Labs-certified talent who has already proven
+              what they can do in a structured, reviewed environment.
+            </p>
+            <p class="body">
+              This means the quality you get from Studio is directly connected
+              to the standard we hold in our training. When you work with
+              Studio, you are also supporting the growth of African digital
+              talent.
+            </p>
+          </div>
+          <div class="rv d2">
+            <div class="talent-cards">
+              <div class="talent-card">
+                <div class="talent-card-t">&#127891; Academy Trained</div>
+                <p class="talent-card-d">
+                  Every talent has completed a structured TechNuVate course with
+                  real project assessments.
+                </p>
               </div>
-            </li>
-          </ul>
+              <div class="talent-card">
+                <div class="talent-card-t">&#129514; Labs Verified</div>
+                <p class="talent-card-d">
+                  Top performers go through Labs where their skills are tested
+                  on live client briefs before Studio deployment.
+                </p>
+              </div>
+              <div class="talent-card">
+                <div class="talent-card-t">&#128200; Performance Tracked</div>
+                <p class="talent-card-d">
+                  We track delivery quality, client feedback, and output
+                  standards across every project.
+                </p>
+              </div>
+              <div class="talent-card">
+                <div class="talent-card-t">&#127757; Africa-Based</div>
+                <p class="talent-card-d">
+                  Our talent pool is Africa and English speaking countriesn
+                  professionals working remotely and delivering globally.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div style="text-align:center;padding-top:4px">
-        <p style="font-size:12px;color:rgba(255,255,255,.18)">&copy; 2026 TechNuVate. All rights reserved. Learn. Build.
-          Execute.</p>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-sec">
+      <div class="faq-wrap">
+        <div class="faq-lbl rv">Common Questions</div>
+        <h2 class="faq-h rv">
+          Frequently Asked
+          <span
+            style="
+              background: linear-gradient(90deg, #1b3a7a, #8a9ab0);
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+            "
+            >Questions</span
+          >
+        </h2>
+        <p class="faq-sub rv">
+          Everything you need to know before working with TechNuVate Studio.
+        </p>
+        <div class="faq-list">
+          <div class="faq-item rv d1">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              How does the Studio engagement process work?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              You fill in the contact form telling us what you need. We review
+              it and come back to you within 48 hours to discuss scope,
+              timeline, and pricing. Once agreed we begin work. Simple.
+            </div>
+          </div>
+          <div class="faq-item rv d2">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              Do you work with individuals or only businesses?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              We work with both. Whether you are a solo entrepreneur, a startup,
+              an SME, or an established organisation, if you need professional
+              digital services delivered we can help.
+            </div>
+          </div>
+          <div class="faq-item rv d3">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              How is pricing structured for Studio services?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              Pricing depends on the scope and complexity of the work. We do not
+              have fixed packages because every brief is different. Once you
+              tell us what you need we give you a clear quote before any work
+              begins. No surprises.
+            </div>
+          </div>
+          <div class="faq-item rv d4">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              Can I request more than one service at the same time?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              Yes. Many clients work with us across multiple services
+              simultaneously. For example digital marketing running alongside
+              content production and community management. We coordinate
+              everything from our end so you have one point of contact.
+            </div>
+          </div>
+          <div class="faq-item rv d1">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              How long does a typical project take?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              It depends entirely on the service and scope. A social media setup
+              could take a week. A full brand and website build could take four
+              to six weeks. We give you a clear timeline as part of the brief
+              discussion before work begins.
+            </div>
+          </div>
+          <div class="faq-item rv d2">
+            <button class="faq-q" onclick="toggleFaq(this)">
+              Is there a minimum contract period?
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              We work on a project by project basis or on a retainer depending
+              on what suits you. There is no forced minimum period. We earn your
+              continued business by delivering results.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="sec sec-bg">
+      <div class="cta-box rv">
+        <div class="cta-lbl">Ready to Work Together?</div>
+        <p class="cta-t">
+          Tell Us What You Need.<br /><span style="color: #93b4ff"
+            >We Will Handle the Rest.</span
+          >
+        </p>
+        <p class="cta-s">
+          No long onboarding. No agency retainers you cannot afford. Just good
+          digital work done by people who know what they are doing.
+        </p>
+        <div class="cta-btns">
+          <button
+            onclick="openModal()"
+            style="
+              background: #fff;
+              color: #1b3a7a;
+              font-size: 14px;
+              font-weight: 700;
+              padding: 13px 26px;
+              border-radius: 8px;
+              border: none;
+              cursor: pointer;
+              display: inline-flex;
+              align-items: center;
+              gap: 8px;
+              transition:
+                transform 0.2s,
+                box-shadow 0.2s;
+              font-family: inherit;
+            "
+            onmouseover="this.style.transform = 'translateY(-2px)'"
+            onmouseout="this.style.transform = 'translateY(0)'"
+          >
+            Start a Project &rarr;
+          </button>
+          <a href="about.html" class="btn-ghost-w">Learn About TechNuVate</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+
+    <!-- NEWSLETTER -->
+    <section style="background: #0d1f45; padding: 56px 5%">
+      <div style="max-width: 600px; margin: 0 auto; text-align: center">
+        <div
+          style="
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 14px;
+          "
+        >
+          Stay in the loop
+        </div>
+        <h2
+          style="
+            font-size: clamp(24px, 4vw, 34px);
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+          "
+        >
+          Get updates before everyone else.
+        </h2>
+        <p
+          style="
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.75;
+            margin-bottom: 32px;
+          "
+        >
+          New cohort dates. Early bird alerts. Career tips. Studio
+          opportunities. Only what matters — straight to your inbox.
+        </p>
+        <form
+          id="newsletter-form"
+          onsubmit="submitNewsletter(event)"
+          style="
+            display: flex;
+            gap: 10px;
+            max-width: 460px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+          "
+        >
+          <input
+            id="nl-email"
+            type="email"
+            placeholder="Enter your email address"
+            required
+            style="
+              flex: 1;
+              min-width: 200px;
+              padding: 14px 16px;
+              border-radius: 10px;
+              border: 1.5px solid rgba(255, 255, 255, 0.15);
+              background: rgba(255, 255, 255, 0.08);
+              color: #fff;
+              font-family: inherit;
+              font-size: 14px;
+              outline: none;
+              transition: border-color 0.2s;
+            "
+            onfocus="this.style.borderColor = 'rgba(255,255,255,.4)'"
+            onblur="this.style.borderColor = 'rgba(255,255,255,.15)'"
+          />
+          <button
+            type="submit"
+            id="nl-btn"
+            style="
+              padding: 14px 24px;
+              background: #fff;
+              color: #0d1f45;
+              font-size: 14px;
+              font-weight: 700;
+              border: none;
+              border-radius: 10px;
+              cursor: pointer;
+              font-family: inherit;
+              white-space: nowrap;
+              transition: opacity 0.2s;
+            "
+          >
+            Subscribe &rarr;
+          </button>
+        </form>
+        <p
+          id="nl-msg"
+          style="
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 14px;
+            display: none;
+          "
+        ></p>
+        <p
+          style="
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.2);
+            margin-top: 16px;
+          "
+        >
+          No spam. Unsubscribe anytime. We respect your inbox.
+        </p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="fwrap">
+        <div class="ftop">
+          <div>
+            <div class="flogo">
+              <img src="footer-logo.webp" alt="TechNuVate" />
+            </div>
+            <p class="fdesc">
+              A tech organisation training, deploying, and connecting talent in
+              Africa and English speaking countries with real digital
+              opportunity.
+            </p>
+          </div>
+          <div>
+            <div class="fc-t">Our Arms</div>
+            <ul class="flinks">
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="academy.html">TechNuVate Academy</a></li>
+              <li><a href="studio.html">TechNuVate Studio</a></li>
+              <li><a href="labs.html">TechNuVate Labs</a></li>
+              <li><a href="blog.html">Blog &amp; Events</a></li>
+              <li><a href="store.html">Merch Store</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="fc-t">Connect</div>
+            <ul class="flinks">
+              <li><a href="index.html#contact">Contact Us</a></li>
+              <li><a href="tutors.html">Become a Tutor</a></li>
+              <li><a href="join-team.html">Join the Team</a></li>
+              <li>
+                <a
+                  href="#newsletter-form"
+                  onclick="document.getElementById('nl-email').focus()"
+                  >Subscribe to Newsletter</a
+                >
+              </li>
+              <li>
+                <span
+                  style="
+                    font-size: 10px;
+                    font-weight: 700;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    color: rgba(255, 255, 255, 0.2);
+                    display: block;
+                    margin-bottom: 10px;
+                    margin-top: 6px;
+                  "
+                  >Follow Us</span
+                >
+                <div style="display: flex; gap: 7px; flex-wrap: wrap">
+                  <a
+                    href="https://www.linkedin.com/company/technuvate"
+                    title="LinkedIn"
+                    style="
+                      width: 32px;
+                      height: 32px;
+                      border-radius: 7px;
+                      background: rgba(255, 255, 255, 0.07);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      text-decoration: none;
+                    "
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgba(255,255,255,.5)"
+                    >
+                      <path
+                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                      /></svg
+                  ></a>
+                  <a
+                    href="https://www.instagram.com/tech_nu_vate"
+                    title="Instagram"
+                    style="
+                      width: 32px;
+                      height: 32px;
+                      border-radius: 7px;
+                      background: rgba(255, 255, 255, 0.07);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      text-decoration: none;
+                    "
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgba(255,255,255,.5)"
+                    >
+                      <path
+                        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+                      /></svg
+                  ></a>
+                  <a
+                    href="https://x.com/technuvate"
+                    title="X"
+                    style="
+                      width: 32px;
+                      height: 32px;
+                      border-radius: 7px;
+                      background: rgba(255, 255, 255, 0.07);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      text-decoration: none;
+                    "
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgba(255,255,255,.5)"
+                    >
+                      <path
+                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                      /></svg
+                  ></a>
+                  <a
+                    href="https://www.youtube.com/@technuvate"
+                    title="YouTube"
+                    style="
+                      width: 32px;
+                      height: 32px;
+                      border-radius: 7px;
+                      background: rgba(255, 255, 255, 0.07);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      text-decoration: none;
+                    "
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgba(255,255,255,.5)"
+                    >
+                      <path
+                        d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"
+                      /></svg
+                  ></a>
+                  <a
+                    href="https://www.tiktok.com/@tech_nu_vate"
+                    title="TikTok"
+                    style="
+                      width: 32px;
+                      height: 32px;
+                      border-radius: 7px;
+                      background: rgba(255, 255, 255, 0.07);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      text-decoration: none;
+                    "
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgba(255,255,255,.5)"
+                    >
+                      <path
+                        d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"
+                      /></svg
+                  ></a>
+                  <a
+                    href="https://www.facebook.com/technuvate"
+                    title="Facebook"
+                    style="
+                      width: 32px;
+                      height: 32px;
+                      border-radius: 7px;
+                      background: rgba(255, 255, 255, 0.07);
+                      border: 1px solid rgba(255, 255, 255, 0.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      text-decoration: none;
+                    "
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgba(255,255,255,.5)"
+                    >
+                      <path
+                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                      /></svg
+                  ></a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div style="text-align: center; padding-top: 4px">
+          <p style="font-size: 12px; color: rgba(255, 255, 255, 0.18)">
+            &copy; 2026 TechNuVate. All rights reserved. Learn. Build. Execute.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- CONSULTATION POPUP -->
+    <div
+      class="modal-overlay"
+      id="consultModal"
+      onclick="closeModalOutside(event)"
+    >
+      <div class="modal-box" id="consultBox">
+        <div id="consultForm">
+          <div class="modal-head">
+            <div class="modal-head-text">
+              <h3>Start a Studio Project</h3>
+              <p>
+                Tell us what you need. We will review and get back to you within
+                48 hours.
+              </p>
+            </div>
+            <button class="modal-close" onclick="closeModal()">&#10005;</button>
+          </div>
+          <div class="modal-body">
+            <div class="m-lbl">Your Details</div>
+            <div class="m-row">
+              <div class="m-fg">
+                <label class="m-fl"
+                  >Full Name <span class="required">*</span></label
+                ><input
+                  class="m-fi"
+                  id="c-name"
+                  type="text"
+                  placeholder="Amara Okafor"
+                />
+              </div>
+              <div class="m-fg">
+                <label class="m-fl"
+                  >Email Address <span class="required">*</span></label
+                ><input
+                  class="m-fi"
+                  id="c-email"
+                  type="email"
+                  placeholder="you@email.com"
+                />
+              </div>
+            </div>
+            <div class="m-fg">
+              <label class="m-fl"
+                >WhatsApp / Phone Number <span class="required">*</span></label
+              ><input
+                class="m-fi"
+                id="c-phone"
+                type="tel"
+                placeholder="+234 800 000 0000"
+              />
+              <p
+                style="
+                  font-size: 12px;
+                  font-weight: 300;
+                  color: #8a9ab0;
+                  margin-top: 5px;
+                  line-height: 1.5;
+                "
+              >
+                Include your country code e.g. +234 for Nigeria, +44 for UK.
+                WhatsApp number preferred.
+              </p>
+            </div>
+            <div class="m-fg">
+              <label class="m-fl">Organisation or Business Name</label>
+              <input
+                class="m-fi"
+                id="c-org"
+                type="text"
+                placeholder="Your company or brand name (optional)"
+              />
+            </div>
+
+            <div class="m-divider"></div>
+            <div class="m-lbl">What Do You Need?</div>
+
+            <div class="m-fg">
+              <label class="m-fl"
+                >Select a Service <span class="required">*</span></label
+              >
+              <select class="m-fsel" id="c-service" onchange="handleService()">
+                <option value="">Choose a service</option>
+                <option value="digital-marketing">Digital Marketing</option>
+                <option value="brand-design">Product and Brand Design</option>
+                <option value="website">Website Creation</option>
+                <option value="product-management">
+                  Product Management Support
+                </option>
+                <option value="content">Content Production</option>
+                <option value="community">
+                  Community Building and Management
+                </option>
+                <option value="strategy">
+                  Digital Strategy and Consulting
+                </option>
+                <option value="data">Data and Analytics Support</option>
+                <option value="team-training">
+                  Team Training &amp; Business Structure
+                </option>
+                <option value="branding-merch">
+                  Branding &amp; Merchandise Production
+                </option>
+                <option value="other">Something Else</option>
+              </select>
+            </div>
+
+            <!-- DIGITAL MARKETING questions -->
+            <div class="cond-box" id="cond-digital-marketing">
+              <div class="m-fg">
+                <label class="m-fl"
+                  >Which platforms do you want to focus on?</label
+                >
+                <div class="radio-group">
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Instagram</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >LinkedIn</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >TikTok</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >X (Twitter)</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Facebook</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Google Ads</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Email</span
+                  >
+                </div>
+              </div>
+              <div class="m-fg">
+                <label class="m-fl"
+                  >Do you already have active social media pages?</label
+                >
+                <div class="radio-group">
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'has-social')"
+                    >Yes</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'has-social')"
+                    >No, starting fresh</span
+                  >
+                </div>
+              </div>
+              <div class="m-fg">
+                <label class="m-fl">What is your monthly budget range?</label>
+                <div class="radio-group">
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'mkt-budget')"
+                    >Under &#8358;100k</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'mkt-budget')"
+                    >&#8358;100k — &#8358;300k</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'mkt-budget')"
+                    >Above &#8358;300k</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'mkt-budget')"
+                    >Let's discuss</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- BRAND DESIGN questions -->
+            <div class="cond-box" id="cond-brand-design">
+              <div class="m-fg">
+                <label class="m-fl">What do you need designed?</label>
+                <div class="radio-group">
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Brand Identity / Logo</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >UI/UX Design</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Pitch Deck</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Design System</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Social Media Templates</span
+                  >
+                </div>
+              </div>
+              <div class="m-fg">
+                <label class="m-fl"
+                  >Do you have existing brand guidelines or a logo?</label
+                >
+                <div class="radio-group">
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'has-brand')"
+                    >Yes, I have brand guidelines</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'has-brand')"
+                    >I have a logo but no guidelines</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'has-brand')"
+                    >Starting from scratch</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- WEBSITE CREATION questions -->
+            <div class="cond-box" id="cond-website">
+              <div class="m-fg">
+                <label class="m-fl">What kind of website do you need?</label>
+                <div class="radio-group">
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'web-type')"
+                    >Landing Page</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'web-type')"
+                    >Business / Portfolio Website</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'web-type')"
+                    >E-commerce Store</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'web-type')"
+                    >Blog or Content Site</span
+                  >
+                </div>
+              </div>
+              <div class="m-fg">
+                <label class="m-fl"
+                  >Do you already have a UI design for the website?</label
+                >
+                <div class="radio-group">
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'web-design')"
+                    >Yes, I have a design ready</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'web-design')"
+                    >No, I need design and build</span
+                  >
+                </div>
+              </div>
+              <div class="m-fg">
+                <label class="m-fl">Do you have a domain name already?</label>
+                <div class="radio-group">
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'web-domain')"
+                    >Yes</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'web-domain')"
+                    >No, I need help with that too</span
+                  >
+                </div>
+              </div>
+              <div class="m-fg">
+                <label class="m-fl"
+                  >Do you need a content management system so you can update
+                  content yourself?</label
+                >
+                <div class="radio-group">
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'web-cms')"
+                    >Yes please</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'web-cms')"
+                    >Not necessary</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'web-cms')"
+                    >Not sure</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- PRODUCT MANAGEMENT questions -->
+            <div class="cond-box" id="cond-product-management">
+              <div class="m-fg">
+                <label class="m-fl">Where is your product right now?</label>
+                <div class="radio-group">
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'prod-stage')"
+                    >Just an idea, no build yet</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'prod-stage')"
+                    >In development</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'prod-stage')"
+                    >Live and needs improvement</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'prod-stage')"
+                    >Ready to launch</span
+                  >
+                </div>
+              </div>
+              <div class="m-fg">
+                <label class="m-fl">What kind of support do you need?</label>
+                <div class="radio-group">
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Product Strategy</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Roadmap Planning</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >User Research</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Launch Planning</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Ongoing PM Support</span
+                  >
+                </div>
+              </div>
+              <div class="m-fg">
+                <label class="m-fl"
+                  >Do you have a tech team building this product?</label
+                >
+                <div class="radio-group">
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'prod-team')"
+                    >Yes, in-house team</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'prod-team')"
+                    >Yes, external developers</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'prod-team')"
+                    >Not yet</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- CONTENT PRODUCTION questions -->
+            <div class="cond-box" id="cond-content">
+              <div class="m-fg">
+                <label class="m-fl">What content do you need?</label>
+                <div class="radio-group">
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Short-form Videos</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Social Media Graphics</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Copywriting</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Long-form Video</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Podcast Editing</span
+                  >
+                </div>
+              </div>
+              <div class="m-fg">
+                <label class="m-fl">How often do you need content?</label>
+                <div class="radio-group">
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'content-freq')"
+                    >One-off project</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'content-freq')"
+                    >Weekly</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'content-freq')"
+                    >Monthly retainer</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- COMMUNITY questions -->
+            <div class="cond-box" id="cond-community">
+              <div class="m-fg">
+                <label class="m-fl">What stage is your community at?</label>
+                <div class="radio-group">
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'comm-stage')"
+                    >Does not exist yet</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'comm-stage')"
+                    >Exists but not active</span
+                  >
+                  <span
+                    class="radio-opt"
+                    onclick="selectSingle(this, 'comm-stage')"
+                    >Active but needs structure</span
+                  >
+                </div>
+              </div>
+              <div class="m-fg">
+                <label class="m-fl">Which platform is your community on?</label>
+                <div class="radio-group">
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >WhatsApp</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Telegram</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Discord</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Slack</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Not decided yet</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- STRATEGY questions -->
+            <div class="cond-box" id="cond-strategy">
+              <div class="m-fg">
+                <label class="m-fl"
+                  >What is the main challenge you are trying to solve?</label
+                >
+                <div class="radio-group">
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >No digital presence at all</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Presence exists but not converting</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Not sure where to invest</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Preparing for a launch</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- DATA questions -->
+            <div class="cond-box" id="cond-data">
+              <div class="m-fg">
+                <label class="m-fl"
+                  >What data tools do you currently use, if any?</label
+                >
+                <input
+                  class="m-fi"
+                  id="c-data-tools"
+                  type="text"
+                  placeholder="e.g. Google Analytics, Excel, none"
+                />
+              </div>
+              <div class="m-fg">
+                <label class="m-fl"
+                  >What do you want to measure or understand better?</label
+                >
+                <div class="radio-group">
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Website Traffic</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Sales Performance</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Campaign Results</span
+                  >
+                  <span class="radio-opt" onclick="toggleRadio(this)"
+                    >Customer Behaviour</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- OTHER -->
+            <div class="cond-box" id="cond-other">
+              <div class="m-fg">
+                <label class="m-fl">Tell us what you have in mind</label>
+                <textarea
+                  class="m-fta"
+                  id="c-other-detail"
+                  placeholder="Describe what you need as clearly as you can..."
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="m-divider"></div>
+            <div class="m-fg">
+              <label class="m-fl"
+                >Anything else we should know?
+                <span class="required">*</span></label
+              >
+              <textarea
+                class="m-fta"
+                id="c-extra"
+                placeholder="Tell us your timeline, budget range, and any specific requirements or goals..."
+                style="min-height: 90px"
+              ></textarea>
+            </div>
+
+            <button class="m-submit" onclick="submitConsult()">
+              Send Brief &rarr;
+            </button>
+            <p class="m-note">
+              We will review your brief and reach out within 48 hours to discuss
+              next steps. No commitment required at this stage.
+            </p>
+          </div>
+        </div>
+
+        <div class="modal-success" id="consultSuccess">
+          <div
+            style="
+              width: 72px;
+              height: 72px;
+              background: rgba(27, 58, 122, 0.07);
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 32px;
+              margin: 0 auto 20px;
+            "
+          >
+            &#10003;
+          </div>
+          <div
+            style="
+              font-size: 22px;
+              font-weight: 800;
+              color: #111827;
+              letter-spacing: -0.02em;
+              margin-bottom: 8px;
+            "
+          >
+            Brief Sent Successfully
+          </div>
+          <p
+            style="
+              font-size: 14px;
+              font-weight: 300;
+              color: #6b7280;
+              line-height: 1.75;
+              max-width: 340px;
+              margin: 0 auto 28px;
+            "
+          >
+            We have received your project brief. A member of the TechNuVate
+            Studio team will review it and reach out to you within 48 hours.
+          </p>
+          <div
+            style="
+              background: #f2f4f8;
+              border-radius: 12px;
+              padding: 20px;
+              max-width: 340px;
+              margin: 0 auto 28px;
+              text-align: left;
+            "
+          >
+            <div
+              style="
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                color: #8a9ab0;
+                margin-bottom: 12px;
+              "
+            >
+              What Happens Next
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <div style="display: flex; align-items: flex-start; gap: 10px">
+                <div
+                  style="
+                    width: 22px;
+                    height: 22px;
+                    background: #1b3a7a;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 11px;
+                    font-weight: 800;
+                    color: #fff;
+                    flex-shrink: 0;
+                    margin-top: 1px;
+                  "
+                >
+                  1
+                </div>
+                <div
+                  style="
+                    font-size: 13px;
+                    font-weight: 300;
+                    color: #374151;
+                    line-height: 1.5;
+                  "
+                >
+                  We review your brief and identify the right talent for your
+                  project
+                </div>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 10px">
+                <div
+                  style="
+                    width: 22px;
+                    height: 22px;
+                    background: #1b3a7a;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 11px;
+                    font-weight: 800;
+                    color: #fff;
+                    flex-shrink: 0;
+                    margin-top: 1px;
+                  "
+                >
+                  2
+                </div>
+                <div
+                  style="
+                    font-size: 13px;
+                    font-weight: 300;
+                    color: #374151;
+                    line-height: 1.5;
+                  "
+                >
+                  We reach out via email or WhatsApp to discuss scope and
+                  pricing
+                </div>
+              </div>
+              <div style="display: flex; align-items: flex-start; gap: 10px">
+                <div
+                  style="
+                    width: 22px;
+                    height: 22px;
+                    background: #1b3a7a;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 11px;
+                    font-weight: 800;
+                    color: #fff;
+                    flex-shrink: 0;
+                    margin-top: 1px;
+                  "
+                >
+                  3
+                </div>
+                <div
+                  style="
+                    font-size: 13px;
+                    font-weight: 300;
+                    color: #374151;
+                    line-height: 1.5;
+                  "
+                >
+                  Once agreed, we assign your team and begin work
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            class="modal-back"
+            onclick="closeModal()"
+            style="
+              background: #1b3a7a;
+              color: #fff;
+              font-family: inherit;
+              font-size: 14px;
+              font-weight: 700;
+              padding: 13px 32px;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+              transition: background 0.2s;
+            "
+            onmouseover="this.style.background = '#0F2554'"
+            onmouseout="this.style.background = '#1B3A7A'"
+          >
+            Close
+          </button>
+        </div>
       </div>
     </div>
-  </footer>
 
-  <script>
-
-    function toggleFaq(btn) {
-      var item = btn.closest('.faq-item');
-      var wasOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(function (i) { i.classList.remove('open'); });
-      if (!wasOpen) item.classList.add('open');
-    }
-
-    function toggleMenu() {
-      var m = document.getElementById('mobMenu'); var b = document.getElementById('hamBtn');
-      m.classList.toggle('open');
-      var s = b.querySelectorAll('span');
-      if (m.classList.contains('open')) {
-        s[0].style.transform = 'rotate(45deg) translate(5px,5px)'; s[1].style.opacity = '0'; s[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
-      } else { s[0].style.transform = ''; s[1].style.opacity = ''; s[2].style.transform = ''; }
-    }
-    document.addEventListener('click', function (e) {
-      var m = document.getElementById('mobMenu'); var b = document.getElementById('hamBtn');
-      if (m && m.classList.contains('open') && !m.contains(e.target) && !b.contains(e.target)) toggleMenu();
-    });
-    var obs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('on'); });
-    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
-    document.querySelectorAll('.rv').forEach(function (el) { obs.observe(el); });
-
-    function openModal() {
-      document.getElementById('consultModal').classList.add('open');
-      document.body.style.overflow = 'hidden';
-      // Reset form
-      document.getElementById('consultForm').style.display = 'block';
-      document.getElementById('consultSuccess').style.display = 'none';
-    }
-    function closeModal() {
-      document.getElementById('consultModal').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-    function closeModalOutside(e) {
-      if (e.target === document.getElementById('consultModal')) closeModal();
-    }
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') closeModal();
-    });
-
-    function handleService() {
-      var val = document.getElementById('c-service').value;
-      document.querySelectorAll('.cond-box').forEach(function (b) { b.classList.remove('visible'); });
-      if (val) {
-        var box = document.getElementById('cond-' + val);
-        if (box) box.classList.add('visible');
+    <script>
+      function submitNewsletter(e) {
+        e.preventDefault();
+        var email = document.getElementById("nl-email").value.trim();
+        var btn = document.getElementById("nl-btn");
+        var msg = document.getElementById("nl-msg");
+        if (!email || email.indexOf("@") < 0) return;
+        btn.textContent = "Subscribing...";
+        btn.disabled = true;
+        // Save to Supabase newsletter table
+        var SB_URL =
+          typeof window.SB_URL !== "undefined"
+            ? window.SB_URL
+            : "YOUR_SUPABASE_URL_HERE";
+        var SB_KEY =
+          typeof window.SB_KEY !== "undefined"
+            ? window.SB_KEY
+            : "YOUR_SUPABASE_ANON_KEY_HERE";
+        if (SB_URL && SB_URL !== "YOUR_SUPABASE_URL_HERE") {
+          fetch(SB_URL + "/rest/v1/newsletter_subscribers", {
+            method: "POST",
+            headers: {
+              apikey: SB_KEY,
+              Authorization: "Bearer " + SB_KEY,
+              "Content-Type": "application/json",
+              Prefer: "return=minimal",
+            },
+            body: JSON.stringify({
+              email: email,
+              source: window.location.pathname,
+            }),
+          }).catch(function () {});
+        }
+        setTimeout(function () {
+          document.getElementById("newsletter-form").style.display = "none";
+          msg.textContent = "✓ You are on the list. Watch your inbox.";
+          msg.style.display = "block";
+          msg.style.color = "rgba(255,255,255,.7)";
+          msg.style.fontSize = "14px";
+        }, 600);
       }
-    }
-
-    function toggleRadio(el) {
-      el.classList.toggle('selected');
-    }
-    function selectSingle(el, group) {
-      el.parentElement.querySelectorAll('.radio-opt').forEach(function (o) { o.classList.remove('selected'); });
-      el.classList.add('selected');
-    }
-
-    function submitConsult() {
-      var name = document.getElementById('c-name').value.trim();
-      var email = document.getElementById('c-email').value.trim();
-      var phone = document.getElementById('c-phone').value.trim();
-      var org = document.getElementById('c-org').value.trim();
-      var service = document.getElementById('c-service').value;
-      var extra = document.getElementById('c-extra').value.trim();
-
-      if (!name) { alert('Please enter your full name.'); return; }
-      if (!email || email.indexOf('@') === -1) { alert('Please enter a valid email address.'); return; }
-      if (!phone) { alert('Please enter your phone number.'); return; }
-      if (!service) { alert('Please select a service.'); return; }
-      if (!extra) { alert('Please tell us anything else we should know — timeline, budget, goals.'); return; }
-
-      // Collect selected radio/multi options per visible conditional box
-      var details = [];
-      document.querySelectorAll('.cond-box.visible').forEach(function (box) {
-        box.querySelectorAll('.radio-opt.selected').forEach(function (opt) {
-          details.push(opt.textContent.trim());
+    </script>
+    <script>
+      function toggleFaq(btn) {
+        var item = btn.closest(".faq-item");
+        var wasOpen = item.classList.contains("open");
+        document.querySelectorAll(".faq-item.open").forEach(function (i) {
+          i.classList.remove("open");
         });
-        box.querySelectorAll('textarea,input[type=text]').forEach(function (inp) {
-          if (inp.value.trim()) details.push(inp.value.trim());
-        });
+        if (!wasOpen) item.classList.add("open");
+      }
+
+      function toggleMenu() {
+        var m = document.getElementById("mobMenu");
+        var b = document.getElementById("hamBtn");
+        m.classList.toggle("open");
+        var s = b.querySelectorAll("span");
+        if (m.classList.contains("open")) {
+          s[0].style.transform = "rotate(45deg) translate(5px,5px)";
+          s[1].style.opacity = "0";
+          s[2].style.transform = "rotate(-45deg) translate(5px,-5px)";
+        } else {
+          s[0].style.transform = "";
+          s[1].style.opacity = "";
+          s[2].style.transform = "";
+        }
+      }
+      document.addEventListener("click", function (e) {
+        var m = document.getElementById("mobMenu");
+        var b = document.getElementById("hamBtn");
+        if (
+          m &&
+          m.classList.contains("open") &&
+          !m.contains(e.target) &&
+          !b.contains(e.target)
+        )
+          toggleMenu();
+      });
+      var obs = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) e.target.classList.add("on");
+          });
+        },
+        { threshold: 0.08, rootMargin: "0px 0px -20px 0px" },
+      );
+      document.querySelectorAll(".rv").forEach(function (el) {
+        obs.observe(el);
       });
 
-      // Build payload for Formspree
-      var serviceLabels = {
-        'digital-marketing': 'Digital Marketing',
-        'brand-design': 'Product and Brand Design',
-        'website': 'Website Creation',
-        'product-management': 'Product Management Support',
-        'content': 'Content Production',
-        'community': 'Community Building and Management',
-        'strategy': 'Digital Strategy and Consulting',
-        'data': 'Data and Analytics Support',
-        'other': 'Something Else'
-      };
+      function openModal() {
+        document.getElementById("consultModal").classList.add("open");
+        document.body.style.overflow = "hidden";
+        // Reset form
+        document.getElementById("consultForm").style.display = "block";
+        document.getElementById("consultSuccess").style.display = "none";
+      }
+      function closeModal() {
+        document.getElementById("consultModal").classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function closeModalOutside(e) {
+        if (e.target === document.getElementById("consultModal")) closeModal();
+      }
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") closeModal();
+      });
 
-      var payload = {
-        name: name,
-        email: email,
-        phone: phone,
-        organisation: org || 'Not provided',
-        service: serviceLabels[service] || service,
-        service_details: details.length ? details.join(', ') : 'None selected',
-        extra_notes: extra
-      };
-
-      var btn = document.querySelector('.m-submit');
-      btn.disabled = true;
-      btn.textContent = 'Sending...';
-
-      // =============================================================
-      // FORMSPREE SETUP:
-      // 1. Go to formspree.io and create a free account
-      // 2. Create a new form and copy the form endpoint URL
-      // 3. Replace YOUR_FORMSPREE_ENDPOINT below with that URL
-      //    It will look like: https://formspree.io/f/xxxxxxxx
-      // =============================================================
-      fetch('https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-        .then(function (res) {
-          if (res.ok) {
-            document.getElementById('consultForm').style.display = 'none';
-            document.getElementById('consultSuccess').style.display = 'block';
-          } else {
-            alert('Something went wrong. Please try again or reach out directly at hello@technuvate.com');
-            btn.disabled = false;
-            btn.textContent = 'Send Brief →';
-          }
-        })
-        .catch(function () {
-          alert('Could not send your brief. Please check your internet connection and try again.');
-          btn.disabled = false;
-          btn.textContent = 'Send Brief →';
+      function handleService() {
+        var val = document.getElementById("c-service").value;
+        document.querySelectorAll(".cond-box").forEach(function (b) {
+          b.classList.remove("visible");
         });
-    }
+        if (val) {
+          var box = document.getElementById("cond-" + val);
+          if (box) box.classList.add("visible");
+        }
+      }
 
-  </script>
+      function toggleRadio(el) {
+        el.classList.toggle("selected");
+      }
+      function selectSingle(el, group) {
+        el.parentElement.querySelectorAll(".radio-opt").forEach(function (o) {
+          o.classList.remove("selected");
+        });
+        el.classList.add("selected");
+      }
 
-  <!-- CONSULTATION POPUP -->
-  <div class="modal-overlay" id="consultModal" onclick="closeModalOutside(event)">
-    <div class="modal-box" id="consultBox">
+      function submitConsult() {
+        var name = document.getElementById("c-name").value.trim();
+        var email = document.getElementById("c-email").value.trim();
+        var phone = document.getElementById("c-phone").value.trim();
+        var org = document.getElementById("c-org").value.trim();
+        var service = document.getElementById("c-service").value;
+        var extra = document.getElementById("c-extra").value.trim();
 
-      <div id="consultForm">
-        <div class="modal-head">
-          <div class="modal-head-text">
-            <h3>Start a Studio Project</h3>
-            <p>Tell us what you need. We will review and get back to you within 48 hours.</p>
-          </div>
-          <button class="modal-close" onclick="closeModal()">&#10005;</button>
-        </div>
-        <div class="modal-body">
+        if (!name) {
+          alert("Please enter your full name.");
+          return;
+        }
+        if (!email || email.indexOf("@") === -1) {
+          alert("Please enter a valid email address.");
+          return;
+        }
+        if (!phone) {
+          alert("Please enter your phone number.");
+          return;
+        }
+        if (!service) {
+          alert("Please select a service.");
+          return;
+        }
+        if (!extra) {
+          alert(
+            "Please tell us anything else we should know — timeline, budget, goals.",
+          );
+          return;
+        }
 
-          <div class="m-lbl">Your Details</div>
-          <div class="m-row">
-            <div class="m-fg"><label class="m-fl">Full Name <span class="required">*</span></label><input class="m-fi"
-                id="c-name" type="text" placeholder="Amara Okafor"></div>
-            <div class="m-fg"><label class="m-fl">Email Address <span class="required">*</span></label><input
-                class="m-fi" id="c-email" type="email" placeholder="you@email.com"></div>
-          </div>
-          <div class="m-fg"><label class="m-fl">WhatsApp / Phone Number <span class="required">*</span></label><input
-              class="m-fi" id="c-phone" type="tel" placeholder="+234 800 000 0000">
-            <p style="font-size:12px;font-weight:300;color:#8A9AB0;margin-top:5px;line-height:1.5">Include your country
-              code e.g. +234 for Nigeria, +44 for UK. WhatsApp number preferred.</p>
-          </div>
-          <div class="m-fg">
-            <label class="m-fl">Organisation or Business Name</label>
-            <input class="m-fi" id="c-org" type="text" placeholder="Your company or brand name (optional)">
-          </div>
+        // Collect selected radio/multi options per visible conditional box
+        var details = [];
+        document.querySelectorAll(".cond-box.visible").forEach(function (box) {
+          box.querySelectorAll(".radio-opt.selected").forEach(function (opt) {
+            details.push(opt.textContent.trim());
+          });
+          box
+            .querySelectorAll("textarea,input[type=text]")
+            .forEach(function (inp) {
+              if (inp.value.trim()) details.push(inp.value.trim());
+            });
+        });
 
-          <div class="m-divider"></div>
-          <div class="m-lbl">What Do You Need?</div>
+        // Build payload for Formspree
+        var serviceLabels = {
+          "digital-marketing": "Digital Marketing",
+          "brand-design": "Product and Brand Design",
+          website: "Website Creation",
+          "product-management": "Product Management Support",
+          content: "Content Production",
+          community: "Community Building and Management",
+          strategy: "Digital Strategy and Consulting",
+          data: "Data and Analytics Support",
+          other: "Something Else",
+        };
 
-          <div class="m-fg">
-            <label class="m-fl">Select a Service <span class="required">*</span></label>
-            <select class="m-fsel" id="c-service" onchange="handleService()">
-              <option value="">Choose a service</option>
-              <option value="digital-marketing">Digital Marketing</option>
-              <option value="brand-design">Product and Brand Design</option>
-              <option value="website">Website Creation</option>
-              <option value="product-management">Product Management Support</option>
-              <option value="content">Content Production</option>
-              <option value="community">Community Building and Management</option>
-              <option value="strategy">Digital Strategy and Consulting</option>
-              <option value="data">Data and Analytics Support</option>
-              <option value="team-training">Team Training &amp; Business Structure</option>
-              <option value="branding-merch">Branding &amp; Merchandise Production</option>
-              <option value="other">Something Else</option>
-            </select>
-          </div>
+        var payload = {
+          name: name,
+          email: email,
+          phone: phone,
+          organisation: org || "Not provided",
+          service: serviceLabels[service] || service,
+          service_details: details.length
+            ? details.join(", ")
+            : "None selected",
+          extra_notes: extra,
+        };
 
-          <!-- DIGITAL MARKETING questions -->
-          <div class="cond-box" id="cond-digital-marketing">
-            <div class="m-fg"><label class="m-fl">Which platforms do you want to focus on?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="toggleRadio(this)">Instagram</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">LinkedIn</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">TikTok</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">X (Twitter)</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Facebook</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Google Ads</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Email</span>
-              </div>
-            </div>
-            <div class="m-fg"><label class="m-fl">Do you already have active social media pages?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="selectSingle(this,'has-social')">Yes</span>
-                <span class="radio-opt" onclick="selectSingle(this,'has-social')">No, starting fresh</span>
-              </div>
-            </div>
-            <div class="m-fg"><label class="m-fl">What is your monthly budget range?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="selectSingle(this,'mkt-budget')">Under &#8358;100k</span>
-                <span class="radio-opt" onclick="selectSingle(this,'mkt-budget')">&#8358;100k — &#8358;300k</span>
-                <span class="radio-opt" onclick="selectSingle(this,'mkt-budget')">Above &#8358;300k</span>
-                <span class="radio-opt" onclick="selectSingle(this,'mkt-budget')">Let's discuss</span>
-              </div>
-            </div>
-          </div>
+        var btn = document.querySelector(".m-submit");
+        btn.disabled = true;
+        btn.textContent = "Sending...";
 
-          <!-- BRAND DESIGN questions -->
-          <div class="cond-box" id="cond-brand-design">
-            <div class="m-fg"><label class="m-fl">What do you need designed?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="toggleRadio(this)">Brand Identity / Logo</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">UI/UX Design</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Pitch Deck</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Design System</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Social Media Templates</span>
-              </div>
-            </div>
-            <div class="m-fg"><label class="m-fl">Do you have existing brand guidelines or a logo?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="selectSingle(this,'has-brand')">Yes, I have brand guidelines</span>
-                <span class="radio-opt" onclick="selectSingle(this,'has-brand')">I have a logo but no guidelines</span>
-                <span class="radio-opt" onclick="selectSingle(this,'has-brand')">Starting from scratch</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- WEBSITE CREATION questions -->
-          <div class="cond-box" id="cond-website">
-            <div class="m-fg"><label class="m-fl">What kind of website do you need?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="selectSingle(this,'web-type')">Landing Page</span>
-                <span class="radio-opt" onclick="selectSingle(this,'web-type')">Business / Portfolio Website</span>
-                <span class="radio-opt" onclick="selectSingle(this,'web-type')">E-commerce Store</span>
-                <span class="radio-opt" onclick="selectSingle(this,'web-type')">Blog or Content Site</span>
-              </div>
-            </div>
-            <div class="m-fg"><label class="m-fl">Do you already have a UI design for the website?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="selectSingle(this,'web-design')">Yes, I have a design ready</span>
-                <span class="radio-opt" onclick="selectSingle(this,'web-design')">No, I need design and build</span>
-              </div>
-            </div>
-            <div class="m-fg"><label class="m-fl">Do you have a domain name already?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="selectSingle(this,'web-domain')">Yes</span>
-                <span class="radio-opt" onclick="selectSingle(this,'web-domain')">No, I need help with that too</span>
-              </div>
-            </div>
-            <div class="m-fg"><label class="m-fl">Do you need a content management system so you can update content
-                yourself?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="selectSingle(this,'web-cms')">Yes please</span>
-                <span class="radio-opt" onclick="selectSingle(this,'web-cms')">Not necessary</span>
-                <span class="radio-opt" onclick="selectSingle(this,'web-cms')">Not sure</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- PRODUCT MANAGEMENT questions -->
-          <div class="cond-box" id="cond-product-management">
-            <div class="m-fg"><label class="m-fl">Where is your product right now?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="selectSingle(this,'prod-stage')">Just an idea, no build yet</span>
-                <span class="radio-opt" onclick="selectSingle(this,'prod-stage')">In development</span>
-                <span class="radio-opt" onclick="selectSingle(this,'prod-stage')">Live and needs improvement</span>
-                <span class="radio-opt" onclick="selectSingle(this,'prod-stage')">Ready to launch</span>
-              </div>
-            </div>
-            <div class="m-fg"><label class="m-fl">What kind of support do you need?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="toggleRadio(this)">Product Strategy</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Roadmap Planning</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">User Research</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Launch Planning</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Ongoing PM Support</span>
-              </div>
-            </div>
-            <div class="m-fg"><label class="m-fl">Do you have a tech team building this product?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="selectSingle(this,'prod-team')">Yes, in-house team</span>
-                <span class="radio-opt" onclick="selectSingle(this,'prod-team')">Yes, external developers</span>
-                <span class="radio-opt" onclick="selectSingle(this,'prod-team')">Not yet</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- CONTENT PRODUCTION questions -->
-          <div class="cond-box" id="cond-content">
-            <div class="m-fg"><label class="m-fl">What content do you need?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="toggleRadio(this)">Short-form Videos</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Social Media Graphics</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Copywriting</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Long-form Video</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Podcast Editing</span>
-              </div>
-            </div>
-            <div class="m-fg"><label class="m-fl">How often do you need content?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="selectSingle(this,'content-freq')">One-off project</span>
-                <span class="radio-opt" onclick="selectSingle(this,'content-freq')">Weekly</span>
-                <span class="radio-opt" onclick="selectSingle(this,'content-freq')">Monthly retainer</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- COMMUNITY questions -->
-          <div class="cond-box" id="cond-community">
-            <div class="m-fg"><label class="m-fl">What stage is your community at?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="selectSingle(this,'comm-stage')">Does not exist yet</span>
-                <span class="radio-opt" onclick="selectSingle(this,'comm-stage')">Exists but not active</span>
-                <span class="radio-opt" onclick="selectSingle(this,'comm-stage')">Active but needs structure</span>
-              </div>
-            </div>
-            <div class="m-fg"><label class="m-fl">Which platform is your community on?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="toggleRadio(this)">WhatsApp</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Telegram</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Discord</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Slack</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Not decided yet</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- STRATEGY questions -->
-          <div class="cond-box" id="cond-strategy">
-            <div class="m-fg"><label class="m-fl">What is the main challenge you are trying to solve?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="toggleRadio(this)">No digital presence at all</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Presence exists but not converting</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Not sure where to invest</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Preparing for a launch</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- DATA questions -->
-          <div class="cond-box" id="cond-data">
-            <div class="m-fg"><label class="m-fl">What data tools do you currently use, if any?</label>
-              <input class="m-fi" id="c-data-tools" type="text" placeholder="e.g. Google Analytics, Excel, none">
-            </div>
-            <div class="m-fg"><label class="m-fl">What do you want to measure or understand better?</label>
-              <div class="radio-group">
-                <span class="radio-opt" onclick="toggleRadio(this)">Website Traffic</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Sales Performance</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Campaign Results</span>
-                <span class="radio-opt" onclick="toggleRadio(this)">Customer Behaviour</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- OTHER -->
-          <div class="cond-box" id="cond-other">
-            <div class="m-fg"><label class="m-fl">Tell us what you have in mind</label>
-              <textarea class="m-fta" id="c-other-detail"
-                placeholder="Describe what you need as clearly as you can..."></textarea>
-            </div>
-          </div>
-
-          <div class="m-divider"></div>
-          <div class="m-fg">
-            <label class="m-fl">Anything else we should know? <span class="required">*</span></label>
-            <textarea class="m-fta" id="c-extra"
-              placeholder="Tell us your timeline, budget range, and any specific requirements or goals..."
-              style="min-height:90px"></textarea>
-          </div>
-
-          <button class="m-submit" onclick="submitConsult()">Send Brief &rarr;</button>
-          <p class="m-note">We will review your brief and reach out within 48 hours to discuss next steps. No commitment
-            required at this stage.</p>
-        </div>
-      </div>
-
-      <div class="modal-success" id="consultSuccess">
-        <div
-          style="width:72px;height:72px;background:rgba(27,58,122,.07);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px">
-          &#10003;</div>
-        <div style="font-size:22px;font-weight:800;color:#111827;letter-spacing:-.02em;margin-bottom:8px">Brief Sent
-          Successfully</div>
-        <p style="font-size:14px;font-weight:300;color:#6B7280;line-height:1.75;max-width:340px;margin:0 auto 28px">We
-          have received your project brief. A member of the TechNuVate Studio team will review it and reach out to you
-          within 48 hours.</p>
-        <div
-          style="background:#F2F4F8;border-radius:12px;padding:20px;max-width:340px;margin:0 auto 28px;text-align:left">
-          <div
-            style="font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#8A9AB0;margin-bottom:12px">
-            What Happens Next</div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div style="display:flex;align-items:flex-start;gap:10px">
-              <div
-                style="width:22px;height:22px;background:#1B3A7A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;margin-top:1px">
-                1</div>
-              <div style="font-size:13px;font-weight:300;color:#374151;line-height:1.5">We review your brief and
-                identify the right talent for your project</div>
-            </div>
-            <div style="display:flex;align-items:flex-start;gap:10px">
-              <div
-                style="width:22px;height:22px;background:#1B3A7A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;margin-top:1px">
-                2</div>
-              <div style="font-size:13px;font-weight:300;color:#374151;line-height:1.5">We reach out via email or
-                WhatsApp to discuss scope and pricing</div>
-            </div>
-            <div style="display:flex;align-items:flex-start;gap:10px">
-              <div
-                style="width:22px;height:22px;background:#1B3A7A;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;flex-shrink:0;margin-top:1px">
-                3</div>
-              <div style="font-size:13px;font-weight:300;color:#374151;line-height:1.5">Once agreed, we assign your team
-                and begin work</div>
-            </div>
-          </div>
-        </div>
-        <button class="modal-back" onclick="closeModal()"
-          style="background:#1B3A7A;color:#fff;font-family:inherit;font-size:14px;font-weight:700;padding:13px 32px;border:none;border-radius:8px;cursor:pointer;transition:background .2s"
-          onmouseover="this.style.background='#0F2554'" onmouseout="this.style.background='#1B3A7A'">Close</button>
-      </div>
-
-    </div>
-  </div>
-</body>
-
+        // =============================================================
+        // FORMSPREE SETUP:
+        // 1. Go to formspree.io and create a free account
+        // 2. Create a new form and copy the form endpoint URL
+        // 3. Replace YOUR_FORMSPREE_ENDPOINT below with that URL
+        //    It will look like: https://formspree.io/f/xxxxxxxx
+        // =============================================================
+        fetch("https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(payload),
+        })
+          .then(function (res) {
+            if (res.ok) {
+              document.getElementById("consultForm").style.display = "none";
+              document.getElementById("consultSuccess").style.display = "block";
+            } else {
+              alert(
+                "Something went wrong. Please try again or reach out directly at hello@technuvate.com",
+              );
+              btn.disabled = false;
+              btn.textContent = "Send Brief →";
+            }
+          })
+          .catch(function () {
+            alert(
+              "Could not send your brief. Please check your internet connection and try again.",
+            );
+            btn.disabled = false;
+            btn.textContent = "Send Brief →";
+          });
+      }
+    </script>
+  </body>
 </html>

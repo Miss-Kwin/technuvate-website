@@ -1950,34 +1950,7 @@
         inbox.</p>
     </div>
   </section>
-  <script>
-    function submitNewsletter(e) {
-      e.preventDefault();
-      var email = document.getElementById('nl-email').value.trim();
-      var btn = document.getElementById('nl-btn');
-      var msg = document.getElementById('nl-msg');
-      if (!email || email.indexOf('@') < 0) return;
-      btn.textContent = 'Subscribing...';
-      btn.disabled = true;
-      // Save to Supabase newsletter table
-      var SB_URL = typeof window.SB_URL !== 'undefined' ? window.SB_URL : 'YOUR_SUPABASE_URL_HERE';
-      var SB_KEY = typeof window.SB_KEY !== 'undefined' ? window.SB_KEY : 'YOUR_SUPABASE_ANON_KEY_HERE';
-      if (SB_URL && SB_URL !== 'YOUR_SUPABASE_URL_HERE') {
-        fetch(SB_URL + '/rest/v1/newsletter_subscribers', {
-          method: 'POST',
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-          body: JSON.stringify({ email: email, source: window.location.pathname })
-        }).catch(function () { });
-      }
-      setTimeout(function () {
-        document.getElementById('newsletter-form').style.display = 'none';
-        msg.textContent = '✓ You are on the list. Watch your inbox.';
-        msg.style.display = 'block';
-        msg.style.color = 'rgba(255,255,255,.7)';
-        msg.style.fontSize = '14px';
-      }, 600);
-    }
-  </script>
+  
   <footer>
     <div class="fwrap">
       <div class="ftop">
@@ -2059,6 +2032,34 @@
     </div>
   </footer>
 
+  <script>
+    function submitNewsletter(e) {
+      e.preventDefault();
+      var email = document.getElementById('nl-email').value.trim();
+      var btn = document.getElementById('nl-btn');
+      var msg = document.getElementById('nl-msg');
+      if (!email || email.indexOf('@') < 0) return;
+      btn.textContent = 'Subscribing...';
+      btn.disabled = true;
+      // Save to Supabase newsletter table
+      var SB_URL = typeof window.SB_URL !== 'undefined' ? window.SB_URL : 'YOUR_SUPABASE_URL_HERE';
+      var SB_KEY = typeof window.SB_KEY !== 'undefined' ? window.SB_KEY : 'YOUR_SUPABASE_ANON_KEY_HERE';
+      if (SB_URL && SB_URL !== 'YOUR_SUPABASE_URL_HERE') {
+        fetch(SB_URL + '/rest/v1/newsletter_subscribers', {
+          method: 'POST',
+          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ email: email, source: window.location.pathname })
+        }).catch(function () { });
+      }
+      setTimeout(function () {
+        document.getElementById('newsletter-form').style.display = 'none';
+        msg.textContent = '✓ You are on the list. Watch your inbox.';
+        msg.style.display = 'block';
+        msg.style.color = 'rgba(255,255,255,.7)';
+        msg.style.fontSize = '14px';
+      }, 600);
+    }
+  </script>
   <script>
 
     function toggleFaq(btn) {
