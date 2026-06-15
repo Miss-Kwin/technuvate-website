@@ -1274,7 +1274,29 @@
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px">
           <div>
-            <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:7px">Email Address
+            <label for="t-country"
+              style="display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:7px">Country
+              <span style="color:#E53E3E">*</span></label>
+            <select id="t-country"
+              onchange="if(this.value){this.style.borderColor='#E4E8F0';document.getElementById('t-country-err').style.display='none';}"
+              style="width:100%;padding:12px 14px;border:1.5px solid #E4E8F0;border-radius:9px;font-family:inherit;font-size:14px;color:#111827;background:#fff;outline:none;cursor:pointer;appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2212%22 height=%2212%22 viewBox=%220 0 12 12%22%3E%3Cpath fill=%22%238A9AB0%22 d=%22M6 8L1 3h10z%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 14px center">
+              <option value="">Select your country</option>
+              <option value="Nigeria">Nigeria</option>
+              <option value="Ghana">Ghana</option>
+              <option value="Kenya">Kenya</option>
+              <option value="South Africa">South Africa</option>
+              <option value="Uganda">Uganda</option>
+              <option value="Tanzania">Tanzania</option>
+              <option value="Rwanda">Rwanda</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="United States">United States</option>
+              <option value="Canada">Canada</option>
+              <option value="Other">Other</option>
+            </select>
+            <div class="err" id="t-country-err" style="font-size:12px;color:#E53E3E;margin-top:4px;display:none">
+              Please select your country.</div>
+
+            <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-top:14px;margin-bottom:7px">Email Address
               <span style="color:#E53E3E">*</span></label>
             <input class="fi" id="t-email" type="email" placeholder="amara@email.com"
               style="width:100%;padding:12px 14px;font-size:14px;font-family:inherit;border:1.5px solid #E4E8F0;border-radius:9px;color:#111827;background:#fff;outline:none;transition:border-color .2s">
@@ -1282,7 +1304,16 @@
               enter a valid email address.</div>
           </div>
           <div>
-            <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:7px">Phone Number
+            <label for="t-state"
+              style="display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:7px">State
+              / Region <span style="color:#E53E3E">*</span></label>
+            <input id="t-state" type="text" placeholder="e.g. Rivers State, London, Ontario"
+              style="width:100%;padding:12px 14px;border:1.5px solid #E4E8F0;border-radius:9px;font-family:inherit;font-size:14px;color:#111827;background:#fff;outline:none;transition:border-color .2s"
+              onfocus="this.style.borderColor='#1B3A7A'" onblur="this.style.borderColor='#E4E8F0'">
+            <div class="err" id="t-state-err" style="font-size:12px;color:#E53E3E;margin-top:4px;display:none">Please
+              enter your state or region.</div>
+
+            <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-top:14px;margin-bottom:7px">Phone Number
               <span style="color:#E53E3E">*</span></label>
             <input class="fi" id="t-phone" type="tel" placeholder="+234 800 000 0000"
               style="width:100%;padding:12px 14px;font-size:14px;font-family:inherit;border:1.5px solid #E4E8F0;border-radius:9px;color:#111827;background:#fff;outline:none;transition:border-color .2s">
@@ -1290,40 +1321,6 @@
               for Nigeria, +44 for UK. WhatsApp number preferred.</p>
             <div class="err" id="t-phone-err" style="font-size:12px;color:#E53E3E;margin-top:4px;display:none">Please
               enter your phone number.</div>
-
-            <div style="margin-bottom:14px">
-              <label for="t-country"
-                style="display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:7px">Country
-                <span style="color:#E53E3E">*</span></label>
-              <select id="t-country"
-                onchange="if(this.value){this.style.borderColor='#E4E8F0';document.getElementById('t-country-err').style.display='none';}"
-                style="width:100%;padding:12px 14px;border:1.5px solid #E4E8F0;border-radius:9px;font-family:inherit;font-size:14px;color:#111827;background:#fff;outline:none;cursor:pointer;appearance:none;transition:border-color .2s">
-                <option value="">Select your country</option>
-                <option value="Nigeria">Nigeria</option>
-                <option value="Ghana">Ghana</option>
-                <option value="Kenya">Kenya</option>
-                <option value="South Africa">South Africa</option>
-                <option value="Uganda">Uganda</option>
-                <option value="Tanzania">Tanzania</option>
-                <option value="Rwanda">Rwanda</option>
-                <option value="United Kingdom">United Kingdom</option>
-                <option value="United States">United States</option>
-                <option value="Canada">Canada</option>
-                <option value="Other">Other</option>
-              </select>
-              <div class="err" id="t-country-err" style="font-size:12px;color:#E53E3E;margin-top:4px;display:none">
-                Please select your country.</div>
-            </div>
-            <div style="margin-bottom:14px">
-              <label for="t-state"
-                style="display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6B7280;margin-bottom:7px">State
-                / Region <span style="color:#E53E3E">*</span></label>
-              <input id="t-state" type="text" placeholder="e.g. Rivers State, London, Ontario"
-                style="width:100%;padding:12px 14px;border:1.5px solid #E4E8F0;border-radius:9px;font-family:inherit;font-size:14px;color:#111827;background:#fff;outline:none;transition:border-color .2s"
-                onfocus="this.style.borderColor='#1B3A7A'" onblur="this.style.borderColor='#E4E8F0'">
-              <div class="err" id="t-state-err" style="font-size:12px;color:#E53E3E;margin-top:4px;display:none">Please
-                enter your state or region.</div>
-            </div>
           </div>
         </div>
         <div style="margin-bottom:18px">
