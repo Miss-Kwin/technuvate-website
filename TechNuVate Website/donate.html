@@ -1946,8 +1946,11 @@
         },
         callback: function (response) {
           if (response.status === 'successful' || response.status === 'completed') {
-            // Set the flag — onclose will fire when the modal actually dismisses
-            window._donationPaid = true;
+            btn.disabled = false;
+            btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
+            document.getElementById('donationThankYou').style.display = 'block';
+            document.getElementById('donationForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            window._donationPaid = false;
             flutterwaveCheckoutInstance.close();
           } else {
             // Failed / cancelled before modal closed — restore button immediately

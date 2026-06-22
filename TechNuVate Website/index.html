@@ -3151,7 +3151,13 @@
         </div>
 
         <!-- RIGHT: widget -->
-        <div class="don-widget">
+        <div class="don-widget" id="donationForm">
+          <!-- Thank-you banner — hidden by default, shown after a completed donation -->
+          <div class="don-thankyou" id="donationThankYou" style="display: none; background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border: 1.5px solid #BFDBFE; border-radius: 14px; padding: 18px 20px; margin-bottom: 22px; text-align: center;">
+            <div class="don-thankyou-ico" style="width: 48px; height: 48px; background: linear-gradient(135deg, #1B3A7A 0%, #2D6BE4 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 22px; color: #fff; box-shadow: 0 4px 14px rgba(27,58,122,.22);">&#10003;</div>
+            <div class="don-thankyou-title" style="font-size: 15px; font-weight: 800; color: #1B3A7A; margin-bottom: 4px;">Donation Received &#10084;&#65039;</div>
+            <p class="don-thankyou-sub" style="font-size: 13px; color: #3B5FA0; line-height: 1.6; margin: 0;">Your payment went through. You have just helped sponsor a young person to learn a tech skill in Africa. That means everything.</p>
+          </div>
           <div class="don-widget-title">Choose your amount</div>
           <div class="don-widget-sub">
             Minimum: $2 &nbsp;/&nbsp; &#8358;2,000
@@ -4714,6 +4720,7 @@
     </footer>
 
     <script src="js/env.js"></script>
+    <script src="https://checkout.flutterwave.com/v3.js"></script>
     <script>
       (function () {
         var SB_URL = "https://xnynghnhbeyeowcibuvz.supabase.co";
@@ -5093,7 +5100,7 @@
         var btn = document.getElementById("don-btn");
         btn.disabled = true;
         btn.textContent = "Opening payment...";
-        FlutterwaveCheckout({
+        var flutterwaveCheckoutInstance = FlutterwaveCheckout({
           public_key: window.APP_ENV.FW_PUBLIC_KEY,
           tx_ref: "TNVDON-" + Date.now(),
           amount: donAmount,
@@ -5131,17 +5138,24 @@
           },
           callback: function (r) {
             if (r.status === "successful" || r.status === "completed") {
-              btn.innerHTML = "❤️ Thank you! Your donation is received.";
-              btn.style.background = "#15803D";
+              btn.disabled = false;
+              btn.innerHTML = '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
+              document.getElementById('donationThankYou').style.display = 'block';
+              document.getElementById('donationForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+              window._donationPaid = false;
+              flutterwaveCheckoutInstance.close();
             } else {
               btn.disabled = false;
-              btn.textContent = "Donate Now";
+              btn.innerHTML = '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
             }
           },
           onclose: function () {
-            if (btn.disabled && btn.textContent === "Opening payment...") {
-              btn.disabled = false;
-              btn.textContent = "Donate Now";
+            btn.disabled = false;
+            btn.innerHTML = '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
+            if (window._donationPaid) {
+              window._donationPaid = false;
+              document.getElementById('donationThankYou').style.display = 'block';
+              document.getElementById('donationForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
           },
         });
