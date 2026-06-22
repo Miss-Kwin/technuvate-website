@@ -4913,6 +4913,93 @@
           d +
           "</a>";
       }
+
+      // ── Contact Form Handler ─────────────────────────────────────
+      function handleContactSubmit(e) {
+        e.preventDefault();
+
+        function gv(id) {
+          var el = document.getElementById(id);
+          return el ? el.value.trim() : "";
+        }
+        function showFieldErr(id) {
+          var err = document.getElementById("contact-" + id + "-err");
+          if (err) err.style.display = "block";
+        }
+        function clearFieldErr(id) {
+          var err = document.getElementById("contact-" + id + "-err");
+          if (err) err.style.display = "none";
+        }
+
+        var firstName = gv("contact-firstname");
+        var lastName = gv("contact-lastname");
+        var email = gv("contact-email");
+        var subject = gv("contact-subject");
+        var message = gv("contact-message");
+
+        var ok = true;
+        if (!firstName) {
+          showFieldErr("firstname");
+          ok = false;
+        } else clearFieldErr("firstname");
+        if (!lastName) {
+          showFieldErr("lastname");
+          ok = false;
+        } else clearFieldErr("lastname");
+        if (!email || email.indexOf("@") < 0 || email.indexOf(".") < 0) {
+          showFieldErr("email");
+          ok = false;
+        } else clearFieldErr("email");
+        if (!message) {
+          showFieldErr("message");
+          ok = false;
+        } else clearFieldErr("message");
+
+        var statusMsg = document.getElementById("contact-status-msg");
+        statusMsg.style.display = "none";
+
+        if (!ok) return;
+
+        var btn = document.getElementById("contact-submit-btn");
+        var btnText = document.getElementById("contact-submit-text");
+        btn.disabled = true;
+        btnText.textContent = "Sending...";
+
+        fetch("/.netlify/functions/contact-form", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            subject: subject,
+            message: message,
+          }),
+        })
+          .then(function (res) {
+            if (!res.ok)
+              throw new Error("Request failed with status " + res.status);
+            return res.json();
+          })
+          .then(function () {
+            statusMsg.textContent =
+              "✓ Message sent! We will get back to you within 24 hours.";
+            statusMsg.style.color = "#1B3A7A";
+            statusMsg.style.display = "block";
+            document.getElementById("contactForm").reset();
+            btn.disabled = false;
+            btnText.innerHTML = "Send Message &rarr;";
+          })
+          .catch(function (err) {
+            console.error("Contact form error:", err);
+            statusMsg.textContent =
+              "Something went wrong. Please try again or email us directly.";
+            statusMsg.style.color = "#E53E3E";
+            statusMsg.style.display = "block";
+            btn.disabled = false;
+            btnText.innerHTML = "Send Message &rarr;";
+          });
+      }
     </script>
     <script>
       var donCurrency = "NGN";
