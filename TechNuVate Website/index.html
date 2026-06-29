@@ -4360,24 +4360,27 @@
               </div>
             </div>
           </div>
-          <div class="cform rv d2">
+          <form id="contactForm" class="cform rv d2" onsubmit="handleContactSubmit(event); return false;">
             <div class="frow">
               <div>
-                <label class="fl">First Name</label
-                ><input class="fi" type="text" placeholder="Amara" />
+                <label class="fl">First Name</label>
+                <input class="fi" type="text" id="contact-firstname" placeholder="Amara" />
+                <div id="contact-firstname-err" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;">Please enter your first name.</div>
               </div>
               <div>
-                <label class="fl">Last Name</label
-                ><input class="fi" type="text" placeholder="Okafor" />
+                <label class="fl">Last Name</label>
+                <input class="fi" type="text" id="contact-lastname" placeholder="Okafor" />
+                <div id="contact-lastname-err" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;">Please enter your last name.</div>
               </div>
             </div>
             <div class="fg">
-              <label class="fl">Email</label
-              ><input class="fi" type="email" placeholder="you@email.com" />
+              <label class="fl">Email</label>
+              <input class="fi" type="email" id="contact-email" placeholder="you@email.com" />
+              <div id="contact-email-err" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;">Please enter a valid email address.</div>
             </div>
             <div class="fg">
               <label class="fl">I need help with</label>
-              <select class="fsel">
+              <select class="fsel" id="contact-subject">
                 <option>Having problems enrolling in a course</option>
                 <option>Partnership enquiry</option>
                 <option>Studio services for my organization</option>
@@ -4387,14 +4390,15 @@
               </select>
             </div>
             <div class="fg">
-              <label class="fl">Message</label
-              ><textarea
-                class="fta"
-                placeholder="Tell us what you need..."
-              ></textarea>
+              <label class="fl">Message</label>
+              <textarea class="fta" id="contact-message" placeholder="Tell us what you need..."></textarea>
+              <div id="contact-message-err" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;">Please enter your message.</div>
             </div>
-            <button class="fbtn">Send Message &rarr;</button>
-          </div>
+            <button class="fbtn" type="submit" id="contact-submit-btn">
+              <span id="contact-submit-text">Send Message &rarr;</span>
+            </button>
+            <div id="contact-status-msg" style="display:none;font-size:13px;margin-top:14px;line-height:1.6;"></div>
+          </form>
         </div>
       </div>
     </section>
