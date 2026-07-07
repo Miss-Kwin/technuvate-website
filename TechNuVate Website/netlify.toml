@@ -1,2 +1,4 @@
 [build]
-  functions = "netlify/functions"
+  base      = "."
+  publish   = "."
+  functions = "TechNuVate Website/netlify/functions"
