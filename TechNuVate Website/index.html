@@ -2208,7 +2208,7 @@
   <a href="index.html#contact" class="mob-cta">Contact Us</a>
 </div> -->
 
-    <!-- HERO -->
+    <!-- HERO SECTION -->
     <section class="hero">
       <div class="hero-dots"></div>
       <div class="hero-glow"></div>
@@ -3153,10 +3153,60 @@
         <!-- RIGHT: widget -->
         <div class="don-widget" id="donationForm">
           <!-- Thank-you banner — hidden by default, shown after a completed donation -->
-          <div class="don-thankyou" id="donationThankYou" style="display: none; background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); border: 1.5px solid #BFDBFE; border-radius: 14px; padding: 18px 20px; margin-bottom: 22px; text-align: center;">
-            <div class="don-thankyou-ico" style="width: 48px; height: 48px; background: linear-gradient(135deg, #1B3A7A 0%, #2D6BE4 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 22px; color: #fff; box-shadow: 0 4px 14px rgba(27,58,122,.22);">&#10003;</div>
-            <div class="don-thankyou-title" style="font-size: 15px; font-weight: 800; color: #1B3A7A; margin-bottom: 4px;">Donation Received &#10084;&#65039;</div>
-            <p class="don-thankyou-sub" style="font-size: 13px; color: #3B5FA0; line-height: 1.6; margin: 0;">Your payment went through. You have just helped sponsor a young person to learn a tech skill in Africa. That means everything.</p>
+          <div
+            class="don-thankyou"
+            id="donationThankYou"
+            style="
+              display: none;
+              background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+              border: 1.5px solid #bfdbfe;
+              border-radius: 14px;
+              padding: 18px 20px;
+              margin-bottom: 22px;
+              text-align: center;
+            "
+          >
+            <div
+              class="don-thankyou-ico"
+              style="
+                width: 48px;
+                height: 48px;
+                background: linear-gradient(135deg, #1b3a7a 0%, #2d6be4 100%);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 12px;
+                font-size: 22px;
+                color: #fff;
+                box-shadow: 0 4px 14px rgba(27, 58, 122, 0.22);
+              "
+            >
+              &#10003;
+            </div>
+            <div
+              class="don-thankyou-title"
+              style="
+                font-size: 15px;
+                font-weight: 800;
+                color: #1b3a7a;
+                margin-bottom: 4px;
+              "
+            >
+              Donation Received &#10084;&#65039;
+            </div>
+            <p
+              class="don-thankyou-sub"
+              style="
+                font-size: 13px;
+                color: #3b5fa0;
+                line-height: 1.6;
+                margin: 0;
+              "
+            >
+              Your payment went through. You have just helped sponsor a young
+              person to learn a tech skill in Africa. That means everything.
+            </p>
           </div>
           <div class="don-widget-title">Choose your amount</div>
           <div class="don-widget-sub">
@@ -4360,23 +4410,75 @@
               </div>
             </div>
           </div>
-          <form id="contactForm" class="cform rv d2" onsubmit="handleContactSubmit(event); return false;">
+          <form
+            id="contactForm"
+            class="cform rv d2"
+            onsubmit="
+              handleContactSubmit(event);
+              return false;
+            "
+          >
             <div class="frow">
               <div>
                 <label class="fl">First Name</label>
-                <input class="fi" type="text" id="contact-firstname" placeholder="Amara" />
-                <div id="contact-firstname-err" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;">Please enter your first name.</div>
+                <input
+                  class="fi"
+                  type="text"
+                  id="contact-firstname"
+                  placeholder="Amara"
+                />
+                <div
+                  id="contact-firstname-err"
+                  style="
+                    display: none;
+                    color: #e53e3e;
+                    font-size: 12px;
+                    margin-top: 4px;
+                  "
+                >
+                  Please enter your first name.
+                </div>
               </div>
               <div>
                 <label class="fl">Last Name</label>
-                <input class="fi" type="text" id="contact-lastname" placeholder="Okafor" />
-                <div id="contact-lastname-err" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;">Please enter your last name.</div>
+                <input
+                  class="fi"
+                  type="text"
+                  id="contact-lastname"
+                  placeholder="Okafor"
+                />
+                <div
+                  id="contact-lastname-err"
+                  style="
+                    display: none;
+                    color: #e53e3e;
+                    font-size: 12px;
+                    margin-top: 4px;
+                  "
+                >
+                  Please enter your last name.
+                </div>
               </div>
             </div>
             <div class="fg">
               <label class="fl">Email</label>
-              <input class="fi" type="email" id="contact-email" placeholder="you@email.com" />
-              <div id="contact-email-err" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;">Please enter a valid email address.</div>
+              <input
+                class="fi"
+                type="email"
+                id="contact-email"
+                placeholder="you@email.com"
+              />
+              <div
+                id="contact-email-err"
+                style="
+                  display: none;
+                  color: #e53e3e;
+                  font-size: 12px;
+                  margin-top: 4px;
+                "
+              >
+                Please enter a valid email address.
+              </div>
             </div>
             <div class="fg">
               <label class="fl">I need help with</label>
@@ -4391,13 +4493,35 @@
             </div>
             <div class="fg">
               <label class="fl">Message</label>
-              <textarea class="fta" id="contact-message" placeholder="Tell us what you need..."></textarea>
-              <div id="contact-message-err" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;">Please enter your message.</div>
+              <textarea
+                class="fta"
+                id="contact-message"
+                placeholder="Tell us what you need..."
+              ></textarea>
+              <div
+                id="contact-message-err"
+                style="
+                  display: none;
+                  color: #e53e3e;
+                  font-size: 12px;
+                  margin-top: 4px;
+                "
+              >
+                Please enter your message.
+              </div>
             </div>
             <button class="fbtn" type="submit" id="contact-submit-btn">
               <span id="contact-submit-text">Send Message &rarr;</span>
             </button>
-            <div id="contact-status-msg" style="display:none;font-size:13px;margin-top:14px;line-height:1.6;"></div>
+            <div
+              id="contact-status-msg"
+              style="
+                display: none;
+                font-size: 13px;
+                margin-top: 14px;
+                line-height: 1.6;
+              "
+            ></div>
           </form>
         </div>
       </div>
@@ -4519,7 +4643,11 @@
         <div class="ftop">
           <div>
             <div class="flogo">
-              <img src="footer-logo.webp" alt="TechNuVate" style="height: 40px" />
+              <img
+                src="footer-logo.webp"
+                alt="TechNuVate"
+                style="height: 40px"
+              />
             </div>
             <p class="fdesc">
               A tech organisation training, deploying, and connecting talent in
@@ -5143,23 +5271,32 @@
           callback: function (r) {
             if (r.status === "successful" || r.status === "completed") {
               btn.disabled = false;
-              btn.innerHTML = '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
-              document.getElementById('donationThankYou').style.display = 'block';
-              document.getElementById('donationForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+              btn.innerHTML =
+                '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
+              document.getElementById("donationThankYou").style.display =
+                "block";
+              document
+                .getElementById("donationForm")
+                .scrollIntoView({ behavior: "smooth", block: "start" });
               window._donationPaid = false;
               flutterwaveCheckoutInstance.close();
             } else {
               btn.disabled = false;
-              btn.innerHTML = '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
+              btn.innerHTML =
+                '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
             }
           },
           onclose: function () {
             btn.disabled = false;
-            btn.innerHTML = '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
+            btn.innerHTML =
+              '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
             if (window._donationPaid) {
               window._donationPaid = false;
-              document.getElementById('donationThankYou').style.display = 'block';
-              document.getElementById('donationForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+              document.getElementById("donationThankYou").style.display =
+                "block";
+              document
+                .getElementById("donationForm")
+                .scrollIntoView({ behavior: "smooth", block: "start" });
             }
           },
         });
