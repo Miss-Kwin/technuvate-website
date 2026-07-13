@@ -1292,6 +1292,18 @@
           </select>
         </div>
 
+        <div id="w-custom-occasion-wrap" style="display:none;margin-top:8px;margin-bottom:10px;">
+          <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px;">Tell us your occasion <span style="font-weight:400;color:#8A9AB0">(optional)</span></label>
+          <input
+            type="text"
+            id="w-custom-occasion"
+            placeholder="e.g. In memory of my father, Work anniversary..."
+            style="width:100%;border:1.5px solid var(--border);border-radius:9px;padding:11px 13px;font-family:inherit;font-size:14px;color:#111827;outline:none;box-sizing:border-box;transition:border-color .2s;"
+            onfocus="this.style.borderColor='#1B3A7A'"
+            onblur="this.style.borderColor='var(--border)'"
+          />
+        </div>
+
         <!-- Honouring field — shown when "Giving in someone's honour" is selected -->
         <div id="w-honour-wrap" style="display:none;margin-bottom:10px">
           <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px">Who are you
@@ -1904,6 +1916,15 @@
       // Show/hide honour field and name
       honourWrap.style.display = (occasion === 'honour') ? 'block' : 'none';
       nameWrap.style.display = (occasion === 'honour') ? 'none' : 'block';
+
+      var customOccasionWrap = document.getElementById('w-custom-occasion-wrap');
+      if (customOccasionWrap) {
+        customOccasionWrap.style.display = (occasion === 'other') ? 'block' : 'none';
+        if (occasion !== 'other') {
+          var customOccasionInput = document.getElementById('w-custom-occasion');
+          if (customOccasionInput) customOccasionInput.value = '';
+        }
+      }
     }
 
     function wCustom(btn) {

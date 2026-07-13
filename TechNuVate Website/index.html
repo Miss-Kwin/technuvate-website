@@ -3368,6 +3368,18 @@
             </select>
           </div>
 
+          <div id="don-custom-occasion-wrap" style="display:none;margin-top:8px;margin-bottom:10px;">
+            <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px;">Tell us your occasion <span style="font-weight:400;color:#8A9AB0">(optional)</span></label>
+            <input
+              type="text"
+              id="don-custom-occasion"
+              placeholder="e.g. In memory of my father, Work anniversary..."
+              style="width:100%;border:1.5px solid #E4E8F0;border-radius:9px;padding:11px 13px;font-family:inherit;font-size:14px;color:#111827;outline:none;box-sizing:border-box;transition:border-color .2s;"
+              onfocus="this.style.borderColor='#1B3A7A'"
+              onblur="this.style.borderColor='#E4E8F0'"
+            />
+          </div>
+
           <!-- Birthday month + day (shows when birthday selected) -->
           <div id="don-bday-wrap" style="display: none; margin-bottom: 12px">
             <label
@@ -5248,6 +5260,15 @@
         var hw = document.getElementById("don-honour-wrap");
         if (bw) bw.style.display = v === "birthday" ? "block" : "none";
         if (hw) hw.style.display = v === "honour" ? "block" : "none";
+
+        var customOccasionWrap = document.getElementById('don-custom-occasion-wrap');
+        if (customOccasionWrap) {
+          customOccasionWrap.style.display = (v === 'other') ? 'block' : 'none';
+          if (v !== 'other') {
+            var customOccasionInput = document.getElementById('don-custom-occasion');
+            if (customOccasionInput) customOccasionInput.value = '';
+          }
+        }
       }
       function onDonCustom() {
         donAmount =
