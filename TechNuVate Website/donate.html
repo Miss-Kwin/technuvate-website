@@ -1274,6 +1274,7 @@
             <input type="number" id="w-custom-input" placeholder="Enter amount" oninput="validateCustomAmount(this)">
           </div>
         </div>
+        <div id="w-err-amount" style="display:none;color:#E53E3E;font-size:12px;margin-bottom:8px;font-weight:500;"></div>
 
         <!-- Occasion -->
         <div style="margin-bottom:10px">
@@ -1291,6 +1292,18 @@
           </select>
         </div>
 
+        <div id="w-custom-occasion-wrap" style="display:none;margin-top:8px;margin-bottom:10px;">
+          <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px;">Tell us your occasion <span style="font-weight:400;color:#8A9AB0">(optional)</span></label>
+          <input
+            type="text"
+            id="w-custom-occasion"
+            placeholder="e.g. In memory of my father, Work anniversary..."
+            style="width:100%;border:1.5px solid var(--border);border-radius:9px;padding:11px 13px;font-family:inherit;font-size:14px;color:#111827;outline:none;box-sizing:border-box;transition:border-color .2s;"
+            onfocus="this.style.borderColor='#1B3A7A'"
+            onblur="this.style.borderColor='var(--border)'"
+          />
+        </div>
+
         <!-- Honouring field — shown when "Giving in someone's honour" is selected -->
         <div id="w-honour-wrap" style="display:none;margin-bottom:10px">
           <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px">Who are you
@@ -1298,6 +1311,7 @@
           <input id="w-honour-name" type="text" placeholder="e.g. Mama Ngozi, or In memory of John"
             style="width:100%;border:1.5px solid var(--border);border-radius:9px;padding:11px 13px;font-family:inherit;font-size:14px;color:#111827;outline:none;background:#fff;transition:border-color .2s;box-sizing:border-box"
             onfocus="this.style.borderColor='#1B3A7A'" onblur="this.style.borderColor='var(--border)'">
+          <div id="w-err-honour" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;font-weight:500;"></div>
         </div>
 
         <!-- Birthday month + day -->
@@ -1364,17 +1378,35 @@
 
         <!-- Name -->
         <div id="w-name-wrap">
-          <input class="don-input" id="w-name" type="text" placeholder="Your name (optional &#8212; for dedication)">
+          <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px;">Your Name <span style="color:#E53E3E">*</span></label>
+          <input class="don-input" id="w-name" type="text" placeholder="Your name">
+          <div id="w-err-name" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;margin-bottom:6px;font-weight:500;"></div>
         </div>
 
         <!-- Email -->
+        <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px;">Email Address <span style="color:#E53E3E">*</span></label>
         <input class="don-input" id="w-email" type="email"
-          placeholder="Email (optional &#8212; in case we want to reach you)">
+          placeholder="Your email address">
+        <div id="w-err-email" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;margin-bottom:6px;font-weight:500;"></div>
 
         <!-- Note -->
+        <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px;">Leave a Note <span style="font-weight:400;color:#8A9AB0">(optional)</span></label>
         <textarea id="w-note" rows="2" placeholder="Leave us a short note &#8212; anything you want us to know..."
           style="width:100%;border:1.5px solid var(--border);border-radius:9px;padding:11px 13px;font-family:inherit;font-size:14px;color:#111827;outline:none;resize:none;margin-bottom:12px;transition:border-color .2s;box-sizing:border-box;line-height:1.6"
           onfocus="this.style.borderColor='#1B3A7A'" onblur="this.style.borderColor='var(--border)'"></textarea>
+
+        <!-- Shoutout consent -->
+        <label id="w-shoutout-label" style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:16px;user-select:none;">
+          <input
+            type="checkbox"
+            id="w-shoutout"
+            name="w-shoutout"
+            style="width:17px;height:17px;accent-color:#1B3A7A;cursor:pointer;flex-shrink:0;"
+          />
+          <span style="font-size:13.5px;color:#374151;line-height:1.4;">
+            Give me a shoutout &#128483;. I&#8217;m happy to be mentioned as a supporter
+          </span>
+        </label>
 
         <button class="don-cta" id="w-btn" onclick="wDonate()">
           <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -1884,6 +1916,15 @@
       // Show/hide honour field and name
       honourWrap.style.display = (occasion === 'honour') ? 'block' : 'none';
       nameWrap.style.display = (occasion === 'honour') ? 'none' : 'block';
+
+      var customOccasionWrap = document.getElementById('w-custom-occasion-wrap');
+      if (customOccasionWrap) {
+        customOccasionWrap.style.display = (occasion === 'other') ? 'block' : 'none';
+        if (occasion !== 'other') {
+          var customOccasionInput = document.getElementById('w-custom-occasion');
+          if (customOccasionInput) customOccasionInput.value = '';
+        }
+      }
     }
 
     function wCustom(btn) {
@@ -1906,69 +1947,149 @@
     }
 
     function wDonate() {
-      var min = wCurrency === 'NGN' ? 2000 : 2;
-      var symbol = wCurrency === 'NGN' ? '₦' : '$';
+      var wBtn = document.getElementById('w-btn');
 
-      if (!wAmt || wAmt < min) {
-        alert('The minimum donation is ' + symbol + min.toLocaleString() + '. Please enter a valid amount.');
-        return;
+      var donorName     = document.getElementById('w-name')        ? document.getElementById('w-name').value.trim()        : '';
+      var email         = document.getElementById('w-email')       ? document.getElementById('w-email').value.trim()       : '';
+      var occasion      = document.getElementById('w-occasion')    ? document.getElementById('w-occasion').value.trim()    : '';
+      var honourName    = document.getElementById('w-honour-name') ? document.getElementById('w-honour-name').value.trim() : '';
+      var birthdayDay   = document.getElementById('w-bday-day')    ? document.getElementById('w-bday-day').value.trim()    : '';
+      var birthdayMonth = document.getElementById('w-bday-month')  ? document.getElementById('w-bday-month').value.trim()  : '';
+      var note          = document.getElementById('w-note')        ? document.getElementById('w-note').value.trim()        : '';
+      var shoutoutEl    = document.getElementById('w-shoutout');
+      var shoutout      = shoutoutEl ? shoutoutEl.checked : false;
+
+      var allErrIds = ['w-err-amount','w-err-name','w-err-email','w-err-occasion','w-err-honour'];
+      allErrIds.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) { el.style.display = 'none'; el.textContent = ''; }
+      });
+
+      var valid = true;
+      function showErr(id, msg) {
+        var el = document.getElementById(id);
+        if (el) { el.textContent = msg; el.style.display = 'block'; }
+        valid = false;
       }
 
-      var name = document.getElementById('w-name').value.trim() || 'Anonymous Donor';
-      var honourName = document.getElementById('w-honour-name').value.trim() || '';
-      var email = document.getElementById('w-email').value.trim() || 'hello@technuvate.com';
-      var btn = document.getElementById('w-btn');
+      if (!wAmt || wAmt <= 0) {
+        showErr('w-err-amount', 'Please select or enter a donation amount.');
+      }
+      if (!donorName) {
+        showErr('w-err-name', 'Please enter your name.');
+      }
+      if (!email || email.indexOf('@') < 0 || email.indexOf('.') < 0) {
+        showErr('w-err-email', 'Please enter a valid email address.');
+      }
 
-      btn.disabled = true;
-      btn.textContent = 'Opening payment...';
+      if (!valid) return;
 
-      var flutterwaveCheckoutInstance = FlutterwaveCheckout({
-        public_key: FW_KEY,
-        tx_ref: 'TNVDON-' + Date.now(),
-        amount: wAmt,
-        currency: wCurrency,
-        payment_options: 'card,banktransfer,ussd,mobilemoney',
-        customer: { email: email, name: name },
-        meta: {
-          type: 'donation',
-          donor_name: name,
-          honour_name: honourName,
-          occasion: document.getElementById('w-occasion').value,
-          birthday_month: document.getElementById('w-bday-month').value,
-          birthday_day: document.getElementById('w-bday-day').value,
-          email_contact: email,
-          note: document.getElementById('w-note').value.trim()
-        },
-        customizations: {
-          title: 'TechNuVate — Sponsor a Youth',
-          description: 'Empowering a young person to learn a tech skill in Africa',
-          logo: 'https://technuvate.com/technuvate-logo-dark.png'
-        },
-        callback: function (response) {
-          if (response.status === 'successful' || response.status === 'completed') {
-            btn.disabled = false;
-            btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
-            document.getElementById('donationThankYou').style.display = 'block';
-            document.getElementById('donationForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            window._donationPaid = false;
-            flutterwaveCheckoutInstance.close();
-          } else {
-            // Failed / cancelled before modal closed — restore button immediately
-            btn.disabled = false;
-            btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
-          }
-        },
-        onclose: function () {
-          // Always restore the button
-          btn.disabled = false;
-          btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
-          // Only show thank-you and scroll if payment actually completed
-          if (window._donationPaid) {
-            window._donationPaid = false;
-            document.getElementById('donationThankYou').style.display = 'block';
-            document.getElementById('donationForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
+      if (wBtn) {
+        wBtn.disabled = true;
+        wBtn.innerHTML = '<span>Processing...</span>';
+      }
+
+      fetch('/.netlify/functions/donate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          donor_name:     donorName || 'Anonymous Donor',
+          email:          email,
+          occasion:       occasion,
+          honour_name:    honourName,
+          birthday_day:   birthdayDay,
+          birthday_month: birthdayMonth,
+          note:           note,
+          shoutout:       shoutout,
+          amount:         wAmt,
+          currency:       wCurrency
+        })
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error('Server error: ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        if (!data.success || !data.flutterwaveConfig) {
+          throw new Error(data.error || 'Invalid server response');
         }
+        var config = data.flutterwaveConfig;
+        var flutterwaveCheckoutInstance = FlutterwaveCheckout({
+          public_key:      config.public_key,
+          tx_ref:          config.tx_ref,
+          amount:          config.amount,
+          currency:        config.currency,
+          payment_options: config.payment_options,
+          customer:        config.customer,
+          meta:            config.meta,
+          customizations:  config.customizations,
+          callback: function (response) {
+            if (response.status === 'successful' || response.status === 'completed') {
+              if (wBtn) {
+                wBtn.disabled = false;
+                wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
+              }
+              fetch('/.netlify/functions/verify-donation', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  flw_tx_ref:     config.tx_ref,
+                  flw_tx_id:      response.transaction_id,
+                  donor_name:     config.meta.donor_name,
+                  email:          config.customer.email,
+                  occasion:       config.meta.occasion,
+                  honour_name:    config.meta.honour_name,
+                  birthday_day:   config.meta.birthday_day,
+                  birthday_month: config.meta.birthday_month,
+                  note:           config.meta.note,
+                  shoutout:       config.meta.shoutout
+                })
+              })
+              .then(function (vRes) {
+                if (!vRes.ok) throw new Error('Verification failed: ' + vRes.status);
+                return vRes.json();
+              })
+              .then(function (vData) {
+                if (vData.success) {
+                  setTimeout(function () {
+                    flutterwaveCheckoutInstance.close();
+                    var thankYou = document.getElementById('donationThankYou');
+                    if (thankYou) thankYou.style.display = 'block';
+                    var form = document.getElementById('donationForm');
+                    if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 300);
+                } else {
+                  throw new Error(vData.error || 'Verification returned false');
+                }
+              })
+              .catch(function (vErr) {
+                console.error('Verification error:', vErr);
+                setTimeout(function () { flutterwaveCheckoutInstance.close(); }, 300);
+                alert('Your payment was received but we could not confirm it automatically. Please contact us with your reference: ' + config.tx_ref);
+              });
+            } else {
+              if (wBtn) {
+                wBtn.disabled = false;
+                wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
+              }
+            }
+          },
+          onclose: function () {
+            if (wBtn) {
+              wBtn.disabled = false;
+              wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
+            }
+          }
+        });
+      })
+      .catch(function (err) {
+        console.error('Donation init error:', err);
+        if (wBtn) {
+          wBtn.disabled = false;
+          wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
+        }
+        var errEl = document.getElementById('w-err-amount');
+        if (errEl) { errEl.textContent = 'Something went wrong. Please try again.'; errEl.style.display = 'block'; }
       });
     }
   </script>
