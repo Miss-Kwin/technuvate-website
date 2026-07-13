@@ -3506,6 +3506,7 @@
           </div>
 
           <!-- Name -->
+          <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px;">Your Name <span style="color:#E53E3E">*</span></label>
           <input
             class="don-input"
             id="don-name"
@@ -3515,6 +3516,7 @@
           <div id="don-err-name" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;margin-bottom:6px;font-weight:500;"></div>
 
           <!-- Email -->
+          <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px;">Email Address <span style="color:#E53E3E">*</span></label>
           <input
             class="don-input"
             id="don-email"
@@ -3524,6 +3526,7 @@
           <div id="don-err-email" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;margin-bottom:6px;font-weight:500;"></div>
 
           <!-- Short note -->
+          <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px;">Leave a Note <span style="font-weight:400;color:#8A9AB0">(optional)</span></label>
           <textarea
             class="don-input"
             id="don-note"
@@ -5285,9 +5288,6 @@
       }
       if (!email || email.indexOf('@') < 0 || email.indexOf('.') < 0) {
         showErr('don-err-email', 'Please enter a valid email address.');
-      }
-      if (occasion === 'honour' && !honourName) {
-        showErr('don-err-honour', 'Please enter the name of the person you are honouring.');
       }
 
       if (!valid) return;

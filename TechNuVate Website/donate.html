@@ -1366,16 +1366,19 @@
 
         <!-- Name -->
         <div id="w-name-wrap">
+          <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px;">Your Name <span style="color:#E53E3E">*</span></label>
           <input class="don-input" id="w-name" type="text" placeholder="Your name">
           <div id="w-err-name" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;margin-bottom:6px;font-weight:500;"></div>
         </div>
 
         <!-- Email -->
+        <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px;">Email Address <span style="color:#E53E3E">*</span></label>
         <input class="don-input" id="w-email" type="email"
           placeholder="Your email address">
         <div id="w-err-email" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;margin-bottom:6px;font-weight:500;"></div>
 
         <!-- Note -->
+        <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px;">Leave a Note <span style="font-weight:400;color:#8A9AB0">(optional)</span></label>
         <textarea id="w-note" rows="2" placeholder="Leave us a short note &#8212; anything you want us to know..."
           style="width:100%;border:1.5px solid var(--border);border-radius:9px;padding:11px 13px;font-family:inherit;font-size:14px;color:#111827;outline:none;resize:none;margin-bottom:12px;transition:border-color .2s;box-sizing:border-box;line-height:1.6"
           onfocus="this.style.borderColor='#1B3A7A'" onblur="this.style.borderColor='var(--border)'"></textarea>
@@ -1956,9 +1959,6 @@
       }
       if (!email || email.indexOf('@') < 0 || email.indexOf('.') < 0) {
         showErr('w-err-email', 'Please enter a valid email address.');
-      }
-      if (occasion === 'honour' && !honourName) {
-        showErr('w-err-honour', 'Please enter the name of the person you are honouring.');
       }
 
       if (!valid) return;
