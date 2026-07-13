@@ -3318,6 +3318,7 @@
               />
             </div>
           </div>
+          <div id="don-err-amount" style="display:none;color:#E53E3E;font-size:12px;margin-bottom:8px;font-weight:500;"></div>
 
           <!-- Occasion -->
           <div style="margin-bottom: 10px">
@@ -3501,6 +3502,7 @@
               onfocus="this.style.borderColor = '#1B3A7A'"
               onblur="this.style.borderColor = '#E4E8F0'"
             />
+            <div id="don-err-honour" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;font-weight:500;"></div>
           </div>
 
           <!-- Name -->
@@ -3508,16 +3510,18 @@
             class="don-input"
             id="don-name"
             type="text"
-            placeholder="Your name (optional &#8212; for dedication)"
+            placeholder="Your name"
           />
+          <div id="don-err-name" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;margin-bottom:6px;font-weight:500;"></div>
 
           <!-- Email -->
           <input
             class="don-input"
             id="don-email"
             type="email"
-            placeholder="Email (optional &#8212; in case we want to reach you)"
+            placeholder="Your email address"
           />
+          <div id="don-err-email" style="display:none;color:#E53E3E;font-size:12px;margin-top:4px;margin-bottom:6px;font-weight:500;"></div>
 
           <!-- Short note -->
           <textarea
@@ -3527,6 +3531,36 @@
             placeholder="Leave us a short note &#8212; anything you want us to know..."
             style="resize: none; line-height: 1.6"
           ></textarea>
+
+          <!-- Shoutout consent -->
+          <label
+            id="don-shoutout-label"
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              cursor: pointer;
+              margin-bottom: 14px;
+              user-select: none;
+            "
+          >
+            <input
+              type="checkbox"
+              id="don-shoutout"
+              name="don-shoutout"
+              style="
+                width: 17px;
+                height: 17px;
+                accent-color: #1b3a7a;
+                cursor: pointer;
+                flex-shrink: 0;
+              "
+            />
+            <span style="font-size: 13.5px; color: #374151; line-height: 1.4">
+              Give me a shoutout &#128483;. I&#8217;m happy to be mentioned as a
+              supporter
+            </span>
+          </label>
 
           <button class="don-cta-btn" id="don-btn" onclick="openDonation()">
             <svg
@@ -5218,89 +5252,154 @@
       }
 
       function openDonation() {
-        var min = donCurrency === "NGN" ? 2000 : 1;
-        if (!donAmount || donAmount < min) {
-          alert(
-            "Please select or enter a minimum of " +
-              (donCurrency === "NGN" ? "₦2,000" : "$2") +
-              " to continue.",
-          );
-          return;
+      var donBtn = document.getElementById('don-btn');
+
+      var donorName     = document.getElementById('don-name')        ? document.getElementById('don-name').value.trim()        : '';
+      var email         = document.getElementById('don-email')       ? document.getElementById('don-email').value.trim()       : '';
+      var occasion      = document.getElementById('don-occasion')    ? document.getElementById('don-occasion').value.trim()    : '';
+      var honourName    = document.getElementById('don-honour-name') ? document.getElementById('don-honour-name').value.trim() : '';
+      var birthdayDay   = document.getElementById('don-bday-day')    ? document.getElementById('don-bday-day').value.trim()    : '';
+      var birthdayMonth = document.getElementById('don-bday-month')  ? document.getElementById('don-bday-month').value.trim()  : '';
+      var note          = document.getElementById('don-note')        ? document.getElementById('don-note').value.trim()        : '';
+      var shoutoutEl    = document.getElementById('don-shoutout');
+      var shoutout      = shoutoutEl ? shoutoutEl.checked : false;
+
+      var allErrIds = ['don-err-amount','don-err-name','don-err-email','don-err-occasion','don-err-honour'];
+      allErrIds.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) { el.style.display = 'none'; el.textContent = ''; }
+      });
+
+      var valid = true;
+      function showErr(id, msg) {
+        var el = document.getElementById(id);
+        if (el) { el.textContent = msg; el.style.display = 'block'; }
+        valid = false;
+      }
+
+      if (!donAmount || donAmount <= 0) {
+        showErr('don-err-amount', 'Please select or enter a donation amount.');
+      }
+      if (!donorName) {
+        showErr('don-err-name', 'Please enter your name.');
+      }
+      if (!email || email.indexOf('@') < 0 || email.indexOf('.') < 0) {
+        showErr('don-err-email', 'Please enter a valid email address.');
+      }
+      if (occasion === 'honour' && !honourName) {
+        showErr('don-err-honour', 'Please enter the name of the person you are honouring.');
+      }
+
+      if (!valid) return;
+
+      if (donBtn) {
+        donBtn.disabled = true;
+        donBtn.innerHTML = '<span>Processing...</span>';
+      }
+
+      fetch('/.netlify/functions/donate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          donor_name:     donorName || 'Anonymous Donor',
+          email:          email,
+          occasion:       occasion,
+          honour_name:    honourName,
+          birthday_day:   birthdayDay,
+          birthday_month: birthdayMonth,
+          note:           note,
+          shoutout:       shoutout,
+          amount:         donAmount,
+          currency:       donCurrency
+        })
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error('Server error: ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        if (!data.success || !data.flutterwaveConfig) {
+          throw new Error(data.error || 'Invalid server response');
         }
-        var name =
-          document.getElementById("don-name").value.trim() || "Anonymous Donor";
-        var btn = document.getElementById("don-btn");
-        btn.disabled = true;
-        btn.textContent = "Opening payment...";
+        var config = data.flutterwaveConfig;
         var flutterwaveCheckoutInstance = FlutterwaveCheckout({
-          public_key: window.APP_ENV.FW_PUBLIC_KEY,
-          tx_ref: "TNVDON-" + Date.now(),
-          amount: donAmount,
-          currency: donCurrency,
-          payment_options: "card,banktransfer,ussd,mobilemoney",
-          customer: { email: "hello@technuvate.com", name: name },
-          meta: {
-            type: "donation",
-            donor_name:
-              (document.getElementById("don-name")
-                ? document.getElementById("don-name").value.trim()
-                : "") || "Anonymous",
-            occasion: document.getElementById("don-occasion")
-              ? document.getElementById("don-occasion").value
-              : "",
-            birthday:
-              document.getElementById("don-bday-month") &&
-              document.getElementById("don-bday-day")
-                ? document.getElementById("don-bday-month").value +
-                  " " +
-                  document.getElementById("don-bday-day").value
-                : "",
-            email_contact: document.getElementById("don-email")
-              ? document.getElementById("don-email").value.trim()
-              : "",
-            note: document.getElementById("don-note")
-              ? document.getElementById("don-note").value.trim()
-              : "",
-          },
-          customizations: {
-            title: "TechNuVate — Sponsor a Youth",
-            description:
-              "Empowering a young person to learn a tech skill in Africa",
-            logo: "https://technuvate.com/technuvate-logo-dark.png",
-          },
-          callback: function (r) {
-            if (r.status === "successful" || r.status === "completed") {
-              btn.disabled = false;
-              btn.innerHTML =
-                '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
-              document.getElementById("donationThankYou").style.display =
-                "block";
-              document
-                .getElementById("donationForm")
-                .scrollIntoView({ behavior: "smooth", block: "start" });
-              window._donationPaid = false;
-              flutterwaveCheckoutInstance.close();
+          public_key:      config.public_key,
+          tx_ref:          config.tx_ref,
+          amount:          config.amount,
+          currency:        config.currency,
+          payment_options: config.payment_options,
+          customer:        config.customer,
+          meta:            config.meta,
+          customizations:  config.customizations,
+          callback: function (response) {
+            if (response.status === 'successful' || response.status === 'completed') {
+              if (donBtn) {
+                donBtn.disabled = false;
+                donBtn.innerHTML = '<span>Donate Now &#10084;</span>';
+              }
+              fetch('/.netlify/functions/verify-donation', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  flw_tx_ref:     config.tx_ref,
+                  flw_tx_id:      response.transaction_id,
+                  donor_name:     config.meta.donor_name,
+                  email:          config.customer.email,
+                  occasion:       config.meta.occasion,
+                  honour_name:    config.meta.honour_name,
+                  birthday_day:   config.meta.birthday_day,
+                  birthday_month: config.meta.birthday_month,
+                  note:           config.meta.note,
+                  shoutout:       config.meta.shoutout
+                })
+              })
+              .then(function (vRes) {
+                if (!vRes.ok) throw new Error('Verification failed: ' + vRes.status);
+                return vRes.json();
+              })
+              .then(function (vData) {
+                if (vData.success) {
+                  setTimeout(function () {
+                    flutterwaveCheckoutInstance.close();
+                    var thankYou = document.getElementById('donationThankYou');
+                    if (thankYou) thankYou.style.display = 'block';
+                    var form = document.getElementById('donationForm');
+                    if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }, 300);
+                } else {
+                  throw new Error(vData.error || 'Verification returned false');
+                }
+              })
+              .catch(function (vErr) {
+                console.error('Verification error:', vErr);
+                setTimeout(function () { flutterwaveCheckoutInstance.close(); }, 300);
+                alert('Your payment was received but we could not confirm it automatically. Please contact us with your reference: ' + config.tx_ref);
+              });
             } else {
-              btn.disabled = false;
-              btn.innerHTML =
-                '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
+              if (donBtn) {
+                donBtn.disabled = false;
+                donBtn.innerHTML = '<span>Donate Now &#10084;</span>';
+              }
             }
           },
           onclose: function () {
-            btn.disabled = false;
-            btn.innerHTML =
-              '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> Donate Now';
-            if (window._donationPaid) {
-              window._donationPaid = false;
-              document.getElementById("donationThankYou").style.display =
-                "block";
-              document
-                .getElementById("donationForm")
-                .scrollIntoView({ behavior: "smooth", block: "start" });
+            if (donBtn) {
+              donBtn.disabled = false;
+              donBtn.innerHTML = '<span>Donate Now &#10084;</span>';
             }
-          },
+          }
         });
-      }
+      })
+      .catch(function (err) {
+        console.error('Donation init error:', err);
+        if (donBtn) {
+          donBtn.disabled = false;
+          donBtn.innerHTML = '<span>Donate Now &#10084;</span>';
+        }
+        var errEl = document.getElementById('don-err-amount');
+        if (errEl) { errEl.textContent = 'Something went wrong. Please try again.'; errEl.style.display = 'block'; }
+      });
+    }
     </script>
     <script>
       document.addEventListener("change", function (e) {
@@ -5311,18 +5410,6 @@
               e.target.value === "birthday" ? "block" : "none";
         }
       });
-      function toggleDonOccasion() {
-        var v = document.getElementById("don-occasion")
-          ? document.getElementById("don-occasion").value
-          : "";
-        var b = document.getElementById("don-bday-wrap");
-        var h = document.getElementById("don-honour-wrap");
-        if (b) b.style.display = v === "birthday" ? "block" : "none";
-        if (h) h.style.display = v === "honour" ? "block" : "none";
-      }
-      function toggleDonBirthday() {
-        toggleDonOccasion();
-      }
     </script>
   </body>
 </html>
