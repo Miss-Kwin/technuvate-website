@@ -1956,6 +1956,7 @@
       var birthdayDay   = document.getElementById('w-bday-day')    ? document.getElementById('w-bday-day').value.trim()    : '';
       var birthdayMonth = document.getElementById('w-bday-month')  ? document.getElementById('w-bday-month').value.trim()  : '';
       var note          = document.getElementById('w-note')        ? document.getElementById('w-note').value.trim()        : '';
+      var customOccasion = document.getElementById('w-custom-occasion') ? document.getElementById('w-custom-occasion').value.trim() : '';
       var shoutoutEl    = document.getElementById('w-shoutout');
       var shoutout      = shoutoutEl ? shoutoutEl.checked : false;
 
@@ -2002,7 +2003,8 @@
           note:           note,
           shoutout:       shoutout,
           amount:         wAmt,
-          currency:       wCurrency
+          currency:       wCurrency,
+          custom_occasion: customOccasion
         })
       })
       .then(function (res) {
@@ -2014,7 +2016,19 @@
           throw new Error(data.error || 'Invalid server response');
         }
         var config = data.flutterwaveConfig;
-        var flutterwaveCheckoutInstance = FlutterwaveCheckout({
+
+        if (!config.public_key) {
+          if (wBtn) {
+            wBtn.disabled = false;
+            wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
+          }
+          var errEl = document.getElementById('w-err-amount');
+          if (errEl) { errEl.textContent = 'Payment configuration error. Please try again or contact support.'; errEl.style.display = 'block'; }
+          return;
+        }
+
+        try {
+          var flutterwaveCheckoutInstance = FlutterwaveCheckout({
           public_key:      config.public_key,
           tx_ref:          config.tx_ref,
           amount:          config.amount,
@@ -2081,6 +2095,15 @@
             }
           }
         });
+        } catch (fwErr) {
+          console.error('FlutterwaveCheckout init error:', fwErr);
+          if (wBtn) {
+            wBtn.disabled = false;
+            wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
+          }
+          var errEl = document.getElementById('w-err-amount');
+          if (errEl) { errEl.textContent = 'Something went wrong opening payment. Please try again.'; errEl.style.display = 'block'; }
+        }
       })
       .catch(function (err) {
         console.error('Donation init error:', err);
