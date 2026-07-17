@@ -85,6 +85,15 @@ exports.handler = async function (event) {
     };
   }
 
+  if (!process.env.FW_PUBLIC_KEY) {
+    console.error('FW_PUBLIC_KEY environment variable is not set for this deploy context.');
+    return {
+      statusCode: 500,
+      headers: CORS_HEADERS,
+      body: JSON.stringify({ error: 'Payment configuration error. Please contact support.' })
+    };
+  }
+
   // ── Generate secure tx_ref ─────────────────────────────────
   var txRef = "TNVDON-" + randomUUID();
 
