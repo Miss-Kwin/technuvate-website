@@ -2017,19 +2017,9 @@
         }
         var config = data.flutterwaveConfig;
 
-        if (!config.public_key) {
-          if (wBtn) {
-            wBtn.disabled = false;
-            wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
-          }
-          var errEl = document.getElementById('w-err-amount');
-          if (errEl) { errEl.textContent = 'Payment configuration error. Please try again or contact support.'; errEl.style.display = 'block'; }
-          return;
-        }
-
         try {
           var flutterwaveCheckoutInstance = FlutterwaveCheckout({
-          public_key:      config.public_key,
+          public_key:      window.APP_ENV.FW_PUBLIC_KEY,
           tx_ref:          config.tx_ref,
           amount:          config.amount,
           currency:        config.currency,
