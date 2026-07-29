@@ -106,15 +106,22 @@ exports.handler = async function (event) {
   }
 
   // ── Extract verified payment data ──────────────────────────
-  var verified = (!isTestMode && verifyData) ? verifyData.data : null;
-  var amount = verified ? verified.amount : (data.amount || 0);
-  var currency = verified ? verified.currency : (data.currency || "NGN");
-  var payerName = (verified && verified.customer)
-    ? verified.customer.name
-    : data.donor_name || "Anonymous Donor";
-  var payerEmail = (verified && verified.customer)
-    ? verified.customer.email
-    : data.email || "";
+  var amount, currency, payerName, payerEmail;
+
+  if (isTestMode) {
+    amount      = parseFloat(data.amount) || 0;
+    currency    = (data.currency || 'NGN').toUpperCase();
+    payerName   = data.donor_name || 'Anonymous Donor';
+    payerEmail  = data.email || '';
+  } else {
+    var verified = verifyData.data;
+    amount       = verified.amount;
+    currency     = verified.currency;
+    payerName    = verified.customer ? verified.customer.name  : (data.donor_name  || 'Anonymous Donor');
+    payerEmail   = verified.customer ? verified.customer.email : (data.email || '');
+  }
+
+  console.log('Payment values — amount:', amount, '| currency:', currency, '| payerName:', payerName);
 
   // ── Pull donor detail fields passed from frontend ──────────
   var donorName = (data.donor_name || payerName || "Anonymous Donor").trim();
