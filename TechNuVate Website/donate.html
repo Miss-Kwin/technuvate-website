@@ -2029,16 +2029,17 @@
           customizations:  config.customizations,
           callback: function (response) {
             if (response.status === 'successful' || response.status === 'completed') {
+              console.log('[FW callback]', JSON.stringify({ status: response.status, transaction_id: response.transaction_id, id: response.id, flw_ref: response.flw_ref, tx_ref: response.tx_ref }));
               if (wBtn) {
                 wBtn.disabled = false;
                 wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
               }
-              fetch('/.netlify/functions/verify-donation', {
+              fetch(window.location.origin + '/.netlify/functions/verify-donation', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                   flw_tx_ref:     config.tx_ref,
-                  flw_tx_id:      response.transaction_id,
+                  flw_tx_id:      response.transaction_id || response.id || response.flw_ref || '',
                   donor_name:     config.meta.donor_name,
                   email:          config.customer.email,
                   occasion:       config.meta.occasion,
