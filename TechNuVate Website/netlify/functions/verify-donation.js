@@ -42,8 +42,8 @@ exports.handler = async function (event) {
   // ── TEST MODE BYPASS ────────────────────────────────
   // In test mode the Flutterwave verify API does not 
   // find sandbox transactions. Trust the callback status.
-  var isTestMode = process.env.FLW_SECRET_KEY && 
-    process.env.FLW_SECRET_KEY.indexOf('FLWSECK_TEST') === 0;
+  var isTestMode = process.env.DONATION_TEST_MODE === 'true';
+  console.log('isTestMode:', isTestMode, '| DONATION_TEST_MODE env:', process.env.DONATION_TEST_MODE);
 
   if (isTestMode) {
     console.log('Test mode detected — skipping Flutterwave API verification. Proceeding with DB insert.');
@@ -133,6 +133,7 @@ exports.handler = async function (event) {
   var SB_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   // ── STEP 2A: Check for duplicate (idempotency) ─────────────
+  console.log('Proceeding to DB insert. flwTxRef:', flwTxRef, '| flwTxId:', flwTxId);
   try {
     var dupCheck = await fetch(
       SB_URL +
