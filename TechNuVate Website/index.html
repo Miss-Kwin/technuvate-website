@@ -5590,6 +5590,42 @@
                                 behavior: "smooth",
                                 block: "start",
                               });
+                            donAmount = 0;
+                            donCurrency = 'NGN';
+                            document.querySelectorAll('.don-pill').forEach(function(b) { b.classList.remove('selected'); });
+                            document.getElementById('don-custom-wrap').style.display = 'none';
+                            var customInput = document.getElementById('don-custom-input');
+                            if (customInput) customInput.value = '';
+                            var nameEl = document.getElementById('don-name');
+                            if (nameEl) nameEl.value = '';
+                            var emailEl = document.getElementById('don-email');
+                            if (emailEl) emailEl.value = '';
+                            var noteEl = document.getElementById('don-note');
+                            if (noteEl) noteEl.value = '';
+                            var occasionEl = document.getElementById('don-occasion');
+                            if (occasionEl) occasionEl.value = '';
+                            var honourEl = document.getElementById('don-honour-name');
+                            if (honourEl) honourEl.value = '';
+                            var bdayMonth = document.getElementById('don-bday-month');
+                            if (bdayMonth) bdayMonth.value = '';
+                            var bdayDay = document.getElementById('don-bday-day');
+                            if (bdayDay) bdayDay.value = '';
+                            var customOcc = document.getElementById('don-custom-occasion');
+                            if (customOcc) customOcc.value = '';
+                            var shoutout = document.getElementById('don-shoutout');
+                            if (shoutout) shoutout.checked = false;
+                            var honourWrap = document.getElementById('don-honour-wrap');
+                            if (honourWrap) honourWrap.style.display = 'none';
+                            var bdayWrap = document.getElementById('don-bday-wrap');
+                            if (bdayWrap) bdayWrap.style.display = 'none';
+                            var customOccWrap = document.getElementById('don-custom-occasion-wrap');
+                            if (customOccWrap) customOccWrap.style.display = 'none';
+                            var curNgn = document.getElementById('cur-ngn');
+                            if (curNgn) curNgn.className = 'don-cur-btn don-cur-on';
+                            var curUsd = document.getElementById('cur-usd');
+                            if (curUsd) curUsd.className = 'don-cur-btn don-cur-off';
+                            document.getElementById('don-amounts-ngn').style.display = 'flex';
+                            document.getElementById('don-amounts-usd').style.display = 'none';
                           }, 300);
                         } else {
                           throw new Error(
