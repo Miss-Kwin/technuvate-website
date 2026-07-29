@@ -2114,6 +2114,7 @@
               .then(function (vData) {
                 if (vData.success) {
                   setTimeout(function () {
+                    console.log('Success path reached — closing modal and resetting form');
                     flutterwaveCheckoutInstance.close();
                     var thankYou = document.getElementById('donationThankYou');
                     if (thankYou) thankYou.style.display = 'block';
