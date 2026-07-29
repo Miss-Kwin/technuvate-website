@@ -48,6 +48,8 @@ exports.handler = async function (event) {
   if (isTestMode) {
     console.log('Test mode detected — skipping Flutterwave API verification. Proceeding with DB insert.');
   }
+  console.log('SUPABASE_URL set:', !!process.env.SUPABASE_URL);
+  console.log('SUPABASE_SERVICE_ROLE_KEY set:', !!process.env.SUPABASE_SERVICE_ROLE_KEY);
 
   if (!isTestMode) {
     // ── STEP 1: Verify payment with Flutterwave API ────────────
@@ -174,6 +176,7 @@ exports.handler = async function (event) {
 
   var donationInsertResponse;
   try {
+    console.log('Inserting donation payload:', JSON.stringify(donationPayload));
     donationInsertResponse = await fetch(SB_URL + "/rest/v1/donations", {
       method: "POST",
       headers: {
@@ -204,6 +207,7 @@ exports.handler = async function (event) {
       donationInsertResponse.status,
       donErrText,
     );
+    console.error('Supabase response status:', donationInsertResponse.status);
     return {
       statusCode: 500,
       headers: CORS_HEADERS,

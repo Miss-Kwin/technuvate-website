@@ -1531,8 +1531,8 @@
     bottom: 28px;
     left: 50%;
     transform: translateX(-50%) translateY(20px);
-    background: #1B3A7A;
-    color: #fff;
+    background: #ffffff;
+    color: #1B3A7A;
     font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-weight: 500;
@@ -1549,10 +1549,14 @@
     pointer-events: none;
   }
   .fw-toast.fw-toast-error {
-    background: #B91C1C;
+    background: #ffffff;
+    color: #1B3A7A;
+    border: 1.5px solid #1B3A7A;
   }
   .fw-toast.fw-toast-success {
-    background: #15803D;
+    background: #ffffff;
+    color: #1B3A7A;
+    border: 1.5px solid #1B3A7A;
   }
   .fw-toast.fw-toast-visible {
     opacity: 1;
@@ -2083,7 +2087,6 @@
           customizations:  config.customizations,
           callback: function (response) {
             if (response.status === 'successful' || response.status === 'completed') {
-              console.log('[FW callback]', JSON.stringify({ status: response.status, transaction_id: response.transaction_id, id: response.id, flw_ref: response.flw_ref, tx_ref: response.tx_ref }));
               if (wBtn) {
                 wBtn.disabled = false;
                 wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
