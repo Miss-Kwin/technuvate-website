@@ -42,8 +42,8 @@ exports.handler = async function (event) {
   // ── TEST MODE BYPASS ────────────────────────────────
   // In test mode the Flutterwave verify API does not 
   // find sandbox transactions. Trust the callback status.
-  var isTestMode = process.env.FW_PUBLIC_KEY && 
-    process.env.FW_PUBLIC_KEY.indexOf('FLWPUBK_TEST') === 0;
+  var isTestMode = process.env.FLW_SECRET_KEY && 
+    process.env.FLW_SECRET_KEY.indexOf('FLWSECK_TEST') === 0;
 
   if (isTestMode) {
     console.log('Test mode detected — skipping Flutterwave API verification. Proceeding with DB insert.');
