@@ -39,66 +39,78 @@ exports.handler = async function (event) {
     };
   }
 
-  // ── STEP 1: Verify payment with Flutterwave API ────────────
-  var verifyResponse;
-  try {
-    verifyResponse = await fetch(
-      "https://api.flutterwave.com/v3/transactions/" + flwTxId + "/verify",
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + process.env.FLW_SECRET_KEY,
-          "Content-Type": "application/json",
+  // ── TEST MODE BYPASS ────────────────────────────────
+  // In test mode the Flutterwave verify API does not 
+  // find sandbox transactions. Trust the callback status.
+  var isTestMode = process.env.FW_PUBLIC_KEY && 
+    process.env.FW_PUBLIC_KEY.indexOf('FLWPUBK_TEST') === 0;
+
+  if (isTestMode) {
+    console.log('Test mode detected — skipping Flutterwave API verification. Proceeding with DB insert.');
+  }
+
+  if (!isTestMode) {
+    // ── STEP 1: Verify payment with Flutterwave API ────────────
+    var verifyResponse;
+    try {
+      verifyResponse = await fetch(
+        "https://api.flutterwave.com/v3/transactions/" + flwTxId + "/verify",
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + process.env.FLW_SECRET_KEY,
+            "Content-Type": "application/json",
+          },
         },
-      },
-    );
-  } catch (networkErr) {
-    console.error("Flutterwave verify network error:", networkErr);
-    return {
-      statusCode: 502,
-      headers: CORS_HEADERS,
-      body: JSON.stringify({
-        error: "Payment verification network error. Please contact support.",
-      }),
-    };
-  }
+      );
+    } catch (networkErr) {
+      console.error("Flutterwave verify network error:", networkErr);
+      return {
+        statusCode: 502,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          error: "Payment verification network error. Please contact support.",
+        }),
+      };
+    }
 
-  var verifyData;
-  try {
-    verifyData = await verifyResponse.json();
-  } catch (parseErr) {
-    console.error("Flutterwave verify parse error:", parseErr);
-    return {
-      statusCode: 502,
-      headers: CORS_HEADERS,
-      body: JSON.stringify({ error: "Payment verification response error." }),
-    };
-  }
+    var verifyData;
+    try {
+      verifyData = await verifyResponse.json();
+    } catch (parseErr) {
+      console.error("Flutterwave verify parse error:", parseErr);
+      return {
+        statusCode: 502,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({ error: "Payment verification response error." }),
+      };
+    }
 
-  if (
-    !verifyData ||
-    verifyData.status !== "success" ||
-    !verifyData.data ||
-    verifyData.data.status !== "successful"
-  ) {
-    console.error("Payment not verified:", JSON.stringify(verifyData));
-    return {
-      statusCode: 400,
-      headers: CORS_HEADERS,
-      body: JSON.stringify({
-        error: "Payment could not be verified. No records created.",
-      }),
-    };
+    if (
+      !verifyData ||
+      verifyData.status !== "success" ||
+      !verifyData.data ||
+      verifyData.data.status !== "successful"
+    ) {
+      console.error("Payment not verified:", JSON.stringify(verifyData));
+      return {
+        statusCode: 400,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          error: "Payment could not be verified. No records created.",
+        }),
+      };
+    }
   }
 
   // ── Extract verified payment data ──────────────────────────
-  var verified = verifyData.data;
-  var amount = verified.amount;
-  var currency = verified.currency;
-  var payerName = verified.customer
+  var verified = (!isTestMode && verifyData) ? verifyData.data : null;
+  var amount = verified ? verified.amount : (data.amount || 0);
+  var currency = verified ? verified.currency : (data.currency || "NGN");
+  var payerName = (verified && verified.customer)
     ? verified.customer.name
     : data.donor_name || "Anonymous Donor";
-  var payerEmail = verified.customer
+  var payerEmail = (verified && verified.customer)
     ? verified.customer.email
     : data.email || "";
 

@@ -3799,6 +3799,39 @@
           transform: translateX(-50%);
         }
       }
+  .fw-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #1B3A7A;
+    color: #fff;
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    padding: 14px 24px;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 99999;
+    max-width: 420px;
+    width: calc(100% - 48px);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+  }
+  .fw-toast.fw-toast-error {
+    background: #B91C1C;
+  }
+  .fw-toast.fw-toast-success {
+    background: #15803D;
+  }
+  .fw-toast.fw-toast-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
     </style>
 
     <!-- FAQ SECTION -->
@@ -5375,6 +5408,27 @@
           parseFloat(document.getElementById("don-custom-input").value) || 0;
       }
 
+  function showFwToast(message, type) {
+    var existing = document.getElementById('fw-toast-el');
+    if (existing) existing.remove();
+    var toast = document.createElement('div');
+    toast.id = 'fw-toast-el';
+    toast.className = 'fw-toast' + (type === 'error' ? ' fw-toast-error' : type === 'success' ? ' fw-toast-success' : '');
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        toast.classList.add('fw-toast-visible');
+      });
+    });
+    setTimeout(function() {
+      toast.classList.remove('fw-toast-visible');
+      setTimeout(function() {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 350);
+    }, 6000);
+  }
+
       function openDonation() {
         var donBtn = document.getElementById("don-btn");
 
@@ -5541,14 +5595,11 @@
                         }
                       })
                       .catch(function (vErr) {
-                        console.error("Verification error:", vErr);
+                        console.error('Verification error:', vErr);
+                        setTimeout(function () { flutterwaveCheckoutInstance.close(); }, 300);
                         setTimeout(function () {
-                          flutterwaveCheckoutInstance.close();
-                        }, 300);
-                        alert(
-                          "Your payment was received but we could not confirm it automatically. Please contact us with your reference: " +
-                            config.tx_ref,
-                        );
+                          showFwToast('Your payment was received. We will confirm it shortly. Your reference: ' + config.tx_ref, 'error');
+                        }, 350);
                       });
                   } else {
                     if (donBtn) {
