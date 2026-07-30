@@ -2097,6 +2097,8 @@
                 body: JSON.stringify({
                   flw_tx_ref:     config.tx_ref,
                   flw_tx_id:      response.transaction_id || response.id || response.flw_ref || '',
+                  amount:         config.amount,
+                  currency:       config.currency,
                   donor_name:     config.meta.donor_name,
                   email:          config.customer.email,
                   occasion:       config.meta.occasion,
