@@ -5554,22 +5554,24 @@
                       donBtn.disabled = false;
                       donBtn.innerHTML = "<span>Donate Now &#10084;</span>";
                     }
-                    fetch(window.location.origin + "/.netlify/functions/verify-donation", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({
-                        flw_tx_ref: config.tx_ref,
-                        flw_tx_id: response.transaction_id || response.id || response.flw_ref || '',
-                        donor_name: config.meta.donor_name,
-                        email: config.customer.email,
-                        occasion: config.meta.occasion,
-                        honour_name: config.meta.honour_name,
-                        birthday_day: config.meta.birthday_day,
-                        birthday_month: config.meta.birthday_month,
-                        note: config.meta.note,
-                        shoutout: config.meta.shoutout,
-                      }),
-                    })
+fetch(window.location.origin + "/.netlify/functions/verify-donation", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  flw_tx_ref: config.tx_ref,
+                  flw_tx_id: response.transaction_id || response.id || response.flw_ref || '',
+                  amount: config.amount,
+                  currency: config.currency,
+                  donor_name: config.meta.donor_name,
+                  email: config.customer.email,
+                  occasion: config.meta.occasion,
+                  honour_name: config.meta.honour_name,
+                  birthday_day: config.meta.birthday_day,
+                  birthday_month: config.meta.birthday_month,
+                  note: config.meta.note,
+                  shoutout: config.meta.shoutout,
+                }),
+              })
                       .then(function (vRes) {
                         if (!vRes.ok)
                           throw new Error(
