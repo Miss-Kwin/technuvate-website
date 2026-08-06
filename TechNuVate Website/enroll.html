@@ -1034,6 +1034,44 @@
         font-size: 12px
       }
     }
+
+    .fw-toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #ffffff;
+      color: #1B3A7A;
+      font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.5;
+      padding: 14px 24px;
+      border-radius: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      z-index: 99999;
+      max-width: 420px;
+      width: calc(100% - 48px);
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+    .fw-toast.fw-toast-error {
+      background: #ffffff;
+      color: #1B3A7A;
+      border: 1.5px solid #1B3A7A;
+    }
+    .fw-toast.fw-toast-success {
+      background: #ffffff;
+      color: #1B3A7A;
+      border: 1.5px solid #1B3A7A;
+    }
+    .fw-toast.fw-toast-visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
   </style>
   <link rel="icon" type="image/png" href="favicon.png">
 </head>
@@ -1526,100 +1564,7 @@
     var FW_PUBLIC_KEY = window.APP_ENV.FW_PUBLIC_KEY;
 
     // ── Supabase + Resend config ─────────────────────────────────
-    var SB_URL = 'https://xnynghnhbeyeowcibuvz.supabase.co';
-    var SB_KEY = 'sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY';
-    var RESEND_KEY = 're_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd';
     var ADMIN_EMAIL = 'academy@technuvate.com';  // enrollment notifications go here
-
-    // Save a record to Supabase
-    function saveToSupabase(table, data, onSuccess, onFail) {
-      if (!SB_URL || SB_URL === 'https://xnynghnhbeyeowcibuvz.supabase.co') {
-        if (onSuccess) onSuccess(); return;
-      }
-      fetch(SB_URL + '/rest/v1/' + table, {
-        method: 'POST',
-        headers: {
-          'apikey': SB_KEY,
-          'Authorization': 'Bearer ' + SB_KEY,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(data)
-      }).then(function (r) {
-        if (r.ok) { if (onSuccess) onSuccess(); }
-        else { console.error('Supabase save failed:', r.status); if (onFail) onFail(); }
-      }).catch(function (e) {
-        console.error('Supabase error:', e); if (onFail) onFail();
-      });
-    }
-
-    // Send email via Resend
-    function sendEmail(toAddress, subject, htmlBody) {
-      if (!RESEND_KEY || RESEND_KEY === 're_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd') return;
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + RESEND_KEY,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          from: 'TechNuVate Academy <academy@technuvate.com>',
-          to: [toAddress],
-          subject: subject,
-          html: htmlBody
-        })
-      }).catch(function (e) { console.error('Resend error:', e); });
-    }
-
-    function buildEnrollAdminEmail(d) {
-      return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">'
-        + '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">'
-        + '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">'
-        + '</div>'
-        + '<div style="background:#1B3A7A;padding:24px 32px">'
-        + '<h2 style="color:#fff;margin:0;font-size:20px">&#127891; New Academy Enrollment</h2></div>'
-        + '<div style="padding:28px 32px;background:#F5F7FA">'
-        + '<table style="width:100%;border-collapse:collapse">'
-        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px;width:140px">Name</td>'
-        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:600">' + d.full_name + '</td></tr>'
-        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Email</td>'
-        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + d.email + '</td></tr>'
-        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Phone</td>'
-        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + d.phone + '</td></tr>'
-        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Course</td>'
-        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:700;color:#1B3A7A">' + d.course + '</td></tr>'
-        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Country</td>'
-        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + (d.country || 'Not provided') + '</td></tr>'
-        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Tier</td>'
-        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' + d.pricing_tier + '</td></tr>'
-        + '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Amount Paid</td>'
-        + '<td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:700">' + d.amount + ' ' + d.currency + '</td></tr>'
-        + '<tr><td style="padding:10px 0;color:#8A9AB0;font-size:13px">Tx Ref</td>'
-        + '<td style="padding:10px 0;font-size:13px;color:#374151">' + d.tx_ref + '</td></tr>'
-        + '</table></div>'
-        + '<div style="padding:20px 32px;text-align:center;background:#fff">'
-        + '<p style="font-size:12px;color:#8A9AB0;margin:0">TechNuVate Academy &mdash; Enrollment Notification</p></div></div>';
-    }
-
-    function buildEnrollStudentEmail(d) {
-      return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">'
-        + '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">'
-        + '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">'
-        + '</div>'
-        + '<div style="background:#1B3A7A;padding:32px;text-align:center">'
-        + '<h1 style="color:#fff;margin:0;font-size:24px">You are in! &#127881;</h1>'
-        + '<p style="color:rgba(255,255,255,.6);margin:8px 0 0;font-size:14px">Your enrollment is confirmed.</p></div>'
-        + '<div style="padding:32px;background:#F5F7FA">'
-        + '<p style="font-size:15px;color:#111827;line-height:1.7">Hi <strong>' + d.full_name.split(' ')[0] + '</strong>,</p>'
-        + '<p style="font-size:14px;color:#6B7280;line-height:1.75">Your enrollment for <strong style="color:#1B3A7A">' + d.course + '</strong> has been confirmed and your payment received. Welcome to TechNuVate Academy.</p>'
-        + '<div style="background:#fff;border:1px solid #E4E8F0;border-radius:12px;padding:20px;margin:20px 0">'
-        + '<p style="margin:0 0 8px;font-size:13px;font-weight:700;color:#374151">What happens next?</p>'
-        + '<p style="margin:0;font-size:13px;color:#6B7280;line-height:1.7">We will send you a welcome message with your cohort start date, session schedule, and access details before your first class. Keep an eye on this email.</p></div>'
-        + '<p style="font-size:13px;color:#6B7280;line-height:1.7">If you have any questions in the meantime, reply to this email or reach us at <a href="mailto:hello@technuvate.com" style="color:#1B3A7A">hello@technuvate.com</a>.</p></div>'
-        + '<div style="padding:20px 32px;text-align:center;background:#fff">'
-        + '<p style="font-size:12px;color:#8A9AB0;margin:0">TechNuVate &mdash; Learn. Build. Execute.</p></div></div>';
-    }
-
 
     // Prices in both currencies
     // NGN prices
@@ -1849,129 +1794,221 @@
       return 'TNV-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
     }
 
-    function initiatePayment() {
-      var cb = document.getElementById('commitCheck');
-      if (cb && !cb.checked) {
-        document.getElementById('commitErr').style.display = 'block';
-        cb.closest('div').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
-      if (cb) document.getElementById('commitErr').style.display = 'none';
-      var fullname = document.getElementById('fullname').value.trim();
-      var email = document.getElementById('email').value.trim();
-      var phone = document.getElementById('phone').value.trim();
-      var country = getCountry();
-      var course = document.getElementById('course').value;
+    function showFwToast(message, type) {
+      var existing = document.getElementById('fw-toast-el');
+      if (existing) existing.remove();
+      var toast = document.createElement('div');
+      toast.id = 'fw-toast-el';
+      toast.className = 'fw-toast' + (type === 'error' ? ' fw-toast-error' : type === 'success' ? ' fw-toast-success' : '');
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          toast.classList.add('fw-toast-visible');
+        });
+      });
+      setTimeout(function() {
+        toast.classList.remove('fw-toast-visible');
+        setTimeout(function() {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 350);
+      }, 6000);
+    }
 
-      var ok = true;
-      var firstErr = null;
-      function markErr(id, msg) {
-        var f = document.getElementById(id);
-        var e = document.getElementById(id + '-err') || document.getElementById(id.replace('course', 'course') + '-err');
-        if (f) f.style.borderColor = '#E53E3E';
-        if (e) { e.style.display = 'block'; e.textContent = msg; }
-        if (!firstErr && f) firstErr = f;
-        ok = false;
+    function initiatePayment() {
+      var btn = document.getElementById('payBtn');
+
+      // ── Collect all form values ─────────────────────
+      var fullName    = document.getElementById('fullname')    ? document.getElementById('fullname').value.trim()    : '';
+      var email       = document.getElementById('email')       ? document.getElementById('email').value.trim()       : '';
+      var phone       = document.getElementById('phone')       ? document.getElementById('phone').value.trim()       : '';
+      var gender      = document.getElementById('gender')      ? document.getElementById('gender').value.trim()      : '';
+      var ageRange    = document.getElementById('age-range')   ? document.getElementById('age-range').value.trim()   : '';
+      var course      = document.getElementById('course')      ? document.getElementById('course').value.trim()      : '';
+      var partnerCode = document.getElementById('partnerCode') ? document.getElementById('partnerCode').value.trim().toUpperCase() : '';
+      var commitCheck = document.getElementById('commitCheck');
+      var commitment  = commitCheck ? commitCheck.checked : false;
+
+      // ── Resolve country and state ───────────────────
+      var rawCountry = document.getElementById('country') ? document.getElementById('country').value.trim() : '';
+      var country = rawCountry === 'Other'
+        ? (document.getElementById('otherCountry') ? document.getElementById('otherCountry').value.trim() : '')
+        : rawCountry;
+      var state = '';
+      if (rawCountry === 'Nigeria') {
+        state = document.getElementById('stateInput') ? document.getElementById('stateInput').value.trim() : '';
+      } else if (rawCountry && rawCountry !== 'Other') {
+        state = document.getElementById('otherStateInput') ? document.getElementById('otherStateInput').value.trim() : '';
+      }
+
+      // ── Client-side validation ──────────────────────
+      var valid = true;
+      function showErr(id, msg) {
+        var el = document.getElementById(id);
+        if (el) { el.textContent = msg; el.style.display = 'block'; }
+        valid = false;
       }
       function clearErr(id) {
-        var f = document.getElementById(id);
-        var e = document.getElementById(id + '-err');
-        if (f) f.style.borderColor = '';
-        if (e) e.style.display = 'none';
+        var el = document.getElementById(id);
+        if (el) { el.style.display = 'none'; el.textContent = ''; }
       }
-      if (!fullname) { markErr('fullname', 'Please enter your full name.'); } else clearErr('fullname');
-      if (!email || email.indexOf('@') === -1) { markErr('email', 'Please enter a valid email address.'); } else clearErr('email');
-      if (!phone) { markErr('phone', 'Please enter your WhatsApp number.'); } else clearErr('phone');
-      if (!country) { markErr('country', 'Please select or enter your country.'); }
-      if (!course) {
-        var cEl = document.getElementById('course');
-        if (cEl) { cEl.style.borderColor = '#E53E3E'; if (!firstErr) firstErr = cEl; }
-        ok = false;
+
+      if (!commitment) {
+        var commitErr = document.getElementById('commitErr');
+        if (commitErr) { commitErr.style.display = 'block'; }
+        valid = false;
+      } else {
+        var commitErr = document.getElementById('commitErr');
+        if (commitErr) commitErr.style.display = 'none';
       }
-      if (currentTile === 'partner' && !partnerCodeVerified) {
-        var pcEl = document.getElementById('partnerCode');
-        if (pcEl) { pcEl.style.borderColor = '#E53E3E'; if (!firstErr) firstErr = pcEl; }
-        ok = false;
-      }
-      if (!ok) {
-        if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      if (!fullName)  { showErr('fullname-err', 'Please enter your full name.'); }    else clearErr('fullname-err');
+      if (!email || email.indexOf('@') < 0 || email.indexOf('.') < 0) {
+        showErr('email-err', 'Please enter a valid email address.');
+      } else clearErr('email-err');
+      if (!phone)     { showErr('phone-err',    'Please enter your phone number.'); }  else clearErr('phone-err');
+      if (!country)   { showErr('country-err',  'Please select or enter your country.'); } else clearErr('country-err');
+      if (!course || course === '') { showErr('course-err', 'Please select your course.'); } else clearErr('course-err');
+
+      if (!valid) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
       }
 
-      var btn = document.getElementById('payBtn');
-      btn.disabled = true;
-      btn.querySelector('span').textContent = 'Opening payment...';
+      // ── Disable button ──────────────────────────────
+      if (btn) {
+        btn.disabled = true;
+        btn.querySelector('span').textContent = 'Processing...';
+      }
 
-      var flutterwaveCheckoutInstance = FlutterwaveCheckout({
-        public_key: FW_PUBLIC_KEY,
-        tx_ref: generateTxRef(),
-        amount: currentAmount,
-        currency: activeCurrency,
-        payment_options: 'card,banktransfer,ussd,mobilemoney',
-        customer: {
-          email: email,
-          phone_number: phone,
-          name: fullname
-        },
-        meta: {
-          course: course,
-          pricing_tier: currentTile,
-          partner_code: currentTile === 'partner' ? document.getElementById('partnerCode').value.trim().toUpperCase() : '',
-          partner_org: partnerOrg,
-          country: country
-        },
-        customizations: {
-          title: 'TechNuVate Academy',
-          description: course + ' — ' + currentTile + ' enrollment',
-          logo: 'https://technuvate.com/technuvate-logo-dark.png'
-        },
-        callback: function (response) {
-          if (response.status === 'successful' || response.status === 'completed') {
-            // Save enrollment to Supabase
-            var enrollmentData = {
-              tx_ref: response.tx_ref,
-              flw_tx_id: String(response.transaction_id || ''),
-              amount: currentAmount,
-              currency: activeCurrency,
-              pricing_tier: currentTile,
-              payment_status: 'paid',
-              full_name: document.getElementById('fullname').value.trim(),
-              email: document.getElementById('email').value.trim(),
-              phone: document.getElementById('phone').value.trim(),
-              country: document.getElementById('country') ? document.getElementById('country').value : '',
-              course: document.getElementById('course').value,
-              partner_code: currentTile === 'partner' ? document.getElementById('partnerCode').value.trim().toUpperCase() : '',
-              partner_org: partnerOrg || ''
-            };
-            saveToSupabase('enrollments', enrollmentData);
-            // Email admin
-            sendEmail(
-              ADMIN_EMAIL,
-              '\uD83C\uDFEB New Enrollment: ' + enrollmentData.full_name + ' \u2014 ' + enrollmentData.course,
-              buildEnrollAdminEmail(enrollmentData)
-            );
-            // Email student
-            sendEmail(
-              enrollmentData.email,
-              'You are enrolled in ' + enrollmentData.course + ' \u2014 TechNuVate Academy',
-              buildEnrollStudentEmail(enrollmentData)
-            );
-            setTimeout(function () {
-              flutterwaveCheckoutInstance.close();
-              document.getElementById('formContent').style.display = 'none';
-              document.getElementById('successState').style.display = 'block';
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 300);
-          } else {
-            alert('Payment was not completed. Please try again.');
+      // ── Call enroll.js Netlify function ────────────
+      fetch(window.location.origin + '/.netlify/functions/enroll', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          full_name:            fullName,
+          email:                email,
+          phone:                phone,
+          gender:               gender,
+          age_range:            ageRange,
+          country:              country,
+          state:                state || null,
+          course:               course,
+          pricing_tier:         currentTile,
+          partner_code:         currentTile === 'partner' ? partnerCode : null,
+          cohort:               null,
+          currency:             activeCurrency,
+          commitment_confirmed: commitment
+        })
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error('Server error: ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        if (!data.success || !data.flutterwaveConfig) {
+          throw new Error(data.error || 'Invalid server response');
+        }
+
+        var config   = data.flutterwaveConfig;
+        var flwTxRef = data.flwTxRef;
+        var amount   = data.amount;
+        var currency = data.currency;
+
+        try {
+          var flutterwaveCheckoutInstance = FlutterwaveCheckout({
+            public_key:      window.APP_ENV.FW_PUBLIC_KEY,
+            tx_ref:          config.tx_ref,
+            amount:          config.amount,
+            currency:        config.currency,
+            payment_options: config.payment_options,
+            customer:        config.customer,
+            meta:            config.meta,
+            customizations:  config.customizations,
+            callback: function (response) {
+              if (response.status === 'successful' || response.status === 'completed') {
+                if (btn) {
+                  btn.disabled = false;
+                  btn.querySelector('span').textContent = 'Pay Now and Secure Your Spot';
+                }
+
+                fetch(window.location.origin + '/.netlify/functions/verify-enrollment', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    flw_tx_ref:           config.tx_ref,
+                    flw_tx_id:            response.transaction_id || response.id || response.flw_ref || '',
+                    amount:               config.amount,
+                    currency:             config.currency,
+                    full_name:            fullName,
+                    email:                email,
+                    phone:                phone,
+                    gender:               gender,
+                    age_range:            ageRange,
+                    country:              country,
+                    state:                state || null,
+                    course:               course,
+                    pricing_tier:         currentTile,
+                    partner_code:         currentTile === 'partner' ? partnerCode : null,
+                    cohort:               null,
+                    commitment_confirmed: commitment
+                  })
+                })
+                .then(function (vRes) {
+                  if (!vRes.ok) throw new Error('Verification failed: ' + vRes.status);
+                  return vRes.json();
+                })
+                .then(function (vData) {
+                  if (vData.success) {
+                    setTimeout(function () {
+                      flutterwaveCheckoutInstance.close();
+                      document.getElementById('formContent').style.display = 'none';
+                      document.getElementById('successState').style.display = 'block';
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 300);
+                  } else {
+                    throw new Error(vData.error || 'Verification returned false');
+                  }
+                })
+                .catch(function (vErr) {
+                  console.error('Enrollment verification error:', vErr);
+                  setTimeout(function () { flutterwaveCheckoutInstance.close(); }, 300);
+                  setTimeout(function () {
+                    showFwToast('Your payment was received. We will confirm your enrollment shortly. Reference: ' + config.tx_ref, 'error');
+                  }, 350);
+                });
+
+              } else {
+                if (btn) {
+                  btn.disabled = false;
+                  btn.querySelector('span').textContent = 'Pay Now and Secure Your Spot';
+                }
+                showFwToast('Payment was not completed. Please try again.', 'error');
+              }
+            },
+            onclose: function () {
+              if (btn) {
+                btn.disabled = false;
+                btn.querySelector('span').textContent = 'Pay Now and Secure Your Spot';
+              }
+            }
+          });
+        } catch (fwErr) {
+          console.error('FlutterwaveCheckout init error:', fwErr);
+          if (btn) {
             btn.disabled = false;
             btn.querySelector('span').textContent = 'Pay Now and Secure Your Spot';
           }
-        },
-        onclose: function () {
+          showFwToast('Something went wrong opening payment. Please try again.', 'error');
+        }
+      })
+      .catch(function (err) {
+        console.error('Enrollment init error:', err);
+        if (btn) {
           btn.disabled = false;
           btn.querySelector('span').textContent = 'Pay Now and Secure Your Spot';
         }
+        showFwToast('Something went wrong. Please try again.', 'error');
       });
     }
 
