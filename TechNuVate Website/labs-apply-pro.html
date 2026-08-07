@@ -785,6 +785,44 @@
         gap: 16px !important;
       }
     }
+
+  .fw-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #ffffff;
+    color: #1B3A7A;
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    padding: 14px 24px;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 99999;
+    max-width: 420px;
+    width: calc(100% - 48px);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+  }
+  .fw-toast.fw-toast-error {
+    background: #ffffff;
+    color: #1B3A7A;
+    border: 1.5px solid #1B3A7A;
+  }
+  .fw-toast.fw-toast-success {
+    background: #ffffff;
+    color: #1B3A7A;
+    border: 1.5px solid #1B3A7A;
+  }
+  .fw-toast.fw-toast-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
   </style>
   <style>
     .don-nudge {
@@ -1493,31 +1531,7 @@
   
     const FW_PUBLIC_KEY = window.APP_ENV.FW_PUBLIC_KEY;
 
-    // ── Supabase + Resend config ─────────────────────────────────
-    var SB_URL = 'https://xnynghnhbeyeowcibuvz.supabase.co';
-    var SB_KEY = 'sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY';
-    var RESEND_KEY = 're_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd';
     var ADMIN_EMAIL = 'labs@technuvate.com';
-
-    function saveToSupabase(table, data, onSuccess, onFail) {
-      if (!SB_URL || SB_URL === 'https://xnynghnhbeyeowcibuvz.supabase.co') { if (onSuccess) onSuccess(); return; }
-      fetch(SB_URL + '/rest/v1/' + table, {
-        method: 'POST',
-        headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-        body: JSON.stringify(data)
-      }).then(function (r) {
-        if (r.ok) { if (onSuccess) onSuccess(); } else { console.error('Supabase error:', r.status); if (onFail) onFail(); }
-      }).catch(function (e) { console.error('Supabase error:', e); if (onFail) onFail(); });
-    }
-
-    function sendEmail(toAddress, subject, htmlBody) {
-      if (!RESEND_KEY || RESEND_KEY === 're_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd') return;
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + RESEND_KEY, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: 'TechNuVate Labs <labs@technuvate.com>', to: [toAddress], subject: subject, html: htmlBody })
-      }).catch(function (e) { console.error('Resend error:', e); });
-    }
 
     // ─── COHORT CONFIGURATION ───────────────────────────────────────────
     // Update these values before each new cohort opens
@@ -1597,55 +1611,33 @@
       if (el) el.addEventListener('input', function () { clearErr(id); });
     });
 
-      function buildLabsProAdminEmail(payload) {
-        return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#fff;color:#111;padding:24px;border:1px solid #eee;">'
-          + '<div style="padding:0 0 16px;text-align:center;border-bottom:1px solid #eee;margin-bottom:16px;">'
-          + '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">'
-          + '</div>'
-          + '<h2 style="margin-top:0;font-size:20px;border-bottom:2px solid #111;padding-bottom:10px;">New Labs Professional Track Application</h2>'
-          + '<table style="width:100%;border-collapse:collapse;margin-top:16px;">'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;width:160px;">Full Name</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.full_name + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Email</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.email + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Phone</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.phone + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Gender</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.gender + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Age Range</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.age_range + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Country</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.country + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">State/Region</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.state_region + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Skill Track</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;font-weight:700;">' + payload.skill_track + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Background</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.background + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Academy Cohort</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.academy_cohort + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Experience</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.experience + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Goal</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.goal + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">LinkedIn</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;">' + payload.linkedin + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Tx Ref</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;font-family:monospace;">' + payload.tx_ref + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Flw Tx ID</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;font-family:monospace;">' + payload.flw_tx_id + '</td></tr>'
-          + '<tr><td style="padding:8px 0;border-bottom:1px solid #eee;font-weight:600;font-size:14px;">Amount</td><td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px;font-weight:700;">' + payload.amount + ' ' + payload.currency + '</td></tr>'
-          + '</table></div>';
-      }
-
-      function buildLabsProStudentEmail(payload) {
-        return '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#fff;color:#333;padding:24px;border:1px solid #eee;">'
-          + '<div style="padding:0 0 16px;text-align:center;border-bottom:1px solid #eee;margin-bottom:16px;">'
-          + '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">'
-          + '</div>'
-          + '<h2 style="color:#1B3A7A;margin-top:0;font-size:20px;">Welcome to TechNuVate Labs!</h2>'
-          + '<p style="font-size:15px;line-height:1.6;">Dear ' + payload.full_name + ',</p>'
-          + '<p style="font-size:14px;line-height:1.6;">Your spot is secured for the <strong>' + payload.skill_track + '</strong> track in our Professional Labs program. Your payment was received successfully.</p>'
-          + '<div style="background:#F5F7FA;border-left:4px solid #1B3A7A;padding:12px 16px;margin:20px 0;font-size:13px;">'
-          + '<strong>Transaction Reference:</strong> ' + payload.tx_ref + '<br>'
-          + '<strong>Amount:</strong> ' + payload.amount + ' ' + payload.currency
-          + '</div>'
-          + '<h3 style="color:#1B3A7A;font-size:16px;margin-top:20px;border-bottom:1px solid #eee;padding-bottom:6px;">What Happens Next</h3>'
-          + '<ul style="padding-left:20px;line-height:1.6;font-size:14px;">'
-          + '<li><strong>Mentor Assigned:</strong> Your dedicated industry mentor will be assigned within 48 hours.</li>'
-          + '<li><strong>First Project Brief:</strong> Your first project brief will arrive shortly with detailed onboarding instructions.</li>'
-          + '</ul>'
-          + '<p style="font-size:14px;line-height:1.6;margin-top:24px;">Welcome aboard! We are excited to see what you will build.</p>'
-          + '<p style="font-size:14px;line-height:1.6;margin-top:20px;">Best regards,<br><strong>The TechNuVate Labs Team</strong></p>'
-          + '</div>';
-      }
+  function showFwToast(message, type) {
+    var existing = document.getElementById('fw-toast-el');
+    if (existing) existing.remove();
+    var toast = document.createElement('div');
+    toast.id = 'fw-toast-el';
+    toast.className = 'fw-toast' + (type === 'error' ? ' fw-toast-error' : type === 'success' ? ' fw-toast-success' : '');
+    toast.textContent = message;
+    document.body.appendChild(toast);
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        toast.classList.add('fw-toast-visible');
+      });
+    });
+    setTimeout(function() {
+      toast.classList.remove('fw-toast-visible');
+      setTimeout(function() {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 350);
+    }, 6000);
+  }
 
     function submitForm() {
+      var btn = document.getElementById('submitBtn');
+      var spinner = document.getElementById('spinner');
+      var btnText = document.getElementById('btnText');
+
+      // ── Commitment checkbox first ─────────────────────
       var cb = document.getElementById('commitCheck');
       if (cb && !cb.checked) {
         document.getElementById('commitErr').style.display = 'block';
@@ -1653,112 +1645,218 @@
         return;
       }
       if (cb) document.getElementById('commitErr').style.display = 'none';
-      var ok = true;
-      if (!val('fullname')) { showErr('fullname', 'Please enter your full name.'); ok = false; } else clearErr('fullname');
-      if (!val('gender')) { showErr('gender', 'Please select your gender.'); ok = false; } else clearErr('gender');
-      if (!val('age')) { showErr('age', 'Please select your age range.'); ok = false; } else clearErr('age');
-      var em = val('email');
-      if (!em || em.indexOf('@') < 0 || em.indexOf('.') < 0) { showErr('email', 'Please enter a valid email address.'); ok = false; } else clearErr('email');
-      if (!val('phone')) { showErr('phone', 'Please enter your WhatsApp number.'); ok = false; } else clearErr('phone');
-      if (!val('country')) { showErr('country', 'Please select your country.'); ok = false; } else clearErr('country');
-      var c = val('country');
-      if (c === 'Nigeria') {
-        if (!val('nigeria-state')) { showErr('nigeria-state', 'Please select your state.'); ok = false; } else clearErr('nigeria-state');
-      } else if (c === 'Other') {
-        if (!val('other-country-name')) { showErr('other-country-name', 'Please enter your country name.'); ok = false; } else clearErr('other-country-name');
-        if (!val('other-country-state')) { showErr('other-country-state', 'Please enter your state or region.'); ok = false; } else clearErr('other-country-state');
-      } else if (c) {
-        if (!val('intl-state')) { showErr('intl-state', 'Please enter your state or region.'); ok = false; } else clearErr('intl-state');
+
+      // ── Helper functions ──────────────────────────────
+      function gv(id) {
+        var el = document.getElementById(id);
+        return el ? el.value.trim() : '';
       }
-      if (!val('track')) { showErr('track', 'Please select a skill track.'); ok = false; } else clearErr('track');
-      if (!val('background')) { showErr('background', 'Please tell us where you learned.'); ok = false; } else clearErr('background');
-      if (!val('experience')) { showErr('experience', 'Please describe your current skill level.'); ok = false; } else clearErr('experience');
-      if (!val('goal')) { showErr('goal', 'Please tell us what you want to walk away with.'); ok = false; } else clearErr('goal');
-      if (!val('linkedin')) { showErr('linkedin', 'Please enter your LinkedIn profile URL.'); ok = false; } else clearErr('linkedin');
-      if (!ok) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+      function showErr(id, msg) {
+        var e = document.getElementById(id + '-err');
+        if (e) { e.textContent = msg; e.style.display = 'block'; }
+        var inp = document.getElementById(id);
+        if (inp) inp.classList.add('invalid');
+      }
+      function clearErr(id) {
+        var e = document.getElementById(id + '-err');
+        if (e) e.style.display = 'none';
+        var inp = document.getElementById(id);
+        if (inp) inp.classList.remove('invalid');
+      }
 
-      var currency = val('country') === 'Nigeria' ? 'NGN' : 'USD';
-      var amount = currency === 'NGN' ? 7000 : 5;
+      // ── Collect all form values ───────────────────────
+      var fullName   = gv('fullname');
+      var email      = gv('email');
+      var phone      = gv('phone');
+      var gender     = gv('gender');
+      var ageRange   = gv('age');
+      var country    = gv('country');
+      var skillTrack = gv('track');
+      var background = gv('background');
+      var cohort     = gv('cohort') || null;
+      var experience = gv('experience');
+      var goal       = gv('goal');
+      var linkedin   = gv('linkedin');
 
-      var flutterwaveCheckoutInstance = FlutterwaveCheckout({
-        public_key: FW_PUBLIC_KEY,
-        tx_ref: 'LABS-PRO-' + Date.now(),
-        amount: amount,
-        currency: currency,
-        payment_options: 'card,banktransfer,ussd,mobilemoney',
-        customer: {
-          email: val('email'),
-          phone_number: val('phone'),
-          name: val('fullname')
-        },
-        meta: {
-          form_type: 'Labs Professional Track',
-          skill_track: val('track'),
-          background: val('background'),
-          country: val('country'),
-          state: val('country') === 'Nigeria' ? val('nigeria-state') : (val('country') === 'Other' ? val('other-country-name') + ', ' + val('other-country-state') : val('intl-state')),
-          linkedin: val('linkedin') || 'Not provided'
-        },
-        customizations: {
-          title: 'TechNuVate Labs',
-          description: 'Professional Track - ' + val('track'),
-          logo: 'https://technuvate.com/technuvate-logo-dark.png'
-        },
-        callback: function (response) {
-          if (response.status === 'successful' || response.status === 'completed') {
-            var btn = document.getElementById('submitBtn');
-            var spinner = document.getElementById('spinner');
-            var btnText = document.getElementById('btnText');
-            btn.disabled = true; spinner.style.display = 'block'; btnText.textContent = 'Confirming...';
-            var payload = {
-              tx_ref: response.tx_ref,
-              flw_tx_id: String(response.transaction_id || ''),
-              amount: amount,
-              currency: currency,
-              payment_status: 'paid',
-              full_name: val('fullname'),
-              email: val('email'),
-              phone: val('phone'),
-              gender: val('gender'),
-              age_range: val('age'),
-              country: val('country'),
-              state_region: val('country') === 'Nigeria' ? val('nigeria-state') : (val('country') === 'Other' ? val('other-country-name') + ', ' + val('other-country-state') : val('intl-state')),
-              skill_track: val('track'),
-              background: val('background'),
-              academy_cohort: val('cohort') || 'N/A',
-              experience: val('experience'),
-              goal: val('goal') || '',
-              linkedin: val('linkedin') || ''
-            };
-            saveToSupabase('labs_pro_applications', payload);
-            // Email admin
-            sendEmail(
-              ADMIN_EMAIL,
-              '\uD83D\uDCBC New Labs Pro Application: ' + payload.full_name + ' \u2014 ' + payload.skill_track,
-              buildLabsProAdminEmail(payload)
-            );
-            // Email applicant
-            sendEmail(
-              payload.email,
-              'Your Labs Professional Track application \u2014 TechNuVate',
-              buildLabsProStudentEmail(payload)
-            );
-            setTimeout(function () {
-              flutterwaveCheckoutInstance.close();
-              document.getElementById('formCard').style.display = 'none';
-              document.getElementById('successCard').style.display = 'block';
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 300);
-          }
-        },
-        onclose: function () {
-          var btn = document.getElementById('submitBtn');
-          var spinner = document.getElementById('spinner');
-          var btnText = document.getElementById('btnText');
-          btn.disabled = false;
-          spinner.style.display = 'none';
-          btnText.textContent = 'Confirm and Pay';
+      // ── Resolve state/region ──────────────────────────
+      var stateRegion = '';
+      if (country === 'Nigeria') {
+        stateRegion = gv('nigeria-state');
+      } else if (country === 'Other') {
+        var otherName  = gv('other-country-name');
+        var otherState = gv('other-country-state');
+        stateRegion = otherName && otherState ? otherName + ', ' + otherState : otherName || otherState;
+      } else if (country) {
+        stateRegion = gv('intl-state');
+      }
+
+      // ── Currency based on country ─────────────────────
+      var currency = country === 'Nigeria' ? 'NGN' : 'USD';
+
+      // ── Client-side validation ────────────────────────
+      var ok = true;
+
+      if (!fullName)   { showErr('fullname',   'Please enter your full name.');                   ok = false; } else clearErr('fullname');
+      if (!gender)     { showErr('gender',      'Please select your gender.');                    ok = false; } else clearErr('gender');
+      if (!ageRange)   { showErr('age',         'Please select your age range.');                 ok = false; } else clearErr('age');
+
+      var em = email;
+      if (!em || em.indexOf('@') < 0 || em.indexOf('.') < 0) {
+        showErr('email', 'Please enter a valid email address.'); ok = false;
+      } else clearErr('email');
+
+      if (!phone)      { showErr('phone',       'Please enter your WhatsApp number.');            ok = false; } else clearErr('phone');
+      if (!country)    { showErr('country',     'Please select your country.');                   ok = false; } else clearErr('country');
+
+      if (country === 'Nigeria' && !stateRegion) {
+        showErr('nigeria-state', 'Please select your state.'); ok = false;
+      } else if (country === 'Other') {
+        if (!gv('other-country-name'))  { showErr('other-country-name',  'Please enter your country name.');        ok = false; }
+        if (!gv('other-country-state')) { showErr('other-country-state', 'Please enter your state or region.');     ok = false; }
+      } else if (country && !stateRegion) {
+        showErr('intl-state', 'Please enter your state or region.'); ok = false;
+      }
+
+      if (!skillTrack) { showErr('track',      'Please select a skill track.');                   ok = false; } else clearErr('track');
+      if (!background) { showErr('background', 'Please tell us where you learned.');              ok = false; } else clearErr('background');
+      if (!experience) { showErr('experience', 'Please describe your current skill level.');      ok = false; } else clearErr('experience');
+      if (!goal)       { showErr('goal',       'Please tell us what you want to walk away with.'); ok = false; } else clearErr('goal');
+      if (!linkedin)   { showErr('linkedin',   'Please enter your LinkedIn profile URL.');         ok = false; } else clearErr('linkedin');
+
+      if (!ok) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // ── Disable button ────────────────────────────────
+      if (btn)     btn.disabled = true;
+      if (spinner) spinner.style.display = 'block';
+      if (btnText) btnText.textContent = 'Processing...';
+
+      // ── Call labs-pro.js Netlify function ─────────────
+      fetch(window.location.origin + '/.netlify/functions/labs-pro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          full_name:            fullName,
+          email:                email,
+          phone:                phone,
+          gender:               gender,
+          age_range:            ageRange,
+          country:              country,
+          state_region:         stateRegion || null,
+          skill_track:          skillTrack,
+          background:           background,
+          academy_cohort:       cohort,
+          experience:           experience,
+          goal:                 goal,
+          linkedin:             linkedin,
+          currency:             currency,
+          commitment_confirmed: true
+        })
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error('Server error: ' + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        if (!data.success || !data.flutterwaveConfig) {
+          throw new Error(data.error || 'Invalid server response');
         }
+
+        var config = data.flutterwaveConfig;
+
+        try {
+          var flutterwaveCheckoutInstance = FlutterwaveCheckout({
+            public_key:      window.APP_ENV.FW_PUBLIC_KEY,
+            tx_ref:          config.tx_ref,
+            amount:          config.amount,
+            currency:        config.currency,
+            payment_options: config.payment_options,
+            customer:        config.customer,
+            meta:            config.meta,
+            customizations:  config.customizations,
+            callback: function (response) {
+              if (response.status === 'successful' || response.status === 'completed') {
+                if (btn)     btn.disabled = false;
+                if (spinner) spinner.style.display = 'none';
+                if (btnText) btnText.textContent = 'Confirm and Pay';
+
+                fetch(window.location.origin + '/.netlify/functions/verify-labs-pro', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    flw_tx_ref:           config.tx_ref,
+                    flw_tx_id:            response.transaction_id || response.id || response.flw_ref || '',
+                    amount:               config.amount,
+                    currency:             config.currency,
+                    full_name:            fullName,
+                    email:                email,
+                    phone:                phone,
+                    gender:               gender,
+                    age_range:            ageRange,
+                    country:              country,
+                    state_region:         stateRegion || null,
+                    skill_track:          skillTrack,
+                    background:           background,
+                    academy_cohort:       cohort,
+                    experience:           experience,
+                    goal:                 goal,
+                    linkedin:             linkedin,
+                    commitment_confirmed: true
+                  })
+                })
+                .then(function (vRes) {
+                  if (!vRes.ok) throw new Error('Verification failed: ' + vRes.status);
+                  return vRes.json();
+                })
+                .then(function (vData) {
+                  if (vData.success) {
+                    setTimeout(function () {
+                      flutterwaveCheckoutInstance.close();
+                      document.getElementById('formCard').style.display = 'none';
+                      document.getElementById('successCard').style.display = 'block';
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }, 300);
+                  } else {
+                    throw new Error(vData.error || 'Verification returned false');
+                  }
+                })
+                .catch(function (vErr) {
+                  console.error('Labs pro verification error:', vErr);
+                  setTimeout(function () { flutterwaveCheckoutInstance.close(); }, 300);
+                  setTimeout(function () {
+                    showFwToast('Your payment was received. We will confirm your application shortly. Reference: ' + config.tx_ref, 'error');
+                  }, 350);
+                });
+
+              } else {
+                if (btn)     btn.disabled = false;
+                if (spinner) spinner.style.display = 'none';
+                if (btnText) btnText.textContent = 'Confirm and Pay';
+                showFwToast('Payment was not completed. Please try again.', 'error');
+              }
+            },
+            onclose: function () {
+              if (btn)     btn.disabled = false;
+              if (spinner) spinner.style.display = 'none';
+              if (btnText) btnText.textContent = 'Confirm and Pay';
+            }
+          });
+        } catch (fwErr) {
+          console.error('FlutterwaveCheckout init error:', fwErr);
+          if (btn)     btn.disabled = false;
+          if (spinner) spinner.style.display = 'none';
+          if (btnText) btnText.textContent = 'Confirm and Pay';
+          showFwToast('Something went wrong opening payment. Please try again.', 'error');
+        }
+      })
+      .catch(function (err) {
+        console.error('Labs pro init error:', err);
+        if (btn)     btn.disabled = false;
+        if (spinner) spinner.style.display = 'none';
+        if (btnText) btnText.textContent = 'Confirm and Pay';
+        showFwToast('Something went wrong. Please try again.', 'error');
       });
     }
   </script>
