@@ -77,6 +77,11 @@ exports.handler = async function (event) {
   var whyTutor          = (data.why_tutor          || '').trim();
   var availability      = (data.availability       || '').trim();
   var toolComfort       = (data.tool_comfort       || '').trim();
+  var portfolioUrl   = (data.portfolio_url   || '').trim() || null;
+  var biography      = (data.biography       || '').trim();
+  var weeklyHours    = (data.weekly_hours    || '').trim() || null;
+  var mobileNetwork  = (data.mobile_network  || '').trim() || null;
+  var dataTopupPhone = (data.data_topup_phone|| '').trim() || null;
 
   // ── Server-side validation ───────────────────────────
   var errors = [];
@@ -99,16 +104,8 @@ exports.handler = async function (event) {
     errors.push('A valid subject track is required.');
   if (!teachingExp || !VALID_EXPERIENCE.includes(teachingExp))
     errors.push('Teaching experience is required.');
-  if (!currentOccupation)
-    errors.push('Current occupation is required.');
-  if (!skillLevel)
-    errors.push('Skill level description is required.');
-  if (!whyTutor)
-    errors.push('Please tell us why you want to be a tutor.');
-  if (!availability || !VALID_AVAILABILITY.includes(availability))
-    errors.push('Availability is required.');
-  if (!toolComfort)
-    errors.push('Tool comfort level is required.');
+  if (!biography)
+    errors.push('Please tell us about yourself.');
 
   if (errors.length > 0) {
     return {
@@ -151,22 +148,22 @@ exports.handler = async function (event) {
 
   // ── STEP 2: Insert into tutor_members table ──────────
   var tutorPayload = {
-    full_name:          fullName,
-    email:              email,
-    phone:              phone,
-    gender:             gender,
-    age_range:          ageRange,
-    country:            country,
-    state_region:       stateRegion,
-    linkedin:           linkedin,
-    subject_track:      subjectTrack,
+    full_name:           fullName,
+    email:               email,
+    phone:               phone,
+    gender:              gender,
+    age_range:           ageRange,
+    country:             country,
+    state_region:        stateRegion,
+    linkedin:            linkedin,
+    subject_track:       subjectTrack,
+    portfolio_url:       portfolioUrl,
     teaching_experience: teachingExp,
-    current_occupation: currentOccupation,
-    skill_level:        skillLevel,
-    why_tutor:          whyTutor,
-    availability:       availability,
-    tool_comfort:       toolComfort,
-    status:             'applied'
+    biography:           biography,
+    weekly_hours:        weeklyHours,
+    mobile_network:      mobileNetwork,
+    data_topup_phone:    dataTopupPhone,
+    status:              'applied'
   };
 
   console.log('Inserting tutor application for:', email, '| subject:', subjectTrack);
@@ -240,16 +237,13 @@ exports.handler = async function (event) {
           '<p><strong>Phone:</strong> ' + phone + '</p>' +
           '<p><strong>Subject Track:</strong> ' + subjectTrack + '</p>' +
           '<p><strong>Teaching Experience:</strong> ' + teachingExp + '</p>' +
-          '<p><strong>Current Occupation:</strong> ' + currentOccupation + '</p>' +
-          '<p><strong>Availability:</strong> ' + availability + '</p>' +
-          '<p><strong>Tool Comfort:</strong> ' + toolComfort + '</p>' +
+          '<p><strong>Weekly Hours:</strong> ' + (weeklyHours || 'Not specified') + '</p>' +
+          (portfolioUrl ? '<p><strong>Portfolio:</strong> <a href="' + portfolioUrl + '">' + portfolioUrl + '</a></p>' : '') +
           '<p><strong>Country:</strong> ' + country + (stateRegion ? ', ' + stateRegion : '') + '</p>' +
           '<p><strong>LinkedIn:</strong> <a href="' + linkedin + '">' + linkedin + '</a></p>' +
           '<hr style="margin:16px 0;border:none;border-top:1px solid #E4E8F0">' +
-          '<p><strong>Skill level:</strong></p>' +
-          '<p style="color:#6B7280">' + skillLevel + '</p>' +
-          '<p><strong>Why they want to tutor:</strong></p>' +
-          '<p style="color:#6B7280">' + whyTutor + '</p>' +
+          '<p><strong>About this applicant:</strong></p>' +
+          '<p style="color:#6B7280">' + biography + '</p>' +
           '</div>'
       })
     });
