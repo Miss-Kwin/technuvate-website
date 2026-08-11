@@ -912,6 +912,44 @@
         font-size: 12px
       }
     }
+
+    .fw-toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #ffffff;
+      color: #1B3A7A;
+      font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.5;
+      padding: 14px 24px;
+      border-radius: 10px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      z-index: 99999;
+      max-width: 420px;
+      width: calc(100% - 48px);
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+    }
+    .fw-toast.fw-toast-error {
+      background: #ffffff;
+      color: #1B3A7A;
+      border: 1.5px solid #1B3A7A;
+    }
+    .fw-toast.fw-toast-success {
+      background: #ffffff;
+      color: #1B3A7A;
+      border: 1.5px solid #1B3A7A;
+    }
+    .fw-toast.fw-toast-visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
   </style>
   <link rel="icon" type="image/png" href="favicon.png">
 </head>
@@ -1241,6 +1279,7 @@
           <select class="fi-s sel-s" id="m-role">
             <option value="">Select a role</option>
             <option>Communications and Content Associate</option>
+            <option>Data Analytics Associate</option>
             <option>Operations and Coordination Associate</option>
             <option>Community and Growth Associate</option>
             <option>Partnerships and Outreach Associate</option>
@@ -1635,7 +1674,6 @@
     }
   </script>
   <script>
-    const FORMSPREE_TEAM = 'YOUR_FORMSPREE_ENDPOINT';
     function handleNetworkM() {
       var v = document.getElementById('m-network').value;
       document.getElementById('m-network-other-box').style.display = v === 'Other' ? 'block' : 'none';
@@ -1647,26 +1685,144 @@
     function se(id, msg) { var e = document.getElementById(id + '-err'); if (e) { e.textContent = msg; e.style.display = 'block'; } var f = document.getElementById(id); if (f) f.style.borderColor = '#E53E3E'; }
     function ce(id) { var e = document.getElementById(id + '-err'); if (e) e.style.display = 'none'; var f = document.getElementById(id); if (f) f.style.borderColor = ''; }
     ['m-name', 'm-gender', 'm-age', 'm-email', 'm-phone', 'm-linkedin', 'm-role', 'm-current', 'm-exp', 'm-why', 'm-skills'].forEach(function (id) { var el = document.getElementById(id); if (el) el.addEventListener('input', function () { ce(id); }); });
+    function showFwToast(message, type) {
+      var existing = document.getElementById('fw-toast-el');
+      if (existing) existing.remove();
+      var toast = document.createElement('div');
+      toast.id = 'fw-toast-el';
+      toast.className = 'fw-toast' + (type === 'error' ? ' fw-toast-error' : type === 'success' ? ' fw-toast-success' : '');
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          toast.classList.add('fw-toast-visible');
+        });
+      });
+      setTimeout(function() {
+        toast.classList.remove('fw-toast-visible');
+        setTimeout(function() {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 350);
+      }, 6000);
+    }
     function submitMember() {
+      var btn = document.getElementById('memberBtn');
+      var sp  = btn ? btn.querySelector('.spinner') : null;
+      var bt  = btn ? btn.querySelector('span')     : null;
+
+      // ── Helper functions ──────────────────────────────
+      function gv(id) {
+        var el = document.getElementById(id);
+        return el ? el.value.trim() : '';
+      }
+      function se(id, msg) {
+        var errEl = document.getElementById(id + '-err');
+        if (errEl) { errEl.textContent = msg; errEl.style.display = 'block'; }
+        var inp = document.getElementById(id);
+        if (inp) inp.style.borderColor = '#E53E3E';
+      }
+      function ce(id) {
+        var errEl = document.getElementById(id + '-err');
+        if (errEl) errEl.style.display = 'none';
+        var inp = document.getElementById(id);
+        if (inp) inp.style.borderColor = '';
+      }
+
+      // ── Collect values ────────────────────────────────
+      var fullName          = gv('m-name');
+      var gender            = gv('m-gender');
+      var ageRange          = gv('m-age');
+      var email             = gv('m-email');
+      var phone             = gv('m-phone');
+      var linkedin          = gv('m-linkedin');
+      var roleApplied       = gv('m-role');
+      var currentOccupation = gv('m-current');
+      var experienceLevel   = gv('m-exp');
+      var whyJoin           = gv('m-why');
+      var relevantSkills    = gv('m-skills');
+      var weeklyHours       = gv('m-hours');
+      var networkRaw        = gv('m-network');
+      var mobileNetwork     = networkRaw === 'Other' ? gv('m-network-other') : networkRaw;
+      var dataTopupPhone    = gv('m-data-phone') || null;
+
+      // ── Client-side validation ────────────────────────
       var ok = true;
-      if (!gv('m-name')) { se('m-name', 'Please enter your full name.'); ok = false; } else ce('m-name');
-      if (!gv('m-gender')) { se('m-gender', 'Please select your gender.'); ok = false; } else ce('m-gender');
-      if (!gv('m-age')) { se('m-age', 'Please select your age range.'); ok = false; } else ce('m-age');
-      var em = gv('m-email'); if (!em || em.indexOf('@') < 0) { se('m-email', 'Please enter a valid email address.'); ok = false; } else ce('m-email');
-      if (!gv('jt-country')) { se('jt-country', 'Please enter your country.'); ok = false; } else ce('jt-country');
-      if (!gv('jt-state')) { se('jt-state', 'Please enter your state or region.'); ok = false; } else ce('jt-state');
-      if (!gv('m-phone')) { se('m-phone', 'Please enter your phone number.'); ok = false; } else ce('m-phone');
-      if (!gv('m-linkedin')) { se('m-linkedin', 'Please enter your LinkedIn profile URL.'); ok = false; } else ce('m-linkedin');
-      if (!gv('m-role')) { se('m-role', 'Please select a role.'); ok = false; } else ce('m-role');
-      if (!gv('m-current')) { se('m-current', 'Please tell us what you currently do.'); ok = false; } else ce('m-current');
-      if (!gv('m-exp')) { se('m-exp', 'Please select your experience level.'); ok = false; } else ce('m-exp');
-      if (!gv('m-why')) { se('m-why', 'Please tell us why you want to join.'); ok = false; } else ce('m-why');
-      if (!gv('m-skills')) { se('m-skills', 'Please tell us about your relevant experience.'); ok = false; } else ce('m-skills');
-      if (!gv('m-hours')) { se('m-hours', 'Please select your weekly commitment.'); ok = false; } else ce('m-hours');
-      if (!ok) { window.scrollTo({ top: document.getElementById('apply').offsetTop - 80, behavior: 'smooth' }); return; }
-      var btn = document.getElementById('memberBtn'); var sp = document.getElementById('memberSpinner'); var bt = document.getElementById('memberBtnText');
-      btn.disabled = true; sp.style.display = 'block'; bt.textContent = 'Submitting...';
-      fetch('https://formspree.io/f/' + FORMSPREE_TEAM, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ form_type: 'Team Member Application', full_name: gv('m-name'), gender: gv('m-gender'), age_range: gv('m-age'), email: gv('m-email'), phone: gv('m-phone'), linkedin: gv('m-linkedin'), role: gv('m-role'), current_occupation: gv('m-current'), experience_level: gv('m-exp'), why_join: gv('m-why'), relevant_skills: gv('m-skills'), weekly_hours: gv('m-hours'), mobile_network: (gv('m-network') === 'Other' ? gv('m-network-other') : gv('m-network')) || 'Not provided', data_topup_number: gv('m-data-phone') || 'Not provided' }) }).then(function (r) { if (r.ok) { document.getElementById('formCard').style.display = 'none'; document.getElementById('successCard').style.display = 'block'; window.scrollTo({ top: document.getElementById('apply').offsetTop - 80, behavior: 'smooth' }); } else { btn.disabled = false; sp.style.display = 'none'; bt.textContent = 'Submit Application'; alert('Something went wrong. Please try again.'); } }).catch(function () { btn.disabled = false; sp.style.display = 'none'; bt.textContent = 'Submit Application'; alert('Something went wrong. Please check your connection.'); });
+      if (!fullName)        { se('m-name',     'Please enter your full name.');                    ok = false; } else ce('m-name');
+      if (!gender)          { se('m-gender',   'Please select your gender.');                      ok = false; } else ce('m-gender');
+      if (!ageRange)        { se('m-age',      'Please select your age range.');                   ok = false; } else ce('m-age');
+      if (!email || email.indexOf('@') < 0) {
+        se('m-email', 'Please enter a valid email address.'); ok = false;
+      } else ce('m-email');
+      if (!phone)           { se('m-phone',    'Please enter your phone number.');                 ok = false; } else ce('m-phone');
+      if (!linkedin)        { se('m-linkedin', 'Please enter your LinkedIn profile URL.');         ok = false; } else ce('m-linkedin');
+      if (!roleApplied)     { se('m-role',     'Please select a role.');                           ok = false; } else ce('m-role');
+      if (!currentOccupation) { se('m-current', 'Please tell us what you currently do.');          ok = false; } else ce('m-current');
+      if (!experienceLevel) { se('m-exp',      'Please select your experience level.');            ok = false; } else ce('m-exp');
+      if (!whyJoin)         { se('m-why',      'Please tell us why you want to join.');            ok = false; } else ce('m-why');
+      if (!relevantSkills)  { se('m-skills',   'Please tell us about your relevant experience.');  ok = false; } else ce('m-skills');
+      if (!weeklyHours)     { se('m-hours',    'Please select your weekly commitment.');           ok = false; } else ce('m-hours');
+
+      if (!ok) {
+        var formCard = document.getElementById('formCard');
+        if (formCard) window.scrollTo({ top: formCard.offsetTop - 80, behavior: 'smooth' });
+        return;
+      }
+
+      // ── Disable button ────────────────────────────────
+      if (btn) btn.disabled = true;
+      if (sp)  sp.style.display = 'inline-block';
+      if (bt)  bt.textContent = 'Submitting...';
+
+      // ── Call join-team.js Netlify function ────────────
+      fetch(window.location.origin + '/.netlify/functions/join-team', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          full_name:          fullName,
+          email:              email,
+          phone:              phone,
+          gender:             gender,
+          age_range:          ageRange,
+          linkedin:           linkedin,
+          role_applied:       roleApplied,
+          current_occupation: currentOccupation,
+          experience_level:   experienceLevel,
+          why_join:           whyJoin,
+          relevant_skills:    relevantSkills,
+          weekly_hours:       weeklyHours,
+          mobile_network:     mobileNetwork || null,
+          data_topup_phone:   dataTopupPhone
+        })
+      })
+      .then(function (res) {
+        return res.json().then(function (body) {
+          return { ok: res.ok, status: res.status, body: body };
+        });
+      })
+      .then(function (result) {
+        if (result.ok && result.body.success) {
+          var formCard = document.getElementById('formCard');
+          var successCard = document.getElementById('successCard');
+          if (formCard)    formCard.style.display    = 'none';
+          if (successCard) successCard.style.display = 'block';
+          var applySection = document.getElementById('apply');
+          if (applySection) window.scrollTo({ top: applySection.offsetTop - 80, behavior: 'smooth' });
+        } else if (result.status === 409) {
+          if (btn) btn.disabled = false;
+          if (sp)  sp.style.display = 'none';
+          if (bt)  bt.textContent = 'Submit Application';
+          showFwToast(result.body.error || 'An application from this email already exists.', 'error');
+        } else {
+          throw new Error(result.body.error || 'Submission failed');
+        }
+      })
+      .catch(function (err) {
+        console.error('Join team error:', err);
+        if (btn) btn.disabled = false;
+        if (sp)  sp.style.display = 'none';
+        if (bt)  bt.textContent = 'Submit Application';
+        showFwToast('Something went wrong. Please try again or contact us at hello@technuvate.com', 'error');
+      });
     }
     var obs = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('on'); }); }, { threshold: 0.08 });
     document.querySelectorAll('.rv').forEach(function (el) { obs.observe(el); });
