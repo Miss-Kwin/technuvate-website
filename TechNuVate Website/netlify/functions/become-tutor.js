@@ -16,26 +16,21 @@ const CORS_HEADERS = {
 
 const VALID_SUBJECTS = [
   'Digital Marketing',
-  'Product Design',
+  'Product Design (UI/UX)',
   'Product Management',
   'Data Analytics',
-  'Video Editing and Content Creation',
-  'Product Marketing',
+  'Graphics Design',
+  'Video Editing and Content Production',
   'Social Media Marketing',
-  'Community Management'
+  'Community Building and Management',
+  'Other'
 ];
 
 const VALID_EXPERIENCE = [
-  'Less than 1 year',
-  '1-2 years',
-  '3-5 years',
-  'More than 5 years'
-];
-
-const VALID_AVAILABILITY = [
-  'Weekdays',
-  'Weekends',
-  'Both'
+  '1 to 2 years',
+  '3 to 5 years',
+  '6 to 10 years',
+  'Over 10 years'
 ];
 
 exports.handler = async function (event) {
