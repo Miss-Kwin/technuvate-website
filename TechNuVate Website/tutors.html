@@ -1582,6 +1582,44 @@
         transform: rotate(360deg)
       }
     }
+
+  .fw-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #ffffff;
+    color: #1B3A7A;
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    padding: 14px 24px;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 99999;
+    max-width: 420px;
+    width: calc(100% - 48px);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+  }
+  .fw-toast.fw-toast-error {
+    background: #ffffff;
+    color: #1B3A7A;
+    border: 1.5px solid #1B3A7A;
+  }
+  .fw-toast.fw-toast-success {
+    background: #ffffff;
+    color: #1B3A7A;
+    border: 1.5px solid #1B3A7A;
+  }
+  .fw-toast.fw-toast-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
   </style>
   <script>
     function submitNewsletter(e) {
@@ -1612,7 +1650,6 @@
     }
   </script>
   <script>
-    const FORMSPREE_TUTOR = 'YOUR_FORMSPREE_ENDPOINT';
     function handleTrack() {
       var v = document.getElementById('t-track').value;
       var designTracks = ['Product Design (UI/UX)', 'Graphics Design'];
@@ -1632,28 +1669,220 @@
     function se(id, msg) { var e = document.getElementById(id + '-err'); if (e) { e.textContent = msg; e.style.display = 'block'; } var f = document.getElementById(id); if (f) f.style.borderColor = '#E53E3E'; }
     function ce(id) { var e = document.getElementById(id + '-err'); if (e) e.style.display = 'none'; var f = document.getElementById(id); if (f) f.style.borderColor = ''; }
     ['t-name', 't-gender', 't-age', 't-email', 't-phone', 't-linkedin', 't-track', 't-exp', 't-bio'].forEach(function (id) { var el = document.getElementById(id); if (el) el.addEventListener('input', function () { ce(id); }); });
+    function showFwToast(message, type) {
+      var existingToast = document.getElementById('fw-toast-el');
+      if (existingToast) existingToast.remove();
+      var toastElement = document.createElement('div');
+      toastElement.id = 'fw-toast-el';
+      toastElement.className = 'fw-toast' +
+        (type === 'error'   ? ' fw-toast-error'   :
+         type === 'success' ? ' fw-toast-success'  : '');
+      toastElement.textContent = message;
+      document.body.appendChild(toastElement);
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          toastElement.classList.add('fw-toast-visible');
+        });
+      });
+      setTimeout(function () {
+        toastElement.classList.remove('fw-toast-visible');
+        setTimeout(function () {
+          if (toastElement.parentNode) {
+            toastElement.parentNode.removeChild(toastElement);
+          }
+        }, 350);
+      }, 6000);
+    }
     function submitTutor() {
-      var ok = true;
-      if (!gv('t-name')) { se('t-name', 'Please enter your full name.'); ok = false; } else ce('t-name');
-      if (!gv('t-gender')) { se('t-gender', 'Please select your gender.'); ok = false; } else ce('t-gender');
-      if (!gv('t-age')) { se('t-age', 'Please select your age range.'); ok = false; } else ce('t-age');
-      var em = gv('t-email');
-      if (!em || em.indexOf('@') < 0) { se('t-email', 'Please enter a valid email address.'); ok = false; } else ce('t-email');
-      if (!gv('t-phone')) { se('t-phone', 'Please enter your phone number.'); ok = false; } else ce('t-phone');
-      var tCountry = document.getElementById('t-country') ? document.getElementById('t-country').value : '';
-      if (!tCountry) { document.getElementById('t-country').style.borderColor = '#E53E3E'; document.getElementById('t-country-err').style.display = 'block'; if (!firstErr) firstErr = document.getElementById('t-country'); ok = false; }
-      if (!gv('t-state')) { se('t-state', 'Please enter your state or region.'); ok = false; } else ce('t-state');
-      if (!gv('t-linkedin')) { se('t-linkedin', 'Please enter your LinkedIn profile URL.'); ok = false; } else ce('t-linkedin');
-      if (!gv('t-track')) { se('t-track', 'Please select a track.'); ok = false; } else ce('t-track');
-      if (gv('t-track') === 'Other' && !gv('t-track-other')) { se('t-track-other', 'Please tell us the track.'); ok = false; } else ce('t-track-other');
-      var designTracks = ['Product Design (UI/UX)', 'Graphics Design'];
-      if (designTracks.includes(gv('t-track')) && !gv('t-portfolio')) { se('t-portfolio', 'Please provide a portfolio link for this track.'); ok = false; } else ce('t-portfolio');
-      if (!gv('t-exp')) { se('t-exp', 'Please select your years of experience.'); ok = false; } else ce('t-exp');
-      if (!gv('t-bio')) { se('t-bio', 'Please tell us about yourself.'); ok = false; } else ce('t-bio');
-      if (!ok) { window.scrollTo({ top: document.getElementById('apply').offsetTop - 80, behavior: 'smooth' }); return; }
-      var btn = document.getElementById('tutorBtn'); var sp = document.getElementById('tutorSpinner'); var bt = document.getElementById('tutorBtnText');
-      btn.disabled = true; sp.style.display = 'block'; bt.textContent = 'Submitting...';
-      fetch('https://formspree.io/f/' + FORMSPREE_TUTOR, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ form_type: 'Tutor Application', full_name: gv('t-name'), gender: gv('t-gender'), age_range: gv('t-age'), email: gv('t-email'), phone: gv('t-phone'), country: (document.getElementById('t-country') ? document.getElementById('t-country').value : ''), state_region: gv('t-state'), linkedin: gv('t-linkedin'), track: (gv('t-track') === 'Other' ? gv('t-track-other') : gv('t-track')), portfolio: gv('t-portfolio') || 'N/A', experience: gv('t-exp'), about: gv('t-bio'), weekly_hours: gv('t-hours') || 'Not specified', mobile_network: (gv('t-network') === 'Other' ? gv('t-network-other') : gv('t-network')) || 'Not provided', data_topup_number: gv('t-data-phone') || 'Not provided' }) }).then(function (r) { if (r.ok) { document.getElementById('formCard').style.display = 'none'; document.getElementById('successCard').style.display = 'block'; window.scrollTo({ top: document.getElementById('apply').offsetTop - 80, behavior: 'smooth' }); } else { btn.disabled = false; sp.style.display = 'none'; bt.textContent = 'Submit Application'; alert('Something went wrong. Please try again.'); } }).catch(function () { btn.disabled = false; sp.style.display = 'none'; bt.textContent = 'Submit Application'; alert('Something went wrong. Please check your connection.'); });
+      var submitButton  = document.getElementById('tutorBtn');
+      var spinnerElement = document.getElementById('tutorSpinner');
+      var buttonTextElement = document.getElementById('tutorBtnText');
+
+      // ── Helper: get field value by id ─────────────────
+      function getFieldValue(fieldId) {
+        var element = document.getElementById(fieldId);
+        return element ? element.value.trim() : '';
+      }
+
+      // ── Helper: show inline field error ──────────────
+      function showFieldError(fieldId, errorMessage) {
+        var errorElement = document.getElementById(fieldId + '-err');
+        if (errorElement) {
+          errorElement.textContent = errorMessage;
+          errorElement.style.display = 'block';
+        }
+        var inputElement = document.getElementById(fieldId);
+        if (inputElement) inputElement.style.borderColor = '#E53E3E';
+      }
+
+      // ── Helper: clear inline field error ─────────────
+      function clearFieldError(fieldId) {
+        var errorElement = document.getElementById(fieldId + '-err');
+        if (errorElement) errorElement.style.display = 'none';
+        var inputElement = document.getElementById(fieldId);
+        if (inputElement) inputElement.style.borderColor = '';
+      }
+
+      // ── Collect all form field values ─────────────────
+      var fullName          = getFieldValue('t-name');
+      var gender            = getFieldValue('t-gender');
+      var ageRange          = getFieldValue('t-age');
+      var country           = getFieldValue('t-country');
+      var stateRegion       = getFieldValue('t-state');
+      var emailAddress      = getFieldValue('t-email');
+      var phoneNumber       = getFieldValue('t-phone');
+      var linkedinUrl       = getFieldValue('t-linkedin');
+      var subjectTrack      = getFieldValue('t-track');
+      var otherTrackName    = getFieldValue('t-track-other');
+      var portfolioUrl      = getFieldValue('t-portfolio');
+      var yearsExperience   = getFieldValue('t-exp');
+      var biography         = getFieldValue('t-bio');
+      var weeklyHours       = getFieldValue('t-hours');
+      var mobileNetworkRaw  = getFieldValue('t-network');
+      var otherNetworkName  = getFieldValue('t-network-other');
+      var dataTopupPhone    = getFieldValue('t-data-phone');
+
+      // ── Resolve conditional values ────────────────────
+      var resolvedTrack = subjectTrack === 'Other'
+        ? otherTrackName
+        : subjectTrack;
+
+      var resolvedMobileNetwork = mobileNetworkRaw === 'Other'
+        ? otherNetworkName
+        : mobileNetworkRaw;
+
+      // ── Client-side validation ────────────────────────
+      var formIsValid = true;
+
+      if (!fullName) {
+        showFieldError('t-name', 'Please enter your full name.');
+        formIsValid = false;
+      } else clearFieldError('t-name');
+
+      if (!gender) {
+        showFieldError('t-gender', 'Please select your gender.');
+        formIsValid = false;
+      } else clearFieldError('t-gender');
+
+      if (!ageRange) {
+        showFieldError('t-age', 'Please select your age range.');
+        formIsValid = false;
+      } else clearFieldError('t-age');
+
+      if (!country) {
+        showFieldError('t-country', 'Please select your country.');
+        formIsValid = false;
+      } else clearFieldError('t-country');
+
+      if (!emailAddress ||
+          emailAddress.indexOf('@') < 0 ||
+          emailAddress.indexOf('.') < 0) {
+        showFieldError('t-email', 'Please enter a valid email address.');
+        formIsValid = false;
+      } else clearFieldError('t-email');
+
+      if (!phoneNumber) {
+        showFieldError('t-phone', 'Please enter your phone number.');
+        formIsValid = false;
+      } else clearFieldError('t-phone');
+
+      if (!linkedinUrl) {
+        showFieldError('t-linkedin', 'Please enter your LinkedIn profile URL.');
+        formIsValid = false;
+      } else clearFieldError('t-linkedin');
+
+      if (!subjectTrack) {
+        showFieldError('t-track', 'Please select the track you want to teach.');
+        formIsValid = false;
+      } else {
+        clearFieldError('t-track');
+        if (subjectTrack === 'Other' && !otherTrackName) {
+          showFieldError('t-track-other', 'Please specify the track name.');
+          formIsValid = false;
+        } else clearFieldError('t-track-other');
+      }
+
+      if (!yearsExperience) {
+        showFieldError('t-exp', 'Please select your years of experience.');
+        formIsValid = false;
+      } else clearFieldError('t-exp');
+
+      if (!biography) {
+        showFieldError('t-bio', 'Please tell us about yourself.');
+        formIsValid = false;
+      } else clearFieldError('t-bio');
+
+      if (!formIsValid) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // ── Disable button and show loading state ─────────
+      if (submitButton)    submitButton.disabled = true;
+      if (spinnerElement)  spinnerElement.style.display = 'block';
+      if (buttonTextElement) buttonTextElement.textContent = 'Submitting...';
+
+      // ── Call become-tutor Netlify function ────────────
+      fetch(window.location.origin + '/.netlify/functions/become-tutor', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          full_name:           fullName,
+          email:               emailAddress,
+          phone:               phoneNumber,
+          gender:              gender,
+          age_range:           ageRange,
+          country:             country,
+          state_region:        stateRegion || null,
+          linkedin:            linkedinUrl,
+          subject_track:       resolvedTrack,
+          portfolio_url:       portfolioUrl || null,
+          teaching_experience: yearsExperience,
+          biography:           biography,
+          weekly_hours:        weeklyHours || null,
+          mobile_network:      resolvedMobileNetwork || null,
+          data_topup_phone:    dataTopupPhone || null
+        })
+      })
+      .then(function (response) {
+        return response.json().then(function (responseBody) {
+          return {
+            requestSucceeded: response.ok,
+            statusCode:       response.status,
+            body:             responseBody
+          };
+        });
+      })
+      .then(function (result) {
+        if (result.requestSucceeded && result.body.success) {
+          var formCard    = document.getElementById('formCard');
+          var successCard = document.getElementById('successCard');
+          if (formCard)    formCard.style.display    = 'none';
+          if (successCard) successCard.style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if (result.statusCode === 409) {
+          if (submitButton)      submitButton.disabled = false;
+          if (spinnerElement)    spinnerElement.style.display = 'none';
+          if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
+          showFwToast(
+            result.body.error ||
+            'An application from this email already exists.',
+            'error'
+          );
+        } else {
+          throw new Error(result.body.error || 'Submission failed');
+        }
+      })
+      .catch(function (submissionError) {
+        console.error('Become tutor submission error:', submissionError);
+        if (submitButton)      submitButton.disabled = false;
+        if (spinnerElement)    spinnerElement.style.display = 'none';
+        if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
+        showFwToast(
+          'Something went wrong. Please try again or contact us at hello@technuvate.com',
+          'error'
+        );
+      });
     }
     var obs = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('on'); }); }, { threshold: 0.08 });
     document.querySelectorAll('.rv').forEach(function (el) { obs.observe(el); });
