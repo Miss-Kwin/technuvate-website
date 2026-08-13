@@ -1299,6 +1299,44 @@
       .faq-item.open .faq-q {
         background: #f2f4f8;
       }
+
+      .fw-toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: #ffffff;
+        color: #1B3A7A;
+        font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        padding: 14px 24px;
+        border-radius: 10px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        z-index: 99999;
+        max-width: 420px;
+        width: calc(100% - 48px);
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+      }
+      .fw-toast.fw-toast-error {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-success {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
+      }
     </style>
     <style>
       .don-nudge {
@@ -3131,15 +3169,9 @@
         btn.textContent = "Subscribing...";
         btn.disabled = true;
         // Save to Supabase newsletter table
-        var SB_URL =
-          typeof window.SB_URL !== "undefined"
-            ? window.SB_URL
-            : "YOUR_SUPABASE_URL_HERE";
-        var SB_KEY =
-          typeof window.SB_KEY !== "undefined"
-            ? window.SB_KEY
-            : "YOUR_SUPABASE_ANON_KEY_HERE";
-        if (SB_URL && SB_URL !== "YOUR_SUPABASE_URL_HERE") {
+        var SB_URL = window.SB_URL;
+        var SB_KEY = window.SB_KEY;
+        if (SB_URL && SB_KEY) {
           fetch(SB_URL + "/rest/v1/newsletter_subscribers", {
             method: "POST",
             headers: {
@@ -3250,113 +3282,171 @@
         el.classList.add("selected");
       }
 
+      function showFwToast(message, type) {
+        var existingToast = document.getElementById('fw-toast-el');
+        if (existingToast) existingToast.remove();
+        var toastElement = document.createElement('div');
+        toastElement.id = 'fw-toast-el';
+        toastElement.className = 'fw-toast' +
+          (type === 'error'   ? ' fw-toast-error'   :
+           type === 'success' ? ' fw-toast-success'  : '');
+        toastElement.textContent = message;
+        document.body.appendChild(toastElement);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            toastElement.classList.add('fw-toast-visible');
+          });
+        });
+        setTimeout(function () {
+          toastElement.classList.remove('fw-toast-visible');
+          setTimeout(function () {
+            if (toastElement.parentNode) {
+              toastElement.parentNode.removeChild(toastElement);
+            }
+          }, 350);
+        }, 6000);
+      }
+
       function submitConsult() {
-        var name = document.getElementById("c-name").value.trim();
-        var email = document.getElementById("c-email").value.trim();
-        var phone = document.getElementById("c-phone").value.trim();
-        var org = document.getElementById("c-org").value.trim();
-        var service = document.getElementById("c-service").value;
-        var extra = document.getElementById("c-extra").value.trim();
+        var submitButton = document.querySelector('.m-submit');
 
-        if (!name) {
-          alert("Please enter your full name.");
-          return;
-        }
-        if (!email || email.indexOf("@") === -1) {
-          alert("Please enter a valid email address.");
-          return;
-        }
-        if (!phone) {
-          alert("Please enter your phone number.");
-          return;
-        }
-        if (!service) {
-          alert("Please select a service.");
-          return;
-        }
-        if (!extra) {
-          alert(
-            "Please tell us anything else we should know — timeline, budget, goals.",
-          );
-          return;
+        // ── Helper: get field value by id ─────────────────
+        function getFieldValue(fieldId) {
+          var element = document.getElementById(fieldId);
+          return element ? element.value.trim() : '';
         }
 
-        // Collect selected radio/multi options per visible conditional box
+        // ── Helper: show inline field error ──────────────
+        function showFieldError(fieldId, errorMessage) {
+          var errorElement = document.getElementById(fieldId + '-err');
+          if (errorElement) {
+            errorElement.textContent = errorMessage;
+            errorElement.style.display = 'block';
+          }
+          var inputElement = document.getElementById(fieldId);
+          if (inputElement) inputElement.style.borderColor = '#E53E3E';
+        }
+
+        // ── Helper: clear inline field error ─────────────
+        function clearFieldError(fieldId) {
+          var errorElement = document.getElementById(fieldId + '-err');
+          if (errorElement) errorElement.style.display = 'none';
+          var inputElement = document.getElementById(fieldId);
+          if (inputElement) inputElement.style.borderColor = '';
+        }
+
+        // ── Collect all form field values ─────────────────
+        var fullName       = getFieldValue('c-name');
+        var email          = getFieldValue('c-email');
+        var phone          = getFieldValue('c-phone');
+        var organization   = getFieldValue('c-org');
+        var serviceType    = getFieldValue('c-service');
+        // The modal's required free-text field holds the brief;
+        // it is the only existing store for project scope.
+        var projectScope   = getFieldValue('c-extra');
+
+        // ── Collect optional conditional detail answers ───
+        // Selected pills and free-text answers from the
+        // visible conditional boxes become additional info.
         var details = [];
-        document.querySelectorAll(".cond-box.visible").forEach(function (box) {
-          box.querySelectorAll(".radio-opt.selected").forEach(function (opt) {
+        document.querySelectorAll('.cond-box.visible').forEach(function (box) {
+          box.querySelectorAll('.radio-opt.selected').forEach(function (opt) {
             details.push(opt.textContent.trim());
           });
           box
-            .querySelectorAll("textarea,input[type=text]")
+            .querySelectorAll('textarea,input[type=text]')
             .forEach(function (inp) {
               if (inp.value.trim()) details.push(inp.value.trim());
             });
         });
+        var additionalInfo = details.length
+          ? details.join(', ')
+          : null;
 
-        // Build payload for Formspree
-        var serviceLabels = {
-          "digital-marketing": "Digital Marketing",
-          "brand-design": "Product and Brand Design",
-          website: "Website Creation",
-          "product-management": "Product Management Support",
-          content: "Content Production",
-          community: "Community Building and Management",
-          strategy: "Digital Strategy and Consulting",
-          data: "Data and Analytics Support",
-          other: "Something Else",
-        };
+        // ── Clear required field errors before revalidating
+        ['c-name', 'c-email', 'c-service', 'c-extra'].forEach(function (fieldId) {
+          clearFieldError(fieldId);
+        });
 
-        var payload = {
-          name: name,
-          email: email,
-          phone: phone,
-          organisation: org || "Not provided",
-          service: serviceLabels[service] || service,
-          service_details: details.length
-            ? details.join(", ")
-            : "None selected",
-          extra_notes: extra,
-        };
+        // ── Client-side validation ────────────────────────
+        var formIsValid = true;
 
-        var btn = document.querySelector(".m-submit");
-        btn.disabled = true;
-        btn.textContent = "Sending...";
+        if (!fullName) {
+          showFieldError('c-name', 'Please enter your full name.');
+          formIsValid = false;
+        }
 
-        // =============================================================
-        // FORMSPREE SETUP:
-        // 1. Go to formspree.io and create a free account
-        // 2. Create a new form and copy the form endpoint URL
-        // 3. Replace YOUR_FORMSPREE_ENDPOINT below with that URL
-        //    It will look like: https://formspree.io/f/xxxxxxxx
-        // =============================================================
-        fetch("https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(payload),
-        })
-          .then(function (res) {
-            if (res.ok) {
-              document.getElementById("consultForm").style.display = "none";
-              document.getElementById("consultSuccess").style.display = "block";
-            } else {
-              alert(
-                "Something went wrong. Please try again or reach out directly at hello@technuvate.com",
-              );
-              btn.disabled = false;
-              btn.textContent = "Send Brief →";
-            }
+        if (!email || email.indexOf('@') < 0 || email.indexOf('.') < 0) {
+          showFieldError('c-email', 'Please enter a valid email address.');
+          formIsValid = false;
+        }
+
+        if (!serviceType) {
+          showFieldError('c-service', 'Please select a service type.');
+          formIsValid = false;
+        }
+
+        if (!projectScope) {
+          showFieldError('c-extra', 'Please describe your project.');
+          formIsValid = false;
+        }
+
+        if (!formIsValid) {
+          var modalContainer = document.getElementById('consultForm');
+          if (modalContainer) modalContainer.scrollTop = 0;
+          return;
+        }
+
+        // ── Disable button and show loading state ─────────
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = 'Sending...';
+        }
+
+        // ── Call studio-inquiry Netlify function ──────────
+        fetch(window.location.origin + '/.netlify/functions/studio-inquiry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            full_name:       fullName,
+            email:           email,
+            phone:           phone          || null,
+            organization:    organization   || null,
+            service_type:    serviceType,
+            project_scope:   projectScope,
+            additional_info: additionalInfo || null
           })
-          .catch(function () {
-            alert(
-              "Could not send your brief. Please check your internet connection and try again.",
-            );
-            btn.disabled = false;
-            btn.textContent = "Send Brief →";
+        })
+        .then(function (response) {
+          return response.json().then(function (responseBody) {
+            return {
+              requestSucceeded: response.ok,
+              statusCode:       response.status,
+              body:             responseBody
+            };
           });
+        })
+        .then(function (result) {
+          if (result.requestSucceeded && result.body.success) {
+            var formContainer  = document.getElementById('consultForm');
+            var successState   = document.getElementById('consultSuccess');
+            if (formContainer) formContainer.style.display = 'none';
+            if (successState)  successState.style.display  = 'block';
+          } else {
+            throw new Error(result.body.error || 'Submission failed');
+          }
+        })
+        .catch(function (submissionError) {
+          console.error('Studio inquiry submission error:', submissionError);
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Send Brief →';
+          }
+          showFwToast(
+            'Something went wrong. Please try again or contact us at hello@technuvate.com',
+            'error'
+          );
+        });
       }
     </script>
   </body>
