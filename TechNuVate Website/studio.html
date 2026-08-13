@@ -2498,27 +2498,27 @@
               >
               <select class="m-fsel" id="c-service" onchange="handleService()">
                 <option value="">Choose a service</option>
-                <option value="digital-marketing">Digital Marketing</option>
-                <option value="brand-design">Product and Brand Design</option>
-                <option value="website">Website Creation</option>
-                <option value="product-management">
+                <option value="Digital Marketing">Digital Marketing</option>
+                <option value="Product and Brand Design">Product and Brand Design</option>
+                <option value="Website Creation">Website Creation</option>
+                <option value="Product Management Support">
                   Product Management Support
                 </option>
-                <option value="content">Content Production</option>
-                <option value="community">
+                <option value="Content Production">Content Production</option>
+                <option value="Community Building and Management">
                   Community Building and Management
                 </option>
-                <option value="strategy">
+                <option value="Digital Strategy and Consulting">
                   Digital Strategy and Consulting
                 </option>
-                <option value="data">Data and Analytics Support</option>
-                <option value="team-training">
+                <option value="Data and Analytics Support">Data and Analytics Support</option>
+                <option value="Team Training &amp; Business Structure">
                   Team Training &amp; Business Structure
                 </option>
-                <option value="branding-merch">
+                <option value="Branding &amp; Merchandise Production">
                   Branding &amp; Merchandise Production
                 </option>
-                <option value="other">Something Else</option>
+                <option value="Something Else">Something Else</option>
               </select>
             </div>
 
@@ -3263,11 +3263,22 @@
 
       function handleService() {
         var val = document.getElementById("c-service").value;
+        var condBoxIds = {
+          "Digital Marketing": "cond-digital-marketing",
+          "Product and Brand Design": "cond-brand-design",
+          "Website Creation": "cond-website",
+          "Product Management Support": "cond-product-management",
+          "Content Production": "cond-content",
+          "Community Building and Management": "cond-community",
+          "Digital Strategy and Consulting": "cond-strategy",
+          "Data and Analytics Support": "cond-data",
+          "Something Else": "cond-other"
+        };
         document.querySelectorAll(".cond-box").forEach(function (b) {
           b.classList.remove("visible");
         });
         if (val) {
-          var box = document.getElementById("cond-" + val);
+          var box = document.getElementById(condBoxIds[val]);
           if (box) box.classList.add("visible");
         }
       }

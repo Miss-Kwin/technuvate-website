@@ -14,15 +14,17 @@ const CORS_HEADERS = {
 };
 
 const VALID_SERVICE_TYPES = [
-  'Video Production',
-  'Photography',
-  'Graphic Design',
-  'Brand Identity',
-  'Social Media Content',
-  'Podcast Production',
-  'Animation',
-  'Web Design',
-  'Other'
+  'Digital Marketing',
+  'Product and Brand Design',
+  'Website Creation',
+  'Product Management Support',
+  'Content Production',
+  'Community Building and Management',
+  'Digital Strategy and Consulting',
+  'Data and Analytics Support',
+  'Team Training & Business Structure',
+  'Branding & Merchandise Production',
+  'Something Else'
 ];
 
 const VALID_BUDGET_RANGES = [
@@ -84,8 +86,6 @@ exports.handler = async function (event) {
     validationErrors.push('A valid email address is required.');
   if (!serviceType || !VALID_SERVICE_TYPES.includes(serviceType))
     validationErrors.push('A valid service type is required.');
-  if (!projectScope)
-    validationErrors.push('Project scope description is required.');
   if (budgetRange && !VALID_BUDGET_RANGES.includes(budgetRange))
     validationErrors.push('Invalid budget range selected.');
   if (timeline && !VALID_TIMELINES.includes(timeline))
@@ -109,7 +109,7 @@ exports.handler = async function (event) {
     phone:           phone,
     organization:    organization,
     service_type:    serviceType,
-    project_scope:   projectScope,
+    project_scope:   projectScope || null,
     budget_range:    budgetRange,
     timeline:        timeline,
     additional_info: additionalInfo,
