@@ -779,6 +779,43 @@
           font-size: 12px;
         }
       }
+      .fw-toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: #ffffff;
+        color: #1B3A7A;
+        font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        padding: 14px 24px;
+        border-radius: 10px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        z-index: 99999;
+        max-width: 420px;
+        width: calc(100% - 48px);
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+      }
+      .fw-toast.fw-toast-error {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-success {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
+      }
     </style>
     <link rel="icon" type="image/png" href="favicon.png">
   </head>
@@ -1899,135 +1936,6 @@
     <script>
       const FORMSPREE = "YOUR_FORMSPREE_ENDPOINT"; // no longer used
 
-      // ── Supabase config ──────────────────────────────────────────
-      var SB_URL = "https://xnynghnhbeyeowcibuvz.supabase.co";
-      var RESEND_KEY = "re_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd";
-      var ADMIN_EMAIL = "labs@technuvate.com"; // IT placement notifications go here
-      var SB_KEY = "sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY";
-
-      // Send email via Resend
-      function sendEmail(toAddress, subject, htmlBody) {
-        if (
-          !RESEND_KEY ||
-          RESEND_KEY === "re_WYaiVo17_MSJBPPHTjwDNvDbeHmAfXqQd"
-        )
-          return;
-        fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + RESEND_KEY,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            from: "TechNuVate Labs <labs@technuvate.com>",
-            to: [toAddress],
-            subject: subject,
-            html: htmlBody,
-          }),
-        }).catch(function (e) {
-          console.error("Resend error:", e);
-        });
-      }
-
-      function buildLabsITAdminEmail(d) {
-        return (
-          '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">' +
-          '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">' +
-          '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">' +
-          "</div>" +
-          '<div style="background:#1B3A7A;padding:24px 32px">' +
-          '<h2 style="color:#fff;margin:0;font-size:20px">&#127979; New IT Placement Application</h2>' +
-          '<p style="color:rgba(255,255,255,.6);margin:6px 0 0;font-size:13px">Action required &mdash; review and respond within 48 hours</p></div>' +
-          '<div style="padding:28px 32px;background:#FFF7ED;border-left:4px solid #F59E0B">' +
-          '<p style="margin:0;font-size:13px;font-weight:600;color:#B45309">&#9888; This student is waiting for your response. Follow up quickly.</p></div>' +
-          '<div style="padding:28px 32px;background:#F5F7FA">' +
-          '<table style="width:100%;border-collapse:collapse">' +
-          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px;width:140px">Name</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:600">' +
-          d.full_name +
-          "</td></tr>" +
-          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Email</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' +
-          d.email +
-          "</td></tr>" +
-          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Phone</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' +
-          d.phone +
-          "</td></tr>" +
-          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">University</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:700;color:#1B3A7A">' +
-          (d.university || "Not provided") +
-          "</td></tr>" +
-          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Department</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' +
-          (d.department || "Not provided") +
-          "</td></tr>" +
-          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">IT Duration</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px;font-weight:700">' +
-          (d.it_duration || "Not provided") +
-          "</td></tr>" +
-          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Start Date</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' +
-          (d.start_date || "Not provided") +
-          "</td></tr>" +
-          '<tr><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;color:#8A9AB0;font-size:13px">Skill Interest</td><td style="padding:10px 0;border-bottom:1px solid #E4E8F0;font-size:14px">' +
-          (d.skill_interest || "Not provided") +
-          "</td></tr>" +
-          '<tr><td style="padding:10px 0;color:#8A9AB0;font-size:13px">Motivation</td><td style="padding:10px 0;font-size:13px;color:#374151">' +
-          (d.motivation || "Not provided") +
-          "</td></tr>" +
-          "</table></div>" +
-          '<div style="padding:20px 32px;text-align:center;background:#fff"><p style="font-size:12px;color:#8A9AB0;margin:0">TechNuVate Labs &mdash; IT Placement Application</p></div></div>'
-        );
-      }
-
-      function buildLabsITStudentEmail(d) {
-        return (
-          '<div style="font-family:sans-serif;max-width:600px;margin:0 auto;border:1px solid #eee;background:#fff;">' +
-          '<div style="padding:16px 32px;text-align:center;border-bottom:1px solid #eee;">' +
-          '<img src="https://technuvate.netlify.app/TechNuVate_Logo.png" style="height:40px;width:auto;" alt="TechNuVate">' +
-          "</div>" +
-          '<div style="background:#1B3A7A;padding:32px;text-align:center">' +
-          '<h1 style="color:#fff;margin:0;font-size:24px">Application received &#9989;</h1>' +
-          '<p style="color:rgba(255,255,255,.6);margin:8px 0 0;font-size:14px">TechNuVate Labs &mdash; IT Placement</p></div>' +
-          '<div style="padding:32px;background:#F5F7FA">' +
-          '<p style="font-size:15px;color:#111827;line-height:1.7">Hi <strong>' +
-          d.full_name.split(" ")[0] +
-          "</strong>,</p>" +
-          '<p style="font-size:14px;color:#6B7280;line-height:1.75">We have received your IT placement application. Our team will review it and get back to you within <strong style="color:#111827">48 to 72 hours</strong>.</p>' +
-          '<div style="background:#fff;border:1px solid #E4E8F0;border-radius:12px;padding:20px;margin:20px 0">' +
-          '<p style="margin:0 0 10px;font-size:13px;font-weight:700;color:#374151">What happens next?</p>' +
-          '<p style="margin:0 0 8px;font-size:13px;color:#6B7280;line-height:1.65">&#8226; We review your application for eligibility</p>' +
-          '<p style="margin:0 0 8px;font-size:13px;color:#6B7280;line-height:1.65">&#8226; If accepted, we send you a confirmation with payment details</p>' +
-          '<p style="margin:0;font-size:13px;color:#6B7280;line-height:1.65">&#8226; After payment, your placement is confirmed and onboarding begins</p></div>' +
-          '<p style="font-size:13px;color:#6B7280">Questions? Email <a href="mailto:hello@technuvate.com" style="color:#1B3A7A">hello@technuvate.com</a></p></div>' +
-          '<div style="padding:20px 32px;text-align:center;background:#fff"><p style="font-size:12px;color:#8A9AB0;margin:0">TechNuVate &mdash; Learn. Build. Execute.</p></div></div>'
-        );
-      }
-
-      function saveToSupabase(table, data, onSuccess, onFail) {
-        if (SB_URL === "https://xnynghnhbeyeowcibuvz.supabase.co") {
-          // Supabase not yet configured — skip silently, show success anyway
-          if (onSuccess) onSuccess();
-          return;
-        }
-        fetch(SB_URL + "/rest/v1/" + table, {
-          method: "POST",
-          headers: {
-            apikey: SB_KEY,
-            Authorization: "Bearer " + SB_KEY,
-            "Content-Type": "application/json",
-            Prefer: "return=minimal",
-          },
-          body: JSON.stringify(data),
-        })
-          .then(function (r) {
-            if (r.ok) {
-              if (onSuccess) onSuccess();
-            } else {
-              console.error("Supabase save failed:", r.status);
-              if (onFail) onFail();
-            }
-          })
-          .catch(function (e) {
-            console.error("Supabase error:", e);
-            if (onFail) onFail();
-          });
-      }
-
       const FW_PUBLIC_KEY = "FLUTTERWAVE_PUBLIC_KEY_HERE";
 
       function toggleMenu() {
@@ -2134,164 +2042,316 @@
           });
       });
 
-      function submitForm() {
-        var ok = true;
-        if (!val("gender")) {
-          showErr("gender", "Please select your gender.");
-          ok = false;
-        } else clearErr("gender");
-        if (!val("age")) {
-          showErr("age", "Please select your age range.");
-          ok = false;
-        } else clearErr("age");
-        // Other state name
-        if (
-          document.getElementById("state").value === "Other" &&
-          !val("other-state-name")
-        ) {
-          showErr("other-state-name", "Please enter your state name.");
-          ok = false;
-        } else clearErr("other-state-name");
-        // Course other
-        if (val("course") === "Other" && !val("course-other-input")) {
-          showErr("course-other-input", "Please enter your course of study.");
-          ok = false;
-        } else clearErr("course-other-input");
-        // Level other
-        if (val("level") === "Other" && !val("level-other-input")) {
-          showErr("level-other-input", "Please enter your current level.");
-          ok = false;
-        } else clearErr("level-other-input");
-
-        var required = [
-          ["fullname", "Please enter your full name."],
-          ["state", "Please select your state."],
-          ["city", "Please enter your city."],
-          ["institution", "Please enter your school name."],
-          ["institution-type", "Please select your institution type."],
-          ["course", "Please select your course."],
-          ["level", "Please select your current level."],
-          ["it-start", "Please select your IT start date."],
-          ["it-duration", "Please select your IT duration."],
-          ["strength", "Please tell us what you are naturally good at."],
-          ["people-comfort", "Please select your comfort level."],
-          ["motivation", "Please tell us why you want to join."],
-          [
-            "digital-skill",
-            "Please tell us what tools or platforms you are familiar with.",
-          ],
-        ];
-        // Email check
-        var em = val("email");
-        if (!em || !/^[^@]+@[^@]+\.[^@]+$/.test(em)) {
-          showErr("email", "Please enter a valid email address.");
-          ok = false;
-        } else clearErr("email");
-        if (!val("phone")) {
-          showErr("phone", "Please enter your WhatsApp number.");
-          ok = false;
-        } else clearErr("phone");
-
-        required.forEach(function (r) {
-          if (!val(r[0])) {
-            showErr(r[0], r[1]);
-            ok = false;
-          } else clearErr(r[0]);
+      function showFwToast(message, type) {
+        var existingToast = document.getElementById('fw-toast-el');
+        if (existingToast) existingToast.remove();
+        var toastElement = document.createElement('div');
+        toastElement.id = 'fw-toast-el';
+        toastElement.className = 'fw-toast' +
+          (type === 'error'   ? ' fw-toast-error'   :
+           type === 'success' ? ' fw-toast-success'  : '');
+        toastElement.textContent = message;
+        document.body.appendChild(toastElement);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            toastElement.classList.add('fw-toast-visible');
+          });
         });
-        // Document uploads
-        if (!document.getElementById("doc-it-letter").files.length) {
-          showErr("doc-it-letter", "Please upload your IT request letter.");
-          ok = false;
-        } else clearErr("doc-it-letter");
-        if (!document.getElementById("doc-id").files.length) {
-          showErr(
-            "doc-id",
-            "Please upload your school ID or admission letter.",
-          );
-          ok = false;
-        } else clearErr("doc-id");
-        if (!document.getElementById("doc-passport").files.length) {
-          showErr("doc-passport", "Please upload your passport photograph.");
-          ok = false;
-        } else clearErr("doc-passport");
-        // Double-check all required fields have been touched
-        if (!ok) {
-          var errEl = document.querySelector(
-            '.err[style*="block"], .fi.invalid',
-          );
-          if (errEl) {
-            errEl.scrollIntoView({ behavior: "smooth", block: "center" });
-          } else {
-            window.scrollTo({ top: 0, behavior: "smooth" });
+        setTimeout(function () {
+          toastElement.classList.remove('fw-toast-visible');
+          setTimeout(function () {
+            if (toastElement.parentNode) {
+              toastElement.parentNode.removeChild(toastElement);
+            }
+          }, 350);
+        }, 6000);
+      }
+
+      function uploadToCloudinary(fileObject, uploadPreset, cloudName) {
+        return new Promise(function (resolve, reject) {
+          if (!fileObject) {
+            reject(new Error('No file provided for upload.'));
+            return;
           }
+          var uploadFormData = new FormData();
+          uploadFormData.append('file', fileObject);
+          uploadFormData.append('upload_preset', uploadPreset);
+          fetch(
+            'https://api.cloudinary.com/v1_1/' + cloudName + '/auto/upload',
+            {
+              method: 'POST',
+              body: uploadFormData
+            }
+          )
+          .then(function (cloudinaryResponse) {
+            if (!cloudinaryResponse.ok) {
+              return cloudinaryResponse.text().then(function (errorText) {
+                throw new Error('Cloudinary upload failed: ' + errorText);
+              });
+            }
+            return cloudinaryResponse.json();
+          })
+          .then(function (cloudinaryData) {
+            resolve(cloudinaryData.secure_url);
+          })
+          .catch(function (uploadError) {
+            reject(uploadError);
+          });
+        });
+      }
+
+      function submitForm() {
+        var submitButton  = document.getElementById('submitBtn');
+        var spinnerElement = document.getElementById('spinner');
+        var buttonTextElement = document.getElementById('btnText');
+
+        // ── Helper: get field value by id ─────────────────
+        function getFieldValue(fieldId) {
+          var element = document.getElementById(fieldId);
+          return element ? element.value.trim() : '';
+        }
+
+        // ── Commitment checkbox ───────────────────────────
+        var commitmentCheckbox = document.getElementById('commitCheck');
+        if (commitmentCheckbox && !commitmentCheckbox.checked) {
+          var commitmentError = document.getElementById('commitErr');
+          if (commitmentError) commitmentError.style.display = 'block';
           return;
         }
 
-        var btn = document.getElementById("submitBtn");
-        var spinner = document.getElementById("spinner");
-        var btnText = document.getElementById("btnText");
-        btn.disabled = true;
-        spinner.style.display = "block";
-        btnText.textContent = "Submitting...";
+        // ── Validate file uploads are selected ────────────
+        var itLetterFile    = document.getElementById('doc-it-letter').files[0];
+        var schoolIdFile    = document.getElementById('doc-id').files[0];
+        var passportFile    = document.getElementById('doc-passport').files[0];
 
-        var actualState =
-          val("state") === "Other" ? val("other-state-name") : val("state");
-        var actualLevel =
-          val("level") === "Other" ? val("level-other-input") : val("level");
-        var payload = {
-          full_name: val("fullname"),
-          email: val("email"),
-          phone: val("phone"),
-          gender: val("gender") || "",
-          university: val("university") || "",
-          department: val("department") || "",
-          level: val("level") || "",
-          matric_no: val("matric") || "",
-          it_duration: val("duration") || "",
-          start_date: val("start-date") || "",
-          skill_interest: val("skill") || "",
-          prior_skills: val("skills") || "",
-          motivation: val("motivation") || "",
-          linkedin: val("linkedin") || "",
-          country: val("country") || "Nigeria",
-          state_region: val("state") || "",
-        };
+        if (!itLetterFile) {
+          showFwToast('Please upload your IT request letter.', 'error');
+          return;
+        }
+        if (!schoolIdFile) {
+          showFwToast('Please upload your school ID or admission letter.', 'error');
+          return;
+        }
+        if (!passportFile) {
+          showFwToast('Please upload your passport photograph.', 'error');
+          return;
+        }
 
-        // Save IT application to Supabase and send emails
-        saveToSupabase(
-          "labs_it_applications",
-          payload,
-          function () {
-            sendEmail(
-              ADMIN_EMAIL,
-              "\uD83C\uDFEB IT Placement Application: " +
-                payload.full_name +
-                " (" +
-                (payload.university || "Unknown Uni") +
-                ")",
-              buildLabsITAdminEmail(payload),
-            );
-            sendEmail(
-              payload.email,
-              "We received your IT placement application \u2014 TechNuVate Labs",
-              buildLabsITStudentEmail(payload),
-            );
-            btn.disabled = false;
-            spinner.style.display = "none";
-            btnText.textContent = "Submit Application";
-            document.getElementById("formCard").style.display = "none";
-            document.getElementById("successCard").style.display = "block";
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          },
-          function () {
-            btn.disabled = false;
-            spinner.style.display = "none";
-            btnText.textContent = "Submit Application";
-            document.getElementById("formCard").style.display = "none";
-            document.getElementById("successCard").style.display = "block";
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          },
-        );
+        // ── Collect all form values ───────────────────────
+        var fullName         = getFieldValue('fullname');
+        var email            = getFieldValue('email');
+        var phone            = getFieldValue('phone');
+        var gender           = getFieldValue('gender');
+        var ageRange         = getFieldValue('age');
+        var stateOfResidence = getFieldValue('state');
+        var city             = getFieldValue('city');
+        var schoolName       = getFieldValue('institution');
+        var institutionType  = getFieldValue('institution-type');
+        var courseOfStudy    = getFieldValue('course');
+        var currentLevel     = getFieldValue('level');
+        var itStartDate      = getFieldValue('it-start');
+        var itDuration       = getFieldValue('it-duration');
+        var supervisorName   = getFieldValue('supervisor');
+        var supervisorEmail  = getFieldValue('supervisor-email');
+        var naturalStrength  = getFieldValue('strength');
+        var peopleComfort    = getFieldValue('people-comfort');
+        var toolsFamiliar    = getFieldValue('digital-skill');
+        var whyTechnuvate    = getFieldValue('motivation');
+
+        // ── Currency based on country/context ────────────
+        var currency = 'NGN';
+
+        // ── Disable button and show uploading state ───────
+        if (submitButton)      submitButton.disabled = true;
+        if (spinnerElement)    spinnerElement.style.display = 'block';
+        if (buttonTextElement) buttonTextElement.textContent = 'Uploading documents...';
+
+        // ── Step 1: Upload all three files to Cloudinary ──
+        var cloudinaryCloudName  = window.APP_ENV.CLOUDINARY_CLOUD_NAME;
+        var cloudinaryUploadPreset = window.APP_ENV.CLOUDINARY_UPLOAD_PRESET;
+
+        // Hoisted to this scope so the Flutterwave callback closure can read them
+        var itLetterUrl = '';
+        var schoolIdUrl = '';
+        var passportUrl = '';
+
+        Promise.all([
+          uploadToCloudinary(itLetterFile,  cloudinaryUploadPreset, cloudinaryCloudName),
+          uploadToCloudinary(schoolIdFile,  cloudinaryUploadPreset, cloudinaryCloudName),
+          uploadToCloudinary(passportFile,  cloudinaryUploadPreset, cloudinaryCloudName)
+        ])
+        .then(function (uploadedUrls) {
+          itLetterUrl = uploadedUrls[0];
+          schoolIdUrl = uploadedUrls[1];
+          passportUrl = uploadedUrls[2];
+
+          if (buttonTextElement) buttonTextElement.textContent = 'Processing payment...';
+
+          // ── Step 2: Call labs-it Netlify function ───────
+          return fetch(window.location.origin + '/.netlify/functions/labs-it', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              full_name:            fullName,
+              email:                email,
+              phone:                phone,
+              gender:               gender,
+              age_range:            ageRange,
+              state_of_residence:   stateOfResidence,
+              city:                 city,
+              school_name:          schoolName,
+              institution_type:     institutionType,
+              course_of_study:      courseOfStudy,
+              current_level:        currentLevel,
+              it_start_date:        itStartDate,
+              it_duration:          itDuration,
+              supervisor_name:      supervisorName  || null,
+              supervisor_email:     supervisorEmail || null,
+              natural_strength:     naturalStrength,
+              people_comfort:       peopleComfort,
+              tools_familiar:       toolsFamiliar,
+              why_technuvate:       whyTechnuvate,
+              it_letter_url:        itLetterUrl,
+              school_id_url:        schoolIdUrl,
+              passport_url:         passportUrl,
+              commitment_confirmed: true,
+              currency:             currency
+            })
+          });
+        })
+        .then(function (labsItResponse) {
+          if (!labsItResponse.ok) throw new Error('Server error: ' + labsItResponse.status);
+          return labsItResponse.json();
+        })
+        .then(function (labsItData) {
+          if (!labsItData.success || !labsItData.flutterwaveConfig) {
+            throw new Error(labsItData.error || 'Invalid server response');
+          }
+
+          var flutterwaveConfig = labsItData.flutterwaveConfig;
+
+          if (buttonTextElement) buttonTextElement.textContent = 'Opening payment...';
+
+          // ── Step 3: Open Flutterwave checkout ───────────
+          try {
+            var flutterwaveCheckoutInstance = FlutterwaveCheckout({
+              public_key:      window.APP_ENV.FW_PUBLIC_KEY,
+              tx_ref:          flutterwaveConfig.tx_ref,
+              amount:          flutterwaveConfig.amount,
+              currency:        flutterwaveConfig.currency,
+              payment_options: flutterwaveConfig.payment_options,
+              customer:        flutterwaveConfig.customer,
+              meta:            flutterwaveConfig.meta,
+              customizations:  flutterwaveConfig.customizations,
+              callback: function (paymentResponse) {
+                if (
+                  paymentResponse.status === 'successful' ||
+                  paymentResponse.status === 'completed'
+                ) {
+                  if (submitButton)      submitButton.disabled = false;
+                  if (spinnerElement)    spinnerElement.style.display = 'none';
+                  if (buttonTextElement) buttonTextElement.textContent = 'Confirming...';
+
+                  // ── Step 4: Call verify-labs-it ─────────
+                  fetch(window.location.origin + '/.netlify/functions/verify-labs-it', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      flw_tx_ref:           flutterwaveConfig.tx_ref,
+                      flw_tx_id:            paymentResponse.transaction_id ||
+                                            paymentResponse.id ||
+                                            paymentResponse.flw_ref || '',
+                      amount:               flutterwaveConfig.amount,
+                      currency:             flutterwaveConfig.currency,
+                      full_name:            fullName,
+                      email:                email,
+                      phone:                phone,
+                      gender:               gender,
+                      age_range:            ageRange,
+                      state_of_residence:   stateOfResidence,
+                      city:                 city,
+                      school_name:          schoolName,
+                      institution_type:     institutionType,
+                      course_of_study:      courseOfStudy,
+                      current_level:        currentLevel,
+                      it_start_date:        itStartDate,
+                      it_duration:          itDuration,
+                      supervisor_name:      supervisorName  || null,
+                      supervisor_email:     supervisorEmail || null,
+                      natural_strength:     naturalStrength,
+                      people_comfort:       peopleComfort,
+                      tools_familiar:       toolsFamiliar,
+                      why_technuvate:       whyTechnuvate,
+                      it_letter_url:        itLetterUrl,
+                      school_id_url:        schoolIdUrl,
+                      passport_url:         passportUrl,
+                      commitment_confirmed: true
+                    })
+                  })
+                  .then(function (verifyResponse) {
+                    if (!verifyResponse.ok)
+                      throw new Error('Verification failed: ' + verifyResponse.status);
+                    return verifyResponse.json();
+                  })
+                  .then(function (verifyData) {
+                    if (verifyData.success) {
+                      setTimeout(function () {
+                        flutterwaveCheckoutInstance.close();
+                        document.getElementById('formCard').style.display = 'none';
+                        document.getElementById('successCard').style.display = 'block';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }, 300);
+                    } else {
+                      throw new Error(verifyData.error || 'Verification returned false');
+                    }
+                  })
+                  .catch(function (verificationError) {
+                    console.error('Labs IT verification error:', verificationError);
+                    setTimeout(function () {
+                      flutterwaveCheckoutInstance.close();
+                    }, 300);
+                    setTimeout(function () {
+                      showFwToast(
+                        'Your payment was received. We will confirm your application shortly. Reference: ' +
+                          flutterwaveConfig.tx_ref,
+                        'error'
+                      );
+                      if (buttonTextElement)
+                        buttonTextElement.textContent = 'Confirm and Pay';
+                    }, 350);
+                  });
+
+                } else {
+                  if (submitButton)      submitButton.disabled = false;
+                  if (spinnerElement)    spinnerElement.style.display = 'none';
+                  if (buttonTextElement) buttonTextElement.textContent = 'Confirm and Pay';
+                  showFwToast('Payment was not completed. Please try again.', 'error');
+                }
+              },
+              onclose: function () {
+                if (submitButton)      submitButton.disabled = false;
+                if (spinnerElement)    spinnerElement.style.display = 'none';
+                if (buttonTextElement) buttonTextElement.textContent = 'Confirm and Pay';
+              }
+            });
+          } catch (flutterwaveError) {
+            console.error('FlutterwaveCheckout init error:', flutterwaveError);
+            if (submitButton)      submitButton.disabled = false;
+            if (spinnerElement)    spinnerElement.style.display = 'none';
+            if (buttonTextElement) buttonTextElement.textContent = 'Confirm and Pay';
+            showFwToast('Something went wrong opening payment. Please try again.', 'error');
+          }
+        })
+        .catch(function (topLevelError) {
+          console.error('Labs IT submission error:', topLevelError);
+          if (submitButton)      submitButton.disabled = false;
+          if (spinnerElement)    spinnerElement.style.display = 'none';
+          if (buttonTextElement) buttonTextElement.textContent = 'Confirm and Pay';
+          showFwToast(
+            'Something went wrong. Please check your connection and try again.',
+            'error'
+          );
+        });
       }
     </script>
 
