@@ -1679,7 +1679,21 @@
       document.getElementById('m-network-other-box').style.display = v === 'Other' ? 'block' : 'none';
       if (v !== 'Other') { var el = document.getElementById('m-network-other'); if (el) el.value = ''; }
     }
-    function toggleMenu() { var m = document.getElementById('mobMenu'); var b = document.getElementById('hamBtn'); m.classList.toggle('open'); var s = b.querySelectorAll('span'); if (m.classList.contains('open')) { s[0].style.transform = 'rotate(45deg) translate(5px,5px)'; s[1].style.opacity = '0'; s[2].style.transform = 'rotate(-45deg) translate(5px,-5px)'; } else { s[0].style.transform = ''; s[1].style.opacity = ''; s[2].style.transform = ''; } }
+      function toggleMenu() {
+        var m = document.getElementById("mobMenu");
+        var b = document.getElementById("hamBtn");
+        m.classList.toggle("open");
+        var s = b.querySelectorAll("span");
+        if (m.classList.contains("open")) {
+          s[0].style.transform = "rotate(45deg) translate(5px,5px)";
+          s[1].style.opacity = "0";
+          s[2].style.transform = "rotate(-45deg) translate(5px,-5px)";
+        } else {
+          s[0].style.transform = "";
+          s[1].style.opacity = "";
+          s[2].style.transform = "";
+        }
+      }
     document.addEventListener('click', function (e) { var m = document.getElementById('mobMenu'); var b = document.getElementById('hamBtn'); if (m && m.classList.contains('open') && !m.contains(e.target) && !b.contains(e.target)) toggleMenu(); });
     function gv(id) { return document.getElementById(id).value.trim(); }
     function se(id, msg) { var e = document.getElementById(id + '-err'); if (e) { e.textContent = msg; e.style.display = 'block'; } var f = document.getElementById(id); if (f) f.style.borderColor = '#E53E3E'; }
