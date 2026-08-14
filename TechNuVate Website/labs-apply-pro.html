@@ -1,1394 +1,2005 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <title>Apply for Labs Professional Track | TechNuVate</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box
+        }
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <title>Apply for Labs Professional Track | TechNuVate</title>
-  <style>
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box
-    }
+        html {
+          scroll-behavior: smooth
+        }
 
-    html {
-      scroll-behavior: smooth
-    }
+        body {
+          font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+          color: #111827;
+          background: #F2F4F8;
+          overflow-x: hidden;
+          -webkit-text-size-adjust: 100%
+        }
 
-    body {
-      font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-      color: #111827;
-      background: #F2F4F8;
-      overflow-x: hidden;
-      -webkit-text-size-adjust: 100%
-    }
+        img {
+          max-width: 100%;
+          display: block
+        }
 
-    img {
-      max-width: 100%;
-      display: block
-    }
+        a {
+          -webkit-tap-highlight-color: transparent
+        }
 
-    a {
-      -webkit-tap-highlight-color: transparent
-    }
+        nav {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 999;
+          height: 66px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 5%;
+          background: #fff;
+          border-bottom: 1px solid #E4E8F0;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, .05)
+        }
 
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 999;
-      height: 66px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 5%;
-      background: #fff;
-      border-bottom: 1px solid #E4E8F0;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, .05)
-    }
+        .nav-logo img {
+          height: 58px;
+          width: auto
+        }
 
-    .nav-logo img {
-      height: 58px;
-      width: auto
-    }
+        .nav-right {
+          display: flex;
+          align-items: center;
+          gap: 4px
+        }
 
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 4px
-    }
+        .nav-item {
+          position: relative
+        }
 
-    .nav-item {
-      position: relative
-    }
+        .nav-item-btn {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          font-size: 14px;
+          font-weight: 500;
+          color: #374151;
+          padding: 8px 12px;
+          border-radius: 6px;
+          cursor: pointer;
+          border: none;
+          background: transparent;
+          transition: background .2s, color .2s;
+          white-space: nowrap;
+          font-family: inherit
+        }
 
-    .nav-item-btn {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      border: none;
-      background: transparent;
-      transition: background .2s, color .2s;
-      white-space: nowrap;
-      font-family: inherit
-    }
+        .nav-item-btn:hover {
+          background: #F2F4F8;
+          color: #1B3A7A
+        }
 
-    .nav-item-btn:hover {
-      background: #F2F4F8;
-      color: #1B3A7A
-    }
+        .nav-arrow {
+          font-size: 10px;
+          transition: transform .2s
+        }
 
-    .nav-arrow {
-      font-size: 10px;
-      transition: transform .2s
-    }
+        .nav-item:hover .nav-arrow {
+          transform: rotate(180deg)
+        }
 
-    .nav-item:hover .nav-arrow {
-      transform: rotate(180deg)
-    }
+        .nav-dropdown {
+          position: absolute;
+          top: calc(100% + 8px);
+          left: 0;
+          background: #fff;
+          border: 1px solid #E4E8F0;
+          border-radius: 10px;
+          box-shadow: 0 8px 28px rgba(0, 0, 0, .1);
+          min-width: 190px;
+          padding: 6px;
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-6px);
+          transition: opacity .2s, visibility .2s, transform .2s;
+          z-index: 1000
+        }
 
-    .nav-dropdown {
-      position: absolute;
-      top: calc(100% + 8px);
-      left: 0;
-      background: #fff;
-      border: 1px solid #E4E8F0;
-      border-radius: 10px;
-      box-shadow: 0 8px 28px rgba(0, 0, 0, .1);
-      min-width: 190px;
-      padding: 6px;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-6px);
-      transition: opacity .2s, visibility .2s, transform .2s;
-      z-index: 1000
-    }
+        .nav-item:hover .nav-dropdown {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0)
+        }
 
-    .nav-item:hover .nav-dropdown {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0)
-    }
+        .nav-dropdown a {
+          display: block;
+          padding: 10px 14px;
+          font-size: 13.5px;
+          font-weight: 500;
+          color: #374151;
+          text-decoration: none;
+          border-radius: 7px;
+          transition: background .15s, color .15s
+        }
 
-    .nav-dropdown a {
-      display: block;
-      padding: 10px 14px;
-      font-size: 13.5px;
-      font-weight: 500;
-      color: #374151;
-      text-decoration: none;
-      border-radius: 7px;
-      transition: background .15s, color .15s
-    }
+        .nav-dropdown a:hover {
+          background: #F2F4F8;
+          color: #1B3A7A
+        }
 
-    .nav-dropdown a:hover {
-      background: #F2F4F8;
-      color: #1B3A7A
-    }
+        .nav-btn {
+          font-size: 13px;
+          font-weight: 700;
+          color: #fff;
+          text-decoration: none;
+          padding: 10px 20px;
+          border-radius: 7px;
+          background: #1B3A7A;
+          white-space: nowrap;
+          transition: background .2s;
+          margin-left: 6px
+        }
 
-    .nav-btn {
-      font-size: 13px;
-      font-weight: 700;
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 7px;
-      background: #1B3A7A;
-      white-space: nowrap;
-      transition: background .2s;
-      margin-left: 6px
-    }
+        .nav-btn:hover {
+          background: #0F2554
+        }
 
-    .nav-btn:hover {
-      background: #0F2554
-    }
+        .ham {
+          display: none;
+          flex-direction: column;
+          gap: 5px;
+          cursor: pointer;
+          padding: 8px;
+          background: transparent;
+          border: none;
+          margin-left: 4px
+        }
 
-    .ham {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      padding: 8px;
-      background: transparent;
-      border: none;
-      margin-left: 4px
-    }
+        .ham span {
+          display: block;
+          width: 22px;
+          height: 2px;
+          background: #374151;
+          border-radius: 2px;
+          transition: all .3s
+        }
 
-    .ham span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: #374151;
-      border-radius: 2px;
-      transition: all .3s
-    }
+        .mob-menu {
+          display: none;
+          position: fixed;
+          top: 66px;
+          left: 0;
+          right: 0;
+          background: #fff;
+          border-bottom: 1px solid #E4E8F0;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
+          z-index: 998;
+          padding: 12px 5% 20px
+        }
 
-    .mob-menu {
-      display: none;
-      position: fixed;
-      top: 66px;
-      left: 0;
-      right: 0;
-      background: #fff;
-      border-bottom: 1px solid #E4E8F0;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
-      z-index: 998;
-      padding: 12px 5% 20px
-    }
+        .mob-menu.open {
+          display: block
+        }
 
-    .mob-menu.open {
-      display: block
-    }
+        .mob-section {
+          margin-bottom: 16px
+        }
 
-    .mob-section {
-      margin-bottom: 16px
-    }
+        .mob-section-title {
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: .15em;
+          text-transform: uppercase;
+          color: #8A9AB0;
+          padding: 8px 0 6px;
+          border-bottom: 1px solid #F2F4F8;
+          margin-bottom: 6px
+        }
 
-    .mob-section-title {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .15em;
-      text-transform: uppercase;
-      color: #8A9AB0;
-      padding: 8px 0 6px;
-      border-bottom: 1px solid #F2F4F8;
-      margin-bottom: 6px
-    }
+        .mob-menu a {
+          display: block;
+          padding: 10px 0;
+          font-size: 14px;
+          font-weight: 500;
+          color: #374151;
+          text-decoration: none;
+          border-bottom: 1px solid #F2F4F8
+        }
 
-    .mob-menu a {
-      display: block;
-      padding: 10px 0;
-      font-size: 14px;
-      font-weight: 500;
-      color: #374151;
-      text-decoration: none;
-      border-bottom: 1px solid #F2F4F8
-    }
+        .mob-menu a:hover {
+          color: #1B3A7A
+        }
 
-    .mob-menu a:hover {
-      color: #1B3A7A
-    }
+        .mob-cta {
+          display: block;
+          margin-top: 14px;
+          background: #1B3A7A;
+          color: #fff !important;
+          font-size: 14px;
+          font-weight: 700;
+          padding: 13px;
+          border-radius: 8px;
+          text-align: center;
+          text-decoration: none
+        }
 
-    .mob-cta {
-      display: block;
-      margin-top: 14px;
-      background: #1B3A7A;
-      color: #fff !important;
-      font-size: 14px;
-      font-weight: 700;
-      padding: 13px;
-      border-radius: 8px;
-      text-align: center;
-      text-decoration: none
-    }
+        @media(max-width:700px) {
+          .nav-item {
+            display: none
+          }
 
-    @media(max-width:700px) {
-      .nav-item {
-        display: none
+          .nav-logo img {
+            height: 46px
+          }
+
+          .ham {
+            display: flex
+          }
+
+          .nav-btn {
+            display: none
+          }
+        }
+
+        .page-wrap {
+          max-width: 1060px;
+          margin: 0 auto;
+          padding: 100px 20px 60px
+        }
+
+        .breadcrumb {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 28px;
+          flex-wrap: wrap
+        }
+
+        .breadcrumb a {
+          font-size: 12px;
+          font-weight: 600;
+          color: #8A9AB0;
+          text-decoration: none
+        }
+
+        .breadcrumb a:hover {
+          color: #1B3A7A
+        }
+
+        .breadcrumb span {
+          font-size: 12px;
+          color: #CBD5E0
+        }
+
+        .breadcrumb-cur {
+          font-size: 12px;
+          font-weight: 600;
+          color: #374151
+        }
+
+        .layout {
+          display: grid;
+          grid-template-columns: 1fr 360px;
+          gap: 28px;
+          align-items: start
+        }
+
+        @media(max-width:860px) {
+          .layout {
+            grid-template-columns: 1fr
+          }
+        }
+
+        .card {
+          background: #fff;
+          border-radius: 16px;
+          padding: 32px;
+          border: 1px solid #E4E8F0;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, .04)
+        }
+
+        .card-title {
+          font-size: 22px;
+          font-weight: 800;
+          color: #111827;
+          letter-spacing: -.025em;
+          margin-bottom: 6px
+        }
+
+        .card-sub {
+          font-size: 14px;
+          font-weight: 300;
+          color: #6B7280;
+          line-height: 1.65;
+          margin-bottom: 28px
+        }
+
+        .divider {
+          height: 1px;
+          background: #F2F4F8;
+          margin: 24px 0
+        }
+
+        .fg {
+          margin-bottom: 18px
+        }
+
+        .fg label {
+          display: block;
+          font-size: 13px;
+          font-weight: 600;
+          color: #374151;
+          margin-bottom: 7px
+        }
+
+        .fg label span {
+          color: #E53E3E;
+          margin-left: 2px
+        }
+
+        .fi {
+          width: 100%;
+          padding: 12px 14px;
+          font-size: 14px;
+          font-family: inherit;
+          border: 1.5px solid #E4E8F0;
+          border-radius: 9px;
+          color: #111827;
+          background: #fff;
+          transition: border-color .2s, box-shadow .2s;
+          outline: none
+        }
+
+        .fi:focus {
+          border-color: #1B3A7A;
+          box-shadow: 0 0 0 3px rgba(27, 58, 122, .08)
+        }
+
+        .fi::placeholder {
+          color: #CBD5E0
+        }
+
+        select.fi {
+          cursor: pointer;
+          appearance: none;
+          -webkit-appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238A9AB0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 14px center
+        }
+
+        textarea.fi {
+          resize: vertical;
+          min-height: 100px;
+          line-height: 1.6
+        }
+
+        .row2 {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px
+        }
+
+        @media(max-width:500px) {
+          .row2 {
+            grid-template-columns: 1fr
+          }
+        }
+
+        .hint {
+          font-size: 12px;
+          font-weight: 300;
+          color: #8A9AB0;
+          margin-top: 5px;
+          line-height: 1.5
+        }
+
+        .err {
+          font-size: 12px;
+          color: #E53E3E;
+          margin-top: 4px;
+          display: none
+        }
+
+        .fi.invalid {
+          border-color: #E53E3E
+        }
+
+        .submit-btn {
+          width: 100%;
+          padding: 15px;
+          background: #1B3A7A;
+          color: #fff;
+          font-size: 15px;
+          font-weight: 700;
+          border: none;
+          border-radius: 10px;
+          cursor: pointer;
+          font-family: inherit;
+          transition: background .2s, transform .15s;
+          margin-top: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px
+        }
+
+        .submit-btn:hover {
+          background: #0F2554;
+          transform: translateY(-1px)
+        }
+
+        .submit-btn:disabled {
+          background: #8A9AB0;
+          cursor: not-allowed;
+          transform: none
+        }
+
+        @keyframes pulse-dot {
+
+          0%,
+          100% {
+            opacity: 1
+          }
+
+          50% {
+            opacity: .3
+          }
+        }
+
+        .spinner {
+          width: 18px;
+          height: 18px;
+          border: 2.5px solid rgba(255, 255, 255, .35);
+          border-top-color: #fff;
+          border-radius: 50%;
+          animation: spin .7s linear infinite;
+          display: none
+        }
+
+        @keyframes spin {
+          to {
+            transform: rotate(360deg)
+          }
+        }
+
+        .sidebar-card {
+          background: #fff;
+          border-radius: 16px;
+          padding: 24px;
+          border: 1px solid #E4E8F0;
+          box-shadow: 0 2px 12px rgba(0, 0, 0, .04);
+          position: sticky;
+          top: 86px
+        }
+
+        .s-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: .14em;
+          text-transform: uppercase;
+          padding: 5px 12px;
+          border-radius: 100px;
+          margin-bottom: 14px;
+          background: rgba(27, 58, 122, .08);
+          color: #1B3A7A
+        }
+
+        .s-title {
+          font-size: 17px;
+          font-weight: 800;
+          color: #111827;
+          margin-bottom: 4px;
+          letter-spacing: -.02em
+        }
+
+        .s-sub {
+          font-size: 13px;
+          font-weight: 300;
+          color: #8A9AB0;
+          margin-bottom: 18px;
+          line-height: 1.5
+        }
+
+        .meta-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 11px 0;
+          border-bottom: 1px solid #F2F4F8;
+          font-size: 13px
+        }
+
+        .meta-lbl {
+          font-weight: 400;
+          color: #8A9AB0
+        }
+
+        .meta-val {
+          font-weight: 600;
+          color: #111827;
+          text-align: right
+        }
+
+        .price-box {
+          background: #F2F4F8;
+          border-radius: 10px;
+          padding: 16px;
+          margin-top: 16px;
+          text-align: center
+        }
+
+        .price-n {
+          font-size: 32px;
+          font-weight: 800;
+          color: #1B3A7A;
+          letter-spacing: -.03em
+        }
+
+        .price-l {
+          font-size: 12px;
+          font-weight: 300;
+          color: #8A9AB0;
+          margin-top: 2px
+        }
+
+        .notice-box {
+          background: rgba(27, 58, 122, .05);
+          border: 1px solid rgba(27, 58, 122, .12);
+          border-radius: 10px;
+          padding: 14px;
+          margin-top: 16px;
+          font-size: 12px;
+          font-weight: 400;
+          color: #374151;
+          line-height: 1.65
+        }
+
+        .notice-box strong {
+          color: #1B3A7A
+        }
+
+        .success-wrap {
+          display: none;
+          text-align: center;
+          padding: 48px 32px
+        }
+
+        .success-ico {
+          width: 72px;
+          height: 72px;
+          background: #1B3A7A;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 20px;
+          font-size: 32px
+        }
+
+        .success-t {
+          font-size: 22px;
+          font-weight: 800;
+          color: #111827;
+          margin-bottom: 10px;
+          letter-spacing: -.02em
+        }
+
+        .success-s {
+          font-size: 14px;
+          font-weight: 300;
+          color: #6B7280;
+          line-height: 1.7;
+          max-width: 380px;
+          margin: 0 auto 28px
+        }
+
+        .next-steps {
+          background: #F2F4F8;
+          border-radius: 12px;
+          padding: 20px;
+          text-align: left
+        }
+
+        .next-step {
+          display: flex;
+          gap: 12px;
+          align-items: flex-start;
+          margin-bottom: 14px
+        }
+
+        .next-step:last-child {
+          margin-bottom: 0
+        }
+
+        .ns-dot {
+          width: 24px;
+          height: 24px;
+          min-width: 24px;
+          background: #1B3A7A;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 11px;
+          font-weight: 700;
+          color: #fff;
+          margin-top: 1px
+        }
+
+        .ns-t {
+          font-size: 13px;
+          font-weight: 600;
+          color: #111827;
+          margin-bottom: 2px
+        }
+
+        .ns-d {
+          font-size: 12px;
+          font-weight: 300;
+          color: #6B7280;
+          line-height: 1.55
+        }
+
+        /* ======== FOOTER ======== */
+        @media (max-width: 700px) {
+          .blog-events-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
+        footer {
+          background: #060c1a;
+          padding: 52px 5% 28px;
+        }
+
+        .fwrap {
+          max-width: 1100px;
+          margin: 0 auto;
+        }
+
+        .ftop {
+          display: grid;
+          grid-template-columns: 1.4fr 1fr 1fr;
+          gap: 32px;
+          padding-bottom: 32px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+          margin-bottom: 22px;
+        }
+
+        .flogo img {
+          height: 40px;
+          width: auto;
+          margin-bottom: 14px;
+        }
+
+        .fdesc {
+          font-size: 13px;
+          font-weight: 300;
+          color: rgba(255, 255, 255, 0.28);
+          line-height: 1.7;
+          max-width: 210px;
+        }
+          line-height: 1.7;
+          max-width: 210px;
+        }
+
+        .fc-t {
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, 0.2);
+          margin-bottom: 14px;
+        }
+
+        .flinks {
+          list-style: none;
+        }
+
+        .flinks li {
+          margin-bottom: 10px;
+        }
+
+        .flinks a {
+          font-size: 13px;
+          font-weight: 300;
+          color: rgba(255, 255, 255, 0.38);
+          text-decoration: none;
+          transition: color 0.2s;
+        }
+
+        .flinks a:hover {
+          color: rgba(255, 255, 255, 0.8);
+        }
+
+        .fbot {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .fcopy {
+          font-size: 12px;
+          color: rgba(255, 255, 255, 0.18);
+        }
+
+        .fsoc {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+
+        .fsoc a {
+          width: 36px;
+          height: 36px;
+          border-radius: 8px;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+          transition: background 0.2s;
+        }
+
+        .fsoc a:hover {
+          background: rgba(255, 255, 255, 0.14);
+        }
+
+        .fsoc svg {
+          width: 16px;
+          height: 16px;
+          fill: rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 860px) {
+          .ftop {
+            grid-template-columns: 1fr 1fr;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .ftop {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 700px) {
+          .exp-intro {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+        }
+
+      .fw-toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: #ffffff;
+        color: #1B3A7A;
+        font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        padding: 14px 24px;
+        border-radius: 10px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        z-index: 99999;
+        max-width: 420px;
+        width: calc(100% - 48px);
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
       }
-
-      .nav-logo img {
-        height: 46px
+      .fw-toast.fw-toast-error {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
       }
-
-      .ham {
-        display: flex
+      .fw-toast.fw-toast-success {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
       }
-
-      .nav-btn {
-        display: none
+      .fw-toast.fw-toast-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
       }
-    }
-
-    .page-wrap {
-      max-width: 1060px;
-      margin: 0 auto;
-      padding: 100px 20px 60px
-    }
-
-    .breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 28px;
-      flex-wrap: wrap
-    }
-
-    .breadcrumb a {
-      font-size: 12px;
-      font-weight: 600;
-      color: #8A9AB0;
-      text-decoration: none
-    }
-
-    .breadcrumb a:hover {
-      color: #1B3A7A
-    }
-
-    .breadcrumb span {
-      font-size: 12px;
-      color: #CBD5E0
-    }
-
-    .breadcrumb-cur {
-      font-size: 12px;
-      font-weight: 600;
-      color: #374151
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 28px;
-      align-items: start
-    }
-
-    @media(max-width:860px) {
-      .layout {
-        grid-template-columns: 1fr
-      }
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 32px;
-      border: 1px solid #E4E8F0;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, .04)
-    }
-
-    .card-title {
-      font-size: 22px;
-      font-weight: 800;
-      color: #111827;
-      letter-spacing: -.025em;
-      margin-bottom: 6px
-    }
-
-    .card-sub {
-      font-size: 14px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.65;
-      margin-bottom: 28px
-    }
-
-    .divider {
-      height: 1px;
-      background: #F2F4F8;
-      margin: 24px 0
-    }
-
-    .fg {
-      margin-bottom: 18px
-    }
-
-    .fg label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: #374151;
-      margin-bottom: 7px
-    }
-
-    .fg label span {
-      color: #E53E3E;
-      margin-left: 2px
-    }
-
-    .fi {
-      width: 100%;
-      padding: 12px 14px;
-      font-size: 14px;
-      font-family: inherit;
-      border: 1.5px solid #E4E8F0;
-      border-radius: 9px;
-      color: #111827;
-      background: #fff;
-      transition: border-color .2s, box-shadow .2s;
-      outline: none
-    }
-
-    .fi:focus {
-      border-color: #1B3A7A;
-      box-shadow: 0 0 0 3px rgba(27, 58, 122, .08)
-    }
-
-    .fi::placeholder {
-      color: #CBD5E0
-    }
-
-    select.fi {
-      cursor: pointer;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238A9AB0' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center
-    }
-
-    textarea.fi {
-      resize: vertical;
-      min-height: 100px;
-      line-height: 1.6
-    }
-
-    .row2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px
-    }
-
-    @media(max-width:500px) {
-      .row2 {
-        grid-template-columns: 1fr
-      }
-    }
-
-    .hint {
-      font-size: 12px;
-      font-weight: 300;
-      color: #8A9AB0;
-      margin-top: 5px;
-      line-height: 1.5
-    }
-
-    .err {
-      font-size: 12px;
-      color: #E53E3E;
-      margin-top: 4px;
-      display: none
-    }
-
-    .fi.invalid {
-      border-color: #E53E3E
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 15px;
-      background: #1B3A7A;
-      color: #fff;
-      font-size: 15px;
-      font-weight: 700;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background .2s, transform .15s;
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px
-    }
-
-    .submit-btn:hover {
-      background: #0F2554;
-      transform: translateY(-1px)
-    }
-
-    .submit-btn:disabled {
-      background: #8A9AB0;
-      cursor: not-allowed;
-      transform: none
-    }
-
-    @keyframes pulse-dot {
-
-      0%,
-      100% {
-        opacity: 1
-      }
-
-      50% {
-        opacity: .3
-      }
-    }
-
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2.5px solid rgba(255, 255, 255, .35);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      display: none
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg)
-      }
-    }
-
-    .sidebar-card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 24px;
-      border: 1px solid #E4E8F0;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, .04);
-      position: sticky;
-      top: 86px
-    }
-
-    .s-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 100px;
-      margin-bottom: 14px;
-      background: rgba(27, 58, 122, .08);
-      color: #1B3A7A
-    }
-
-    .s-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: #111827;
-      margin-bottom: 4px;
-      letter-spacing: -.02em
-    }
-
-    .s-sub {
-      font-size: 13px;
-      font-weight: 300;
-      color: #8A9AB0;
-      margin-bottom: 18px;
-      line-height: 1.5
-    }
-
-    .meta-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 11px 0;
-      border-bottom: 1px solid #F2F4F8;
-      font-size: 13px
-    }
-
-    .meta-lbl {
-      font-weight: 400;
-      color: #8A9AB0
-    }
-
-    .meta-val {
-      font-weight: 600;
-      color: #111827;
-      text-align: right
-    }
-
-    .price-box {
-      background: #F2F4F8;
-      border-radius: 10px;
-      padding: 16px;
-      margin-top: 16px;
-      text-align: center
-    }
-
-    .price-n {
-      font-size: 32px;
-      font-weight: 800;
-      color: #1B3A7A;
-      letter-spacing: -.03em
-    }
-
-    .price-l {
-      font-size: 12px;
-      font-weight: 300;
-      color: #8A9AB0;
-      margin-top: 2px
-    }
-
-    .notice-box {
-      background: rgba(27, 58, 122, .05);
-      border: 1px solid rgba(27, 58, 122, .12);
-      border-radius: 10px;
-      padding: 14px;
-      margin-top: 16px;
-      font-size: 12px;
-      font-weight: 400;
-      color: #374151;
-      line-height: 1.65
-    }
-
-    .notice-box strong {
-      color: #1B3A7A
-    }
-
-    .success-wrap {
-      display: none;
-      text-align: center;
-      padding: 48px 32px
-    }
-
-    .success-ico {
-      width: 72px;
-      height: 72px;
-      background: #1B3A7A;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 20px;
-      font-size: 32px
-    }
-
-    .success-t {
-      font-size: 22px;
-      font-weight: 800;
-      color: #111827;
-      margin-bottom: 10px;
-      letter-spacing: -.02em
-    }
-
-    .success-s {
-      font-size: 14px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.7;
-      max-width: 380px;
-      margin: 0 auto 28px
-    }
-
-    .next-steps {
-      background: #F2F4F8;
-      border-radius: 12px;
-      padding: 20px;
-      text-align: left
-    }
-
-    .next-step {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      margin-bottom: 14px
-    }
-
-    .next-step:last-child {
-      margin-bottom: 0
-    }
-
-    .ns-dot {
-      width: 24px;
-      height: 24px;
-      min-width: 24px;
-      background: #1B3A7A;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 700;
-      color: #fff;
-      margin-top: 1px
-    }
-
-    .ns-t {
-      font-size: 13px;
-      font-weight: 600;
-      color: #111827;
-      margin-bottom: 2px
-    }
-
-    .ns-d {
-      font-size: 12px;
-      font-weight: 300;
-      color: #6B7280;
-      line-height: 1.55
-    }
-
-    /* ======== FOOTER ======== */
-    @media (max-width: 700px) {
-      .blog-events-grid {
-        grid-template-columns: 1fr !important;
-      }
-    }
-
-    footer {
-      background: #060c1a;
-      padding: 52px 5% 28px;
-    }
-
-    .fwrap {
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .ftop {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr 1fr;
-      gap: 32px;
-      padding-bottom: 32px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-      margin-bottom: 22px;
-    }
-
-    .flogo img {
-      height: 40px;
-      width: auto;
-      margin-bottom: 14px;
-    }
-
-    .fdesc {
-      font-size: 13px;
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.28);
-      line-height: 1.7;
-      max-width: 210px;
-    }
-      line-height: 1.7;
-      max-width: 210px;
-    }
-
-    .fc-t {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.2);
-      margin-bottom: 14px;
-    }
-
-    .flinks {
-      list-style: none;
-    }
-
-    .flinks li {
-      margin-bottom: 10px;
-    }
-
-    .flinks a {
-      font-size: 13px;
-      font-weight: 300;
-      color: rgba(255, 255, 255, 0.38);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .flinks a:hover {
-      color: rgba(255, 255, 255, 0.8);
-    }
-
-    .fbot {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .fcopy {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.18);
-    }
-
-    .fsoc {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .fsoc a {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-
-    .fsoc a:hover {
-      background: rgba(255, 255, 255, 0.14);
-    }
-
-    .fsoc svg {
-      width: 16px;
-      height: 16px;
-      fill: rgba(255, 255, 255, 0.5);
-    }
-
-    @media (max-width: 860px) {
-      .ftop {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .ftop {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .exp-intro {
-        grid-template-columns: 1fr !important;
-        gap: 16px !important;
-      }
-    }
-
-  .fw-toast {
-    position: fixed;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: #ffffff;
-    color: #1B3A7A;
-    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.5;
-    padding: 14px 24px;
-    border-radius: 10px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    z-index: 99999;
-    max-width: 420px;
-    width: calc(100% - 48px);
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    pointer-events: none;
-  }
-  .fw-toast.fw-toast-error {
-    background: #ffffff;
-    color: #1B3A7A;
-    border: 1.5px solid #1B3A7A;
-  }
-  .fw-toast.fw-toast-success {
-    background: #ffffff;
-    color: #1B3A7A;
-    border: 1.5px solid #1B3A7A;
-  }
-  .fw-toast.fw-toast-visible {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-    pointer-events: auto;
-  }
-  </style>
-  <style>
-    .don-nudge {
-      background: #1B3A7A;
-      padding: 13px 5%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      flex-wrap: wrap;
-      text-align: center
-    }
-
-    .don-nudge-text {
-      font-size: 13px;
-      font-weight: 600;
-      color: rgba(255, 255, 255, .8)
-    }
-
-    .don-nudge-text strong {
-      color: #fff
-    }
-
-    .don-nudge-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #93B4FF;
-      color: #0D1F45;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 7px 16px;
-      border-radius: 100px;
-      text-decoration: none;
-      transition: opacity .2s;
-      white-space: nowrap;
-      flex-shrink: 0
-    }
-
-    .don-nudge-btn:hover {
-      opacity: .85
-    }
-
-    .don-nudge-close {
-      background: none;
-      border: none;
-      color: rgba(255, 255, 255, .4);
-      font-size: 18px;
-      cursor: pointer;
-      padding: 0 0 0 8px;
-      line-height: 1;
-      flex-shrink: 0
-    }
-
-    .don-nudge-close:hover {
-      color: #fff
-    }
-
-    @media(max-width:500px) {
+    </style>
+    <style>
       .don-nudge {
-        gap: 10px;
-        padding: 12px 4%
+        background: #1b3a7a;
+        padding: 13px 5%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        text-align: center;
       }
 
       .don-nudge-text {
-        font-size: 12px
+        font-size: 13px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.8);
       }
-    }
-  </style>
-  <link rel="icon" type="image/png" href="favicon.png">
-</head>
 
-<body>
+      .don-nudge-text strong {
+        color: #fff;
+      }
 
-  <nav>
-    <a href="index.html"><img
-        src="nav-logo.webp" alt="TechNuVate" style="height: 40px; width: auto"></a>
-    <div class="nav-right">
-      <div class="nav-item">
-        <button class="nav-item-btn">Meet Us <span class="nav-arrow">&#9660;</span></button>
-        <div class="nav-dropdown">
-          <a href="about.html">About Us</a>
-          <a href="academy.html">TechNuVate Academy</a>
-          <a href="studio.html">TechNuVate Studio</a>
-          <a href="labs.html">TechNuVate Labs</a>
+      .don-nudge-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #93b4ff;
+        color: #0d1f45;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 7px 16px;
+        border-radius: 100px;
+        text-decoration: none;
+        transition: opacity 0.2s;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .don-nudge-btn:hover {
+        opacity: 0.85;
+      }
+
+      .don-nudge-close {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 18px;
+        cursor: pointer;
+        padding: 0 0 0 8px;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+
+      .don-nudge-close:hover {
+        color: #fff;
+      }
+
+      @media (max-width: 500px) {
+        .don-nudge {
+          gap: 10px;
+          padding: 12px 4%;
+        }
+
+        .don-nudge-text {
+          font-size: 12px;
+        }
+      }
+      .mob-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .mob-link {
+        display: block;
+        padding: 12px 8px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #111827;
+        text-decoration: none;
+        border-bottom: 1px solid #f0f2f5;
+        transition:
+          color 0.15s ease,
+          background 0.15s ease;
+        border-radius: 8px;
+      }
+      .mob-link:hover {
+        color: #1b3a7a;
+        background: #f5f7ff;
+      }
+      .mob-link:last-child {
+        border-bottom: none;
+      }
+      .mob-link-cta {
+        margin-top: 8px;
+        background: #1b3a7a;
+        color: #fff;
+        text-align: center;
+        border-radius: 100px;
+        border-bottom: none;
+        font-weight: 600;
+      }
+      .mob-link-cta:hover {
+        background: #152d61;
+        color: #fff;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="favicon.png" />
+  </head>
+
+  <body>
+    <nav>
+      <a href="index.html"
+        ><img
+          src="nav-logo.webp"
+          alt="TechNuVate"
+          style="height: 40px; width: auto"
+      /></a>
+      <div class="nav-right">
+        <div class="nav-item">
+          <button class="nav-item-btn">
+            Meet Us <span class="nav-arrow">&#9660;</span>
+          </button>
+          <div class="nav-dropdown">
+            <a href="about.html">About Us</a>
+            <a href="academy.html">TechNuVate Academy</a>
+            <a href="studio.html">TechNuVate Studio</a>
+            <a href="labs.html">TechNuVate Labs</a>
+          </div>
         </div>
-      </div>
-      <div class="nav-item">
-        <button class="nav-item-btn">Work With Us <span class="nav-arrow">&#9660;</span></button>
-        <div class="nav-dropdown">
-          <a href="tutors.html">Become a Tutor</a>
-          <a href="join-team.html">Become a Team Member</a>
+        <div class="nav-item">
+          <button class="nav-item-btn">
+            Work With Us <span class="nav-arrow">&#9660;</span>
+          </button>
+          <div class="nav-dropdown">
+            <a href="tutors.html">Become a Tutor</a>
+            <a href="join-team.html">Become a Team Member</a>
+          </div>
         </div>
+        <a
+          href="store.html"
+          class="nav-item-btn"
+          style="
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition:
+              background 0.2s,
+              color 0.2s;
+            white-space: nowrap;
+          "
+          onmouseover="
+            this.style.background = '#F2F4F8';
+            this.style.color = '#1B3A7A';
+          "
+          onmouseout="
+            this.style.background = 'transparent';
+            this.style.color = '#374151';
+          "
+          >Store</a
+        >
+        <a
+          href="blog.html"
+          class="nav-item-btn"
+          style="
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            padding: 8px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition:
+              background 0.2s,
+              color 0.2s;
+            white-space: nowrap;
+          "
+          onmouseover="
+            this.style.background = '#F2F4F8';
+            this.style.color = '#1B3A7A';
+          "
+          onmouseout="
+            this.style.background = 'transparent';
+            this.style.color = '#374151';
+          "
+          >Blog</a
+        >
+        <a
+          href="donate.html"
+          class="nav-btn"
+          style="
+            background: transparent;
+            border: 1.5px solid #1b3a7a;
+            color: #1b3a7a;
+            margin-right: 2px;
+          "
+          onmouseover="this.style.background = 'rgba(27,58,122,.06)'"
+          onmouseout="this.style.background = 'transparent'"
+          >&#10084;&#65039; Donate</a
+        ><a href="index.html#contact" class="nav-btn">Contact Us</a>
+        <button
+          class="ham"
+          id="hamBtn"
+          onclick="toggleMenu()"
+          aria-label="Menu"
+        >
+          <span></span><span></span><span></span>
+        </button>
       </div>
-      <a href="store.html" class="nav-item-btn"
-        style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap"
-        onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'"
-        onmouseout="this.style.background='transparent';this.style.color='#374151'">Store</a>
-      <a href="blog.html" class="nav-item-btn"
-        style="font-size:14px;font-weight:500;color:#374151;padding:8px 12px;border-radius:6px;text-decoration:none;transition:background .2s,color .2s;white-space:nowrap"
-        onmouseover="this.style.background='#F2F4F8';this.style.color='#1B3A7A'"
-        onmouseout="this.style.background='transparent';this.style.color='#374151'">Blog</a>
-      <a href="donate.html" class="nav-btn"
-        style="background:transparent;border:1.5px solid #1B3A7A;color:#1B3A7A;margin-right:2px"
-        onmouseover="this.style.background='rgba(27,58,122,.06)'"
-        onmouseout="this.style.background='transparent'">&#10084;&#65039; Donate</a><a href="index.html#contact"
-        class="nav-btn">Contact Us</a>
-      <button class="ham" id="hamBtn" onclick="toggleMenu()" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
+    </nav>
+    <div class="mob-menu" id="mobMenu">
+      <div class="mob-section">
+        <div class="mob-section-title">Meet Us</div>
+        <a href="about.html">About Us</a>
+        <a href="academy.html">TechNuVate Academy</a>
+        <a href="studio.html">TechNuVate Studio</a>
+        <a href="labs.html">TechNuVate Labs</a>
+      </div>
+      <div class="mob-section">
+        <div class="mob-section-title">Work With Us</div>
+        <a href="tutors.html">Become a Tutor</a>
+        <a href="join-team.html">Become a Team Member</a>
+      </div>
+      <div class="mob-section">
+        <div class="mob-section-title">Explore</div>
+        <a href="blog.html">Blog &amp; Events</a>
+        <a href="store.html">Merch Store</a>
+      </div>
+      <div class="mob-section">
+        <a
+          href="donate.html"
+          style="
+            display: block;
+            background: #1b3a7a;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 13px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            margin-bottom: 4px;
+          "
+          >&#10084;&#65039; Donate Now</a
+        >
+      </div>
+      <!-- <a href="index.html#contact" class="mob-cta">Contact Us</a> -->
     </div>
-  </nav>
 
-  <div class="page-wrap">
-    <div class="breadcrumb">
-      <a href="index.html">Home</a><span>&rsaquo;</span>
-      <a href="labs.html">Labs</a><span>&rsaquo;</span>
-      <span class="breadcrumb-cur">Professional Track Application</span>
-    </div>
+    <div class="page-wrap">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a><span>&rsaquo;</span>
+        <a href="labs.html">Labs</a><span>&rsaquo;</span>
+        <span class="breadcrumb-cur">Professional Track Application</span>
+      </div>
 
-    <div class="layout">
-      <!-- FORM -->
-      <div>
-        <div class="card" id="formCard">
-          <div class="card-title">Labs Professional Track</div>
-          <p class="card-sub">Fill in your details below and complete your payment. Your spot is secured instantly and
-            we will send your onboarding details within 48 hours.</p>
+      <div class="layout">
+        <!-- FORM -->
+        <div>
+          <div class="card" id="formCard">
+            <div class="card-title">Labs Professional Track</div>
+            <p class="card-sub">
+              Fill in your details below and complete your payment. Your spot is
+              secured instantly and we will send your onboarding details within
+              48 hours.
+            </p>
 
-
-          <!-- COHORT BANNER -->
-          <div id="cohortBanner" style="background:#060C1A;border-radius:12px;padding:20px;margin-bottom:24px">
+            <!-- COHORT BANNER -->
             <div
-              style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px">
-              <div style="display:flex;align-items:center;gap:10px">
-                <span
-                  style="width:8px;height:8px;border-radius:50%;background:#22C55E;display:inline-block;animation:pulse-dot 2s infinite;flex-shrink:0"></span>
-                <span id="cohortBadge"
-                  style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#fff">Cohort
-                  1 — Now Open</span>
-              </div>
-              <div style="display:flex;gap:16px;flex-wrap:wrap">
-                <div style="text-align:center">
-                  <div
-                    style="font-size:10px;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px">
-                    Cohort Begins</div>
-                  <div style="font-size:13px;font-weight:700;color:#fff" id="cohortStartLabel">4 Aug 2026</div>
-                </div>
-                <div style="width:1px;background:rgba(255,255,255,.1)"></div>
-                <div style="text-align:center">
-                  <div
-                    style="font-size:10px;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px">
-                    Payment Deadline</div>
-                  <div style="font-size:13px;font-weight:700;color:#FCA5A5" id="deadlineLabel">25 Jul 2026</div>
-                </div>
-                <div style="width:1px;background:rgba(255,255,255,.1)"></div>
-                <div style="text-align:center">
-                  <div
-                    style="font-size:10px;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px">
-                    Spots Left</div>
-                  <div style="font-size:13px;font-weight:700;color:#86EFAC" id="spotsLabel">18 of 30</div>
-                </div>
-              </div>
-            </div>
-            <!-- Countdown -->
-            <div style="background:rgba(255,255,255,.05);border-radius:8px;padding:14px">
+              id="cohortBanner"
+              style="
+                background: #060c1a;
+                border-radius: 12px;
+                padding: 20px;
+                margin-bottom: 24px;
+              "
+            >
               <div
-                style="font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);text-align:center;margin-bottom:10px">
-                Time Left to Pay and Secure Your Spot</div>
-              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
-                <div style="text-align:center">
-                  <div style="font-size:26px;font-weight:800;color:#fff;line-height:1;font-variant-numeric:tabular-nums"
-                    id="cd-days">00</div>
-                  <div
-                    style="font-size:9px;font-weight:600;color:rgba(255,255,255,.3);margin-top:4px;letter-spacing:.1em">
-                    DAYS</div>
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  flex-wrap: wrap;
+                  gap: 12px;
+                  margin-bottom: 16px;
+                "
+              >
+                <div style="display: flex; align-items: center; gap: 10px">
+                  <span
+                    style="
+                      width: 8px;
+                      height: 8px;
+                      border-radius: 50%;
+                      background: #22c55e;
+                      display: inline-block;
+                      animation: pulse-dot 2s infinite;
+                      flex-shrink: 0;
+                    "
+                  ></span>
+                  <span
+                    id="cohortBadge"
+                    style="
+                      font-size: 11px;
+                      font-weight: 700;
+                      letter-spacing: 0.1em;
+                      text-transform: uppercase;
+                      color: #fff;
+                    "
+                    >Cohort 1 — Now Open</span
+                  >
                 </div>
-                <div style="text-align:center">
-                  <div style="font-size:26px;font-weight:800;color:#fff;line-height:1;font-variant-numeric:tabular-nums"
-                    id="cd-hrs">00</div>
+                <div style="display: flex; gap: 16px; flex-wrap: wrap">
+                  <div style="text-align: center">
+                    <div
+                      style="
+                        font-size: 10px;
+                        font-weight: 600;
+                        color: rgba(255, 255, 255, 0.35);
+                        text-transform: uppercase;
+                        letter-spacing: 0.1em;
+                        margin-bottom: 2px;
+                      "
+                    >
+                      Cohort Begins
+                    </div>
+                    <div
+                      style="font-size: 13px; font-weight: 700; color: #fff"
+                      id="cohortStartLabel"
+                    >
+                      4 Aug 2026
+                    </div>
+                  </div>
                   <div
-                    style="font-size:9px;font-weight:600;color:rgba(255,255,255,.3);margin-top:4px;letter-spacing:.1em">
-                    HRS</div>
+                    style="width: 1px; background: rgba(255, 255, 255, 0.1)"
+                  ></div>
+                  <div style="text-align: center">
+                    <div
+                      style="
+                        font-size: 10px;
+                        font-weight: 600;
+                        color: rgba(255, 255, 255, 0.35);
+                        text-transform: uppercase;
+                        letter-spacing: 0.1em;
+                        margin-bottom: 2px;
+                      "
+                    >
+                      Payment Deadline
+                    </div>
+                    <div
+                      style="font-size: 13px; font-weight: 700; color: #fca5a5"
+                      id="deadlineLabel"
+                    >
+                      25 Jul 2026
+                    </div>
+                  </div>
+                  <div
+                    style="width: 1px; background: rgba(255, 255, 255, 0.1)"
+                  ></div>
+                  <div style="text-align: center">
+                    <div
+                      style="
+                        font-size: 10px;
+                        font-weight: 600;
+                        color: rgba(255, 255, 255, 0.35);
+                        text-transform: uppercase;
+                        letter-spacing: 0.1em;
+                        margin-bottom: 2px;
+                      "
+                    >
+                      Spots Left
+                    </div>
+                    <div
+                      style="font-size: 13px; font-weight: 700; color: #86efac"
+                      id="spotsLabel"
+                    >
+                      18 of 30
+                    </div>
+                  </div>
                 </div>
-                <div style="text-align:center">
-                  <div style="font-size:26px;font-weight:800;color:#fff;line-height:1;font-variant-numeric:tabular-nums"
-                    id="cd-mins">00</div>
-                  <div
-                    style="font-size:9px;font-weight:600;color:rgba(255,255,255,.3);margin-top:4px;letter-spacing:.1em">
-                    MINS</div>
+              </div>
+              <!-- Countdown -->
+              <div
+                style="
+                  background: rgba(255, 255, 255, 0.05);
+                  border-radius: 8px;
+                  padding: 14px;
+                "
+              >
+                <div
+                  style="
+                    font-size: 10px;
+                    font-weight: 600;
+                    letter-spacing: 0.12em;
+                    text-transform: uppercase;
+                    color: rgba(255, 255, 255, 0.35);
+                    text-align: center;
+                    margin-bottom: 10px;
+                  "
+                >
+                  Time Left to Pay and Secure Your Spot
                 </div>
-                <div style="text-align:center">
-                  <div style="font-size:26px;font-weight:800;color:#fff;line-height:1;font-variant-numeric:tabular-nums"
-                    id="cd-secs">00</div>
-                  <div
-                    style="font-size:9px;font-weight:600;color:rgba(255,255,255,.3);margin-top:4px;letter-spacing:.1em">
-                    SECS</div>
+                <div
+                  style="
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 8px;
+                  "
+                >
+                  <div style="text-align: center">
+                    <div
+                      style="
+                        font-size: 26px;
+                        font-weight: 800;
+                        color: #fff;
+                        line-height: 1;
+                        font-variant-numeric: tabular-nums;
+                      "
+                      id="cd-days"
+                    >
+                      00
+                    </div>
+                    <div
+                      style="
+                        font-size: 9px;
+                        font-weight: 600;
+                        color: rgba(255, 255, 255, 0.3);
+                        margin-top: 4px;
+                        letter-spacing: 0.1em;
+                      "
+                    >
+                      DAYS
+                    </div>
+                  </div>
+                  <div style="text-align: center">
+                    <div
+                      style="
+                        font-size: 26px;
+                        font-weight: 800;
+                        color: #fff;
+                        line-height: 1;
+                        font-variant-numeric: tabular-nums;
+                      "
+                      id="cd-hrs"
+                    >
+                      00
+                    </div>
+                    <div
+                      style="
+                        font-size: 9px;
+                        font-weight: 600;
+                        color: rgba(255, 255, 255, 0.3);
+                        margin-top: 4px;
+                        letter-spacing: 0.1em;
+                      "
+                    >
+                      HRS
+                    </div>
+                  </div>
+                  <div style="text-align: center">
+                    <div
+                      style="
+                        font-size: 26px;
+                        font-weight: 800;
+                        color: #fff;
+                        line-height: 1;
+                        font-variant-numeric: tabular-nums;
+                      "
+                      id="cd-mins"
+                    >
+                      00
+                    </div>
+                    <div
+                      style="
+                        font-size: 9px;
+                        font-weight: 600;
+                        color: rgba(255, 255, 255, 0.3);
+                        margin-top: 4px;
+                        letter-spacing: 0.1em;
+                      "
+                    >
+                      MINS
+                    </div>
+                  </div>
+                  <div style="text-align: center">
+                    <div
+                      style="
+                        font-size: 26px;
+                        font-weight: 800;
+                        color: #fff;
+                        line-height: 1;
+                        font-variant-numeric: tabular-nums;
+                      "
+                      id="cd-secs"
+                    >
+                      00
+                    </div>
+                    <div
+                      style="
+                        font-size: 9px;
+                        font-weight: 600;
+                        color: rgba(255, 255, 255, 0.3);
+                        margin-top: 4px;
+                        letter-spacing: 0.1em;
+                      "
+                    >
+                      SECS
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="fg">
-            <label for="fullname">Full Name <span>*</span></label>
-            <input class="fi" id="fullname" type="text" placeholder="Amara Okafor">
-            <div class="err" id="fullname-err">Please enter your full name.</div>
-          </div>
+            <div class="fg">
+              <label for="fullname">Full Name <span>*</span></label>
+              <input
+                class="fi"
+                id="fullname"
+                type="text"
+                placeholder="Amara Okafor"
+              />
+              <div class="err" id="fullname-err">
+                Please enter your full name.
+              </div>
+            </div>
 
-          <div class="row2">
-            <div class="fg">
-              <label for="gender">Gender <span>*</span></label>
-              <select class="fi" id="gender">
-                <option value="">Select</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Non-binary / They">Non-binary / They</option>
-              </select>
-              <div class="err" id="gender-err">Please select your gender.</div>
-            </div>
-            <div class="fg">
-              <label for="age">Age Range <span>*</span></label>
-              <select class="fi" id="age">
-                <option value="">Select</option>
-                <option value="Under 18">Under 18</option>
-                <option value="18 to 24">18 to 24</option>
-                <option value="25 to 30">25 to 30</option>
-                <option value="31 to 35">31 to 35</option>
-                <option value="36 to 40">36 to 40</option>
-                <option value="41 and above">41 and above</option>
-              </select>
-              <div class="err" id="age-err">Please select your age range.</div>
-            </div>
-          </div>
-
-          <div class="row2">
-            <div class="fg">
-              <label for="email">Email Address <span>*</span></label>
-              <input class="fi" id="email" type="email" placeholder="amara@email.com">
-              <div class="err" id="email-err">Please enter a valid email address.</div>
-            </div>
-            <div class="fg">
-              <label for="phone">Phone Number <span>*</span></label>
-              <input class="fi" id="phone" type="tel" placeholder="+234 800 000 0000">
-              <div class="err" id="phone-err">Please enter your phone number.</div>
-              <p class="hint">Include your country code e.g. +234 for Nigeria, +44 for UK. WhatsApp number preferred.
-              </p>
-              <p class="hint" style="display:none">Include your country code e.g. +234 for Nigeria, +44 for UK. WhatsApp
-                number preferred.</p>
-            </div>
-          </div>
-
-          <div class="row2">
-            <div class="fg">
-              <label for="country">Country <span>*</span></label>
-              <select class="fi" id="country" onchange="handleCountry()">
-                <option value="">Select your country</option>
-                <optgroup label="Africa">
-                  <option value="Nigeria">Nigeria</option>
-                  <option value="Ghana">Ghana</option>
-                  <option value="Kenya">Kenya</option>
-                  <option value="South Africa">South Africa</option>
-                  <option value="Uganda">Uganda</option>
-                  <option value="Tanzania">Tanzania</option>
-                  <option value="Rwanda">Rwanda</option>
-                  <option value="Zambia">Zambia</option>
-                  <option value="Zimbabwe">Zimbabwe</option>
-                  <option value="Cameroon">Cameroon</option>
-                  <option value="Sierra Leone">Sierra Leone</option>
-                  <option value="Liberia">Liberia</option>
-                  <option value="Gambia">Gambia</option>
-                  <option value="Ethiopia">Ethiopia</option>
-                  <option value="Malawi">Malawi</option>
-                  <option value="Botswana">Botswana</option>
-                  <option value="Namibia">Namibia</option>
-                </optgroup>
-                <optgroup label="English-Speaking Countries">
-                  <option value="United Kingdom">United Kingdom</option>
-                  <option value="United States">United States</option>
-                  <option value="Canada">Canada</option>
-                  <option value="Australia">Australia</option>
-                  <option value="Ireland">Ireland</option>
-                  <option value="New Zealand">New Zealand</option>
-                </optgroup>
-                <option value="Other">Other</option>
-              </select>
-              <div class="err" id="country-err">Please select your country.</div>
-            </div>
-            <!-- Nigeria: state dropdown -->
-            <div id="nigeria-state-group" style="display:none">
-              <div class="fg" style="margin-top:14px">
-                <label for="nigeria-state">State <span>*</span></label>
-                <select class="fi" id="nigeria-state">
-                  <option value="">Select your state</option>
-                  <option value="Abia">Abia</option>
-                  <option value="Adamawa">Adamawa</option>
-                  <option value="Akwa Ibom">Akwa Ibom</option>
-                  <option value="Anambra">Anambra</option>
-                  <option value="Bauchi">Bauchi</option>
-                  <option value="Bayelsa">Bayelsa</option>
-                  <option value="Benue">Benue</option>
-                  <option value="Borno">Borno</option>
-                  <option value="Cross River">Cross River</option>
-                  <option value="Delta">Delta</option>
-                  <option value="Ebonyi">Ebonyi</option>
-                  <option value="Edo">Edo</option>
-                  <option value="Ekiti">Ekiti</option>
-                  <option value="Enugu">Enugu</option>
-                  <option value="FCT (Abuja)">FCT (Abuja)</option>
-                  <option value="Gombe">Gombe</option>
-                  <option value="Imo">Imo</option>
-                  <option value="Jigawa">Jigawa</option>
-                  <option value="Kaduna">Kaduna</option>
-                  <option value="Kano">Kano</option>
-                  <option value="Katsina">Katsina</option>
-                  <option value="Kebbi">Kebbi</option>
-                  <option value="Kogi">Kogi</option>
-                  <option value="Kwara">Kwara</option>
-                  <option value="Lagos">Lagos</option>
-                  <option value="Nasarawa">Nasarawa</option>
-                  <option value="Niger">Niger</option>
-                  <option value="Ogun">Ogun</option>
-                  <option value="Ondo">Ondo</option>
-                  <option value="Osun">Osun</option>
-                  <option value="Oyo">Oyo</option>
-                  <option value="Plateau">Plateau</option>
-                  <option value="Rivers">Rivers</option>
-                  <option value="Sokoto">Sokoto</option>
-                  <option value="Taraba">Taraba</option>
-                  <option value="Yobe">Yobe</option>
-                  <option value="Zamfara">Zamfara</option>
+            <div class="row2">
+              <div class="fg">
+                <label for="gender">Gender <span>*</span></label>
+                <select class="fi" id="gender">
+                  <option value="">Select</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Non-binary / They">Non-binary / They</option>
                 </select>
-                <div class="err" id="nigeria-state-err">Please select your state.</div>
-              </div>
-            </div>
-            <!-- Other countries: country name + state text -->
-            <div id="other-country-group" style="display:none">
-              <div class="fg" style="margin-top:14px">
-                <label for="other-country-name">Your Country <span>*</span></label>
-                <input class="fi" id="other-country-name" type="text" placeholder="Type your country name">
-                <div class="err" id="other-country-name-err">Please enter your country name.</div>
+                <div class="err" id="gender-err">
+                  Please select your gender.
+                </div>
               </div>
               <div class="fg">
-                <label for="other-country-state">State / Region <span>*</span></label>
-                <input class="fi" id="other-country-state" type="text" placeholder="Your state or region">
-                <div class="err" id="other-country-state-err">Please enter your state or region.</div>
+                <label for="age">Age Range <span>*</span></label>
+                <select class="fi" id="age">
+                  <option value="">Select</option>
+                  <option value="Under 18">Under 18</option>
+                  <option value="18 to 24">18 to 24</option>
+                  <option value="25 to 30">25 to 30</option>
+                  <option value="31 to 35">31 to 35</option>
+                  <option value="36 to 40">36 to 40</option>
+                  <option value="41 and above">41 and above</option>
+                </select>
+                <div class="err" id="age-err">
+                  Please select your age range.
+                </div>
               </div>
             </div>
-            <!-- All other listed countries: state text only -->
-            <div id="intl-state-group" style="display:none">
-              <div class="fg" style="margin-top:14px">
-                <label for="intl-state">State / Region <span>*</span></label>
-                <input class="fi" id="intl-state" type="text" placeholder="Your state or region">
-                <div class="err" id="intl-state-err">Please enter your state or region.</div>
+
+            <div class="row2">
+              <div class="fg">
+                <label for="email">Email Address <span>*</span></label>
+                <input
+                  class="fi"
+                  id="email"
+                  type="email"
+                  placeholder="amara@email.com"
+                />
+                <div class="err" id="email-err">
+                  Please enter a valid email address.
+                </div>
               </div>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div class="fg">
-            <label for="track">Digital Skill Track <span>*</span></label>
-            <select class="fi" id="track">
-              <option value="">Select the skill you want to build a portfolio in</option>
-              <option value="Digital Marketing">Digital Marketing</option>
-              <option value="Product Design (UI/UX)">Product Design (UI/UX)</option>
-              <option value="Graphics Design">Graphics Design</option>
-              <option value="Product Management">Product Management</option>
-              <option value="Data Analytics">Data Analytics</option>
-              <option value="Video Editing and Content Production">Video Editing and Content Production</option>
-              <option value="Community Building and Management">Community Building and Management</option>
-              <option value="Social Media Marketing">Social Media Marketing</option>
-            </select>
-            <div class="err" id="track-err">Please select a skill track.</div>
-          </div>
-
-          <div class="fg">
-            <label for="background">Where did you learn this skill? <span>*</span></label>
-            <select class="fi" id="background">
-              <option value="">Select one</option>
-              <option value="TechNuVate Academy">TechNuVate Academy (current or past student)</option>
-              <option value="Another training program">Another training program or bootcamp</option>
-              <option value="Self-taught">Self-taught</option>
-              <option value="Formal education">Formal education or university</option>
-              <option value="Work experience">Work experience</option>
-            </select>
-            <div class="err" id="background-err">Please tell us where you learned.</div>
-          </div>
-
-          <div class="fg" id="cohort-group" style="display:none">
-            <label for="cohort">Which Academy cohort did you complete?</label>
-            <input class="fi" id="cohort" type="text" placeholder="e.g. Cohort 1, 2025">
-            <p class="hint">This helps us match you with the right Labs mentor.</p>
-          </div>
-
-          <div class="fg">
-            <label for="experience">Briefly describe your current skill level <span>*</span></label>
-            <textarea class="fi" id="experience"
-              placeholder="Tell us what you can already do in this skill area. Be honest, there is no wrong answer."></textarea>
-            <div class="err" id="experience-err">Please describe your current skill level.</div>
-          </div>
-
-          <div class="fg">
-            <label for="goal">What do you want to walk away with from Labs? <span style="color:#E53E3E">*</span></label>
-            <textarea class="fi" id="goal" placeholder="What does success look like for you after completing Labs?"
-              style="min-height:80px"></textarea>
-            <div class="err" id="goal-err">Please tell us what you want to walk away with.</div>
-          </div>
-          <div class="fg">
-            <label for="linkedin">LinkedIn Profile URL <span>*</span></label>
-            <input class="fi" id="linkedin" type="url" placeholder="https://linkedin.com/in/yourname">
-            <div class="err" id="linkedin-err">Please enter your LinkedIn profile URL.</div>
-            <p class="hint">We use this to learn more about your background and match you with the right mentor.</p>
-          </div>
-
-
-          <!-- COMMITMENT CHECKBOX -->
-          <div
-            style="background:rgba(251,191,36,.07);border:1.5px solid rgba(251,191,36,.25);border-radius:10px;padding:16px 18px;margin-bottom:18px">
-            <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer">
-              <input type="checkbox" id="commitCheck"
-                style="margin-top:3px;width:16px;height:16px;flex-shrink:0;accent-color:#1B3A7A;cursor:pointer">
-              <span style="font-size:13px;font-weight:500;color:#78350F;line-height:1.6">I understand that TechNuVate
-                does not offer refunds. I confirm I am available and committed to this cohort. If I do not complete the
-                programme I will receive a Badge of Participation, not a Certificate of Completion.</span>
-            </label>
-            <div id="commitErr" style="font-size:12px;color:#E53E3E;margin-top:6px;display:none">You must confirm this
-              before proceeding to payment.</div>
-          </div>
-
-          <button class="submit-btn" id="submitBtn" onclick="submitForm()">
-            <span id="btnText">Pay &#8358;7,000 (~$5) and Apply</span>
-            <div class="spinner" id="spinner"></div>
-          </button>
-          <p style="font-size:12px;font-weight:300;color:#8A9AB0;text-align:center;margin-top:12px;line-height:1.5">Your
-            spot is secured the moment payment is completed. No waiting. No review gate.</p>
-        </div>
-
-        <!-- SUCCESS STATE -->
-        <div class="card success-wrap" id="successCard">
-          <div class="success-ico">&#10003;</div>
-          <div class="success-t">Application Received</div>
-          <p class="success-s">Your payment went through and your Labs Professional Track spot is secured. Expect your
-            onboarding details and first project brief in your inbox within 48 hours.</p>
-          <div class="next-steps">
-            <div
-              style="font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8A9AB0;margin-bottom:14px">
-              What Happens Next</div>
-            <div class="next-step">
-              <div class="ns-dot">1</div>
-              <div>
-                <div class="ns-t">Your spot is secured</div>
-                <p class="ns-d">Payment confirmation is your placement confirmation. No separate approval step needed.
+              <div class="fg">
+                <label for="phone">Phone Number <span>*</span></label>
+                <input
+                  class="fi"
+                  id="phone"
+                  type="tel"
+                  placeholder="+234 800 000 0000"
+                />
+                <div class="err" id="phone-err">
+                  Please enter your phone number.
+                </div>
+                <p class="hint">
+                  Include your country code e.g. +234 for Nigeria, +44 for UK.
+                  WhatsApp number preferred.
+                </p>
+                <p class="hint" style="display: none">
+                  Include your country code e.g. +234 for Nigeria, +44 for UK.
+                  WhatsApp number preferred.
                 </p>
               </div>
             </div>
-            <div class="next-step">
-              <div class="ns-dot">2</div>
-              <div>
-                <div class="ns-t">We assign your mentor</div>
-                <p class="ns-d">We match you to the right mentor for your skill track and prepare your first project
-                  brief.</p>
+
+            <div class="row2">
+              <div class="fg">
+                <label for="country">Country <span>*</span></label>
+                <select class="fi" id="country" onchange="handleCountry()">
+                  <option value="">Select your country</option>
+                  <optgroup label="Africa">
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="Ghana">Ghana</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="South Africa">South Africa</option>
+                    <option value="Uganda">Uganda</option>
+                    <option value="Tanzania">Tanzania</option>
+                    <option value="Rwanda">Rwanda</option>
+                    <option value="Zambia">Zambia</option>
+                    <option value="Zimbabwe">Zimbabwe</option>
+                    <option value="Cameroon">Cameroon</option>
+                    <option value="Sierra Leone">Sierra Leone</option>
+                    <option value="Liberia">Liberia</option>
+                    <option value="Gambia">Gambia</option>
+                    <option value="Ethiopia">Ethiopia</option>
+                    <option value="Malawi">Malawi</option>
+                    <option value="Botswana">Botswana</option>
+                    <option value="Namibia">Namibia</option>
+                  </optgroup>
+                  <optgroup label="English-Speaking Countries">
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="United States">United States</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Ireland">Ireland</option>
+                    <option value="New Zealand">New Zealand</option>
+                  </optgroup>
+                  <option value="Other">Other</option>
+                </select>
+                <div class="err" id="country-err">
+                  Please select your country.
+                </div>
+              </div>
+              <!-- Nigeria: state dropdown -->
+              <div id="nigeria-state-group" style="display: none">
+                <div class="fg" style="margin-top: 14px">
+                  <label for="nigeria-state">State <span>*</span></label>
+                  <select class="fi" id="nigeria-state">
+                    <option value="">Select your state</option>
+                    <option value="Abia">Abia</option>
+                    <option value="Adamawa">Adamawa</option>
+                    <option value="Akwa Ibom">Akwa Ibom</option>
+                    <option value="Anambra">Anambra</option>
+                    <option value="Bauchi">Bauchi</option>
+                    <option value="Bayelsa">Bayelsa</option>
+                    <option value="Benue">Benue</option>
+                    <option value="Borno">Borno</option>
+                    <option value="Cross River">Cross River</option>
+                    <option value="Delta">Delta</option>
+                    <option value="Ebonyi">Ebonyi</option>
+                    <option value="Edo">Edo</option>
+                    <option value="Ekiti">Ekiti</option>
+                    <option value="Enugu">Enugu</option>
+                    <option value="FCT (Abuja)">FCT (Abuja)</option>
+                    <option value="Gombe">Gombe</option>
+                    <option value="Imo">Imo</option>
+                    <option value="Jigawa">Jigawa</option>
+                    <option value="Kaduna">Kaduna</option>
+                    <option value="Kano">Kano</option>
+                    <option value="Katsina">Katsina</option>
+                    <option value="Kebbi">Kebbi</option>
+                    <option value="Kogi">Kogi</option>
+                    <option value="Kwara">Kwara</option>
+                    <option value="Lagos">Lagos</option>
+                    <option value="Nasarawa">Nasarawa</option>
+                    <option value="Niger">Niger</option>
+                    <option value="Ogun">Ogun</option>
+                    <option value="Ondo">Ondo</option>
+                    <option value="Osun">Osun</option>
+                    <option value="Oyo">Oyo</option>
+                    <option value="Plateau">Plateau</option>
+                    <option value="Rivers">Rivers</option>
+                    <option value="Sokoto">Sokoto</option>
+                    <option value="Taraba">Taraba</option>
+                    <option value="Yobe">Yobe</option>
+                    <option value="Zamfara">Zamfara</option>
+                  </select>
+                  <div class="err" id="nigeria-state-err">
+                    Please select your state.
+                  </div>
+                </div>
+              </div>
+              <!-- Other countries: country name + state text -->
+              <div id="other-country-group" style="display: none">
+                <div class="fg" style="margin-top: 14px">
+                  <label for="other-country-name"
+                    >Your Country <span>*</span></label
+                  >
+                  <input
+                    class="fi"
+                    id="other-country-name"
+                    type="text"
+                    placeholder="Type your country name"
+                  />
+                  <div class="err" id="other-country-name-err">
+                    Please enter your country name.
+                  </div>
+                </div>
+                <div class="fg">
+                  <label for="other-country-state"
+                    >State / Region <span>*</span></label
+                  >
+                  <input
+                    class="fi"
+                    id="other-country-state"
+                    type="text"
+                    placeholder="Your state or region"
+                  />
+                  <div class="err" id="other-country-state-err">
+                    Please enter your state or region.
+                  </div>
+                </div>
+              </div>
+              <!-- All other listed countries: state text only -->
+              <div id="intl-state-group" style="display: none">
+                <div class="fg" style="margin-top: 14px">
+                  <label for="intl-state">State / Region <span>*</span></label>
+                  <input
+                    class="fi"
+                    id="intl-state"
+                    type="text"
+                    placeholder="Your state or region"
+                  />
+                  <div class="err" id="intl-state-err">
+                    Please enter your state or region.
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="next-step">
-              <div class="ns-dot">3</div>
-              <div>
-                <div class="ns-t">You get your brief and start</div>
-                <p class="ns-d">Your onboarding details arrive within 48 hours. Your first project brief comes with it.
-                  That is all you need to begin.</p>
+
+            <div class="divider"></div>
+
+            <div class="fg">
+              <label for="track">Digital Skill Track <span>*</span></label>
+              <select class="fi" id="track">
+                <option value="">
+                  Select the skill you want to build a portfolio in
+                </option>
+                <option value="Digital Marketing">Digital Marketing</option>
+                <option value="Product Design (UI/UX)">
+                  Product Design (UI/UX)
+                </option>
+                <option value="Graphics Design">Graphics Design</option>
+                <option value="Product Management">Product Management</option>
+                <option value="Data Analytics">Data Analytics</option>
+                <option value="Video Editing and Content Production">
+                  Video Editing and Content Production
+                </option>
+                <option value="Community Building and Management">
+                  Community Building and Management
+                </option>
+                <option value="Social Media Marketing">
+                  Social Media Marketing
+                </option>
+              </select>
+              <div class="err" id="track-err">Please select a skill track.</div>
+            </div>
+
+            <div class="fg">
+              <label for="background"
+                >Where did you learn this skill? <span>*</span></label
+              >
+              <select class="fi" id="background">
+                <option value="">Select one</option>
+                <option value="TechNuVate Academy">
+                  TechNuVate Academy (current or past student)
+                </option>
+                <option value="Another training program">
+                  Another training program or bootcamp
+                </option>
+                <option value="Self-taught">Self-taught</option>
+                <option value="Formal education">
+                  Formal education or university
+                </option>
+                <option value="Work experience">Work experience</option>
+              </select>
+              <div class="err" id="background-err">
+                Please tell us where you learned.
               </div>
+            </div>
+
+            <div class="fg" id="cohort-group" style="display: none">
+              <label for="cohort">Which Academy cohort did you complete?</label>
+              <input
+                class="fi"
+                id="cohort"
+                type="text"
+                placeholder="e.g. Cohort 1, 2025"
+              />
+              <p class="hint">
+                This helps us match you with the right Labs mentor.
+              </p>
+            </div>
+
+            <div class="fg">
+              <label for="experience"
+                >Briefly describe your current skill level <span>*</span></label
+              >
+              <textarea
+                class="fi"
+                id="experience"
+                placeholder="Tell us what you can already do in this skill area. Be honest, there is no wrong answer."
+              ></textarea>
+              <div class="err" id="experience-err">
+                Please describe your current skill level.
+              </div>
+            </div>
+
+            <div class="fg">
+              <label for="goal"
+                >What do you want to walk away with from Labs?
+                <span style="color: #e53e3e">*</span></label
+              >
+              <textarea
+                class="fi"
+                id="goal"
+                placeholder="What does success look like for you after completing Labs?"
+                style="min-height: 80px"
+              ></textarea>
+              <div class="err" id="goal-err">
+                Please tell us what you want to walk away with.
+              </div>
+            </div>
+            <div class="fg">
+              <label for="linkedin">LinkedIn Profile URL <span>*</span></label>
+              <input
+                class="fi"
+                id="linkedin"
+                type="url"
+                placeholder="https://linkedin.com/in/yourname"
+              />
+              <div class="err" id="linkedin-err">
+                Please enter your LinkedIn profile URL.
+              </div>
+              <p class="hint">
+                We use this to learn more about your background and match you
+                with the right mentor.
+              </p>
+            </div>
+
+            <!-- COMMITMENT CHECKBOX -->
+            <div
+              style="
+                background: rgba(251, 191, 36, 0.07);
+                border: 1.5px solid rgba(251, 191, 36, 0.25);
+                border-radius: 10px;
+                padding: 16px 18px;
+                margin-bottom: 18px;
+              "
+            >
+              <label
+                style="
+                  display: flex;
+                  align-items: flex-start;
+                  gap: 12px;
+                  cursor: pointer;
+                "
+              >
+                <input
+                  type="checkbox"
+                  id="commitCheck"
+                  style="
+                    margin-top: 3px;
+                    width: 16px;
+                    height: 16px;
+                    flex-shrink: 0;
+                    accent-color: #1b3a7a;
+                    cursor: pointer;
+                  "
+                />
+                <span
+                  style="
+                    font-size: 13px;
+                    font-weight: 500;
+                    color: #78350f;
+                    line-height: 1.6;
+                  "
+                  >I understand that TechNuVate does not offer refunds. I
+                  confirm I am available and committed to this cohort. If I do
+                  not complete the programme I will receive a Badge of
+                  Participation, not a Certificate of Completion.</span
+                >
+              </label>
+              <div
+                id="commitErr"
+                style="
+                  font-size: 12px;
+                  color: #e53e3e;
+                  margin-top: 6px;
+                  display: none;
+                "
+              >
+                You must confirm this before proceeding to payment.
+              </div>
+            </div>
+
+            <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+              <span id="btnText">Pay &#8358;7,000 (~$5) and Apply</span>
+              <div class="spinner" id="spinner"></div>
+            </button>
+            <p
+              style="
+                font-size: 12px;
+                font-weight: 300;
+                color: #8a9ab0;
+                text-align: center;
+                margin-top: 12px;
+                line-height: 1.5;
+              "
+            >
+              Your spot is secured the moment payment is completed. No waiting.
+              No review gate.
+            </p>
+          </div>
+
+          <!-- SUCCESS STATE -->
+          <div class="card success-wrap" id="successCard">
+            <div class="success-ico">&#10003;</div>
+            <div class="success-t">Application Received</div>
+            <p class="success-s">
+              Your payment went through and your Labs Professional Track spot is
+              secured. Expect your onboarding details and first project brief in
+              your inbox within 48 hours.
+            </p>
+            <div class="next-steps">
+              <div
+                style="
+                  font-size: 11px;
+                  font-weight: 700;
+                  letter-spacing: 0.14em;
+                  text-transform: uppercase;
+                  color: #8a9ab0;
+                  margin-bottom: 14px;
+                "
+              >
+                What Happens Next
+              </div>
+              <div class="next-step">
+                <div class="ns-dot">1</div>
+                <div>
+                  <div class="ns-t">Your spot is secured</div>
+                  <p class="ns-d">
+                    Payment confirmation is your placement confirmation. No
+                    separate approval step needed.
+                  </p>
+                </div>
+              </div>
+              <div class="next-step">
+                <div class="ns-dot">2</div>
+                <div>
+                  <div class="ns-t">We assign your mentor</div>
+                  <p class="ns-d">
+                    We match you to the right mentor for your skill track and
+                    prepare your first project brief.
+                  </p>
+                </div>
+              </div>
+              <div class="next-step">
+                <div class="ns-dot">3</div>
+                <div>
+                  <div class="ns-t">You get your brief and start</div>
+                  <p class="ns-d">
+                    Your onboarding details arrive within 48 hours. Your first
+                    project brief comes with it. That is all you need to begin.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div>
+          <div class="sidebar-card">
+            <div class="s-badge" id="cohortLabel">
+              Labs Professional Track — Cohort 1
+            </div>
+            <div class="s-title">Build a Portfolio. Get Evaluated.</div>
+            <p class="s-sub">
+              One structured placement. Real project briefs. Professional
+              feedback. A portfolio you can show.
+            </p>
+            <div class="meta-row">
+              <span class="meta-lbl">Format</span
+              ><span class="meta-val">Fully remote</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-lbl">Mentorship</span
+              ><span class="meta-val">Included</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-lbl">Open to</span
+              ><span class="meta-val">All skill levels</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-lbl">Certificate</span
+              ><span class="meta-val">TechNuVate Labs completion</span>
+            </div>
+            <div class="price-box">
+              <div class="price-n">&#8358;7,000</div>
+              <div
+                style="
+                  font-size: 13px;
+                  font-weight: 400;
+                  color: #8a9ab0;
+                  margin-top: 4px;
+                "
+              >
+                approx. $5 USD
+              </div>
+              <div class="price-l" style="margin-top: 6px">
+                One-time payment processed securely via Flutterwave
+              </div>
+            </div>
+            <div class="notice-box">
+              <strong>Pay once. Spot secured.</strong> Payment is processed by
+              Flutterwave. The moment your payment goes through, your Labs spot
+              is yours.
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- SIDEBAR -->
-      <div>
-        <div class="sidebar-card">
-          <div class="s-badge" id="cohortLabel">Labs Professional Track — Cohort 1</div>
-          <div class="s-title">Build a Portfolio. Get Evaluated.</div>
-          <p class="s-sub">One structured placement. Real project briefs. Professional feedback. A portfolio you can
-            show.</p>
-          <div class="meta-row"><span class="meta-lbl">Format</span><span class="meta-val">Fully remote</span></div>
-          <div class="meta-row"><span class="meta-lbl">Mentorship</span><span class="meta-val">Included</span></div>
-          <div class="meta-row"><span class="meta-lbl">Open to</span><span class="meta-val">All skill levels</span>
-          </div>
-          <div class="meta-row"><span class="meta-lbl">Certificate</span><span class="meta-val">TechNuVate Labs
-              completion</span></div>
-          <div class="price-box">
-            <div class="price-n">&#8358;7,000</div>
-            <div style="font-size:13px;font-weight:400;color:#8A9AB0;margin-top:4px">approx. $5 USD</div>
-            <div class="price-l" style="margin-top:6px">One-time payment processed securely via Flutterwave</div>
-          </div>
-          <div class="notice-box">
-            <strong>Pay once. Spot secured.</strong> Payment is processed by Flutterwave. The moment your payment goes
-            through, your Labs spot is yours.
-          </div>
+    <!-- NEWSLETTER -->
+    <section style="background: #0d1f45; padding: 56px 5%">
+      <div style="max-width: 600px; margin: 0 auto; text-align: center">
+        <div
+          style="
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 14px;
+          "
+        >
+          Stay in the loop
         </div>
+        <h2
+          style="
+            font-size: clamp(24px, 4vw, 34px);
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+          "
+        >
+          Get updates before everyone else.
+        </h2>
+        <p
+          style="
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.75;
+            margin-bottom: 32px;
+          "
+        >
+          New cohort dates. Early bird alerts. Career tips. Studio
+          opportunities. Only what matters — straight to your inbox.
+        </p>
+        <form
+          id="newsletter-form"
+          onsubmit="submitNewsletter(event)"
+          style="
+            display: flex;
+            gap: 10px;
+            max-width: 460px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+          "
+        >
+          <input
+            id="nl-email"
+            type="email"
+            placeholder="Enter your email address"
+            required
+            style="
+              flex: 1;
+              min-width: 200px;
+              padding: 14px 16px;
+              border-radius: 10px;
+              border: 1.5px solid rgba(255, 255, 255, 0.15);
+              background: rgba(255, 255, 255, 0.08);
+              color: #fff;
+              font-family: inherit;
+              font-size: 14px;
+              outline: none;
+              transition: border-color 0.2s;
+            "
+            onfocus="this.style.borderColor = 'rgba(255,255,255,.4)'"
+            onblur="this.style.borderColor = 'rgba(255,255,255,.15)'"
+          />
+          <button
+            type="submit"
+            id="nl-btn"
+            style="
+              padding: 14px 24px;
+              background: #fff;
+              color: #0d1f45;
+              font-size: 14px;
+              font-weight: 700;
+              border: none;
+              border-radius: 10px;
+              cursor: pointer;
+              font-family: inherit;
+              white-space: nowrap;
+              transition: opacity 0.2s;
+            "
+          >
+            Subscribe &rarr;
+          </button>
+        </form>
+        <p
+          id="nl-msg"
+          style="
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-top: 14px;
+            display: none;
+          "
+        ></p>
+        <p
+          style="
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.2);
+            margin-top: 16px;
+          "
+        >
+          No spam. Unsubscribe anytime. We respect your inbox.
+        </p>
       </div>
-    </div>
-  </div>
+    </section>
 
-
-  <!-- NEWSLETTER -->
-  <section style="background:#0D1F45;padding:56px 5%">
-    <div style="max-width:600px;margin:0 auto;text-align:center">
-      <div
-        style="font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:14px">
-        Stay in the loop</div>
-      <h2 style="font-size:clamp(24px,4vw,34px);font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:12px">Get
-        updates before everyone else.</h2>
-      <p style="font-size:14px;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:32px">New cohort dates. Early
-        bird alerts. Career tips. Studio opportunities. Only what matters — straight to your inbox.</p>
-      <form id="newsletter-form" onsubmit="submitNewsletter(event)"
-        style="display:flex;gap:10px;max-width:460px;margin:0 auto;flex-wrap:wrap">
-        <input id="nl-email" type="email" placeholder="Enter your email address" required
-          style="flex:1;min-width:200px;padding:14px 16px;border-radius:10px;border:1.5px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color .2s"
-          onfocus="this.style.borderColor='rgba(255,255,255,.4)'"
-          onblur="this.style.borderColor='rgba(255,255,255,.15)'">
-        <button type="submit" id="nl-btn"
-          style="padding:14px 24px;background:#fff;color:#0D1F45;font-size:14px;font-weight:700;border:none;border-radius:10px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:opacity .2s">
-          Subscribe &rarr;
-        </button>
-      </form>
-      <p id="nl-msg" style="font-size:12px;color:rgba(255,255,255,.4);margin-top:14px;display:none"></p>
-      <p style="font-size:11px;color:rgba(255,255,255,.2);margin-top:16px">No spam. Unsubscribe anytime. We respect your
-        inbox.</p>
-    </div>
-  </section>
-  
-  <footer>
-    <div class="fwrap">
-      <div class="ftop">
-        <div>
-          <div class="flogo">
-            <img
-              src="footer-logo.webp" alt="TechNuVate" style="height: 40px" />
+    <footer>
+      <div class="fwrap">
+        <div class="ftop">
+          <div>
+            <div class="flogo">
+              <img
+                src="footer-logo.webp"
+                alt="TechNuVate"
+                style="height: 40px"
+              />
+            </div>
+            <p class="fdesc">
+              A tech organisation training, deploying, and connecting talent in
+              Africa and English speaking countries with real digital
+              opportunity.
+            </p>
           </div>
-          <p class="fdesc">
-            A tech organisation training, deploying, and connecting talent in
-            Africa and English speaking countries with real digital
-            opportunity.
-          </p>
-        </div>
-        <div>
-          <div class="fc-t">Our Arms</div>
-          <ul class="flinks">
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="academy.html">TechNuVate Academy</a></li>
-            <li><a href="studio.html">TechNuVate Studio</a></li>
-            <li><a href="labs.html">TechNuVate Labs</a></li>
-            <li><a href="blog.html">Blog &amp; Events</a></li>
-            <li><a href="store.html">Merch Store</a></li>
-          </ul>
-        </div>
-        <div>
-          <div class="fc-t">Connect</div>
-          <ul class="flinks">
-            <li><a href="index.html#contact">Contact Us</a></li>
-            <li><a href="tutors.html">Become a Tutor</a></li>
-            <li><a href="join-team.html">Join the Team</a></li>
-            <li>
-              <a href="#newsletter-form" onclick="document.getElementById('nl-email').focus()">Subscribe to
-                Newsletter</a>
-            </li>
-            <li>
-              <span style="
+          <div>
+            <div class="fc-t">Our Arms</div>
+            <ul class="flinks">
+              <li><a href="about.html">About Us</a></li>
+              <li><a href="academy.html">TechNuVate Academy</a></li>
+              <li><a href="studio.html">TechNuVate Studio</a></li>
+              <li><a href="labs.html">TechNuVate Labs</a></li>
+              <li><a href="blog.html">Blog &amp; Events</a></li>
+              <li><a href="store.html">Merch Store</a></li>
+            </ul>
+          </div>
+          <div>
+            <div class="fc-t">Connect</div>
+            <ul class="flinks">
+              <li><a href="index.html#contact">Contact Us</a></li>
+              <li><a href="tutors.html">Become a Tutor</a></li>
+              <li><a href="join-team.html">Join the Team</a></li>
+              <li>
+                <a
+                  href="#newsletter-form"
+                  onclick="document.getElementById('nl-email').focus()"
+                  >Subscribe to Newsletter</a
+                >
+              </li>
+              <li>
+                <span
+                  style="
                     font-size: 10px;
                     font-weight: 700;
                     letter-spacing: 0.12em;
@@ -1397,9 +2008,14 @@
                     display: block;
                     margin-bottom: 10px;
                     margin-top: 6px;
-                  ">Follow Us</span>
-              <div style="display: flex; gap: 7px; flex-wrap: wrap">
-                <a href="https://www.linkedin.com/company/technuvate" title="LinkedIn" style="
+                  "
+                  >Follow Us</span
+                >
+                <div style="display: flex; gap: 7px; flex-wrap: wrap">
+                  <a
+                    href="https://www.linkedin.com/company/technuvate"
+                    title="LinkedIn"
+                    style="
                       width: 32px;
                       height: 32px;
                       border-radius: 7px;
@@ -1409,11 +2025,21 @@
                       align-items: center;
                       justify-content: center;
                       text-decoration: none;
-                    "><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-                    <path
-                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                  </svg></a>
-                <a href="https://www.instagram.com/tech_nu_vate" title="Instagram" style="
+                    "
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgba(255,255,255,.5)"
+                    >
+                      <path
+                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                      /></svg
+                  ></a>
+                  <a
+                    href="https://www.instagram.com/tech_nu_vate"
+                    title="Instagram"
+                    style="
                       width: 32px;
                       height: 32px;
                       border-radius: 7px;
@@ -1423,11 +2049,21 @@
                       align-items: center;
                       justify-content: center;
                       text-decoration: none;
-                    "><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-                    <path
-                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
-                  </svg></a>
-                <a href="https://x.com/technuvate" title="X" style="
+                    "
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgba(255,255,255,.5)"
+                    >
+                      <path
+                        d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"
+                      /></svg
+                  ></a>
+                  <a
+                    href="https://x.com/technuvate"
+                    title="X"
+                    style="
                       width: 32px;
                       height: 32px;
                       border-radius: 7px;
@@ -1437,11 +2073,21 @@
                       align-items: center;
                       justify-content: center;
                       text-decoration: none;
-                    "><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-                    <path
-                      d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                  </svg></a>
-                <a href="https://www.youtube.com/@technuvate" title="YouTube" style="
+                    "
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgba(255,255,255,.5)"
+                    >
+                      <path
+                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.213 5.567 5.951-5.567zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+                      /></svg
+                  ></a>
+                  <a
+                    href="https://www.youtube.com/@technuvate"
+                    title="YouTube"
+                    style="
                       width: 32px;
                       height: 32px;
                       border-radius: 7px;
@@ -1451,11 +2097,21 @@
                       align-items: center;
                       justify-content: center;
                       text-decoration: none;
-                    "><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-                    <path
-                      d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z" />
-                  </svg></a>
-                <a href="https://www.tiktok.com/@tech_nu_vate" title="TikTok" style="
+                    "
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgba(255,255,255,.5)"
+                    >
+                      <path
+                        d="M23.495 6.205a3.007 3.007 0 00-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 00.527 6.205a31.247 31.247 0 00-.522 5.805 31.247 31.247 0 00.522 5.783 3.007 3.007 0 002.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 002.088-2.088 31.247 31.247 0 00.5-5.783 31.247 31.247 0 00-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"
+                      /></svg
+                  ></a>
+                  <a
+                    href="https://www.tiktok.com/@tech_nu_vate"
+                    title="TikTok"
+                    style="
                       width: 32px;
                       height: 32px;
                       border-radius: 7px;
@@ -1465,11 +2121,21 @@
                       align-items: center;
                       justify-content: center;
                       text-decoration: none;
-                    "><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-                    <path
-                      d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z" />
-                  </svg></a>
-                <a href="https://www.facebook.com/technuvate" title="Facebook" style="
+                    "
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgba(255,255,255,.5)"
+                    >
+                      <path
+                        d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"
+                      /></svg
+                  ></a>
+                  <a
+                    href="https://www.facebook.com/technuvate"
+                    title="Facebook"
+                    style="
                       width: 32px;
                       height: 32px;
                       border-radius: 7px;
@@ -1479,102 +2145,160 @@
                       align-items: center;
                       justify-content: center;
                       text-decoration: none;
-                    "><svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
-                    <path
-                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                  </svg></a>
-              </div>
-            </li>
-          </ul>
+                    "
+                    ><svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="rgba(255,255,255,.5)"
+                    >
+                      <path
+                        d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                      /></svg
+                  ></a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div style="text-align: center; padding-top: 4px">
+          <p style="font-size: 12px; color: rgba(255, 255, 255, 0.18)">
+            &copy; 2026 TechNuVate. All rights reserved. Learn. Build. Execute.
+          </p>
         </div>
       </div>
-      <div style="text-align: center; padding-top: 4px">
-        <p style="font-size: 12px; color: rgba(255, 255, 255, 0.18)">
-          &copy; 2026 TechNuVate. All rights reserved. Learn. Build. Execute.
-        </p>
-      </div>
-    </div>
-  </footer>
+    </footer>
 
-      <script src="https://checkout.flutterwave.com/v3.js"></script>
-      <script src="js/env.js"></script>
-      <script>
+    <script src="https://checkout.flutterwave.com/v3.js"></script>
+    <script src="js/env.js"></script>
+    <script>
       function submitNewsletter(e) {
-      e.preventDefault();
-      var email = document.getElementById('nl-email').value.trim();
-      var btn = document.getElementById('nl-btn');
-      var msg = document.getElementById('nl-msg');
-      if (!email || email.indexOf('@') < 0) return;
-      btn.textContent = 'Subscribing...';
-      btn.disabled = true;
-      // Save to Supabase newsletter table
-      var SB_URL = typeof window.SB_URL !== 'undefined' ? window.SB_URL : 'YOUR_SUPABASE_URL_HERE';
-      var SB_KEY = typeof window.SB_KEY !== 'undefined' ? window.SB_KEY : 'YOUR_SUPABASE_ANON_KEY_HERE';
-      if (SB_URL && SB_URL !== 'YOUR_SUPABASE_URL_HERE') {
-        fetch(SB_URL + '/rest/v1/newsletter_subscribers', {
-          method: 'POST',
-          headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-          body: JSON.stringify({ email: email, source: window.location.pathname })
-        }).catch(function () { });
-      }
-      setTimeout(function () {
-        document.getElementById('newsletter-form').style.display = 'none';
-        msg.textContent = '✓ You are on the list. Watch your inbox.';
-        msg.style.display = 'block';
-        msg.style.color = 'rgba(255,255,255,.7)';
-        msg.style.fontSize = '14px';
-      }, 600);
-      }
-      </script>
-      <script>
-      const FORMSPREE = 'YOUR_FORMSPREE_ENDPOINT';
-  
-    const FW_PUBLIC_KEY = window.APP_ENV.FW_PUBLIC_KEY;
-
-    var ADMIN_EMAIL = 'labs@technuvate.com';
-
-    // ─── COHORT CONFIGURATION ───────────────────────────────────────────
-    // Update these values before each new cohort opens
-    const COHORT_NUMBER = 1;
-    const COHORT_START = new Date(2026, 7, 4);   // 4 August 2026 (month is 0-indexed)
-    const PAYMENT_DEADLINE = new Date(2026, 6, 25); // 25 July 2026 — last day to pay and secure a spot
-    const SPOTS_TOTAL = 30;
-    const SPOTS_LEFT = 18; // update manually as spots fill
-    // ────────────────────────────────────────────────────────────────────
-
-    function setText(id, val) { var el = document.getElementById(id); if (el) el.textContent = val; }
-    function initCohort() {
-      var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-      setText('cohortBadge', 'Cohort ' + COHORT_NUMBER + ' — Now Open');
-      setText('cohortLabel', 'Labs Professional Track — Cohort ' + COHORT_NUMBER);
-      setText('cohortStartLabel', COHORT_START.getDate() + ' ' + months[COHORT_START.getMonth()] + ' ' + COHORT_START.getFullYear());
-      setText('deadlineLabel', PAYMENT_DEADLINE.getDate() + ' ' + months[PAYMENT_DEADLINE.getMonth()] + ' ' + PAYMENT_DEADLINE.getFullYear());
-      setText('spotsLabel', SPOTS_LEFT + ' of ' + SPOTS_TOTAL);
-      // Start countdown
-      function tick() {
-        var now = new Date().getTime();
-        var dist = PAYMENT_DEADLINE.getTime() - now;
-        if (dist <= 0) {
-          setText('cd-days', '00'); setText('cd-hrs', '00'); setText('cd-mins', '00'); setText('cd-secs', '00');
-          return;
+        e.preventDefault();
+        var email = document.getElementById("nl-email").value.trim();
+        var btn = document.getElementById("nl-btn");
+        var msg = document.getElementById("nl-msg");
+        if (!email || email.indexOf("@") < 0) return;
+        btn.textContent = "Subscribing...";
+        btn.disabled = true;
+        // Save to Supabase newsletter table
+        var SB_URL =
+          typeof window.SB_URL !== "undefined"
+            ? window.SB_URL
+            : "YOUR_SUPABASE_URL_HERE";
+        var SB_KEY =
+          typeof window.SB_KEY !== "undefined"
+            ? window.SB_KEY
+            : "YOUR_SUPABASE_ANON_KEY_HERE";
+        if (SB_URL && SB_URL !== "YOUR_SUPABASE_URL_HERE") {
+          fetch(SB_URL + "/rest/v1/newsletter_subscribers", {
+            method: "POST",
+            headers: {
+              apikey: SB_KEY,
+              Authorization: "Bearer " + SB_KEY,
+              "Content-Type": "application/json",
+              Prefer: "return=minimal",
+            },
+            body: JSON.stringify({
+              email: email,
+              source: window.location.pathname,
+            }),
+          }).catch(function () {});
         }
-        var d = Math.floor(dist / (1000 * 60 * 60 * 24));
-        var h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
-        var s = Math.floor((dist % (1000 * 60)) / 1000);
-        setText('cd-days', String(d).padStart(2, '0'));
-        setText('cd-hrs', String(h).padStart(2, '0'));
-        setText('cd-mins', String(m).padStart(2, '0'));
-        setText('cd-secs', String(s).padStart(2, '0'));
+        setTimeout(function () {
+          document.getElementById("newsletter-form").style.display = "none";
+          msg.textContent = "✓ You are on the list. Watch your inbox.";
+          msg.style.display = "block";
+          msg.style.color = "rgba(255,255,255,.7)";
+          msg.style.fontSize = "14px";
+        }, 600);
       }
-      tick();
-      setInterval(tick, 1000);
-    }
-    document.addEventListener('DOMContentLoaded', initCohort);
+    </script>
+    <script>
+      const FORMSPREE = "YOUR_FORMSPREE_ENDPOINT";
+
+      const FW_PUBLIC_KEY = window.APP_ENV.FW_PUBLIC_KEY;
+
+      var ADMIN_EMAIL = "labs@technuvate.com";
+
+      // ─── COHORT CONFIGURATION ───────────────────────────────────────────
+      // Update these values before each new cohort opens
+      const COHORT_NUMBER = 1;
+      const COHORT_START = new Date(2026, 7, 4); // 4 August 2026 (month is 0-indexed)
+      const PAYMENT_DEADLINE = new Date(2026, 6, 25); // 25 July 2026 — last day to pay and secure a spot
+      const SPOTS_TOTAL = 30;
+      const SPOTS_LEFT = 18; // update manually as spots fill
+      // ────────────────────────────────────────────────────────────────────
+
+      function setText(id, val) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = val;
+      }
+      function initCohort() {
+        var months = [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
+        setText("cohortBadge", "Cohort " + COHORT_NUMBER + " — Now Open");
+        setText(
+          "cohortLabel",
+          "Labs Professional Track — Cohort " + COHORT_NUMBER,
+        );
+        setText(
+          "cohortStartLabel",
+          COHORT_START.getDate() +
+            " " +
+            months[COHORT_START.getMonth()] +
+            " " +
+            COHORT_START.getFullYear(),
+        );
+        setText(
+          "deadlineLabel",
+          PAYMENT_DEADLINE.getDate() +
+            " " +
+            months[PAYMENT_DEADLINE.getMonth()] +
+            " " +
+            PAYMENT_DEADLINE.getFullYear(),
+        );
+        setText("spotsLabel", SPOTS_LEFT + " of " + SPOTS_TOTAL);
+        // Start countdown
+        function tick() {
+          var now = new Date().getTime();
+          var dist = PAYMENT_DEADLINE.getTime() - now;
+          if (dist <= 0) {
+            setText("cd-days", "00");
+            setText("cd-hrs", "00");
+            setText("cd-mins", "00");
+            setText("cd-secs", "00");
+            return;
+          }
+          var d = Math.floor(dist / (1000 * 60 * 60 * 24));
+          var h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+          var s = Math.floor((dist % (1000 * 60)) / 1000);
+          setText("cd-days", String(d).padStart(2, "0"));
+          setText("cd-hrs", String(h).padStart(2, "0"));
+          setText("cd-mins", String(m).padStart(2, "0"));
+          setText("cd-secs", String(s).padStart(2, "0"));
+        }
+        tick();
+        setInterval(tick, 1000);
+      }
+      document.addEventListener("DOMContentLoaded", initCohort);
 
       function toggleMenu() {
         var m = document.getElementById("mobMenu");
         var b = document.getElementById("hamBtn");
+        if (!m || !b) return;
         m.classList.toggle("open");
         var s = b.querySelectorAll("span");
         if (m.classList.contains("open")) {
@@ -1587,289 +2311,407 @@
           s[2].style.transform = "";
         }
       }
-    document.addEventListener('click', function (e) {
-      var m = document.getElementById('mobMenu'); var b = document.getElementById('hamBtn');
-      if (m && m.classList.contains('open') && !m.contains(e.target) && !b.contains(e.target)) toggleMenu();
-    });
-
-    function handleCountry() {
-      var c = document.getElementById('country').value;
-      var ngGrp = document.getElementById('nigeria-state-group');
-      var otherGrp = document.getElementById('other-country-group');
-      var intlGrp = document.getElementById('intl-state-group');
-      ngGrp.style.display = 'none';
-      otherGrp.style.display = 'none';
-      intlGrp.style.display = 'none';
-      if (c === 'Nigeria') ngGrp.style.display = 'block';
-      else if (c === 'Other') otherGrp.style.display = 'block';
-      else if (c) intlGrp.style.display = 'block';
-    }
-
-    document.getElementById('background').addEventListener('change', function () {
-      var g = document.getElementById('cohort-group');
-      g.style.display = this.value === 'TechNuVate Academy' ? 'block' : 'none';
-    });
-
-    function val(id) { return document.getElementById(id).value.trim(); }
-    function showErr(id, msg) { var e = document.getElementById(id + '-err'); if (e) { e.textContent = msg; e.style.display = 'block'; } document.getElementById(id).classList.add('invalid'); }
-    function clearErr(id) { var e = document.getElementById(id + '-err'); if (e) e.style.display = 'none'; document.getElementById(id).classList.remove('invalid'); }
-
-    ['fullname', 'email', 'phone', 'country', 'track', 'background', 'experience'].forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) el.addEventListener('input', function () { clearErr(id); });
-    });
-
-  function showFwToast(message, type) {
-    var existing = document.getElementById('fw-toast-el');
-    if (existing) existing.remove();
-    var toast = document.createElement('div');
-    toast.id = 'fw-toast-el';
-    toast.className = 'fw-toast' + (type === 'error' ? ' fw-toast-error' : type === 'success' ? ' fw-toast-success' : '');
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        toast.classList.add('fw-toast-visible');
+      document.addEventListener("click", function (e) {
+        var m = document.getElementById("mobMenu");
+        var b = document.getElementById("hamBtn");
+        if (
+          m &&
+          m.classList.contains("open") &&
+          !m.contains(e.target) &&
+          !b.contains(e.target)
+        )
+          toggleMenu();
       });
-    });
-    setTimeout(function() {
-      toast.classList.remove('fw-toast-visible');
-      setTimeout(function() {
-        if (toast.parentNode) toast.parentNode.removeChild(toast);
-      }, 350);
-    }, 6000);
-  }
 
-    function submitForm() {
-      var btn = document.getElementById('submitBtn');
-      var spinner = document.getElementById('spinner');
-      var btnText = document.getElementById('btnText');
-
-      // ── Commitment checkbox first ─────────────────────
-      var cb = document.getElementById('commitCheck');
-      if (cb && !cb.checked) {
-        document.getElementById('commitErr').style.display = 'block';
-        cb.closest('div').scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
+      function handleCountry() {
+        var c = document.getElementById("country").value;
+        var ngGrp = document.getElementById("nigeria-state-group");
+        var otherGrp = document.getElementById("other-country-group");
+        var intlGrp = document.getElementById("intl-state-group");
+        ngGrp.style.display = "none";
+        otherGrp.style.display = "none";
+        intlGrp.style.display = "none";
+        if (c === "Nigeria") ngGrp.style.display = "block";
+        else if (c === "Other") otherGrp.style.display = "block";
+        else if (c) intlGrp.style.display = "block";
       }
-      if (cb) document.getElementById('commitErr').style.display = 'none';
 
-      // ── Helper functions ──────────────────────────────
-      function gv(id) {
-        var el = document.getElementById(id);
-        return el ? el.value.trim() : '';
+      document
+        .getElementById("background")
+        .addEventListener("change", function () {
+          var g = document.getElementById("cohort-group");
+          g.style.display =
+            this.value === "TechNuVate Academy" ? "block" : "none";
+        });
+
+      function val(id) {
+        return document.getElementById(id).value.trim();
       }
       function showErr(id, msg) {
-        var e = document.getElementById(id + '-err');
-        if (e) { e.textContent = msg; e.style.display = 'block'; }
-        var inp = document.getElementById(id);
-        if (inp) inp.classList.add('invalid');
+        var e = document.getElementById(id + "-err");
+        if (e) {
+          e.textContent = msg;
+          e.style.display = "block";
+        }
+        document.getElementById(id).classList.add("invalid");
       }
       function clearErr(id) {
-        var e = document.getElementById(id + '-err');
-        if (e) e.style.display = 'none';
-        var inp = document.getElementById(id);
-        if (inp) inp.classList.remove('invalid');
+        var e = document.getElementById(id + "-err");
+        if (e) e.style.display = "none";
+        document.getElementById(id).classList.remove("invalid");
       }
 
-      // ── Collect all form values ───────────────────────
-      var fullName   = gv('fullname');
-      var email      = gv('email');
-      var phone      = gv('phone');
-      var gender     = gv('gender');
-      var ageRange   = gv('age');
-      var country    = gv('country');
-      var skillTrack = gv('track');
-      var background = gv('background');
-      var cohort     = gv('cohort') || null;
-      var experience = gv('experience');
-      var goal       = gv('goal');
-      var linkedin   = gv('linkedin');
-
-      // ── Resolve state/region ──────────────────────────
-      var stateRegion = '';
-      if (country === 'Nigeria') {
-        stateRegion = gv('nigeria-state');
-      } else if (country === 'Other') {
-        var otherName  = gv('other-country-name');
-        var otherState = gv('other-country-state');
-        stateRegion = otherName && otherState ? otherName + ', ' + otherState : otherName || otherState;
-      } else if (country) {
-        stateRegion = gv('intl-state');
-      }
-
-      // ── Currency based on country ─────────────────────
-      var currency = country === 'Nigeria' ? 'NGN' : 'USD';
-
-      // ── Client-side validation ────────────────────────
-      var ok = true;
-
-      if (!fullName)   { showErr('fullname',   'Please enter your full name.');                   ok = false; } else clearErr('fullname');
-      if (!gender)     { showErr('gender',      'Please select your gender.');                    ok = false; } else clearErr('gender');
-      if (!ageRange)   { showErr('age',         'Please select your age range.');                 ok = false; } else clearErr('age');
-
-      var em = email;
-      if (!em || em.indexOf('@') < 0 || em.indexOf('.') < 0) {
-        showErr('email', 'Please enter a valid email address.'); ok = false;
-      } else clearErr('email');
-
-      if (!phone)      { showErr('phone',       'Please enter your WhatsApp number.');            ok = false; } else clearErr('phone');
-      if (!country)    { showErr('country',     'Please select your country.');                   ok = false; } else clearErr('country');
-
-      if (country === 'Nigeria' && !stateRegion) {
-        showErr('nigeria-state', 'Please select your state.'); ok = false;
-      } else if (country === 'Other') {
-        if (!gv('other-country-name'))  { showErr('other-country-name',  'Please enter your country name.');        ok = false; }
-        if (!gv('other-country-state')) { showErr('other-country-state', 'Please enter your state or region.');     ok = false; }
-      } else if (country && !stateRegion) {
-        showErr('intl-state', 'Please enter your state or region.'); ok = false;
-      }
-
-      if (!skillTrack) { showErr('track',      'Please select a skill track.');                   ok = false; } else clearErr('track');
-      if (!background) { showErr('background', 'Please tell us where you learned.');              ok = false; } else clearErr('background');
-      if (!experience) { showErr('experience', 'Please describe your current skill level.');      ok = false; } else clearErr('experience');
-      if (!goal)       { showErr('goal',       'Please tell us what you want to walk away with.'); ok = false; } else clearErr('goal');
-      if (!linkedin)   { showErr('linkedin',   'Please enter your LinkedIn profile URL.');         ok = false; } else clearErr('linkedin');
-
-      if (!ok) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-
-      // ── Disable button ────────────────────────────────
-      if (btn)     btn.disabled = true;
-      if (spinner) spinner.style.display = 'block';
-      if (btnText) btnText.textContent = 'Processing...';
-
-      // ── Call labs-pro.js Netlify function ─────────────
-      fetch(window.location.origin + '/.netlify/functions/labs-pro', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          full_name:            fullName,
-          email:                email,
-          phone:                phone,
-          gender:               gender,
-          age_range:            ageRange,
-          country:              country,
-          state_region:         stateRegion || null,
-          skill_track:          skillTrack,
-          background:           background,
-          academy_cohort:       cohort,
-          experience:           experience,
-          goal:                 goal,
-          linkedin:             linkedin,
-          currency:             currency,
-          commitment_confirmed: true
-        })
-      })
-      .then(function (res) {
-        if (!res.ok) throw new Error('Server error: ' + res.status);
-        return res.json();
-      })
-      .then(function (data) {
-        if (!data.success || !data.flutterwaveConfig) {
-          throw new Error(data.error || 'Invalid server response');
-        }
-
-        var config = data.flutterwaveConfig;
-
-        try {
-          var flutterwaveCheckoutInstance = FlutterwaveCheckout({
-            public_key:      window.APP_ENV.FW_PUBLIC_KEY,
-            tx_ref:          config.tx_ref,
-            amount:          config.amount,
-            currency:        config.currency,
-            payment_options: config.payment_options,
-            customer:        config.customer,
-            meta:            config.meta,
-            customizations:  config.customizations,
-            callback: function (response) {
-              if (response.status === 'successful' || response.status === 'completed') {
-                if (btn)     btn.disabled = false;
-                if (spinner) spinner.style.display = 'none';
-                if (btnText) btnText.textContent = 'Confirm and Pay';
-
-                fetch(window.location.origin + '/.netlify/functions/verify-labs-pro', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    flw_tx_ref:           config.tx_ref,
-                    flw_tx_id:            response.transaction_id || response.id || response.flw_ref || '',
-                    amount:               config.amount,
-                    currency:             config.currency,
-                    full_name:            fullName,
-                    email:                email,
-                    phone:                phone,
-                    gender:               gender,
-                    age_range:            ageRange,
-                    country:              country,
-                    state_region:         stateRegion || null,
-                    skill_track:          skillTrack,
-                    background:           background,
-                    academy_cohort:       cohort,
-                    experience:           experience,
-                    goal:                 goal,
-                    linkedin:             linkedin,
-                    commitment_confirmed: true
-                  })
-                })
-                .then(function (vRes) {
-                  if (!vRes.ok) throw new Error('Verification failed: ' + vRes.status);
-                  return vRes.json();
-                })
-                .then(function (vData) {
-                  if (vData.success) {
-                    setTimeout(function () {
-                      flutterwaveCheckoutInstance.close();
-                      document.getElementById('formCard').style.display = 'none';
-                      document.getElementById('successCard').style.display = 'block';
-                      window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }, 300);
-                  } else {
-                    throw new Error(vData.error || 'Verification returned false');
-                  }
-                })
-                .catch(function (vErr) {
-                  console.error('Labs pro verification error:', vErr);
-                  setTimeout(function () { flutterwaveCheckoutInstance.close(); }, 300);
-                  setTimeout(function () {
-                    showFwToast('Your payment was received. We will confirm your application shortly. Reference: ' + config.tx_ref, 'error');
-                  }, 350);
-                });
-
-              } else {
-                if (btn)     btn.disabled = false;
-                if (spinner) spinner.style.display = 'none';
-                if (btnText) btnText.textContent = 'Confirm and Pay';
-                showFwToast('Payment was not completed. Please try again.', 'error');
-              }
-            },
-            onclose: function () {
-              if (btn)     btn.disabled = false;
-              if (spinner) spinner.style.display = 'none';
-              if (btnText) btnText.textContent = 'Confirm and Pay';
-            }
+      [
+        "fullname",
+        "email",
+        "phone",
+        "country",
+        "track",
+        "background",
+        "experience",
+      ].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el)
+          el.addEventListener("input", function () {
+            clearErr(id);
           });
-        } catch (fwErr) {
-          console.error('FlutterwaveCheckout init error:', fwErr);
-          if (btn)     btn.disabled = false;
-          if (spinner) spinner.style.display = 'none';
-          if (btnText) btnText.textContent = 'Confirm and Pay';
-          showFwToast('Something went wrong opening payment. Please try again.', 'error');
-        }
-      })
-      .catch(function (err) {
-        console.error('Labs pro init error:', err);
-        if (btn)     btn.disabled = false;
-        if (spinner) spinner.style.display = 'none';
-        if (btnText) btnText.textContent = 'Confirm and Pay';
-        showFwToast('Something went wrong. Please try again.', 'error');
       });
-    }
-  </script>
 
-  
-</body>
+      function showFwToast(message, type) {
+        var existing = document.getElementById("fw-toast-el");
+        if (existing) existing.remove();
+        var toast = document.createElement("div");
+        toast.id = "fw-toast-el";
+        toast.className =
+          "fw-toast" +
+          (type === "error"
+            ? " fw-toast-error"
+            : type === "success"
+              ? " fw-toast-success"
+              : "");
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            toast.classList.add("fw-toast-visible");
+          });
+        });
+        setTimeout(function () {
+          toast.classList.remove("fw-toast-visible");
+          setTimeout(function () {
+            if (toast.parentNode) toast.parentNode.removeChild(toast);
+          }, 350);
+        }, 6000);
+      }
 
+      function submitForm() {
+        var btn = document.getElementById("submitBtn");
+        var spinner = document.getElementById("spinner");
+        var btnText = document.getElementById("btnText");
+
+        // ── Commitment checkbox first ─────────────────────
+        var cb = document.getElementById("commitCheck");
+        if (cb && !cb.checked) {
+          document.getElementById("commitErr").style.display = "block";
+          cb.closest("div").scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+          return;
+        }
+        if (cb) document.getElementById("commitErr").style.display = "none";
+
+        // ── Helper functions ──────────────────────────────
+        function gv(id) {
+          var el = document.getElementById(id);
+          return el ? el.value.trim() : "";
+        }
+        function showErr(id, msg) {
+          var e = document.getElementById(id + "-err");
+          if (e) {
+            e.textContent = msg;
+            e.style.display = "block";
+          }
+          var inp = document.getElementById(id);
+          if (inp) inp.classList.add("invalid");
+        }
+        function clearErr(id) {
+          var e = document.getElementById(id + "-err");
+          if (e) e.style.display = "none";
+          var inp = document.getElementById(id);
+          if (inp) inp.classList.remove("invalid");
+        }
+
+        // ── Collect all form values ───────────────────────
+        var fullName = gv("fullname");
+        var email = gv("email");
+        var phone = gv("phone");
+        var gender = gv("gender");
+        var ageRange = gv("age");
+        var country = gv("country");
+        var skillTrack = gv("track");
+        var background = gv("background");
+        var cohort = gv("cohort") || null;
+        var experience = gv("experience");
+        var goal = gv("goal");
+        var linkedin = gv("linkedin");
+
+        // ── Resolve state/region ──────────────────────────
+        var stateRegion = "";
+        if (country === "Nigeria") {
+          stateRegion = gv("nigeria-state");
+        } else if (country === "Other") {
+          var otherName = gv("other-country-name");
+          var otherState = gv("other-country-state");
+          stateRegion =
+            otherName && otherState
+              ? otherName + ", " + otherState
+              : otherName || otherState;
+        } else if (country) {
+          stateRegion = gv("intl-state");
+        }
+
+        // ── Currency based on country ─────────────────────
+        var currency = country === "Nigeria" ? "NGN" : "USD";
+
+        // ── Client-side validation ────────────────────────
+        var ok = true;
+
+        if (!fullName) {
+          showErr("fullname", "Please enter your full name.");
+          ok = false;
+        } else clearErr("fullname");
+        if (!gender) {
+          showErr("gender", "Please select your gender.");
+          ok = false;
+        } else clearErr("gender");
+        if (!ageRange) {
+          showErr("age", "Please select your age range.");
+          ok = false;
+        } else clearErr("age");
+
+        var em = email;
+        if (!em || em.indexOf("@") < 0 || em.indexOf(".") < 0) {
+          showErr("email", "Please enter a valid email address.");
+          ok = false;
+        } else clearErr("email");
+
+        if (!phone) {
+          showErr("phone", "Please enter your WhatsApp number.");
+          ok = false;
+        } else clearErr("phone");
+        if (!country) {
+          showErr("country", "Please select your country.");
+          ok = false;
+        } else clearErr("country");
+
+        if (country === "Nigeria" && !stateRegion) {
+          showErr("nigeria-state", "Please select your state.");
+          ok = false;
+        } else if (country === "Other") {
+          if (!gv("other-country-name")) {
+            showErr("other-country-name", "Please enter your country name.");
+            ok = false;
+          }
+          if (!gv("other-country-state")) {
+            showErr(
+              "other-country-state",
+              "Please enter your state or region.",
+            );
+            ok = false;
+          }
+        } else if (country && !stateRegion) {
+          showErr("intl-state", "Please enter your state or region.");
+          ok = false;
+        }
+
+        if (!skillTrack) {
+          showErr("track", "Please select a skill track.");
+          ok = false;
+        } else clearErr("track");
+        if (!background) {
+          showErr("background", "Please tell us where you learned.");
+          ok = false;
+        } else clearErr("background");
+        if (!experience) {
+          showErr("experience", "Please describe your current skill level.");
+          ok = false;
+        } else clearErr("experience");
+        if (!goal) {
+          showErr("goal", "Please tell us what you want to walk away with.");
+          ok = false;
+        } else clearErr("goal");
+        if (!linkedin) {
+          showErr("linkedin", "Please enter your LinkedIn profile URL.");
+          ok = false;
+        } else clearErr("linkedin");
+
+        if (!ok) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
+
+        // ── Disable button ────────────────────────────────
+        if (btn) btn.disabled = true;
+        if (spinner) spinner.style.display = "block";
+        if (btnText) btnText.textContent = "Processing...";
+
+        // ── Call labs-pro.js Netlify function ─────────────
+        fetch(window.location.origin + "/.netlify/functions/labs-pro", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            full_name: fullName,
+            email: email,
+            phone: phone,
+            gender: gender,
+            age_range: ageRange,
+            country: country,
+            state_region: stateRegion || null,
+            skill_track: skillTrack,
+            background: background,
+            academy_cohort: cohort,
+            experience: experience,
+            goal: goal,
+            linkedin: linkedin,
+            currency: currency,
+            commitment_confirmed: true,
+          }),
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error("Server error: " + res.status);
+            return res.json();
+          })
+          .then(function (data) {
+            if (!data.success || !data.flutterwaveConfig) {
+              throw new Error(data.error || "Invalid server response");
+            }
+
+            var config = data.flutterwaveConfig;
+
+            try {
+              var flutterwaveCheckoutInstance = FlutterwaveCheckout({
+                public_key: window.APP_ENV.FW_PUBLIC_KEY,
+                tx_ref: config.tx_ref,
+                amount: config.amount,
+                currency: config.currency,
+                payment_options: config.payment_options,
+                customer: config.customer,
+                meta: config.meta,
+                customizations: config.customizations,
+                callback: function (response) {
+                  if (
+                    response.status === "successful" ||
+                    response.status === "completed"
+                  ) {
+                    if (btn) btn.disabled = false;
+                    if (spinner) spinner.style.display = "none";
+                    if (btnText) btnText.textContent = "Confirm and Pay";
+
+                    fetch(
+                      window.location.origin +
+                        "/.netlify/functions/verify-labs-pro",
+                      {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          flw_tx_ref: config.tx_ref,
+                          flw_tx_id:
+                            response.transaction_id ||
+                            response.id ||
+                            response.flw_ref ||
+                            "",
+                          amount: config.amount,
+                          currency: config.currency,
+                          full_name: fullName,
+                          email: email,
+                          phone: phone,
+                          gender: gender,
+                          age_range: ageRange,
+                          country: country,
+                          state_region: stateRegion || null,
+                          skill_track: skillTrack,
+                          background: background,
+                          academy_cohort: cohort,
+                          experience: experience,
+                          goal: goal,
+                          linkedin: linkedin,
+                          commitment_confirmed: true,
+                        }),
+                      },
+                    )
+                      .then(function (vRes) {
+                        if (!vRes.ok)
+                          throw new Error(
+                            "Verification failed: " + vRes.status,
+                          );
+                        return vRes.json();
+                      })
+                      .then(function (vData) {
+                        if (vData.success) {
+                          setTimeout(function () {
+                            flutterwaveCheckoutInstance.close();
+                            document.getElementById("formCard").style.display =
+                              "none";
+                            document.getElementById(
+                              "successCard",
+                            ).style.display = "block";
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }, 300);
+                        } else {
+                          throw new Error(
+                            vData.error || "Verification returned false",
+                          );
+                        }
+                      })
+                      .catch(function (vErr) {
+                        console.error("Labs pro verification error:", vErr);
+                        setTimeout(function () {
+                          flutterwaveCheckoutInstance.close();
+                        }, 300);
+                        setTimeout(function () {
+                          showFwToast(
+                            "Your payment was received. We will confirm your application shortly. Reference: " +
+                              config.tx_ref,
+                            "error",
+                          );
+                        }, 350);
+                      });
+                  } else {
+                    if (btn) btn.disabled = false;
+                    if (spinner) spinner.style.display = "none";
+                    if (btnText) btnText.textContent = "Confirm and Pay";
+                    showFwToast(
+                      "Payment was not completed. Please try again.",
+                      "error",
+                    );
+                  }
+                },
+                onclose: function () {
+                  if (btn) btn.disabled = false;
+                  if (spinner) spinner.style.display = "none";
+                  if (btnText) btnText.textContent = "Confirm and Pay";
+                },
+              });
+            } catch (fwErr) {
+              console.error("FlutterwaveCheckout init error:", fwErr);
+              if (btn) btn.disabled = false;
+              if (spinner) spinner.style.display = "none";
+              if (btnText) btnText.textContent = "Confirm and Pay";
+              showFwToast(
+                "Something went wrong opening payment. Please try again.",
+                "error",
+              );
+            }
+          })
+          .catch(function (err) {
+            console.error("Labs pro init error:", err);
+            if (btn) btn.disabled = false;
+            if (spinner) spinner.style.display = "none";
+            if (btnText) btnText.textContent = "Confirm and Pay";
+            showFwToast("Something went wrong. Please try again.", "error");
+          });
+      }
+    </script>
+  </body>
 </html>

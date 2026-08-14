@@ -1210,6 +1210,44 @@
           font-size: 12px;
         }
       }
+      .mob-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .mob-link {
+        display: block;
+        padding: 12px 8px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #111827;
+        text-decoration: none;
+        border-bottom: 1px solid #f0f2f5;
+        transition:
+          color 0.15s ease,
+          background 0.15s ease;
+        border-radius: 8px;
+      }
+      .mob-link:hover {
+        color: #1b3a7a;
+        background: #f5f7ff;
+      }
+      .mob-link:last-child {
+        border-bottom: none;
+      }
+      .mob-link-cta {
+        margin-top: 8px;
+        background: #1b3a7a;
+        color: #fff;
+        text-align: center;
+        border-radius: 100px;
+        border-bottom: none;
+        font-weight: 600;
+      }
+      .mob-link-cta:hover {
+        background: #152d61;
+        color: #fff;
+      }
     </style>
     <link rel="icon" type="image/png" href="favicon.png" />
   </head>
@@ -1318,6 +1356,44 @@
         </button>
       </div>
     </nav>
+    <div class="mob-menu" id="mobMenu">
+      <div class="mob-section">
+        <div class="mob-section-title">Meet Us</div>
+        <a href="about.html">About Us</a>
+        <a href="academy.html">TechNuVate Academy</a>
+        <a href="studio.html">TechNuVate Studio</a>
+        <a href="labs.html">TechNuVate Labs</a>
+      </div>
+      <div class="mob-section">
+        <div class="mob-section-title">Work With Us</div>
+        <a href="tutors.html">Become a Tutor</a>
+        <a href="join-team.html">Become a Team Member</a>
+      </div>
+      <div class="mob-section">
+        <div class="mob-section-title">Explore</div>
+        <a href="blog.html">Blog &amp; Events</a>
+        <a href="store.html">Merch Store</a>
+      </div>
+      <div class="mob-section">
+        <a
+          href="donate.html"
+          style="
+            display: block;
+            background: #1b3a7a;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 13px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            margin-bottom: 4px;
+          "
+          >&#10084;&#65039; Donate Now</a
+        >
+      </div>
+      <!-- <a href="index.html#contact" class="mob-cta">Contact Us</a> -->
+    </div>
 
     <!-- HERO -->
     <section
@@ -2780,7 +2856,11 @@
         <div class="ftop">
           <div>
             <div class="flogo">
-              <img src="footer-logo.webp" alt="TechNuVate" style="height: 40px" />
+              <img
+                src="footer-logo.webp"
+                alt="TechNuVate"
+                style="height: 40px"
+              />
             </div>
             <p class="fdesc">
               A tech organisation training, deploying, and connecting talent in
@@ -3206,6 +3286,7 @@
       function toggleMenu() {
         var m = document.getElementById("mobMenu");
         var b = document.getElementById("hamBtn");
+        if (!m || !b) return;
         m.classList.toggle("open");
         var s = b.querySelectorAll("span");
         if (m.classList.contains("open")) {
