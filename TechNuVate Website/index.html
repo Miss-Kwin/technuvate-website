@@ -2073,6 +2073,44 @@
       .d4 {
         transition-delay: 0.4s;
       }
+      .mob-nav {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .mob-link {
+        display: block;
+        padding: 12px 8px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #111827;
+        text-decoration: none;
+        border-bottom: 1px solid #f0f2f5;
+        transition:
+          color 0.15s ease,
+          background 0.15s ease;
+        border-radius: 8px;
+      }
+      .mob-link:hover {
+        color: #1b3a7a;
+        background: #f5f7ff;
+      }
+      .mob-link:last-child {
+        border-bottom: none;
+      }
+      .mob-link-cta {
+        margin-top: 8px;
+        background: #1b3a7a;
+        color: #fff;
+        text-align: center;
+        border-radius: 100px;
+        border-bottom: none;
+        font-weight: 600;
+      }
+      .mob-link-cta:hover {
+        background: #152d61;
+        color: #fff;
+      }
     </style>
     <link rel="icon" type="image/png" href="favicon.png" />
   </head>
@@ -2184,29 +2222,44 @@
         </button>
       </div>
     </nav>
-    <!-- <div class="mob-menu" id="mobMenu">
-  <div class="mob-section">
-    <a href="donate.html" style="display:block;background:#1B3A7A;color:#fff;font-weight:700;font-size:14px;padding:13px 16px;border-radius:10px;text-decoration:none;text-align:center;margin-bottom:4px">&#10084;&#65039; Donate Now</a>
-  </div>
-  <div class="mob-section">
-    <div class="mob-section-title">Meet Us</div>
-    <a href="about.html">About Us</a>
-    <a href="academy.html">TechNuVate Academy</a>
-    <a href="studio.html">TechNuVate Studio</a>
-    <a href="labs.html">TechNuVate Labs</a>
-  </div>
-  <div class="mob-section">
-    <div class="mob-section-title">Work With Us</div>
-    <a href="tutors.html">Become a Tutor</a>
-    <a href="join-team.html">Become a Team Member</a>
-  </div>
-  <div class="mob-section">
-    <div class="mob-section-title">Explore</div>
-    <a href="blog.html">Blog &amp; Events</a>
-    <a href="store.html">Merch Store</a>
-  </div>
-  <a href="index.html#contact" class="mob-cta">Contact Us</a>
-</div> -->
+    <div class="mob-menu" id="mobMenu">
+      <div class="mob-section">
+        <div class="mob-section-title">Meet Us</div>
+        <a href="about.html">About Us</a>
+        <a href="academy.html">TechNuVate Academy</a>
+        <a href="studio.html">TechNuVate Studio</a>
+        <a href="labs.html">TechNuVate Labs</a>
+      </div>
+      <div class="mob-section">
+        <div class="mob-section-title">Work With Us</div>
+        <a href="tutors.html">Become a Tutor</a>
+        <a href="join-team.html">Become a Team Member</a>
+      </div>
+      <div class="mob-section">
+        <div class="mob-section-title">Explore</div>
+        <a href="blog.html">Blog &amp; Events</a>
+        <a href="store.html">Merch Store</a>
+      </div>
+      <div class="mob-section">
+        <a
+          href="donate.html"
+          style="
+            display: block;
+            background: #1b3a7a;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            padding: 13px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            margin-bottom: 4px;
+          "
+          >&#10084;&#65039; Donate Now</a
+        >
+      </div>
+      <!-- <a href="index.html#contact" class="mob-cta">Contact Us</a> -->
+    </div>
 
     <!-- HERO SECTION -->
     <section class="hero">
@@ -3799,43 +3852,45 @@
           transform: translateX(-50%);
         }
       }
-  .fw-toast {
-    position: fixed;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: #ffffff;
-    color: #1B3A7A;
-    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.5;
-    padding: 14px 24px;
-    border-radius: 10px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    z-index: 99999;
-    max-width: 420px;
-    width: calc(100% - 48px);
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    pointer-events: none;
-  }
-  .fw-toast.fw-toast-error {
-    background: #ffffff;
-    color: #1B3A7A;
-    border: 1.5px solid #1B3A7A;
-  }
-  .fw-toast.fw-toast-success {
-    background: #ffffff;
-    color: #1B3A7A;
-    border: 1.5px solid #1B3A7A;
-  }
-  .fw-toast.fw-toast-visible {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-    pointer-events: auto;
-  }
+      .fw-toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: #ffffff;
+        color: #1b3a7a;
+        font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        padding: 14px 24px;
+        border-radius: 10px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+        z-index: 99999;
+        max-width: 420px;
+        width: calc(100% - 48px);
+        text-align: center;
+        opacity: 0;
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
+        pointer-events: none;
+      }
+      .fw-toast.fw-toast-error {
+        background: #ffffff;
+        color: #1b3a7a;
+        border: 1.5px solid #1b3a7a;
+      }
+      .fw-toast.fw-toast-success {
+        background: #ffffff;
+        color: #1b3a7a;
+        border: 1.5px solid #1b3a7a;
+      }
+      .fw-toast.fw-toast-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
+      }
     </style>
 
     <!-- FAQ SECTION -->
@@ -5155,6 +5210,7 @@
       function toggleMenu() {
         var m = document.getElementById("mobMenu");
         var b = document.getElementById("hamBtn");
+        if (!m || !b) return;
         m.classList.toggle("open");
         var s = b.querySelectorAll("span");
         if (m.classList.contains("open")) {
@@ -5412,26 +5468,32 @@
           parseFloat(document.getElementById("don-custom-input").value) || 0;
       }
 
-  function showFwToast(message, type) {
-    var existing = document.getElementById('fw-toast-el');
-    if (existing) existing.remove();
-    var toast = document.createElement('div');
-    toast.id = 'fw-toast-el';
-    toast.className = 'fw-toast' + (type === 'error' ? ' fw-toast-error' : type === 'success' ? ' fw-toast-success' : '');
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        toast.classList.add('fw-toast-visible');
-      });
-    });
-    setTimeout(function() {
-      toast.classList.remove('fw-toast-visible');
-      setTimeout(function() {
-        if (toast.parentNode) toast.parentNode.removeChild(toast);
-      }, 350);
-    }, 6000);
-  }
+      function showFwToast(message, type) {
+        var existing = document.getElementById("fw-toast-el");
+        if (existing) existing.remove();
+        var toast = document.createElement("div");
+        toast.id = "fw-toast-el";
+        toast.className =
+          "fw-toast" +
+          (type === "error"
+            ? " fw-toast-error"
+            : type === "success"
+              ? " fw-toast-success"
+              : "");
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            toast.classList.add("fw-toast-visible");
+          });
+        });
+        setTimeout(function () {
+          toast.classList.remove("fw-toast-visible");
+          setTimeout(function () {
+            if (toast.parentNode) toast.parentNode.removeChild(toast);
+          }, 350);
+        }, 6000);
+      }
 
       function openDonation() {
         var donBtn = document.getElementById("don-btn");
@@ -5554,24 +5616,32 @@
                       donBtn.disabled = false;
                       donBtn.innerHTML = "<span>Donate Now &#10084;</span>";
                     }
-fetch(window.location.origin + "/.netlify/functions/verify-donation", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  flw_tx_ref: config.tx_ref,
-                  flw_tx_id: response.transaction_id || response.id || response.flw_ref || '',
-                  amount: config.amount,
-                  currency: config.currency,
-                  donor_name: config.meta.donor_name,
-                  email: config.customer.email,
-                  occasion: config.meta.occasion,
-                  honour_name: config.meta.honour_name,
-                  birthday_day: config.meta.birthday_day,
-                  birthday_month: config.meta.birthday_month,
-                  note: config.meta.note,
-                  shoutout: config.meta.shoutout,
-                }),
-              })
+                    fetch(
+                      window.location.origin +
+                        "/.netlify/functions/verify-donation",
+                      {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          flw_tx_ref: config.tx_ref,
+                          flw_tx_id:
+                            response.transaction_id ||
+                            response.id ||
+                            response.flw_ref ||
+                            "",
+                          amount: config.amount,
+                          currency: config.currency,
+                          donor_name: config.meta.donor_name,
+                          email: config.customer.email,
+                          occasion: config.meta.occasion,
+                          honour_name: config.meta.honour_name,
+                          birthday_day: config.meta.birthday_day,
+                          birthday_month: config.meta.birthday_month,
+                          note: config.meta.note,
+                          shoutout: config.meta.shoutout,
+                        }),
+                      },
+                    )
                       .then(function (vRes) {
                         if (!vRes.ok)
                           throw new Error(
@@ -5582,7 +5652,9 @@ fetch(window.location.origin + "/.netlify/functions/verify-donation", {
                       .then(function (vData) {
                         if (vData.success) {
                           setTimeout(function () {
-                            console.log('Success path reached — closing modal and resetting form');
+                            console.log(
+                              "Success path reached — closing modal and resetting form",
+                            );
                             flutterwaveCheckoutInstance.close();
                             var thankYou =
                               document.getElementById("donationThankYou");
@@ -5594,41 +5666,66 @@ fetch(window.location.origin + "/.netlify/functions/verify-donation", {
                                 block: "start",
                               });
                             donAmount = 0;
-                            donCurrency = 'NGN';
-                            document.querySelectorAll('.don-pill').forEach(function(b) { b.classList.remove('selected'); });
-                            document.getElementById('don-custom-wrap').style.display = 'none';
-                            var customInput = document.getElementById('don-custom-input');
-                            if (customInput) customInput.value = '';
-                            var nameEl = document.getElementById('don-name');
-                            if (nameEl) nameEl.value = '';
-                            var emailEl = document.getElementById('don-email');
-                            if (emailEl) emailEl.value = '';
-                            var noteEl = document.getElementById('don-note');
-                            if (noteEl) noteEl.value = '';
-                            var occasionEl = document.getElementById('don-occasion');
-                            if (occasionEl) occasionEl.value = '';
-                            var honourEl = document.getElementById('don-honour-name');
-                            if (honourEl) honourEl.value = '';
-                            var bdayMonth = document.getElementById('don-bday-month');
-                            if (bdayMonth) bdayMonth.value = '';
-                            var bdayDay = document.getElementById('don-bday-day');
-                            if (bdayDay) bdayDay.value = '';
-                            var customOcc = document.getElementById('don-custom-occasion');
-                            if (customOcc) customOcc.value = '';
-                            var shoutout = document.getElementById('don-shoutout');
+                            donCurrency = "NGN";
+                            document
+                              .querySelectorAll(".don-pill")
+                              .forEach(function (b) {
+                                b.classList.remove("selected");
+                              });
+                            document.getElementById(
+                              "don-custom-wrap",
+                            ).style.display = "none";
+                            var customInput =
+                              document.getElementById("don-custom-input");
+                            if (customInput) customInput.value = "";
+                            var nameEl = document.getElementById("don-name");
+                            if (nameEl) nameEl.value = "";
+                            var emailEl = document.getElementById("don-email");
+                            if (emailEl) emailEl.value = "";
+                            var noteEl = document.getElementById("don-note");
+                            if (noteEl) noteEl.value = "";
+                            var occasionEl =
+                              document.getElementById("don-occasion");
+                            if (occasionEl) occasionEl.value = "";
+                            var honourEl =
+                              document.getElementById("don-honour-name");
+                            if (honourEl) honourEl.value = "";
+                            var bdayMonth =
+                              document.getElementById("don-bday-month");
+                            if (bdayMonth) bdayMonth.value = "";
+                            var bdayDay =
+                              document.getElementById("don-bday-day");
+                            if (bdayDay) bdayDay.value = "";
+                            var customOcc = document.getElementById(
+                              "don-custom-occasion",
+                            );
+                            if (customOcc) customOcc.value = "";
+                            var shoutout =
+                              document.getElementById("don-shoutout");
                             if (shoutout) shoutout.checked = false;
-                            var honourWrap = document.getElementById('don-honour-wrap');
-                            if (honourWrap) honourWrap.style.display = 'none';
-                            var bdayWrap = document.getElementById('don-bday-wrap');
-                            if (bdayWrap) bdayWrap.style.display = 'none';
-                            var customOccWrap = document.getElementById('don-custom-occasion-wrap');
-                            if (customOccWrap) customOccWrap.style.display = 'none';
-                            var curNgn = document.getElementById('cur-ngn');
-                            if (curNgn) curNgn.className = 'don-cur-btn don-cur-on';
-                            var curUsd = document.getElementById('cur-usd');
-                            if (curUsd) curUsd.className = 'don-cur-btn don-cur-off';
-                            document.getElementById('don-amounts-ngn').style.display = 'flex';
-                            document.getElementById('don-amounts-usd').style.display = 'none';
+                            var honourWrap =
+                              document.getElementById("don-honour-wrap");
+                            if (honourWrap) honourWrap.style.display = "none";
+                            var bdayWrap =
+                              document.getElementById("don-bday-wrap");
+                            if (bdayWrap) bdayWrap.style.display = "none";
+                            var customOccWrap = document.getElementById(
+                              "don-custom-occasion-wrap",
+                            );
+                            if (customOccWrap)
+                              customOccWrap.style.display = "none";
+                            var curNgn = document.getElementById("cur-ngn");
+                            if (curNgn)
+                              curNgn.className = "don-cur-btn don-cur-on";
+                            var curUsd = document.getElementById("cur-usd");
+                            if (curUsd)
+                              curUsd.className = "don-cur-btn don-cur-off";
+                            document.getElementById(
+                              "don-amounts-ngn",
+                            ).style.display = "flex";
+                            document.getElementById(
+                              "don-amounts-usd",
+                            ).style.display = "none";
                           }, 300);
                         } else {
                           throw new Error(
@@ -5637,10 +5734,16 @@ fetch(window.location.origin + "/.netlify/functions/verify-donation", {
                         }
                       })
                       .catch(function (vErr) {
-                        console.error('Verification error:', vErr);
-                        setTimeout(function () { flutterwaveCheckoutInstance.close(); }, 300);
+                        console.error("Verification error:", vErr);
                         setTimeout(function () {
-                          showFwToast('Your payment was received. We will confirm it shortly. Your reference: ' + config.tx_ref, 'error');
+                          flutterwaveCheckoutInstance.close();
+                        }, 300);
+                        setTimeout(function () {
+                          showFwToast(
+                            "Your payment was received. We will confirm it shortly. Your reference: " +
+                              config.tx_ref,
+                            "error",
+                          );
                         }, 350);
                       });
                   } else {
