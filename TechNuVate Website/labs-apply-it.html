@@ -2181,343 +2181,264 @@
         }, 6000);
       }
 
-      function uploadToCloudinary(fileObject, uploadPreset, cloudName) {
-        return new Promise(function (resolve, reject) {
-          if (!fileObject) {
-            reject(new Error("No file provided for upload."));
-            return;
-          }
-          var uploadFormData = new FormData();
-          uploadFormData.append("file", fileObject);
-          uploadFormData.append("upload_preset", uploadPreset);
-          fetch(
-            "https://api.cloudinary.com/v1_1/" + cloudName + "/auto/upload",
-            {
-              method: "POST",
-              body: uploadFormData,
-            },
-          )
-            .then(function (cloudinaryResponse) {
-              if (!cloudinaryResponse.ok) {
-                return cloudinaryResponse.text().then(function (errorText) {
-                  throw new Error("Cloudinary upload failed: " + errorText);
-                });
-              }
-              return cloudinaryResponse.json();
-            })
-            .then(function (cloudinaryData) {
-              resolve(cloudinaryData.secure_url);
-            })
-            .catch(function (uploadError) {
-              reject(uploadError);
-            });
-        });
+      function disableAllFormInputs() {
+    var allInputs = document.querySelectorAll(
+      '#formCard input, #formCard select, #formCard textarea, #formCard button'
+    );
+    allInputs.forEach(function (inputElement) {
+      inputElement.disabled = true;
+      inputElement.style.opacity = '0.5';
+      inputElement.style.cursor  = 'not-allowed';
+    });
+  }
+
+  function enableAllFormInputs() {
+    var allInputs = document.querySelectorAll(
+      '#formCard input, #formCard select, #formCard textarea, #formCard button'
+    );
+    allInputs.forEach(function (inputElement) {
+      inputElement.disabled = false;
+      inputElement.style.opacity = '';
+      inputElement.style.cursor  = '';
+    });
+  }
+
+  
+      var submitButton = document.getElementById("submitBtn");
+      var spinnerElement = document.getElementById("spinner");
+      var buttonTextElement = document.getElementById("btnText");
+
+      // ── Commitment checkbox check ──────────────────────
+      var commitmentCheckbox = document.getElementById("commitCheck");
+      if (commitmentCheckbox && !commitmentCheckbox.checked) {
+        var commitmentError = document.getElementById("commitErr");
+        if (commitmentError) commitmentError.style.display = "block";
+        return;
       }
 
-      function submitForm() {
-        var submitButton = document.getElementById("submitBtn");
-        var spinnerElement = document.getElementById("spinner");
-        var buttonTextElement = document.getElementById("btnText");
+      // ── File selection validation ──────────────────────
+      var itLetterFile = document.getElementById("doc-it-letter").files[0];
+      var schoolIdFile = document.getElementById("doc-id").files[0];
+      var passportFile = document.getElementById("doc-passport").files[0];
 
-        // ── Helper: get field value by id ─────────────────
-        function getFieldValue(fieldId) {
-          var element = document.getElementById(fieldId);
-          return element ? element.value.trim() : "";
+      if (!itLetterFile) {
+        showFwToast("Please upload your IT request letter before submitting.", "error");
+        return;
+      }
+      if (!schoolIdFile) {
+        showFwToast("Please upload your school ID or admission letter.", "error");
+        return;
+      }
+      if (!passportFile) {
+        showFwToast("Please upload your passport photograph.", "error");
+        return;
+      }
+
+      // ── Collect all field values ───────────────────────
+      function getFieldValue(fieldId) {
+        var element = document.getElementById(fieldId);
+        return element ? element.value.trim() : "";
+      }
+
+      var fullName         = getFieldValue("fullname");
+      var email            = getFieldValue("email");
+      var phone            = getFieldValue("phone");
+      var gender           = getFieldValue("gender");
+      var ageRange         = getFieldValue("age");
+      var stateOfResidence = getFieldValue("state");
+      var city             = getFieldValue("city");
+      var schoolName       = getFieldValue("institution");
+      var institutionType  = getFieldValue("institution-type");
+      var courseOfStudy    = getFieldValue("course");
+      var currentLevel     = getFieldValue("level");
+      var itStartDate      = getFieldValue("it-start");
+      var itDuration       = getFieldValue("it-duration");
+      var supervisorName   = getFieldValue("supervisor");
+      var supervisorEmail  = getFieldValue("supervisor-email");
+      var naturalStrength  = getFieldValue("strength");
+      var peopleComfort    = getFieldValue("people-comfort");
+      var toolsFamiliar    = getFieldValue("digital-skill");
+      var whyTechnuvate    = getFieldValue("motivation");
+
+      // ── Currency from existing page logic ─────────────
+      var currency = "NGN";
+
+      // ── Disable all inputs and show loading state ──────
+      disableAllFormInputs();
+      if (submitButton) submitButton.disabled = true;
+      if (spinnerElement) spinnerElement.style.display = "block";
+      if (buttonTextElement) buttonTextElement.textContent = "Submitting Application...";
+
+      // ── Open Flutterwave checkout first ────────────────
+      fetch(window.location.origin + "/.netlify/functions/labs-it", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          full_name: fullName,
+          email: email,
+          phone: phone,
+          gender: gender,
+          age_range: ageRange,
+          state_of_residence: stateOfResidence,
+          city: city,
+          school_name: schoolName,
+          institution_type: institutionType,
+          course_of_study: courseOfStudy,
+          current_level: currentLevel,
+          it_start_date: itStartDate,
+          it_duration: itDuration,
+          supervisor_name: supervisorName || null,
+          supervisor_email: supervisorEmail || null,
+          natural_strength: naturalStrength,
+          people_comfort: peopleComfort,
+          tools_familiar: toolsFamiliar,
+          why_technuvate: whyTechnuvate,
+          it_letter_url: "pending",
+          school_id_url: "pending",
+          passport_url: "pending",
+          commitment_confirmed: true,
+          currency: currency
+        })
+      })
+      .then(function (labsItResponse) {
+        if (!labsItResponse.ok) throw new Error("Server error: " + labsItResponse.status);
+        return labsItResponse.json();
+      })
+      .then(function (labsItData) {
+        if (!labsItData.success || !labsItData.flutterwaveConfig) {
+          throw new Error(labsItData.error || "Invalid server response");
         }
 
-        // ── Commitment checkbox ───────────────────────────
-        var commitmentCheckbox = document.getElementById("commitCheck");
-        if (commitmentCheckbox && !commitmentCheckbox.checked) {
-          var commitmentError = document.getElementById("commitErr");
-          if (commitmentError) commitmentError.style.display = "block";
-          return;
-        }
+        var flutterwaveConfig = labsItData.flutterwaveConfig;
 
-        // ── Validate file uploads are selected ────────────
-        var itLetterFile = document.getElementById("doc-it-letter").files[0];
-        var schoolIdFile = document.getElementById("doc-id").files[0];
-        var passportFile = document.getElementById("doc-passport").files[0];
+        if (buttonTextElement) buttonTextElement.textContent = "Opening payment...";
 
-        if (!itLetterFile) {
-          showFwToast("Please upload your IT request letter.", "error");
-          return;
-        }
-        if (!schoolIdFile) {
-          showFwToast(
-            "Please upload your school ID or admission letter.",
-            "error",
-          );
-          return;
-        }
-        if (!passportFile) {
-          showFwToast("Please upload your passport photograph.", "error");
-          return;
-        }
+        try {
+          var flutterwaveCheckoutInstance = FlutterwaveCheckout({
+            public_key: window.APP_ENV.FW_PUBLIC_KEY,
+            tx_ref: flutterwaveConfig.tx_ref,
+            amount: flutterwaveConfig.amount,
+            currency: flutterwaveConfig.currency,
+            payment_options: flutterwaveConfig.payment_options,
+            customer: flutterwaveConfig.customer,
+            meta: flutterwaveConfig.meta,
+            customizations: flutterwaveConfig.customizations,
+            callback: function (paymentResponse) {
+              if (
+                paymentResponse.status === "successful" ||
+                paymentResponse.status === "completed"
+              ) {
+                if (buttonTextElement) buttonTextElement.textContent = "Submitting Application...";
 
-        // ── Collect all form values ───────────────────────
-        var fullName = getFieldValue("fullname");
-        var email = getFieldValue("email");
-        var phone = getFieldValue("phone");
-        var gender = getFieldValue("gender");
-        var ageRange = getFieldValue("age");
-        var stateOfResidence = getFieldValue("state");
-        var city = getFieldValue("city");
-        var schoolName = getFieldValue("institution");
-        var institutionType = getFieldValue("institution-type");
-        var courseOfStudy = getFieldValue("course");
-        var currentLevel = getFieldValue("level");
-        var itStartDate = getFieldValue("it-start");
-        var itDuration = getFieldValue("it-duration");
-        var supervisorName = getFieldValue("supervisor");
-        var supervisorEmail = getFieldValue("supervisor-email");
-        var naturalStrength = getFieldValue("strength");
-        var peopleComfort = getFieldValue("people-comfort");
-        var toolsFamiliar = getFieldValue("digital-skill");
-        var whyTechnuvate = getFieldValue("motivation");
+                // ── Build FormData with all fields and files ──
+                var applicationFormData = new FormData();
 
-        // ── Currency based on country/context ────────────
-        var currency = "NGN";
+                applicationFormData.append("flw_tx_ref", flutterwaveConfig.tx_ref);
+                applicationFormData.append("flw_tx_id",
+                  String(paymentResponse.transaction_id ||
+                         paymentResponse.id ||
+                         paymentResponse.flw_ref || ""));
+                applicationFormData.append("full_name", fullName);
+                applicationFormData.append("email", email);
+                applicationFormData.append("phone", phone);
+                applicationFormData.append("gender", gender);
+                applicationFormData.append("age_range", ageRange);
+                applicationFormData.append("state_of_residence", stateOfResidence);
+                applicationFormData.append("city", city);
+                applicationFormData.append("school_name", schoolName);
+                applicationFormData.append("institution_type", institutionType);
+                applicationFormData.append("course_of_study", courseOfStudy);
+                applicationFormData.append("current_level", currentLevel);
+                applicationFormData.append("it_start_date", itStartDate);
+                applicationFormData.append("it_duration", itDuration);
+                applicationFormData.append("supervisor_name", supervisorName || "");
+                applicationFormData.append("supervisor_email", supervisorEmail || "");
+                applicationFormData.append("natural_strength", naturalStrength);
+                applicationFormData.append("people_comfort", peopleComfort);
+                applicationFormData.append("tools_familiar", toolsFamiliar);
+                applicationFormData.append("why_technuvate", whyTechnuvate);
+                applicationFormData.append("commitment_confirmed", "true");
+                applicationFormData.append("currency", currency);
+                applicationFormData.append("it_letter", itLetterFile, itLetterFile.name);
+                applicationFormData.append("school_id", schoolIdFile, schoolIdFile.name);
+                applicationFormData.append("passport", passportFile, passportFile.name);
 
-        // ── Disable button and show uploading state ───────
-        if (submitButton) submitButton.disabled = true;
-        if (spinnerElement) spinnerElement.style.display = "block";
-        if (buttonTextElement)
-          buttonTextElement.textContent = "Uploading documents...";
-
-        // ── Step 1: Upload all three files to Cloudinary ──
-        var cloudinaryCloudName = window.APP_ENV.CLOUDINARY_CLOUD_NAME;
-        var cloudinaryUploadPreset = window.APP_ENV.CLOUDINARY_UPLOAD_PRESET;
-
-        // Hoisted to this scope so the Flutterwave callback closure can read them
-        var itLetterUrl = "";
-        var schoolIdUrl = "";
-        var passportUrl = "";
-
-        Promise.all([
-          uploadToCloudinary(
-            itLetterFile,
-            cloudinaryUploadPreset,
-            cloudinaryCloudName,
-          ),
-          uploadToCloudinary(
-            schoolIdFile,
-            cloudinaryUploadPreset,
-            cloudinaryCloudName,
-          ),
-          uploadToCloudinary(
-            passportFile,
-            cloudinaryUploadPreset,
-            cloudinaryCloudName,
-          ),
-        ])
-          .then(function (uploadedUrls) {
-            itLetterUrl = uploadedUrls[0];
-            schoolIdUrl = uploadedUrls[1];
-            passportUrl = uploadedUrls[2];
-
-            if (buttonTextElement)
-              buttonTextElement.textContent = "Processing payment...";
-
-            // ── Step 2: Call labs-it Netlify function ───────
-            return fetch(
-              window.location.origin + "/.netlify/functions/labs-it",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  full_name: fullName,
-                  email: email,
-                  phone: phone,
-                  gender: gender,
-                  age_range: ageRange,
-                  state_of_residence: stateOfResidence,
-                  city: city,
-                  school_name: schoolName,
-                  institution_type: institutionType,
-                  course_of_study: courseOfStudy,
-                  current_level: currentLevel,
-                  it_start_date: itStartDate,
-                  it_duration: itDuration,
-                  supervisor_name: supervisorName || null,
-                  supervisor_email: supervisorEmail || null,
-                  natural_strength: naturalStrength,
-                  people_comfort: peopleComfort,
-                  tools_familiar: toolsFamiliar,
-                  why_technuvate: whyTechnuvate,
-                  it_letter_url: itLetterUrl,
-                  school_id_url: schoolIdUrl,
-                  passport_url: passportUrl,
-                  commitment_confirmed: true,
-                  currency: currency,
-                }),
-              },
-            );
-          })
-          .then(function (labsItResponse) {
-            if (!labsItResponse.ok)
-              throw new Error("Server error: " + labsItResponse.status);
-            return labsItResponse.json();
-          })
-          .then(function (labsItData) {
-            if (!labsItData.success || !labsItData.flutterwaveConfig) {
-              throw new Error(labsItData.error || "Invalid server response");
-            }
-
-            var flutterwaveConfig = labsItData.flutterwaveConfig;
-
-            if (buttonTextElement)
-              buttonTextElement.textContent = "Opening payment...";
-
-            // ── Step 3: Open Flutterwave checkout ───────────
-            try {
-              var flutterwaveCheckoutInstance = FlutterwaveCheckout({
-                public_key: window.APP_ENV.FW_PUBLIC_KEY,
-                tx_ref: flutterwaveConfig.tx_ref,
-                amount: flutterwaveConfig.amount,
-                currency: flutterwaveConfig.currency,
-                payment_options: flutterwaveConfig.payment_options,
-                customer: flutterwaveConfig.customer,
-                meta: flutterwaveConfig.meta,
-                customizations: flutterwaveConfig.customizations,
-                callback: function (paymentResponse) {
-                  if (
-                    paymentResponse.status === "successful" ||
-                    paymentResponse.status === "completed"
-                  ) {
-                    if (submitButton) submitButton.disabled = false;
-                    if (spinnerElement) spinnerElement.style.display = "none";
-                    if (buttonTextElement)
-                      buttonTextElement.textContent = "Confirming...";
-
-                    // ── Step 4: Call verify-labs-it ─────────
-                    fetch(
-                      window.location.origin +
-                        "/.netlify/functions/verify-labs-it",
-                      {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                          flw_tx_ref: flutterwaveConfig.tx_ref,
-                          flw_tx_id:
-                            paymentResponse.transaction_id ||
-                            paymentResponse.id ||
-                            paymentResponse.flw_ref ||
-                            "",
-                          amount: flutterwaveConfig.amount,
-                          currency: flutterwaveConfig.currency,
-                          full_name: fullName,
-                          email: email,
-                          phone: phone,
-                          gender: gender,
-                          age_range: ageRange,
-                          state_of_residence: stateOfResidence,
-                          city: city,
-                          school_name: schoolName,
-                          institution_type: institutionType,
-                          course_of_study: courseOfStudy,
-                          current_level: currentLevel,
-                          it_start_date: itStartDate,
-                          it_duration: itDuration,
-                          supervisor_name: supervisorName || null,
-                          supervisor_email: supervisorEmail || null,
-                          natural_strength: naturalStrength,
-                          people_comfort: peopleComfort,
-                          tools_familiar: toolsFamiliar,
-                          why_technuvate: whyTechnuvate,
-                          it_letter_url: itLetterUrl,
-                          school_id_url: schoolIdUrl,
-                          passport_url: passportUrl,
-                          commitment_confirmed: true,
-                        }),
-                      },
-                    )
-                      .then(function (verifyResponse) {
-                        if (!verifyResponse.ok)
-                          throw new Error(
-                            "Verification failed: " + verifyResponse.status,
-                          );
-                        return verifyResponse.json();
-                      })
-                      .then(function (verifyData) {
-                        if (verifyData.success) {
-                          setTimeout(function () {
-                            flutterwaveCheckoutInstance.close();
-                            document.getElementById("formCard").style.display =
-                              "none";
-                            document.getElementById(
-                              "successCard",
-                            ).style.display = "block";
-                            window.scrollTo({ top: 0, behavior: "smooth" });
-                          }, 300);
-                        } else {
-                          throw new Error(
-                            verifyData.error || "Verification returned false",
-                          );
-                        }
-                      })
-                      .catch(function (verificationError) {
-                        console.error(
-                          "Labs IT verification error:",
-                          verificationError,
-                        );
-                        setTimeout(function () {
-                          flutterwaveCheckoutInstance.close();
-                        }, 300);
-                        setTimeout(function () {
-                          showFwToast(
-                            "Your payment was received. We will confirm your application shortly. Reference: " +
-                              flutterwaveConfig.tx_ref,
-                            "error",
-                          );
-                          if (buttonTextElement)
-                            buttonTextElement.textContent = "Confirm and Pay";
-                        }, 350);
-                      });
+                // ── Call submit-labs-it with FormData ─────────
+                fetch(window.location.origin + "/.netlify/functions/submit-labs-it", {
+                  method: "POST",
+                  body: applicationFormData
+                })
+                .then(function (submitResponse) {
+                  if (!submitResponse.ok)
+                    throw new Error("Submit failed: " + submitResponse.status);
+                  return submitResponse.json();
+                })
+                .then(function (submitData) {
+                  if (submitData.success) {
+                    setTimeout(function () {
+                      flutterwaveCheckoutInstance.close();
+                      document.getElementById("formCard").style.display = "none";
+                      document.getElementById("successCard").style.display = "block";
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }, 300);
                   } else {
-                    if (submitButton) submitButton.disabled = false;
-                    if (spinnerElement) spinnerElement.style.display = "none";
-                    if (buttonTextElement)
-                      buttonTextElement.textContent = "Confirm and Pay";
-                    showFwToast(
-                      "Payment was not completed. Please try again.",
-                      "error",
-                    );
+                    throw new Error(submitData.error || "Submission failed");
                   }
-                },
-                onclose: function () {
+                })
+                .catch(function (submitError) {
+                  console.error("Labs IT submit error:", submitError);
+                  enableAllFormInputs();
                   if (submitButton) submitButton.disabled = false;
                   if (spinnerElement) spinnerElement.style.display = "none";
-                  if (buttonTextElement)
-                    buttonTextElement.textContent = "Confirm and Pay";
-                },
-              });
-            } catch (flutterwaveError) {
-              console.error(
-                "FlutterwaveCheckout init error:",
-                flutterwaveError,
-              );
+                  if (buttonTextElement) buttonTextElement.textContent = "Confirm and Pay";
+                  setTimeout(function () {
+                    flutterwaveCheckoutInstance.close();
+                  }, 300);
+                  setTimeout(function () {
+                    showFwToast(
+                      "Your payment was received but we could not save your application. " +
+                      "Please contact us with ref: " + flutterwaveConfig.tx_ref,
+                      "error"
+                    );
+                  }, 350);
+                });
+
+              } else {
+                enableAllFormInputs();
+                if (submitButton) submitButton.disabled = false;
+                if (spinnerElement) spinnerElement.style.display = "none";
+                if (buttonTextElement) buttonTextElement.textContent = "Confirm and Pay";
+                showFwToast("Payment was not completed. Please try again.", "error");
+              }
+            },
+            onclose: function () {
+              enableAllFormInputs();
               if (submitButton) submitButton.disabled = false;
               if (spinnerElement) spinnerElement.style.display = "none";
-              if (buttonTextElement)
-                buttonTextElement.textContent = "Confirm and Pay";
-              showFwToast(
-                "Something went wrong opening payment. Please try again.",
-                "error",
-              );
+              if (buttonTextElement) buttonTextElement.textContent = "Confirm and Pay";
             }
-          })
-          .catch(function (topLevelError) {
-            console.error("Labs IT submission error:", topLevelError);
-            if (submitButton) submitButton.disabled = false;
-            if (spinnerElement) spinnerElement.style.display = "none";
-            if (buttonTextElement)
-              buttonTextElement.textContent = "Confirm and Pay";
-            showFwToast(
-              "Something went wrong. Please check your connection and try again.",
-              "error",
-            );
           });
-      }
+        } catch (flutterwaveError) {
+          console.error("FlutterwaveCheckout init error:", flutterwaveError);
+          enableAllFormInputs();
+          if (submitButton) submitButton.disabled = false;
+          if (spinnerElement) spinnerElement.style.display = "none";
+          if (buttonTextElement) buttonTextElement.textContent = "Confirm and Pay";
+          showFwToast("Something went wrong opening payment. Please try again.", "error");
+        }
+      })
+      .catch(function (topLevelError) {
+        console.error("Labs IT init error:", topLevelError);
+        enableAllFormInputs();
+        if (submitButton) submitButton.disabled = false;
+        if (spinnerElement) spinnerElement.style.display = "none";
+        if (buttonTextElement) buttonTextElement.textContent = "Confirm and Pay";
+        showFwToast(
+          "Something went wrong. Please check your connection and try again.",
+          "error"
+        );
+      });
+    }
     </script>
   </body>
 </html>
