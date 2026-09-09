@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "outputDirectory": "TechNuVate Website",
   "functions": {
     "api/*.js": {
       "memory": 1024,
