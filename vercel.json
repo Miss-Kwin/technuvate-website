@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "root": "TechNuVate Website",
   "outputDirectory": "TechNuVate Website",
   "functions": {
     "TechNuVate Website/api/*.js": {
