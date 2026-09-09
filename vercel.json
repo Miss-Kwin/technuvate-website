@@ -2,7 +2,7 @@
   "version": 2,
   "outputDirectory": "TechNuVate Website",
   "functions": {
-    "TechNuVate Website/api/*.js": {
+    "api/*.js": {
       "memory": 1024,
       "maxDuration": 30
     }
@@ -10,7 +10,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "/TechNuVate Website/api/:path*"
+      "destination": "/api/:path*"
     }
   ]
 }
