@@ -5342,7 +5342,7 @@
         btn.disabled = true;
         btnText.textContent = "Sending...";
 
-        fetch("/.netlify/functions/contact-form", {
+        fetch("/api/contact-form", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -5570,7 +5570,7 @@
           donBtn.innerHTML = "<span>Processing...</span>";
         }
 
-        fetch("/.netlify/functions/donate", {
+        fetch("/api/donate", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -5618,7 +5618,7 @@
                     }
                     fetch(
                       window.location.origin +
-                        "/.netlify/functions/verify-donation",
+                        "/api/verify-donation",
                       {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },

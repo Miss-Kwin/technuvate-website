@@ -2708,7 +2708,7 @@
         }
 
         // ── Call enroll.js Netlify function ────────────
-        fetch(window.location.origin + "/.netlify/functions/enroll", {
+        fetch(window.location.origin + "/api/enroll", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -2764,7 +2764,7 @@
 
                     fetch(
                       window.location.origin +
-                        "/.netlify/functions/verify-enrollment",
+                        "/api/verify-enrollment",
                       {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },

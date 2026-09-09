@@ -2699,7 +2699,7 @@
         if (bt) bt.textContent = "Submitting...";
 
         // ── Call join-team.js Netlify function ────────────
-        fetch(window.location.origin + "/.netlify/functions/join-team", {
+        fetch(window.location.origin + "/api/join-team", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

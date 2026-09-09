@@ -2557,7 +2557,7 @@
         if (btnText) btnText.textContent = "Processing...";
 
         // ── Call labs-pro.js Netlify function ─────────────
-        fetch(window.location.origin + "/.netlify/functions/labs-pro", {
+        fetch(window.location.origin + "/api/labs-pro", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -2610,7 +2610,7 @@
 
                     fetch(
                       window.location.origin +
-                        "/.netlify/functions/verify-labs-pro",
+                        "/api/verify-labs-pro",
                       {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },

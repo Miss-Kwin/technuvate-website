@@ -3016,7 +3016,7 @@
         if (buttonTextElement) buttonTextElement.textContent = "Submitting...";
 
         // ── Call become-tutor Netlify function ────────────
-        fetch(window.location.origin + "/.netlify/functions/become-tutor", {
+        fetch(window.location.origin + "/api/become-tutor", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

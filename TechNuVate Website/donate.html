@@ -2129,7 +2129,7 @@
         wBtn.innerHTML = '<span>Processing...</span>';
       }
 
-      fetch('/.netlify/functions/donate', {
+      fetch('/api/donate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -2172,7 +2172,7 @@
                 wBtn.disabled = false;
                 wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
               }
-              fetch(window.location.origin + '/.netlify/functions/verify-donation', {
+              fetch(window.location.origin + '/api/verify-donation', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
