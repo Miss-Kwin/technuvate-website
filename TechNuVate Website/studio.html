@@ -3468,7 +3468,7 @@
         }
 
         // ── Call studio-inquiry Netlify function ──────────
-        fetch(window.location.origin + "/.netlify/functions/studio-inquiry", {
+        fetch(window.location.origin + "/api/studio-inquiry", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

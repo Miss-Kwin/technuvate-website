@@ -2270,7 +2270,7 @@
       if (buttonTextElement) buttonTextElement.textContent = "Submitting Application...";
 
       // ── Open Flutterwave checkout first ────────────────
-      fetch(window.location.origin + "/.netlify/functions/labs-it", {
+      fetch(window.location.origin + "/api/labs-it", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -2364,7 +2364,7 @@
                 applicationFormData.append("passport", passportFile, passportFile.name);
 
                 // ── Call submit-labs-it with FormData ─────────
-                fetch(window.location.origin + "/.netlify/functions/submit-labs-it", {
+                fetch(window.location.origin + "/api/submit-labs-it", {
                   method: "POST",
                   body: applicationFormData
                 })
