@@ -5342,33 +5342,72 @@
         btn.disabled = true;
         btnText.textContent = "Sending...";
 
-        fetch("/api/contact-form", {
+        fetch("https://api-technuvate.onrender.com/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            subject: subject,
-            message: message,
+            firstName: document.getElementById("contact-firstname")
+              ? document.getElementById("contact-firstname").value.trim()
+              : "",
+            lastName: document.getElementById("contact-lastname")
+              ? document.getElementById("contact-lastname").value.trim()
+              : "",
+            email: document.getElementById("contact-email")
+              ? document.getElementById("contact-email").value.trim()
+              : "",
+            subject: document.getElementById("contact-subject")
+              ? document.getElementById("contact-subject").value.trim()
+              : "",
+            message: document.getElementById("contact-message")
+              ? document.getElementById("contact-message").value.trim()
+              : "",
           }),
         })
           .then(function (res) {
-            if (!res.ok)
-              throw new Error("Request failed with status " + res.status);
-            return res.json();
+            return res.json().then(function (body) {
+              return { ok: res.ok, status: res.status, body: body };
+            });
           })
-          .then(function () {
-            statusMsg.textContent =
-              "✓ Message sent! We will get back to you within 24 hours.";
-            statusMsg.style.color = "#1B3A7A";
-            statusMsg.style.display = "block";
-            document.getElementById("contactForm").reset();
-            btn.disabled = false;
-            btnText.innerHTML = "Send Message &rarr;";
+          .then(function (result) {
+            var statusMsg = document.getElementById("contact-status-msg");
+            var btn = document.getElementById("contact-submit-btn");
+            var btnText = document.getElementById("contact-submit-text");
+
+            if (result.ok && result.body.success) {
+              var message = result.body.message
+                ? result.body.message
+                : "Message sent! We will get back to you within 24 hours.";
+
+              statusMsg.textContent = message;
+              statusMsg.style.color = "#1B3A7A";
+              statusMsg.style.display = "block";
+              document.getElementById("contactForm").reset();
+              btn.disabled = false;
+              btnText.innerHTML = "Send Message &rarr;";
+            } else {
+              var errorMessage =
+                "Something went wrong. Please try again or email us directly.";
+
+              if (result.body && result.body.message) {
+                if (Array.isArray(result.body.message)) {
+                  errorMessage = result.body.message[0];
+                } else if (typeof result.body.message === "string") {
+                  errorMessage = result.body.message;
+                }
+              }
+
+              statusMsg.textContent = errorMessage;
+              statusMsg.style.color = "#E53E3E";
+              statusMsg.style.display = "block";
+              btn.disabled = false;
+              btnText.innerHTML = "Send Message &rarr;";
+            }
           })
           .catch(function (err) {
             console.error("Contact form error:", err);
+            var statusMsg = document.getElementById("contact-status-msg");
+            var btn = document.getElementById("contact-submit-btn");
+            var btnText = document.getElementById("contact-submit-text");
             statusMsg.textContent =
               "Something went wrong. Please try again or email us directly.";
             statusMsg.style.color = "#E53E3E";
