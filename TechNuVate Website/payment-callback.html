@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment Callback — TechNuVate</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: Helvetica, Arial, sans-serif;
+        background: #f5f7ff;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 48px 40px;
+        max-width: 480px;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      }
+      .icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+        display: block;
+      }
+      .title {
+        font-size: 22px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 12px;
+      }
+      .message {
+        font-size: 15px;
+        color: #6b7280;
+        line-height: 1.7;
+        margin-bottom: 8px;
+      }
+      .ref {
+        font-size: 12px;
+        color: #9ca3af;
+        margin-top: 16px;
+        word-break: break-all;
+      }
+      .spinner-wrap {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+      }
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #e4e8f0;
+        border-top-color: #1b3a7a;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .state-success .title {
+        color: #15803d;
+      }
+      .state-failed .title {
+        color: #b91c1c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card" id="callbackCard">
+      <!-- Loading state — replaced by JS -->
+      <div class="spinner-wrap">
+        <div class="spinner"></div>
+      </div>
+      <p class="title">Confirming your payment...</p>
+      <p class="message">Please wait while we verify your transaction.</p>
+    </div>
+
+    <script>
+      (function () {
+        var card = document.getElementById("callbackCard");
+
+        // ── Read Flutterwave redirect params ─────────────────
+        var params = new URLSearchParams(window.location.search);
+        var status = params.get("status");
+        var txRef = params.get("tx_ref");
+        var transactionId = params.get("transaction_id");
+
+        // ── Guard: missing params means direct navigation ────
+        if (!txRef || !status) {
+          card.innerHTML =
+            '<span class="icon">⚠️</span>' +
+            '<p class="title">Nothing to confirm</p>' +
+            '<p class="message">This page is only accessible after completing a payment.</p>';
+          return;
+        }
+
+        // ── Guard: user cancelled payment ───────────────────
+        if (status === "cancelled") {
+          card.innerHTML =
+            '<span class="icon">↩️</span>' +
+            '<p class="title">Payment cancelled</p>' +
+            '<p class="message">You cancelled the payment. No charge was made.</p>' +
+            '<p class="ref">Ref: ' +
+            txRef +
+            "</p>";
+          return;
+        }
+
+        // ── Call NestJS confirm endpoint ─────────────────────
+        // The endpoint is determined by the tx_ref prefix:
+        // TNVDON-  → donation confirm
+        // TNV-ACADEMY- → academy confirm
+        // TNV-LABS_PRO- → labs pro confirm
+        // TNV-LABS_IT- → labs it confirm
+
+        var apiBase = "https://api-technuvate.onrender.com";
+        var endpoint = resolveEndpoint(txRef);
+
+        if (!endpoint) {
+          card.innerHTML =
+            '<span class="icon">❓</span>' +
+            '<p class="title">Unknown payment type</p>' +
+            '<p class="message">We could not identify this transaction. Please contact support.</p>' +
+            '<p class="ref">Ref: ' +
+            txRef +
+            "</p>";
+          return;
+        }
+
+        fetch(apiBase + endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            flwTxRef: txRef,
+            flwTxId: transactionId || "",
+          }),
+        })
+          .then(function (res) {
+            return res.json().then(function (body) {
+              return { ok: res.ok, body: body };
+            });
+          })
+          .then(function (result) {
+            if (result.ok && result.body.success) {
+              var msg = result.body.message
+                ? result.body.message
+                : "Your payment has been confirmed. Thank you.";
+
+              card.className = "card state-success";
+              card.innerHTML =
+                '<span class="icon">✅</span>' +
+                '<p class="title">Payment confirmed</p>' +
+                '<p class="message">' +
+                escapeHtml(msg) +
+                "</p>" +
+                '<p class="ref">Ref: ' +
+                escapeHtml(txRef) +
+                "</p>";
+            } else {
+              var errMsg =
+                extractMessage(result.body) ||
+                "Your payment was received but we could not confirm it automatically. " +
+                  "Please contact us with your reference below.";
+
+              card.className = "card state-failed";
+              card.innerHTML =
+                '<span class="icon">⚠️</span>' +
+                '<p class="title">Confirmation pending</p>' +
+                '<p class="message">' +
+                escapeHtml(errMsg) +
+                "</p>" +
+                '<p class="ref">Ref: ' +
+                escapeHtml(txRef) +
+                "</p>";
+            }
+          })
+          .catch(function () {
+            card.className = "card state-failed";
+            card.innerHTML =
+              '<span class="icon">⚠️</span>' +
+              '<p class="title">Something went wrong</p>' +
+              '<p class="message">' +
+              "We could not reach our server to confirm your payment. " +
+              "Do not worry — if your payment was successful it will be " +
+              "processed. Contact us with the reference below." +
+              "</p>" +
+              '<p class="ref">Ref: ' +
+              escapeHtml(txRef) +
+              "</p>";
+          });
+
+        // ── Resolve which confirm endpoint to call ───────────
+        function resolveEndpoint(ref) {
+          if (ref.indexOf("TNVDON-") === 0) return "/donation/confirm";
+          if (ref.indexOf("TNV-ACADEMY-") === 0)
+            return "/academy/enroll/confirm";
+          if (ref.indexOf("TNV-LABS_PRO-") === 0)
+            return "/labs/pro/apply/confirm";
+          if (ref.indexOf("TNV-LABS_IT-") === 0)
+            return "/labs/it/apply/confirm";
+          return null;
+        }
+
+        // ── Extract first readable message from server body ──
+        function extractMessage(body) {
+          if (!body) return null;
+          if (typeof body.message === "string") return body.message;
+          if (Array.isArray(body.message) && body.message.length)
+            return body.message[0];
+          return null;
+        }
+
+        // ── Prevent XSS when rendering server strings in HTML
+        function escapeHtml(str) {
+          return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+        }
+      })();
+    </script>
+  </body>
+</html>
