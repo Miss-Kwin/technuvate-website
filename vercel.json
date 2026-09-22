@@ -2,5 +2,21 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/", "destination": "/TechNuVate Website/index.html" },
+    { "source": "/about", "destination": "/TechNuVate Website/about.html" },
+    { "source": "/academy", "destination": "/TechNuVate Website/academy.html" },
+    { "source": "/blog", "destination": "/TechNuVate Website/blog.html" },
+    { "source": "/donate", "destination": "/TechNuVate Website/donate.html" },
+    { "source": "/enroll", "destination": "/TechNuVate Website/enroll.html" },
+    { "source": "/join-team", "destination": "/TechNuVate Website/join-team.html" },
+    { "source": "/labs", "destination": "/TechNuVate Website/labs.html" },
+    { "source": "/labs-apply-it", "destination": "/TechNuVate Website/labs-apply-it.html" },
+    { "source": "/labs-apply-pro", "destination": "/TechNuVate Website/labs-apply-pro.html" },
+    { "source": "/payment-callback", "destination": "/TechNuVate Website/payment-callback.html" },
+    { "source": "/studio", "destination": "/TechNuVate Website/studio.html" },
+    { "source": "/store", "destination": "/TechNuVate Website/store.html" },
+    { "source": "/tutors", "destination": "/TechNuVate Website/tutors.html" }
+  ]
 }
