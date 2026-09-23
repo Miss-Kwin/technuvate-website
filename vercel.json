@@ -25,7 +25,7 @@
     },
 
     {
-      "source": "/payment/callback",
+      "source": "/payment-callback",
       "destination": "/TechNuVate Website/payment-callback.html"
     },
     { "source": "/studio", "destination": "/TechNuVate Website/studio.html" },
