@@ -23,6 +23,7 @@
       "source": "/labs-apply-pro",
       "destination": "/TechNuVate Website/labs-apply-pro.html"
     },
+
     {
       "source": "/payment/callback",
       "destination": "/TechNuVate Website/payment-callback.html"

@@ -1688,7 +1688,7 @@
                         placeholder="e.g. TNV-SCA2X7K"
                         maxlength="11"
                       />
-                      <button class="verify-btn" onclick="verifyCode(event)">
+                      <button class="verify-btn" onclick="verifyPartnerCode()">
                         Verify
                       </button>
                     </div>
@@ -2259,7 +2259,6 @@
       </div>
     </footer>
 
-    <script src="https://checkout.flutterwave.com/v3.js"></script>
     <script src="js/env.js"></script>
     <script>
       // =========================================================
@@ -2478,27 +2477,53 @@
         updateSummary();
       }
 
-      function verifyCode(e) {
-        e.stopPropagation();
-        var code = document
-          .getElementById("partnerCode")
-          .value.trim()
-          .toUpperCase();
-        var validEl = document.getElementById("codeValid");
-        var invalidEl = document.getElementById("codeInvalid");
-        if (PARTNER_CODES[code]) {
-          partnerCodeVerified = true;
-          partnerOrg = PARTNER_CODES[code].org;
-          validEl.style.display = "flex";
-          invalidEl.style.display = "none";
-          document.getElementById("partnerCode").style.borderColor = "#15803D";
-        } else {
-          partnerCodeVerified = false;
-          partnerOrg = "";
-          invalidEl.style.display = "flex";
-          validEl.style.display = "none";
-          document.getElementById("partnerCode").style.borderColor = "#E53935";
+      function verifyPartnerCode() {
+        var input = document.getElementById('partnerCode');
+        var resultEl = document.getElementById('codeValid');
+        var code = input ? input.value.trim().toUpperCase() : '';
+
+        if (!code) {
+          if (resultEl) {
+            resultEl.textContent = 'Please enter a partner code.';
+            resultEl.style.color = '#E53E3E';
+            resultEl.style.display = 'block';
+          }
+          return;
         }
+
+        fetch('https://api-technuvate.onrender.com/academy/verify-partner-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ partnerCode: code })
+        })
+        .then(function (res) {
+          return res.json().then(function (body) {
+            return { ok: res.ok, body: body };
+          });
+        })
+        .then(function (result) {
+          if (!resultEl) return;
+          var serverMsg = result.body && result.body.data
+            ? result.body.data.message
+            : null;
+
+          if (result.ok && result.body.data && result.body.data.valid) {
+            resultEl.textContent = serverMsg || 'Partner code verified.';
+            resultEl.style.color = '#15803D';
+            resultEl.style.display = 'block';
+          } else {
+            resultEl.textContent = serverMsg || 'Invalid partner code.';
+            resultEl.style.color = '#E53E3E';
+            resultEl.style.display = 'block';
+          }
+        })
+        .catch(function () {
+          if (resultEl) {
+            resultEl.textContent = 'Could not verify code. Please try again.';
+            resultEl.style.color = '#E53E3E';
+            resultEl.style.display = 'block';
+          }
+        });
       }
 
       function getSelectedState() {
@@ -2603,277 +2628,106 @@
       }
 
       function initiatePayment() {
-        var btn = document.getElementById("payBtn");
+      var btn = document.getElementById('payBtn');
+      var btnTextSpan = btn ? btn.querySelector('span') : null;
 
-        // ── Collect all form values ─────────────────────
-        var fullName = document.getElementById("fullname")
-          ? document.getElementById("fullname").value.trim()
-          : "";
-        var email = document.getElementById("email")
-          ? document.getElementById("email").value.trim()
-          : "";
-        var phone = document.getElementById("phone")
-          ? document.getElementById("phone").value.trim()
-          : "";
-        var gender = document.getElementById("gender")
-          ? document.getElementById("gender").value.trim()
-          : "";
-        var ageRange = document.getElementById("age-range")
-          ? document.getElementById("age-range").value.trim()
-          : "";
-        var course = document.getElementById("course")
-          ? document.getElementById("course").value.trim()
-          : "";
-        var partnerCode = document.getElementById("partnerCode")
-          ? document.getElementById("partnerCode").value.trim().toUpperCase()
-          : "";
-        var commitCheck = document.getElementById("commitCheck");
-        var commitment = commitCheck ? commitCheck.checked : false;
-
-        // ── Resolve country and state ───────────────────
-        var rawCountry = document.getElementById("country")
-          ? document.getElementById("country").value.trim()
-          : "";
-        var country =
-          rawCountry === "Other"
-            ? document.getElementById("otherCountry")
-              ? document.getElementById("otherCountry").value.trim()
-              : ""
-            : rawCountry;
-        var state = "";
-        if (rawCountry === "Nigeria") {
-          state = document.getElementById("stateInput")
-            ? document.getElementById("stateInput").value.trim()
-            : "";
-        } else if (rawCountry && rawCountry !== "Other") {
-          state = document.getElementById("otherStateInput")
-            ? document.getElementById("otherStateInput").value.trim()
-            : "";
-        }
-
-        // ── Client-side validation ──────────────────────
-        var valid = true;
-        function showErr(id, msg) {
-          var el = document.getElementById(id);
-          if (el) {
-            el.textContent = msg;
-            el.style.display = "block";
-          }
-          valid = false;
-        }
-        function clearErr(id) {
-          var el = document.getElementById(id);
-          if (el) {
-            el.style.display = "none";
-            el.textContent = "";
-          }
-        }
-
-        if (!commitment) {
-          var commitErr = document.getElementById("commitErr");
-          if (commitErr) {
-            commitErr.style.display = "block";
-          }
-          valid = false;
-        } else {
-          var commitErr = document.getElementById("commitErr");
-          if (commitErr) commitErr.style.display = "none";
-        }
-
-        if (!fullName) {
-          showErr("fullname-err", "Please enter your full name.");
-        } else clearErr("fullname-err");
-        if (!email || email.indexOf("@") < 0 || email.indexOf(".") < 0) {
-          showErr("email-err", "Please enter a valid email address.");
-        } else clearErr("email-err");
-        if (!phone) {
-          showErr("phone-err", "Please enter your phone number.");
-        } else clearErr("phone-err");
-        if (!country) {
-          showErr("country-err", "Please select or enter your country.");
-        } else clearErr("country-err");
-        if (!course || course === "") {
-          showErr("course-err", "Please select your course.");
-        } else clearErr("course-err");
-
-        if (!valid) {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          return;
-        }
-
-        // ── Disable button ──────────────────────────────
-        if (btn) {
-          btn.disabled = true;
-          btn.querySelector("span").textContent = "Processing...";
-        }
-
-        // ── Call enroll.js Netlify function ────────────
-        fetch(window.location.origin + "/api/enroll", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            full_name: fullName,
-            email: email,
-            phone: phone,
-            gender: gender,
-            age_range: ageRange,
-            country: country,
-            state: state || null,
-            course: course,
-            pricing_tier: currentTile,
-            partner_code: currentTile === "partner" ? partnerCode : null,
-            cohort: null,
-            currency: activeCurrency,
-            commitment_confirmed: commitment,
-          }),
-        })
-          .then(function (res) {
-            if (!res.ok) throw new Error("Server error: " + res.status);
-            return res.json();
-          })
-          .then(function (data) {
-            if (!data.success || !data.flutterwaveConfig) {
-              throw new Error(data.error || "Invalid server response");
-            }
-
-            var config = data.flutterwaveConfig;
-            var flwTxRef = data.flwTxRef;
-            var amount = data.amount;
-            var currency = data.currency;
-
-            try {
-              var flutterwaveCheckoutInstance = FlutterwaveCheckout({
-                public_key: window.APP_ENV.FW_PUBLIC_KEY,
-                tx_ref: config.tx_ref,
-                amount: config.amount,
-                currency: config.currency,
-                payment_options: config.payment_options,
-                customer: config.customer,
-                meta: config.meta,
-                customizations: config.customizations,
-                callback: function (response) {
-                  if (
-                    response.status === "successful" ||
-                    response.status === "completed"
-                  ) {
-                    if (btn) {
-                      btn.disabled = false;
-                      btn.querySelector("span").textContent =
-                        "Pay Now and Secure Your Spot";
-                    }
-
-                    fetch(
-                      window.location.origin +
-                        "/api/verify-enrollment",
-                      {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                          flw_tx_ref: config.tx_ref,
-                          flw_tx_id:
-                            response.transaction_id ||
-                            response.id ||
-                            response.flw_ref ||
-                            "",
-                          amount: config.amount,
-                          currency: config.currency,
-                          full_name: fullName,
-                          email: email,
-                          phone: phone,
-                          gender: gender,
-                          age_range: ageRange,
-                          country: country,
-                          state: state || null,
-                          course: course,
-                          pricing_tier: currentTile,
-                          partner_code:
-                            currentTile === "partner" ? partnerCode : null,
-                          cohort: null,
-                          commitment_confirmed: commitment,
-                        }),
-                      },
-                    )
-                      .then(function (vRes) {
-                        if (!vRes.ok)
-                          throw new Error(
-                            "Verification failed: " + vRes.status,
-                          );
-                        return vRes.json();
-                      })
-                      .then(function (vData) {
-                        if (vData.success) {
-                          setTimeout(function () {
-                            flutterwaveCheckoutInstance.close();
-                            document.getElementById(
-                              "formContent",
-                            ).style.display = "none";
-                            document.getElementById(
-                              "successState",
-                            ).style.display = "block";
-                            window.scrollTo({ top: 0, behavior: "smooth" });
-                          }, 300);
-                        } else {
-                          throw new Error(
-                            vData.error || "Verification returned false",
-                          );
-                        }
-                      })
-                      .catch(function (vErr) {
-                        console.error("Enrollment verification error:", vErr);
-                        setTimeout(function () {
-                          flutterwaveCheckoutInstance.close();
-                        }, 300);
-                        setTimeout(function () {
-                          showFwToast(
-                            "Your payment was received. We will confirm your enrollment shortly. Reference: " +
-                              config.tx_ref,
-                            "error",
-                          );
-                        }, 350);
-                      });
-                  } else {
-                    if (btn) {
-                      btn.disabled = false;
-                      btn.querySelector("span").textContent =
-                        "Pay Now and Secure Your Spot";
-                    }
-                    showFwToast(
-                      "Payment was not completed. Please try again.",
-                      "error",
-                    );
-                  }
-                },
-                onclose: function () {
-                  if (btn) {
-                    btn.disabled = false;
-                    btn.querySelector("span").textContent =
-                      "Pay Now and Secure Your Spot";
-                  }
-                },
-              });
-            } catch (fwErr) {
-              console.error("FlutterwaveCheckout init error:", fwErr);
-              if (btn) {
-                btn.disabled = false;
-                btn.querySelector("span").textContent =
-                  "Pay Now and Secure Your Spot";
-              }
-              showFwToast(
-                "Something went wrong opening payment. Please try again.",
-                "error",
-              );
-            }
-          })
-          .catch(function (err) {
-            console.error("Enrollment init error:", err);
-            if (btn) {
-              btn.disabled = false;
-              btn.querySelector("span").textContent =
-                "Pay Now and Secure Your Spot";
-            }
-            showFwToast("Something went wrong. Please try again.", "error");
-          });
+      // ── Collect form values ──────────────────────────────
+      function gv(id) {
+        var el = document.getElementById(id);
+        return el ? el.value.trim() : '';
       }
+
+      var fullName = gv('fullname');
+      var email = gv('email');
+      var phone = gv('phone');
+      var gender = gv('gender');
+      var ageRange = gv('age-range');
+      var country = gv('country');
+      var state = gv('stateInput') || gv('otherStateInput') || undefined;
+      var course = gv('course');
+      var partnerCode = gv('partnerCode') || undefined;
+
+      // ── Read tracked pricing tier and currency ───────────
+      var pricingTier = currentTile.toUpperCase();
+      var currency = activeCurrency;
+
+      // ── Commitment checkbox ──────────────────────────────
+      var commitEl = document.getElementById('commitCheck');
+      var commitmentConfirmed = commitEl ? commitEl.checked : false;
+
+      // ── Client-side validation ────────────────────────────
+      if (!commitmentConfirmed) {
+        showFwToast('Please confirm the refund policy before proceeding.', 'error');
+        return;
+      }
+      if (!fullName) { showFwToast('Please enter your full name.', 'error'); return; }
+      if (!email || email.indexOf('@') < 0) {
+        showFwToast('Please enter a valid email address.', 'error'); return;
+      }
+      if (!phone) { showFwToast('Please enter your phone number.', 'error'); return; }
+      if (!country) { showFwToast('Please select your country.', 'error'); return; }
+      if (!course) { showFwToast('Please select your course.', 'error'); return; }
+      if (pricingTier === 'PARTNER' && !partnerCode) {
+        showFwToast('Please enter and verify your partner code.', 'error'); return;
+      }
+
+      // ── Disable button ────────────────────────────────────
+      if (btn) btn.disabled = true;
+      if (btnTextSpan) btnTextSpan.textContent = 'Processing...';
+
+      // ── POST to NestJS enroll endpoint ────────────────────
+      fetch('https://api-technuvate.onrender.com/academy/enroll', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: fullName,
+          email: email,
+          phone: phone,
+          gender: gender,
+          ageRange: ageRange,
+          country: country,
+          state: state,
+          course: course,
+          pricingTier: pricingTier,
+          partnerCode: pricingTier === 'PARTNER' ? partnerCode : undefined,
+          currency: currency,
+          commitmentConfirmed: commitmentConfirmed
+        })
+      })
+      .then(function (res) {
+        return res.json().then(function (body) {
+          return { ok: res.ok, body: body };
+        });
+      })
+      .then(function (result) {
+        if (result.ok && result.body.data && result.body.data.flwLink) {
+          window.location.href = result.body.data.flwLink;
+        } else {
+          var errMsg = extractServerMessage(result.body) ||
+            'Something went wrong. Please try again.';
+          if (btn) btn.disabled = false;
+          if (btnTextSpan) btnTextSpan.textContent = 'Pay Now and Secure Your Spot';
+          showFwToast(errMsg, 'error');
+        }
+      })
+      .catch(function (err) {
+        console.error('Academy enroll error:', err);
+        if (btn) btn.disabled = false;
+        if (btnTextSpan) btnTextSpan.textContent = 'Pay Now and Secure Your Spot';
+        showFwToast(
+          'Something went wrong. Please check your connection and try again.',
+          'error'
+        );
+      });
+
+      function extractServerMessage(body) {
+        if (!body) return null;
+        if (typeof body.message === 'string') return body.message;
+        if (Array.isArray(body.message) && body.message.length)
+          return body.message[0];
+        return null;
+      }
+    }
 
       function toggleMenu() {
         var m = document.getElementById("mobMenu");
