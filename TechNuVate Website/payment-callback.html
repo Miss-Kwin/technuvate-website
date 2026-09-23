@@ -205,7 +205,7 @@
 
         // ── Resolve which confirm endpoint to call ───────────
         function resolveEndpoint(ref) {
-          if (ref.indexOf("TNVDON-") === 0) return "/donation/confirm";
+          if (ref.indexOf("TNV-DONATION-") === 0) return "/donation/confirm";
           if (ref.indexOf("TNV-ACADEMY-") === 0)
             return "/academy/enroll/confirm";
           if (ref.indexOf("TNV-LABS_PRO-") === 0)
