@@ -27,6 +27,10 @@
       "source": "/payment/callback",
       "destination": "/TechNuVate Website/payment-callback.html"
     },
+    {
+      "source": "/payment/callback/:path*",
+      "destination": "/TechNuVate Website/payment-callback.html"
+    },
     { "source": "/studio", "destination": "/TechNuVate Website/studio.html" },
     { "source": "/store", "destination": "/TechNuVate Website/store.html" },
     { "source": "/tutors", "destination": "/TechNuVate Website/tutors.html" }
