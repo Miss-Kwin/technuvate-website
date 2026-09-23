@@ -1885,7 +1885,6 @@
     </div>
   </footer>
 
-  <script src="https://checkout.flutterwave.com/v3.js"></script>
   <script src="js/env.js"></script>
   <script>
     (function () {
@@ -2088,187 +2087,76 @@
   function wDonate() {
       var wBtn = document.getElementById('w-btn');
 
-      var donorName     = document.getElementById('w-name')        ? document.getElementById('w-name').value.trim()        : '';
-      var email         = document.getElementById('w-email')       ? document.getElementById('w-email').value.trim()       : '';
-      var occasion      = document.getElementById('w-occasion')    ? document.getElementById('w-occasion').value.trim()    : '';
-      var honourName    = document.getElementById('w-honour-name') ? document.getElementById('w-honour-name').value.trim() : '';
-      var birthdayDay   = document.getElementById('w-bday-day')    ? document.getElementById('w-bday-day').value.trim()    : '';
-      var birthdayMonth = document.getElementById('w-bday-month')  ? document.getElementById('w-bday-month').value.trim()  : '';
-      var note          = document.getElementById('w-note')        ? document.getElementById('w-note').value.trim()        : '';
-      var customOccasion = document.getElementById('w-custom-occasion') ? document.getElementById('w-custom-occasion').value.trim() : '';
-      var shoutoutEl    = document.getElementById('w-shoutout');
-      var shoutout      = shoutoutEl ? shoutoutEl.checked : false;
+      var donorName     = document.getElementById('w-name')
+        ? document.getElementById('w-name').value.trim() : '';
+      var donorEmail    = document.getElementById('w-email')
+        ? document.getElementById('w-email').value.trim() : '';
+      var occasion      = document.getElementById('w-occasion')
+        ? document.getElementById('w-occasion').value.trim() : '';
+      var honoreeName   = document.getElementById('w-honour-name')
+        ? document.getElementById('w-honour-name').value.trim() : '';
+      var birthdayDay   = document.getElementById('w-bday-day')
+        ? document.getElementById('w-bday-day').value.trim() : '';
+      var birthdayMonth = document.getElementById('w-bday-month')
+        ? document.getElementById('w-bday-month').value.trim() : '';
+      var note          = document.getElementById('w-note')
+        ? document.getElementById('w-note').value.trim() : '';
+      var shoutOutEl    = document.getElementById('w-shoutout');
+      var shoutOut      = shoutOutEl ? shoutOutEl.checked : false;
 
-      var allErrIds = ['w-err-amount','w-err-name','w-err-email','w-err-occasion','w-err-honour'];
-      allErrIds.forEach(function(id) {
-        var el = document.getElementById(id);
-        if (el) { el.style.display = 'none'; el.textContent = ''; }
-      });
+      var currency = wCurrency;
+      var amount   = wAmt;
 
-      var valid = true;
-      function showErr(id, msg) {
-        var el = document.getElementById(id);
-        if (el) { el.textContent = msg; el.style.display = 'block'; }
-        valid = false;
-      }
-
-      if (!wAmt || wAmt <= 0) {
-        showErr('w-err-amount', 'Please select or enter a donation amount.');
-      }
       if (!donorName) {
-        showErr('w-err-name', 'Please enter your name.');
+        showFwToast('Please enter your name before donating.', 'error');
+        return;
       }
-      if (!email || email.indexOf('@') < 0 || email.indexOf('.') < 0) {
-        showErr('w-err-email', 'Please enter a valid email address.');
+      if (!donorEmail || donorEmail.indexOf('@') < 0) {
+        showFwToast('Please enter a valid email address.', 'error');
+        return;
       }
-
-      if (!valid) return;
+      if (!amount || amount <= 0) {
+        showFwToast('Please select or enter a donation amount.', 'error');
+        return;
+      }
 
       if (wBtn) {
         wBtn.disabled = true;
         wBtn.innerHTML = '<span>Processing...</span>';
       }
 
-      fetch('/api/donate', {
+      fetch('https://api-technuvate.onrender.com/donation/initialize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          donor_name:     donorName || 'Anonymous Donor',
-          email:          email,
-          occasion:       occasion,
-          honour_name:    honourName,
-          birthday_day:   birthdayDay,
-          birthday_month: birthdayMonth,
-          note:           note,
-          shoutout:       shoutout,
-          amount:         wAmt,
-          currency:       wCurrency,
-          custom_occasion: customOccasion
+          donorName:   donorName    || 'Anonymous Donor',
+          donorEmail:  donorEmail,
+          honoreeName: honoreeName   || undefined,
+          occasion:    occasion      || undefined,
+          birthDay:    birthdayDay   || undefined,
+          birthMonth:  birthdayMonth || undefined,
+          note:        note          || undefined,
+          shoutOut:    shoutOut,
+          amount:      amount,
+          currency:    currency
         })
       })
       .then(function (res) {
-        if (!res.ok) throw new Error('Server error: ' + res.status);
-        return res.json();
-      })
-      .then(function (data) {
-        if (!data.success || !data.flutterwaveConfig) {
-          throw new Error(data.error || 'Invalid server response');
-        }
-        var config = data.flutterwaveConfig;
-
-        try {
-          var flutterwaveCheckoutInstance = FlutterwaveCheckout({
-          public_key:      window.APP_ENV.FW_PUBLIC_KEY,
-          tx_ref:          config.tx_ref,
-          amount:          config.amount,
-          currency:        config.currency,
-          payment_options: config.payment_options,
-          customer:        config.customer,
-          meta:            config.meta,
-          customizations:  config.customizations,
-          callback: function (response) {
-            if (response.status === 'successful' || response.status === 'completed') {
-              if (wBtn) {
-                wBtn.disabled = false;
-                wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
-              }
-              fetch(window.location.origin + '/api/verify-donation', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  flw_tx_ref:     config.tx_ref,
-                  flw_tx_id:      response.transaction_id || response.id || response.flw_ref || '',
-                  amount:         config.amount,
-                  currency:       config.currency,
-                  donor_name:     config.meta.donor_name,
-                  email:          config.customer.email,
-                  occasion:       config.meta.occasion,
-                  honour_name:    config.meta.honour_name,
-                  birthday_day:   config.meta.birthday_day,
-                  birthday_month: config.meta.birthday_month,
-                  note:           config.meta.note,
-                  shoutout:       config.meta.shoutout
-                })
-              })
-              .then(function (vRes) {
-                if (!vRes.ok) throw new Error('Verification failed: ' + vRes.status);
-                return vRes.json();
-              })
-              .then(function (vData) {
-                if (vData.success) {
-                  setTimeout(function () {
-                    console.log('Success path reached — closing modal and resetting form');
-                    flutterwaveCheckoutInstance.close();
-                    var thankYou = document.getElementById('donationThankYou');
-                    if (thankYou) thankYou.style.display = 'block';
-                    var form = document.getElementById('donationForm');
-                    if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    wAmt = 0;
-                    wCurrency = 'NGN';
-                    document.querySelectorAll('.don-pill').forEach(function(b) { b.classList.remove('sel'); });
-                    document.getElementById('w-custom-wrap').style.display = 'none';
-                    var customInput = document.getElementById('w-custom-input');
-                    if (customInput) customInput.value = '';
-                    var nameEl = document.getElementById('w-name');
-                    if (nameEl) nameEl.value = '';
-                    var emailEl = document.getElementById('w-email');
-                    if (emailEl) emailEl.value = '';
-                    var noteEl = document.getElementById('w-note');
-                    if (noteEl) noteEl.value = '';
-                    var occasionEl = document.getElementById('w-occasion');
-                    if (occasionEl) occasionEl.value = '';
-                    var honourEl = document.getElementById('w-honour-name');
-                    if (honourEl) honourEl.value = '';
-                    var bdayMonth = document.getElementById('w-bday-month');
-                    if (bdayMonth) bdayMonth.value = '';
-                    var bdayDay = document.getElementById('w-bday-day');
-                    if (bdayDay) bdayDay.value = '';
-                    var customOcc = document.getElementById('w-custom-occasion');
-                    if (customOcc) customOcc.value = '';
-                    var shoutout = document.getElementById('w-shoutout');
-                    if (shoutout) shoutout.checked = false;
-                    var honourWrap = document.getElementById('w-honour-wrap');
-                    if (honourWrap) honourWrap.style.display = 'none';
-                    var bdayWrap = document.getElementById('w-bday-wrap');
-                    if (bdayWrap) bdayWrap.style.display = 'none';
-                    var customOccWrap = document.getElementById('w-custom-occasion-wrap');
-                    if (customOccWrap) customOccWrap.style.display = 'none';
-                    var nameWrap = document.getElementById('w-name-wrap');
-                    if (nameWrap) nameWrap.style.display = 'block';
-                  }, 300);
-                } else {
-                  throw new Error(vData.error || 'Verification returned false');
-                }
-              })
-              .catch(function (vErr) {
-                console.error('Verification error:', vErr);
-                setTimeout(function () { flutterwaveCheckoutInstance.close(); }, 300);
-                setTimeout(function () {
-                  showFwToast('Your payment was received. We will confirm it shortly. Your reference: ' + config.tx_ref, 'error');
-                }, 350);
-              });
-            } else {
-              if (wBtn) {
-                wBtn.disabled = false;
-                wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
-              }
-            }
-          },
-          onclose: function () {
-            if (wBtn) {
-              wBtn.disabled = false;
-              wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
-            }
-          }
+        return res.json().then(function (body) {
+          return { ok: res.ok, body: body };
         });
-        } catch (fwErr) {
-          console.error('FlutterwaveCheckout init error:', fwErr);
+      })
+      .then(function (result) {
+        if (result.ok && result.body.data && result.body.data.flwLink) {
+          window.location.href = result.body.data.flwLink;
+        } else {
+          var errMsg = extractServerMessage(result.body) ||
+            'Something went wrong. Please try again.';
           if (wBtn) {
             wBtn.disabled = false;
             wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
           }
-          var errEl = document.getElementById('w-err-amount');
-          if (errEl) { errEl.textContent = 'Something went wrong opening payment. Please try again.'; errEl.style.display = 'block'; }
+          showFwToast(errMsg, 'error');
         }
       })
       .catch(function (err) {
@@ -2277,9 +2165,19 @@
           wBtn.disabled = false;
           wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
         }
-        var errEl = document.getElementById('w-err-amount');
-        if (errEl) { errEl.textContent = 'Something went wrong. Please try again.'; errEl.style.display = 'block'; }
+        showFwToast(
+          'Something went wrong. Please check your connection and try again.',
+          'error'
+        );
       });
+
+      function extractServerMessage(body) {
+        if (!body) return null;
+        if (typeof body.message === 'string') return body.message;
+        if (Array.isArray(body.message) && body.message.length)
+          return body.message[0];
+        return null;
+      }
     }
   </script>
 </body>
