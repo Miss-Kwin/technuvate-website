@@ -3562,7 +3562,6 @@
             setFormDisabled(false);
             document.getElementById("consultForm").style.display = "none";
             document.getElementById("consultSuccess").style.display = "block";
-            setTimeout(closeModal, 3000);
           } else {
             var errMsg = extractServerMessage(result.body) ||
               "Something went wrong. Please try again or email us at hello@technuvate.com";
