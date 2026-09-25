@@ -3522,11 +3522,20 @@
           }
         }
 
-        // ── Disable button ────────────────────────────────────
-        if (btn) {
-          btn.disabled = true;
-          btn.textContent = "Sending...";
+        // ── Disable form + button ────────────────────────────
+        function setFormDisabled(disabled) {
+          document.querySelectorAll("#consultForm input, #consultForm textarea, #consultForm select")
+            .forEach(function (el) { el.disabled = disabled; });
+          document.querySelectorAll("#consultForm .radio-opt")
+            .forEach(function (el) { el.style.pointerEvents = disabled ? "none" : ""; });
+          if (btn) {
+            btn.disabled = disabled;
+            if (!disabled) btn.textContent = "Send Brief \u2192";
+          }
         }
+
+        setFormDisabled(true);
+        if (btn) btn.textContent = "Sending...";
 
         // ── POST to NestJS studio inquiry endpoint ────────────
         fetch("https://api-technuvate.onrender.com/studio/inquiry", {
@@ -3549,25 +3558,21 @@
         })
         .then(function (result) {
           if (result.ok && result.body.success) {
+            resetForm();
+            setFormDisabled(false);
             document.getElementById("consultForm").style.display = "none";
             document.getElementById("consultSuccess").style.display = "block";
             setTimeout(closeModal, 3000);
           } else {
             var errMsg = extractServerMessage(result.body) ||
               "Something went wrong. Please try again or email us at hello@technuvate.com";
-            if (btn) {
-              btn.disabled = false;
-              btn.textContent = "Send Brief \u2192";
-            }
+            setFormDisabled(false);
             showFwToast(errMsg, "error");
           }
         })
         .catch(function (err) {
           console.error("Studio inquiry error:", err);
-          if (btn) {
-            btn.disabled = false;
-            btn.textContent = "Send Brief \u2192";
-          }
+          setFormDisabled(false);
           showFwToast(
             "Something went wrong. Please check your connection and try again.",
             "error"
