@@ -3295,9 +3295,24 @@
       function openModal() {
         document.getElementById("consultModal").classList.add("open");
         document.body.style.overflow = "hidden";
-        // Reset form
+        resetForm();
         document.getElementById("consultForm").style.display = "block";
         document.getElementById("consultSuccess").style.display = "none";
+      }
+
+      function resetForm() {
+        // Clear all text inputs, textareas, selects
+        document.querySelectorAll("#consultForm input, #consultForm textarea, #consultForm select").forEach(function (el) {
+          el.value = "";
+        });
+        // Clear selected radio options (pills and single-select)
+        document.querySelectorAll("#consultForm .radio-opt.selected").forEach(function (el) {
+          el.classList.remove("selected");
+        });
+        // Hide all conditional sections
+        document.querySelectorAll("#consultForm .cond-box.visible").forEach(function (box) {
+          box.classList.remove("visible");
+        });
       }
       function closeModal() {
         document.getElementById("consultModal").classList.remove("open");
@@ -3536,6 +3551,7 @@
           if (result.ok && result.body.success) {
             document.getElementById("consultForm").style.display = "none";
             document.getElementById("consultSuccess").style.display = "block";
+            setTimeout(closeModal, 3000);
           } else {
             var errMsg = extractServerMessage(result.body) ||
               "Something went wrong. Please try again or email us at hello@technuvate.com";
