@@ -3372,145 +3372,199 @@
       }
 
       function submitConsult() {
-        var submitButton = document.querySelector(".m-submit");
+        var btn = document.querySelector(".m-submit");
 
-        // ── Helper: get field value by id ─────────────────
-        function getFieldValue(fieldId) {
-          var element = document.getElementById(fieldId);
-          return element ? element.value.trim() : "";
+        // ── Collect static fields ────────────────────────────
+        function gv(id) {
+          var el = document.getElementById(id);
+          return el ? el.value.trim() : "";
         }
 
-        // ── Helper: show inline field error ──────────────
-        function showFieldError(fieldId, errorMessage) {
-          var errorElement = document.getElementById(fieldId + "-err");
-          if (errorElement) {
-            errorElement.textContent = errorMessage;
-            errorElement.style.display = "block";
-          }
-          var inputElement = document.getElementById(fieldId);
-          if (inputElement) inputElement.style.borderColor = "#E53E3E";
-        }
+        var fullName = gv("c-name");
+        var email = gv("c-email");
+        var phone = gv("c-phone");
+        var organization = gv("c-org") || undefined;
+        var serviceType = gv("c-service");
+        var projectBrief = gv("c-extra") || undefined;
 
-        // ── Helper: clear inline field error ─────────────
-        function clearFieldError(fieldId) {
-          var errorElement = document.getElementById(fieldId + "-err");
-          if (errorElement) errorElement.style.display = "none";
-          var inputElement = document.getElementById(fieldId);
-          if (inputElement) inputElement.style.borderColor = "";
-        }
-
-        // ── Collect all form field values ─────────────────
-        var fullName = getFieldValue("c-name");
-        var email = getFieldValue("c-email");
-        var phone = getFieldValue("c-phone");
-        var organization = getFieldValue("c-org");
-        var serviceType = getFieldValue("c-service");
-        // The modal's required free-text field holds the brief;
-        // it is the only existing store for project scope.
-        var projectScope = getFieldValue("c-extra");
-
-        // ── Collect optional conditional detail answers ───
-        // Selected pills and free-text answers from the
-        // visible conditional boxes become additional info.
-        var details = [];
-        document.querySelectorAll(".cond-box.visible").forEach(function (box) {
-          box.querySelectorAll(".radio-opt.selected").forEach(function (opt) {
-            details.push(opt.textContent.trim());
-          });
-          box
-            .querySelectorAll("textarea,input[type=text]")
-            .forEach(function (inp) {
-              if (inp.value.trim()) details.push(inp.value.trim());
-            });
-        });
-        var additionalInfo = details.length ? details.join(", ") : null;
-
-        // ── Clear required field errors before revalidating
-        ["c-name", "c-email", "c-service", "c-extra"].forEach(
-          function (fieldId) {
-            clearFieldError(fieldId);
-          },
-        );
-
-        // ── Client-side validation ────────────────────────
-        var formIsValid = true;
-
+        // ── Client-side validation ────────────────────────────
         if (!fullName) {
-          showFieldError("c-name", "Please enter your full name.");
-          formIsValid = false;
+          showFwToast("Please enter your full name.", "error");
+          return;
         }
-
-        if (!email || email.indexOf("@") < 0 || email.indexOf(".") < 0) {
-          showFieldError("c-email", "Please enter a valid email address.");
-          formIsValid = false;
+        if (!email || email.indexOf("@") < 0) {
+          showFwToast("Please enter a valid email address.", "error");
+          return;
         }
-
+        if (!phone) {
+          showFwToast("Please enter your phone number.", "error");
+          return;
+        }
         if (!serviceType) {
-          showFieldError("c-service", "Please select a service type.");
-          formIsValid = false;
+          showFwToast("Please select a service.", "error");
+          return;
         }
-
-        if (!projectScope) {
-          showFieldError("c-extra", "Please describe your project.");
-          formIsValid = false;
-        }
-
-        if (!formIsValid) {
-          var modalContainer = document.getElementById("consultForm");
-          if (modalContainer) modalContainer.scrollTop = 0;
+        if (!projectBrief) {
+          showFwToast("Please tell us anything else we should know.", "error");
           return;
         }
 
-        // ── Disable button and show loading state ─────────
-        if (submitButton) {
-          submitButton.disabled = true;
-          submitButton.textContent = "Sending...";
+        // ── Collect service details as prompt-answer pairs ────
+        // Each question group in the visible conditional section
+        // produces one { prompt, answer } object.
+        // Multi-select pills produce a comma-joined answer.
+        // Single-select radio produces one answer string.
+        // Text inputs produce the typed value as the answer.
+        // Empty answers are skipped entirely.
+        var serviceDetails = [];
+
+        function collectPills(prompt, radioGroupSelector) {
+          var selected = [];
+          var group = document.querySelector(radioGroupSelector);
+          if (group) {
+            group.querySelectorAll(".radio-opt.selected").forEach(function (el) {
+              selected.push(el.textContent.trim());
+            });
+          }
+          if (selected.length) {
+            serviceDetails.push({ prompt: prompt, answer: selected.join(", ") });
+          }
         }
 
-        // ── Call studio-inquiry Netlify function ──────────
-        fetch(window.location.origin + "/api/studio-inquiry", {
+        function collectSingle(prompt, groupName) {
+          // Find selected radio-opt by matching onclick="selectSingle(this, 'groupName')"
+          var selector = '.radio-opt.selected[onclick*="' + groupName + '"]';
+          var selected = document.querySelector(selector);
+          if (selected && selected.textContent.trim()) {
+            serviceDetails.push({
+              prompt: prompt,
+              answer: selected.textContent.trim()
+            });
+          }
+        }
+
+        function collectText(prompt, inputId) {
+          var val = gv(inputId);
+          if (val) serviceDetails.push({ prompt: prompt, answer: val });
+        }
+
+        var visibleBox = document.querySelector(".cond-box.visible");
+        if (visibleBox) {
+          var boxId = visibleBox.id;
+
+          if (boxId === "cond-digital-marketing") {
+            collectPills("Which platforms do you want to focus on?", "#cond-digital-marketing .m-fg:nth-child(1) .radio-group");
+            collectSingle("Do you already have active social media pages?", "has-social");
+            collectSingle("What is your monthly budget range?", "mkt-budget");
+          }
+
+          if (boxId === "cond-brand-design") {
+            collectPills("What do you need designed?", "#cond-brand-design .m-fg:nth-child(1) .radio-group");
+            collectSingle("Do you have existing brand guidelines or a logo?", "has-brand");
+          }
+
+          if (boxId === "cond-website") {
+            collectSingle("What kind of website do you need?", "web-type");
+            collectSingle("Do you already have a UI design for the website?", "web-design");
+            collectSingle("Do you have a domain name already?", "web-domain");
+            collectSingle("Do you need a CMS so you can update content yourself?", "web-cms");
+          }
+
+          if (boxId === "cond-product-management") {
+            collectSingle("Where is your product right now?", "prod-stage");
+            collectPills("What kind of support do you need?", "#cond-product-management .m-fg:nth-child(2) .radio-group");
+            collectSingle("Do you have a tech team building this product?", "prod-team");
+          }
+
+          if (boxId === "cond-content") {
+            collectPills("What content do you need?", "#cond-content .m-fg:nth-child(1) .radio-group");
+            collectSingle("How often do you need content?", "content-freq");
+          }
+
+          if (boxId === "cond-community") {
+            collectSingle("What stage is your community at?", "comm-stage");
+            collectPills("Which platform is your community on?", "#cond-community .m-fg:nth-child(2) .radio-group");
+          }
+
+          if (boxId === "cond-strategy") {
+            collectPills("What is the main challenge you are trying to solve?", "#cond-strategy .m-fg:nth-child(1) .radio-group");
+          }
+
+          if (boxId === "cond-data") {
+            collectText("What data tools do you currently use, if any?", "c-data-tools");
+            collectPills("What do you want to measure or understand better?", "#cond-data .m-fg:nth-child(2) .radio-group");
+          }
+
+          if (boxId === "cond-other") {
+            // c-other-detail captures what service they have in mind
+            // It is used as projectBrief above not as a detail pair
+            // Generic follow-up questions for Something Else
+            // c-other-goal and c-other-budget do not exist in HTML — only collect what exists
+            // (c-other-detail is already captured as projectBrief via c-extra fallback? No, it's separate)
+            // We'll include c-other-detail as a detail pair if filled
+            collectText("What are you trying to achieve?", "c-other-detail");
+            // c-other-goal and c-other-budget do not exist — skipping
+          }
+        }
+
+        // ── Disable button ────────────────────────────────────
+        if (btn) {
+          btn.disabled = true;
+          btn.textContent = "Sending...";
+        }
+
+        // ── POST to NestJS studio inquiry endpoint ────────────
+        fetch("https://api-technuvate.onrender.com/studio/inquiry", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            full_name: fullName,
+            fullName: fullName,
             email: email,
-            phone: phone || null,
-            organization: organization || null,
-            service_type: serviceType,
-            project_scope: projectScope,
-            additional_info: additionalInfo || null,
-          }),
+            phone: phone,
+            organization: organization,
+            serviceType: serviceType,
+            projectBrief: projectBrief,
+            serviceDetails: serviceDetails.length ? serviceDetails : undefined
+          })
         })
-          .then(function (response) {
-            return response.json().then(function (responseBody) {
-              return {
-                requestSucceeded: response.ok,
-                statusCode: response.status,
-                body: responseBody,
-              };
-            });
-          })
-          .then(function (result) {
-            if (result.requestSucceeded && result.body.success) {
-              var formContainer = document.getElementById("consultForm");
-              var successState = document.getElementById("consultSuccess");
-              if (formContainer) formContainer.style.display = "none";
-              if (successState) successState.style.display = "block";
-            } else {
-              throw new Error(result.body.error || "Submission failed");
-            }
-          })
-          .catch(function (submissionError) {
-            console.error("Studio inquiry submission error:", submissionError);
-            if (submitButton) {
-              submitButton.disabled = false;
-              submitButton.textContent = "Send Brief →";
-            }
-            showFwToast(
-              "Something went wrong. Please try again or contact us at hello@technuvate.com",
-              "error",
-            );
+        .then(function (res) {
+          return res.json().then(function (body) {
+            return { ok: res.ok, body: body };
           });
+        })
+        .then(function (result) {
+          if (result.ok && result.body.success) {
+            document.getElementById("consultForm").style.display = "none";
+            document.getElementById("consultSuccess").style.display = "block";
+          } else {
+            var errMsg = extractServerMessage(result.body) ||
+              "Something went wrong. Please try again or email us at hello@technuvate.com";
+            if (btn) {
+              btn.disabled = false;
+              btn.textContent = "Send Brief \u2192";
+            }
+            showFwToast(errMsg, "error");
+          }
+        })
+        .catch(function (err) {
+          console.error("Studio inquiry error:", err);
+          if (btn) {
+            btn.disabled = false;
+            btn.textContent = "Send Brief \u2192";
+          }
+          showFwToast(
+            "Something went wrong. Please check your connection and try again.",
+            "error"
+          );
+        });
+
+        function extractServerMessage(body) {
+          if (!body) return null;
+          if (typeof body.message === "string") return body.message;
+          if (Array.isArray(body.message) && body.message.length)
+            return body.message[0];
+          return null;
+        }
       }
     </script>
   </body>
