@@ -825,6 +825,38 @@
         transform: translateX(-50%) translateY(0);
         pointer-events: auto;
       }
+      .field-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+      .lbp-currency-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        justify-content: center;
+      }
+      .lbp-currency-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #374151;
+      }
+      .lbp-cur-btn {
+        padding: 8px 22px;
+        border-radius: 100px;
+        border: 1.5px solid #1B3A7A;
+        background: transparent;
+        color: #1B3A7A;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s, color 0.15s;
+      }
+      .lbp-cur-btn.lbp-cur-active {
+        background: #1B3A7A;
+        color: #ffffff;
+      }
     </style>
     <style>
       .don-nudge {
@@ -1718,8 +1750,27 @@
               </div>
             </div>
 
+            <div class="lbp-currency-wrap" id="lbpCurrencyWrap">
+              <span class="lbp-currency-label">Pay in:</span>
+              <button
+                type="button"
+                class="lbp-cur-btn lbp-cur-active"
+                id="lbp-cur-ngn"
+                onclick="selectLabsCurrency('NGN')"
+              >₦ Naira (NGN)</button>
+              <button
+                type="button"
+                class="lbp-cur-btn"
+                id="lbp-cur-usd"
+                onclick="selectLabsCurrency('USD')"
+              >$ Dollar (USD)</button>
+            </div>
+            <div style="text-align:center;margin-bottom:12px;font-size:13px;color:#6B7280" id="lbpPriceDisplay">
+              Amount: <strong>₦7,000</strong>
+            </div>
+
             <button class="submit-btn" id="submitBtn" onclick="submitForm()">
-              <span id="btnText">Pay &#8358;7,000 (~$5) and Apply</span>
+              <span id="btnText">Confirm and Pay</span>
               <div class="spinner" id="spinner"></div>
             </button>
             <p
@@ -2169,7 +2220,6 @@
       </div>
     </footer>
 
-    <script src="https://checkout.flutterwave.com/v3.js"></script>
     <script src="js/env.js"></script>
     <script>
       function submitNewsletter(e) {
@@ -2214,12 +2264,6 @@
       }
     </script>
     <script>
-      const FORMSPREE = "YOUR_FORMSPREE_ENDPOINT";
-
-      const FW_PUBLIC_KEY = window.APP_ENV.FW_PUBLIC_KEY;
-
-      var ADMIN_EMAIL = "labs@technuvate.com";
-
       // ─── COHORT CONFIGURATION ───────────────────────────────────────────
       // Update these values before each new cohort opens
       const COHORT_NUMBER = 1;
@@ -2404,314 +2448,159 @@
         }, 6000);
       }
 
-      function submitForm() {
-        var btn = document.getElementById("submitBtn");
-        var spinner = document.getElementById("spinner");
-        var btnText = document.getElementById("btnText");
+      var lbpSelectedCurrency = 'NGN';
 
-        // ── Commitment checkbox first ─────────────────────
-        var cb = document.getElementById("commitCheck");
-        if (cb && !cb.checked) {
-          document.getElementById("commitErr").style.display = "block";
-          cb.closest("div").scrollIntoView({
-            behavior: "smooth",
-            block: "center",
-          });
-          return;
-        }
-        if (cb) document.getElementById("commitErr").style.display = "none";
-
-        // ── Helper functions ──────────────────────────────
-        function gv(id) {
-          var el = document.getElementById(id);
-          return el ? el.value.trim() : "";
-        }
-        function showErr(id, msg) {
-          var e = document.getElementById(id + "-err");
-          if (e) {
-            e.textContent = msg;
-            e.style.display = "block";
-          }
-          var inp = document.getElementById(id);
-          if (inp) inp.classList.add("invalid");
-        }
-        function clearErr(id) {
-          var e = document.getElementById(id + "-err");
-          if (e) e.style.display = "none";
-          var inp = document.getElementById(id);
-          if (inp) inp.classList.remove("invalid");
-        }
-
-        // ── Collect all form values ───────────────────────
-        var fullName = gv("fullname");
-        var email = gv("email");
-        var phone = gv("phone");
-        var gender = gv("gender");
-        var ageRange = gv("age");
-        var country = gv("country");
-        var skillTrack = gv("track");
-        var background = gv("background");
-        var cohort = gv("cohort") || null;
-        var experience = gv("experience");
-        var goal = gv("goal");
-        var linkedin = gv("linkedin");
-
-        // ── Resolve state/region ──────────────────────────
-        var stateRegion = "";
-        if (country === "Nigeria") {
-          stateRegion = gv("nigeria-state");
-        } else if (country === "Other") {
-          var otherName = gv("other-country-name");
-          var otherState = gv("other-country-state");
-          stateRegion =
-            otherName && otherState
-              ? otherName + ", " + otherState
-              : otherName || otherState;
-        } else if (country) {
-          stateRegion = gv("intl-state");
-        }
-
-        // ── Currency based on country ─────────────────────
-        var currency = country === "Nigeria" ? "NGN" : "USD";
-
-        // ── Client-side validation ────────────────────────
-        var ok = true;
-
-        if (!fullName) {
-          showErr("fullname", "Please enter your full name.");
-          ok = false;
-        } else clearErr("fullname");
-        if (!gender) {
-          showErr("gender", "Please select your gender.");
-          ok = false;
-        } else clearErr("gender");
-        if (!ageRange) {
-          showErr("age", "Please select your age range.");
-          ok = false;
-        } else clearErr("age");
-
-        var em = email;
-        if (!em || em.indexOf("@") < 0 || em.indexOf(".") < 0) {
-          showErr("email", "Please enter a valid email address.");
-          ok = false;
-        } else clearErr("email");
-
-        if (!phone) {
-          showErr("phone", "Please enter your WhatsApp number.");
-          ok = false;
-        } else clearErr("phone");
-        if (!country) {
-          showErr("country", "Please select your country.");
-          ok = false;
-        } else clearErr("country");
-
-        if (country === "Nigeria" && !stateRegion) {
-          showErr("nigeria-state", "Please select your state.");
-          ok = false;
-        } else if (country === "Other") {
-          if (!gv("other-country-name")) {
-            showErr("other-country-name", "Please enter your country name.");
-            ok = false;
-          }
-          if (!gv("other-country-state")) {
-            showErr(
-              "other-country-state",
-              "Please enter your state or region.",
-            );
-            ok = false;
-          }
-        } else if (country && !stateRegion) {
-          showErr("intl-state", "Please enter your state or region.");
-          ok = false;
-        }
-
-        if (!skillTrack) {
-          showErr("track", "Please select a skill track.");
-          ok = false;
-        } else clearErr("track");
-        if (!background) {
-          showErr("background", "Please tell us where you learned.");
-          ok = false;
-        } else clearErr("background");
-        if (!experience) {
-          showErr("experience", "Please describe your current skill level.");
-          ok = false;
-        } else clearErr("experience");
-        if (!goal) {
-          showErr("goal", "Please tell us what you want to walk away with.");
-          ok = false;
-        } else clearErr("goal");
-        if (!linkedin) {
-          showErr("linkedin", "Please enter your LinkedIn profile URL.");
-          ok = false;
-        } else clearErr("linkedin");
-
-        if (!ok) {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          return;
-        }
-
-        // ── Disable button ────────────────────────────────
-        if (btn) btn.disabled = true;
-        if (spinner) spinner.style.display = "block";
-        if (btnText) btnText.textContent = "Processing...";
-
-        // ── Call labs-pro.js Netlify function ─────────────
-        fetch(window.location.origin + "/api/labs-pro", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            full_name: fullName,
-            email: email,
-            phone: phone,
-            gender: gender,
-            age_range: ageRange,
-            country: country,
-            state_region: stateRegion || null,
-            skill_track: skillTrack,
-            background: background,
-            academy_cohort: cohort,
-            experience: experience,
-            goal: goal,
-            linkedin: linkedin,
-            currency: currency,
-            commitment_confirmed: true,
-          }),
-        })
-          .then(function (res) {
-            if (!res.ok) throw new Error("Server error: " + res.status);
-            return res.json();
-          })
-          .then(function (data) {
-            if (!data.success || !data.flutterwaveConfig) {
-              throw new Error(data.error || "Invalid server response");
-            }
-
-            var config = data.flutterwaveConfig;
-
-            try {
-              var flutterwaveCheckoutInstance = FlutterwaveCheckout({
-                public_key: window.APP_ENV.FW_PUBLIC_KEY,
-                tx_ref: config.tx_ref,
-                amount: config.amount,
-                currency: config.currency,
-                payment_options: config.payment_options,
-                customer: config.customer,
-                meta: config.meta,
-                customizations: config.customizations,
-                callback: function (response) {
-                  if (
-                    response.status === "successful" ||
-                    response.status === "completed"
-                  ) {
-                    if (btn) btn.disabled = false;
-                    if (spinner) spinner.style.display = "none";
-                    if (btnText) btnText.textContent = "Confirm and Pay";
-
-                    fetch(
-                      window.location.origin +
-                        "/api/verify-labs-pro",
-                      {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                          flw_tx_ref: config.tx_ref,
-                          flw_tx_id:
-                            response.transaction_id ||
-                            response.id ||
-                            response.flw_ref ||
-                            "",
-                          amount: config.amount,
-                          currency: config.currency,
-                          full_name: fullName,
-                          email: email,
-                          phone: phone,
-                          gender: gender,
-                          age_range: ageRange,
-                          country: country,
-                          state_region: stateRegion || null,
-                          skill_track: skillTrack,
-                          background: background,
-                          academy_cohort: cohort,
-                          experience: experience,
-                          goal: goal,
-                          linkedin: linkedin,
-                          commitment_confirmed: true,
-                        }),
-                      },
-                    )
-                      .then(function (vRes) {
-                        if (!vRes.ok)
-                          throw new Error(
-                            "Verification failed: " + vRes.status,
-                          );
-                        return vRes.json();
-                      })
-                      .then(function (vData) {
-                        if (vData.success) {
-                          setTimeout(function () {
-                            flutterwaveCheckoutInstance.close();
-                            document.getElementById("formCard").style.display =
-                              "none";
-                            document.getElementById(
-                              "successCard",
-                            ).style.display = "block";
-                            window.scrollTo({ top: 0, behavior: "smooth" });
-                          }, 300);
-                        } else {
-                          throw new Error(
-                            vData.error || "Verification returned false",
-                          );
-                        }
-                      })
-                      .catch(function (vErr) {
-                        console.error("Labs pro verification error:", vErr);
-                        setTimeout(function () {
-                          flutterwaveCheckoutInstance.close();
-                        }, 300);
-                        setTimeout(function () {
-                          showFwToast(
-                            "Your payment was received. We will confirm your application shortly. Reference: " +
-                              config.tx_ref,
-                            "error",
-                          );
-                        }, 350);
-                      });
-                  } else {
-                    if (btn) btn.disabled = false;
-                    if (spinner) spinner.style.display = "none";
-                    if (btnText) btnText.textContent = "Confirm and Pay";
-                    showFwToast(
-                      "Payment was not completed. Please try again.",
-                      "error",
-                    );
-                  }
-                },
-                onclose: function () {
-                  if (btn) btn.disabled = false;
-                  if (spinner) spinner.style.display = "none";
-                  if (btnText) btnText.textContent = "Confirm and Pay";
-                },
-              });
-            } catch (fwErr) {
-              console.error("FlutterwaveCheckout init error:", fwErr);
-              if (btn) btn.disabled = false;
-              if (spinner) spinner.style.display = "none";
-              if (btnText) btnText.textContent = "Confirm and Pay";
-              showFwToast(
-                "Something went wrong opening payment. Please try again.",
-                "error",
-              );
-            }
-          })
-          .catch(function (err) {
-            console.error("Labs pro init error:", err);
-            if (btn) btn.disabled = false;
-            if (spinner) spinner.style.display = "none";
-            if (btnText) btnText.textContent = "Confirm and Pay";
-            showFwToast("Something went wrong. Please try again.", "error");
-          });
+      function selectLabsCurrency(currency) {
+        lbpSelectedCurrency = currency;
+        var ngnBtn = document.getElementById('lbp-cur-ngn');
+        var usdBtn = document.getElementById('lbp-cur-usd');
+        var display = document.getElementById('lbpPriceDisplay');
+        if (ngnBtn) ngnBtn.className = 'lbp-cur-btn' + (currency === 'NGN' ? ' lbp-cur-active' : '');
+        if (usdBtn) usdBtn.className = 'lbp-cur-btn' + (currency === 'USD' ? ' lbp-cur-active' : '');
+        if (display) display.innerHTML = 'Amount: <strong>' + (currency === 'NGN' ? '₦7,000' : '$5') + '</strong>';
       }
+
+      function submitForm() {
+      var submitButton = document.getElementById('submitBtn');
+      var spinnerElement = document.getElementById('spinner');
+      var buttonTextElement = document.getElementById('btnText');
+
+      // ── Helper: get field value ────────────────────────
+      function gv(id) {
+        var el = document.getElementById(id);
+        return el ? el.value.trim() : '';
+      }
+
+      // ── Collect all field values ───────────────────────
+      var fullName = gv('fullname');
+      var email = gv('email');
+      var phone = gv('phone');
+      var gender = gv('gender');
+      var ageRange = gv('age');
+      var country = gv('country');
+      var stateRegion = gv('nigeria-state') || gv('other-country-state') || gv('intl-state') || undefined;
+      var skillTrack = gv('track');
+      var background = gv('background');
+      var experience = gv('experience');
+      var goal = gv('goal');
+      var linkedin = gv('linkedin');
+      var currency = lbpSelectedCurrency;
+
+      // ── Commitment checkbox ────────────────────────────
+      var commitCheckbox = document.getElementById('commitCheck');
+      var commitmentConfirmed = commitCheckbox ? commitCheckbox.checked : false;
+
+      if (!commitmentConfirmed) {
+        var commitErr = document.getElementById('commitErr');
+        if (commitErr) commitErr.style.display = 'block';
+        return;
+      }
+
+      // ── Client-side validation ─────────────────────────
+      if (!fullName) { showFwToast('Please enter your full name.', 'error'); return; }
+      if (!email || email.indexOf('@') < 0) {
+        showFwToast('Please enter a valid email address.', 'error'); return;
+      }
+      if (!phone) { showFwToast('Please enter your phone number.', 'error'); return; }
+      if (!gender) { showFwToast('Please select your gender.', 'error'); return; }
+      if (!ageRange) { showFwToast('Please select your age range.', 'error'); return; }
+      if (!country) { showFwToast('Please select your country.', 'error'); return; }
+      if (!skillTrack) { showFwToast('Please select your digital skill track.', 'error'); return; }
+      if (!background) { showFwToast('Please select where you learned your skill.', 'error'); return; }
+      if (!experience) { showFwToast('Please describe your current skill level.', 'error'); return; }
+      if (!goal) { showFwToast('Please tell us what you want to walk away with.', 'error'); return; }
+      if (!linkedin) { showFwToast('Please enter your LinkedIn profile URL.', 'error'); return; }
+
+      // ── Disable all form inputs ────────────────────────
+      var allInputs = document.querySelectorAll(
+        '#formCard input, ' +
+        '#formCard select, ' +
+        '#formCard textarea, ' +
+        '#formCard button'
+      );
+      allInputs.forEach(function (el) {
+        el.disabled = true;
+        el.classList.add('field-disabled');
+      });
+
+      if (submitButton) submitButton.disabled = true;
+      if (spinnerElement) spinnerElement.style.display = 'inline-block';
+      if (buttonTextElement) buttonTextElement.textContent = 'Submitting...';
+
+      // ── POST to NestJS labs pro apply endpoint ─────────
+      fetch('https://api-technuvate.onrender.com/labs/pro/apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: fullName,
+          email: email,
+          phone: phone,
+          gender: gender,
+          ageRange: ageRange,
+          country: country,
+          stateRegion: stateRegion,
+          skillTrack: skillTrack,
+          background: background,
+          experience: experience,
+          goal: goal,
+          linkedin: linkedin,
+          currency: currency,
+          commitmentConfirmed: commitmentConfirmed
+        })
+      })
+      .then(function (res) {
+        return res.json().then(function (body) {
+          return { ok: res.ok, body: body };
+        });
+      })
+      .then(function (result) {
+        if (result.ok && result.body.data && result.body.data.flwLink) {
+          // Clear form before redirect
+          allInputs.forEach(function (el) {
+            if (el.tagName === 'INPUT' && el.type !== 'checkbox') el.value = '';
+            if (el.tagName === 'SELECT') el.selectedIndex = 0;
+            if (el.tagName === 'TEXTAREA') el.value = '';
+            if (el.type === 'checkbox') el.checked = false;
+          });
+          window.location.href = result.body.data.flwLink;
+        } else {
+          // Re-enable on error
+          allInputs.forEach(function (el) {
+            el.disabled = false;
+            el.classList.remove('field-disabled');
+          });
+          if (submitButton) submitButton.disabled = false;
+          if (spinnerElement) spinnerElement.style.display = 'none';
+          if (buttonTextElement) buttonTextElement.textContent = 'Confirm and Pay';
+
+          var errMsg = extractServerMessage(result.body) ||
+            'Something went wrong. Please try again.';
+          showFwToast(errMsg, 'error');
+        }
+      })
+      .catch(function (err) {
+        console.error('Labs Pro submit error:', err);
+        allInputs.forEach(function (el) {
+          el.disabled = false;
+          el.classList.remove('field-disabled');
+        });
+        if (submitButton) submitButton.disabled = false;
+        if (spinnerElement) spinnerElement.style.display = 'none';
+        if (buttonTextElement) buttonTextElement.textContent = 'Confirm and Pay';
+        showFwToast(
+          'Something went wrong. Please check your connection and try again.',
+          'error'
+        );
+      });
+
+      function extractServerMessage(body) {
+        if (!body) return null;
+        if (typeof body.message === 'string') return body.message;
+        if (Array.isArray(body.message) && body.message.length)
+          return body.message[0];
+        return null;
+      }
+    }
     </script>
   </body>
 </html>
