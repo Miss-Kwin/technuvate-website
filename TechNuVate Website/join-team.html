@@ -982,6 +982,11 @@
         transform: translateX(-50%) translateY(0);
         pointer-events: auto;
       }
+      .field-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
     </style>
     <link rel="icon" type="image/png" href="favicon.png" />
   </head>
@@ -2699,7 +2704,7 @@
         if (bt) bt.textContent = "Submitting...";
 
         // ── Call join-team.js Netlify function ────────────
-        fetch(window.location.origin + "/api/join-team", {
+        fetch(fetch("https://api-technuvate.onrender.com/talent/careers/apply", { + "/api/join-team", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
