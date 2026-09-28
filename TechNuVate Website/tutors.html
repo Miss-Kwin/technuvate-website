@@ -2721,11 +2721,6 @@
         transform: translateX(-50%) translateY(0);
         pointer-events: auto;
       }
-      .field-disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-        pointer-events: none;
-      }
     </style>
     <script>
       function submitNewsletter(e) {
@@ -2891,12 +2886,12 @@
         var buttonTextElement = document.getElementById("tutorBtnText");
 
         // ── Helper: get field value by id ─────────────────
-        function gv(id) {
-        var el = document.getElementById(id);
-        return el ? el.value.trim() : "";
-      }
+        function getFieldValue(fieldId) {
+          var element = document.getElementById(fieldId);
+          return element ? element.value.trim() : "";
+        }
 
-      // ── Collect all field values ───────────────────────
+        // ── Helper: show inline field error ──────────────
         function showFieldError(fieldId, errorMessage) {
           var errorElement = document.getElementById(fieldId + "-err");
           if (errorElement) {
@@ -2916,10 +2911,10 @@
         }
 
         // ── Collect all form field values ─────────────────
-        var fullName = gv("t-name");
-      var gender = gv("t-gender");
-        var ageRange = gv("t-age");
-      var country = gv("t-country");
+        var fullName = getFieldValue("t-name");
+        var gender = getFieldValue("t-gender");
+        var ageRange = getFieldValue("t-age");
+        var country = getFieldValue("t-country");
         var stateRegion = getFieldValue("t-state");
         var emailAddress = getFieldValue("t-email");
         var phoneNumber = getFieldValue("t-phone");
@@ -2945,17 +2940,16 @@
         var formIsValid = true;
 
         if (!fullName) {
-        showFwToast("Please enter your full name.", "error");
-        return;
-      }
+          showFieldError("t-name", "Please enter your full name.");
           formIsValid = false;
         } else clearFieldError("t-name");
 
         if (!gender) {
-        showFwToast("Please select your gender.", "error");
-        return;
-      }
-      if (!ageRange) {
+          showFieldError("t-gender", "Please select your gender.");
+          formIsValid = false;
+        } else clearFieldError("t-gender");
+
+        if (!ageRange) {
           showFieldError("t-age", "Please select your age range.");
           formIsValid = false;
         } else clearFieldError("t-age");
@@ -2974,23 +2968,34 @@
           formIsValid = false;
         } else clearFieldError("t-email");
 
-        if (!phone) {
-        showFwToast("Please enter your phone number.", "error");
-        return;
-      }
-      if (!gender) {
+        if (!phoneNumber) {
+          showFieldError("t-phone", "Please enter your phone number.");
+          formIsValid = false;
+        } else clearFieldError("t-phone");
+
+        if (!linkedinUrl) {
           showFieldError(
             "t-linkedin",
             "Please enter your LinkedIn profile URL.",
           );
           formIsValid = false;
-      } else clearFieldError("t-linkedin");
+        } else clearFieldError("t-linkedin");
 
-      if (!subjectTrack) {
-        showFwToast("Please select a subject track.", "error");
-        return;
-      }
-      if (!teachingExperience) {
+        if (!subjectTrack) {
+          showFieldError(
+            "t-track",
+            "Please select the track you want to teach.",
+          );
+          formIsValid = false;
+        } else {
+          clearFieldError("t-track");
+          if (subjectTrack === "Other" && !otherTrackName) {
+            showFieldError("t-track-other", "Please specify the track name.");
+            formIsValid = false;
+          } else clearFieldError("t-track-other");
+        }
+
+        if (!yearsExperience) {
           showFieldError("t-exp", "Please select your years of experience.");
           formIsValid = false;
         } else clearFieldError("t-exp");
@@ -3000,81 +3005,36 @@
           formIsValid = false;
         } else clearFieldError("t-bio");
 
-        if (!fullName) {
-        showFwToast("Please enter your full name.", "error");
-        return;
-      }
-      if (!email || email.indexOf("@") < 0) {
-        showFwToast("Please enter a valid email address.", "error");
-        return;
-      }
-      if (!phone) {
-        showFwToast("Please enter your phone number.", "error");
-        return;
-      }
-      if (!gender) {
-        showFwToast("Please select your gender.", "error");
-        return;
-      }
-      if (!ageRange) {
-        showFwToast("Please select your age range.", "error");
-        return;
-      }
-      if (!country) {
-        showFwToast("Please select your country.", "error");
-        return;
-      }
-      if (!linkedin) {
-        showFwToast("Please enter your LinkedIn profile URL.", "error");
-        return;
-      }
-      if (!subjectTrack) {
-        showFwToast("Please select a subject track.", "error");
-        return;
-      }
-      if (!teachingExperience) {
-        showFwToast("Please select your years of experience.", "error");
-        return;
-      }
-      if (!biography) {
-        showFwToast("Please tell us about yourself.", "error");
-        return;
-      }
+        if (!formIsValid) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          return;
+        }
 
-        // ── Disable all form inputs ────────────────────────
-        var formContainer = document.getElementById("formCard");
-        var allInputs = formContainer
-          ? formContainer.querySelectorAll("input, select, textarea, button")
-          : [];
-        allInputs.forEach(function (el) {
-          el.disabled = true;
-          el.classList.add("field-disabled");
-        });
-
+        // ── Disable button and show loading state ─────────
         if (submitButton) submitButton.disabled = true;
-        if (spinnerElement) spinnerElement.style.display = "inline-block";
+        if (spinnerElement) spinnerElement.style.display = "block";
         if (buttonTextElement) buttonTextElement.textContent = "Submitting...";
 
-        // ── POST to NestJS tutor apply endpoint ────────────
-        fetch("https://api-technuvate.onrender.com/talent/tutors/apply", {
+        // ── Call become-tutor Netlify function ────────────
+        fetch(window.location.origin + "/api/become-tutor", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            fullName: fullName,
-            email: email,
-            phone: phone,
+            full_name: fullName,
+            email: emailAddress,
+            phone: phoneNumber,
             gender: gender,
-            ageRange: ageRange,
+            age_range: ageRange,
             country: country,
-            stateRegion: stateRegion,
-            linkedin: linkedin,
-            subjectTrack: subjectTrack,
-            teachingExperience: teachingExperience,
+            state_region: stateRegion || null,
+            linkedin: linkedinUrl,
+            subject_track: resolvedTrack,
+            portfolio_url: portfolioUrl || null,
+            teaching_experience: yearsExperience,
             biography: biography,
-            portfolioUrl: portfolioUrl,
-            weeklyHours: weeklyHours,
-            mobileNetwork: mobileNetwork,
-            dataTopupPhone: dataTopupPhone
+            weekly_hours: weeklyHours || null,
+            mobile_network: resolvedMobileNetwork || null,
+            data_topup_phone: dataTopupPhone || null,
           }),
         })
           .then(function (response) {
@@ -3106,19 +3066,19 @@
             } else {
               throw new Error(result.body.error || "Submission failed");
             }
-}
           })
           .catch(function (submissionError) {
-            console.error("Tutor apply error:", err);
+            console.error("Become tutor submission error:", submissionError);
             if (submitButton) submitButton.disabled = false;
-          if (spinnerElement) spinnerElement.style.display = "none";
-          if (buttonTextElement) buttonTextElement.textContent = "Submit Application";
-          showFwToast(
-            "Something went wrong. Please check your connection and try again.",
-            "error"
-          );
+            if (spinnerElement) spinnerElement.style.display = "none";
+            if (buttonTextElement)
+              buttonTextElement.textContent = "Submit Application";
+            showFwToast(
+              "Something went wrong. Please try again or contact us at hello@technuvate.com",
+              "error",
+            );
           });
-        }
+      }
       var obs = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (e) {
