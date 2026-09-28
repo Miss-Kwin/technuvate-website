@@ -943,6 +943,11 @@
         }
       }
 
+      .field-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
       .fw-toast {
         position: fixed;
         bottom: 28px;
@@ -1042,9 +1047,7 @@
           "
           >Store</a
         >
-        <a href="/blog" class="nav-item-btn" style="font-weight: 500"
-          >Blog</a
-        >
+        <a href="/blog" class="nav-item-btn" style="font-weight: 500">Blog</a>
         <a
           href="/donate"
           class="nav-btn"
@@ -1081,7 +1084,7 @@
         <a href="/tutors">Become a Tutor</a>
         <a href="/join-team">Become a Team Member</a>
       </div>
-<div class="mob-section">
+      <div class="mob-section">
         <div class="mob-section-title">Explore</div>
         <a href="/blog">Blog & Events</a>
         <a href="/store">Merch Store</a>
@@ -2115,9 +2118,7 @@
             might be a better fit for you.
           </p>
           <div class="cta-btns">
-            <a href="/tutors" class="btn-white"
-              >See the Tutor Role &rarr;</a
-            >
+            <a href="/tutors" class="btn-white">See the Tutor Role &rarr;</a>
           </div>
         </div>
       </div>
@@ -2250,7 +2251,7 @@
               opportunity.
             </p>
           </div>
-<div>
+          <div>
             <div class="fc-t">Our Arms</div>
             <ul class="flinks">
               <li><a href="/about">About Us</a></li>
@@ -2589,176 +2590,154 @@
         }, 6000);
       }
       function submitMember() {
-        var btn = document.getElementById("memberBtn");
-        var sp = btn ? btn.querySelector(".spinner") : null;
-        var bt = btn ? btn.querySelector("span") : null;
+        var submitButton      = document.getElementById('memberBtn');
+        var spinnerElement    = document.getElementById('memberSpinner');
+        var buttonTextElement = document.getElementById('memberBtnText');
 
-        // ── Helper functions ──────────────────────────────
         function gv(id) {
           var el = document.getElementById(id);
-          return el ? el.value.trim() : "";
-        }
-        function se(id, msg) {
-          var errEl = document.getElementById(id + "-err");
-          if (errEl) {
-            errEl.textContent = msg;
-            errEl.style.display = "block";
-          }
-          var inp = document.getElementById(id);
-          if (inp) inp.style.borderColor = "#E53E3E";
-        }
-        function ce(id) {
-          var errEl = document.getElementById(id + "-err");
-          if (errEl) errEl.style.display = "none";
-          var inp = document.getElementById(id);
-          if (inp) inp.style.borderColor = "";
+          return el ? el.value.trim() : '';
         }
 
-        // ── Collect values ────────────────────────────────
-        var fullName = gv("m-name");
-        var gender = gv("m-gender");
-        var ageRange = gv("m-age");
-        var email = gv("m-email");
-        var phone = gv("m-phone");
-        var linkedin = gv("m-linkedin");
-        var roleApplied = gv("m-role");
-        var currentOccupation = gv("m-current");
-        var experienceLevel = gv("m-exp");
-        var whyJoin = gv("m-why");
-        var relevantSkills = gv("m-skills");
-        var weeklyHours = gv("m-hours");
-        var networkRaw = gv("m-network");
-        var mobileNetwork =
-          networkRaw === "Other" ? gv("m-network-other") : networkRaw;
-        var dataTopupPhone = gv("m-data-phone") || null;
+        // ── Collect all field values ───────────────────────
+        var fullName          = gv('m-name');
+        var email             = gv('m-email');
+        var phone             = gv('m-phone');
+        var gender            = gv('m-gender');
+        var ageRange          = gv('m-age');
+        var linkedin          = gv('m-linkedin');
+        var roleApplied       = gv('m-role');
+        var currentOccupation = gv('m-current');
+        var experienceLevel   = gv('m-exp');
+        var whyJoin           = gv('m-why');
+        var relevantSkills    = gv('m-skills');
+        var weeklyHours       = gv('m-hours');
+        var networkRaw        = gv('m-network');
+        var mobileNetwork     = networkRaw === 'Other'
+          ? (gv('m-network-other') || undefined)
+          : (networkRaw || undefined);
+        var dataTopupPhone    = gv('m-data-phone') || undefined;
 
-        // ── Client-side validation ────────────────────────
-        var ok = true;
-        if (!fullName) {
-          se("m-name", "Please enter your full name.");
-          ok = false;
-        } else ce("m-name");
-        if (!gender) {
-          se("m-gender", "Please select your gender.");
-          ok = false;
-        } else ce("m-gender");
-        if (!ageRange) {
-          se("m-age", "Please select your age range.");
-          ok = false;
-        } else ce("m-age");
-        if (!email || email.indexOf("@") < 0) {
-          se("m-email", "Please enter a valid email address.");
-          ok = false;
-        } else ce("m-email");
-        if (!phone) {
-          se("m-phone", "Please enter your phone number.");
-          ok = false;
-        } else ce("m-phone");
-        if (!linkedin) {
-          se("m-linkedin", "Please enter your LinkedIn profile URL.");
-          ok = false;
-        } else ce("m-linkedin");
-        if (!roleApplied) {
-          se("m-role", "Please select a role.");
-          ok = false;
-        } else ce("m-role");
-        if (!currentOccupation) {
-          se("m-current", "Please tell us what you currently do.");
-          ok = false;
-        } else ce("m-current");
-        if (!experienceLevel) {
-          se("m-exp", "Please select your experience level.");
-          ok = false;
-        } else ce("m-exp");
-        if (!whyJoin) {
-          se("m-why", "Please tell us why you want to join.");
-          ok = false;
-        } else ce("m-why");
-        if (!relevantSkills) {
-          se("m-skills", "Please tell us about your relevant experience.");
-          ok = false;
-        } else ce("m-skills");
-        if (!weeklyHours) {
-          se("m-hours", "Please select your weekly commitment.");
-          ok = false;
-        } else ce("m-hours");
-
-        if (!ok) {
-          var formCard = document.getElementById("formCard");
-          if (formCard)
-            window.scrollTo({
-              top: formCard.offsetTop - 80,
-              behavior: "smooth",
-            });
-          return;
+        // ── Client-side validation ─────────────────────────
+        if (!fullName)          { showFwToast('Please enter your full name.', 'error');                      return; }
+        if (!email || email.indexOf('@') < 0) {
+          showFwToast('Please enter a valid email address.', 'error'); return;
         }
+        if (!phone)             { showFwToast('Please enter your phone number.', 'error');                   return; }
+        if (!gender)            { showFwToast('Please select your gender.', 'error');                        return; }
+        if (!ageRange)          { showFwToast('Please select your age range.', 'error');                     return; }
+        if (!linkedin)          { showFwToast('Please enter your LinkedIn profile URL.', 'error');           return; }
+        if (!roleApplied)       { showFwToast('Please select the role you are applying for.', 'error');      return; }
+        if (!currentOccupation) { showFwToast('Please tell us what you currently do.', 'error');             return; }
+        if (!experienceLevel)   { showFwToast('Please select your experience level.', 'error');              return; }
+        if (!whyJoin)           { showFwToast('Please tell us why you want to join.', 'error');              return; }
+        if (!relevantSkills)    { showFwToast('Please tell us about your relevant experience.', 'error');    return; }
+        if (!weeklyHours)       { showFwToast('Please select your weekly commitment.', 'error');             return; }
 
-        // ── Disable button ────────────────────────────────
-        if (btn) btn.disabled = true;
-        if (sp) sp.style.display = "inline-block";
-        if (bt) bt.textContent = "Submitting...";
+        // ── Disable all form inputs ────────────────────────
+        var formContainer = document.getElementById('formCard');
+        var allInputs = formContainer
+          ? formContainer.querySelectorAll('input, select, textarea, button')
+          : [];
+        allInputs.forEach(function (el) {
+          el.disabled = true;
+          el.classList.add('field-disabled');
+        });
 
-        // ── Call join-team.js Netlify function ────────────
-        fetch(window.location.origin + "/api/join-team", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        if (submitButton)      submitButton.disabled = true;
+        if (spinnerElement)    spinnerElement.style.display = 'inline-block';
+        if (buttonTextElement) buttonTextElement.textContent = 'Submitting...';
+
+        // ── POST to NestJS career apply endpoint ───────────
+        fetch('https://api-technuvate.onrender.com/talent/careers/apply', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            full_name: fullName,
-            email: email,
-            phone: phone,
-            gender: gender,
-            age_range: ageRange,
-            linkedin: linkedin,
-            role_applied: roleApplied,
-            current_occupation: currentOccupation,
-            experience_level: experienceLevel,
-            why_join: whyJoin,
-            relevant_skills: relevantSkills,
-            weekly_hours: weeklyHours,
-            mobile_network: mobileNetwork || null,
-            data_topup_phone: dataTopupPhone,
-          }),
+            fullName:          fullName,
+            email:             email,
+            phone:             phone,
+            gender:            gender,
+            ageRange:          ageRange,
+            linkedin:          linkedin,
+            roleApplied:       roleApplied,
+            currentOccupation: currentOccupation,
+            experienceLevel:   experienceLevel,
+            whyJoin:           whyJoin,
+            relevantSkills:    relevantSkills,
+            weeklyHours:       weeklyHours,
+            mobileNetwork:     mobileNetwork,
+            dataTopupPhone:    dataTopupPhone
+          })
         })
-          .then(function (res) {
-            return res.json().then(function (body) {
-              return { ok: res.ok, status: res.status, body: body };
-            });
-          })
-          .then(function (result) {
-            if (result.ok && result.body.success) {
-              var formCard = document.getElementById("formCard");
-              var successCard = document.getElementById("successCard");
-              if (formCard) formCard.style.display = "none";
-              if (successCard) successCard.style.display = "block";
-              var applySection = document.getElementById("apply");
-              if (applySection)
-                window.scrollTo({
-                  top: applySection.offsetTop - 80,
-                  behavior: "smooth",
-                });
-            } else if (result.status === 409) {
-              if (btn) btn.disabled = false;
-              if (sp) sp.style.display = "none";
-              if (bt) bt.textContent = "Submit Application";
-              showFwToast(
-                result.body.error ||
-                  "An application from this email already exists.",
-                "error",
-              );
-            } else {
-              throw new Error(result.body.error || "Submission failed");
-            }
-          })
-          .catch(function (err) {
-            console.error("Join team error:", err);
-            if (btn) btn.disabled = false;
-            if (sp) sp.style.display = "none";
-            if (bt) bt.textContent = "Submit Application";
-            showFwToast(
-              "Something went wrong. Please try again or contact us at hello@technuvate.com",
-              "error",
-            );
+        .then(function (res) {
+          return res.json().then(function (body) {
+            return { ok: res.ok, body: body };
           });
+        })
+        .then(function (result) {
+          if (result.ok && result.body.success) {
+            allInputs.forEach(function (el) {
+              if (el.tagName === 'INPUT' && el.type !== 'checkbox' && el.type !== 'radio')
+                el.value = '';
+              if (el.tagName === 'SELECT')   el.selectedIndex = 0;
+              if (el.tagName === 'TEXTAREA') el.value = '';
+              if (el.type === 'checkbox')    el.checked = false;
+              el.disabled = false;
+              el.classList.remove('field-disabled');
+            });
+
+            var formCard    = document.getElementById('formCard');
+            var successCard = document.getElementById('successCard');
+            if (formCard)    formCard.style.display    = 'none';
+            if (successCard) successCard.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (submitButton)      submitButton.disabled = false;
+            if (spinnerElement)    spinnerElement.style.display = 'none';
+            if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
+
+          } else {
+            allInputs.forEach(function (el) {
+              el.disabled = false;
+              el.classList.remove('field-disabled');
+            });
+            if (submitButton)      submitButton.disabled = false;
+            if (spinnerElement)    spinnerElement.style.display = 'none';
+            if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
+
+            var errMsg = extractServerMessage(result.body) ||
+              'Something went wrong. Please try again.';
+
+            if (result.body && result.body.statusCode === 409) {
+              errMsg = 'An application from this email already exists. ' +
+                       'Contact us at hello@technuvate.com to update it.';
+            }
+
+            showFwToast(errMsg, 'error');
+          }
+        })
+        .catch(function (err) {
+          console.error('Career apply error:', err);
+          allInputs.forEach(function (el) {
+            el.disabled = false;
+            el.classList.remove('field-disabled');
+          });
+          if (submitButton)      submitButton.disabled = false;
+          if (spinnerElement)    spinnerElement.style.display = 'none';
+          if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
+          showFwToast(
+            'Something went wrong. Please check your connection and try again.',
+            'error'
+          );
+        });
+
+        function extractServerMessage(body) {
+          if (!body) return null;
+          if (typeof body.message === 'string') return body.message;
+          if (Array.isArray(body.message) && body.message.length)
+            return body.message[0];
+          return null;
+        }
       }
       var obs = new IntersectionObserver(
         function (entries) {
