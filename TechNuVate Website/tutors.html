@@ -2682,6 +2682,11 @@
         }
       }
 
+      .field-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
       .fw-toast {
         position: fixed;
         bottom: 28px;
@@ -2881,203 +2886,157 @@
         }, 6000);
       }
       function submitTutor() {
-        var submitButton = document.getElementById("tutorBtn");
-        var spinnerElement = document.getElementById("tutorSpinner");
-        var buttonTextElement = document.getElementById("tutorBtnText");
+        var submitButton      = document.getElementById('tutorBtn');
+        var spinnerElement    = document.getElementById('tutorSpinner');
+        var buttonTextElement = document.getElementById('tutorBtnText');
 
-        // ── Helper: get field value by id ─────────────────
-        function getFieldValue(fieldId) {
-          var element = document.getElementById(fieldId);
-          return element ? element.value.trim() : "";
+        function gv(id) {
+          var el = document.getElementById(id);
+          return el ? el.value.trim() : '';
         }
 
-        // ── Helper: show inline field error ──────────────
-        function showFieldError(fieldId, errorMessage) {
-          var errorElement = document.getElementById(fieldId + "-err");
-          if (errorElement) {
-            errorElement.textContent = errorMessage;
-            errorElement.style.display = "block";
-          }
-          var inputElement = document.getElementById(fieldId);
-          if (inputElement) inputElement.style.borderColor = "#E53E3E";
+        // ── Collect all field values ───────────────────────
+        var fullName          = gv('t-name');
+        var email             = gv('t-email');
+        var phone             = gv('t-phone');
+        var gender            = gv('t-gender');
+        var ageRange          = gv('t-age');
+        var country           = gv('t-country');
+        var stateRegion       = gv('t-state') || undefined;
+        var linkedin          = gv('t-linkedin');
+        var subjectTrack      = gv('t-track');
+        var teachingExperience = gv('t-exp');
+        var biography         = gv('t-bio');
+        var portfolioUrl      = gv('t-portfolio') || undefined;
+        var weeklyHours       = gv('t-hours') || undefined;
+        var networkRaw        = gv('t-network');
+        var mobileNetwork     = networkRaw === 'Other'
+          ? (gv('t-network-other') || undefined)
+          : (networkRaw || undefined);
+        var dataTopupPhone    = gv('t-data-phone') || undefined;
+
+        // ── Client-side validation ─────────────────────────
+        if (!fullName)            { showFwToast('Please enter your full name.', 'error');                    return; }
+        if (!email || email.indexOf('@') < 0) {
+          showFwToast('Please enter a valid email address.', 'error'); return;
         }
+        if (!phone)               { showFwToast('Please enter your phone number.', 'error');                 return; }
+        if (!gender)              { showFwToast('Please select your gender.', 'error');                      return; }
+        if (!ageRange)            { showFwToast('Please select your age range.', 'error');                   return; }
+        if (!country)             { showFwToast('Please select your country.', 'error');                     return; }
+        if (!linkedin)            { showFwToast('Please enter your LinkedIn profile URL.', 'error');         return; }
+        if (!subjectTrack)        { showFwToast('Please select a subject track.', 'error');                  return; }
+        if (!teachingExperience)  { showFwToast('Please select your years of experience.', 'error');         return; }
+        if (!biography)           { showFwToast('Please tell us about yourself.', 'error');                  return; }
 
-        // ── Helper: clear inline field error ─────────────
-        function clearFieldError(fieldId) {
-          var errorElement = document.getElementById(fieldId + "-err");
-          if (errorElement) errorElement.style.display = "none";
-          var inputElement = document.getElementById(fieldId);
-          if (inputElement) inputElement.style.borderColor = "";
-        }
+        // ── Disable all form inputs ────────────────────────
+        var formContainer = document.getElementById('formCard');
+        var allInputs = formContainer
+          ? formContainer.querySelectorAll('input, select, textarea, button')
+          : [];
+        allInputs.forEach(function (el) {
+          el.disabled = true;
+          el.classList.add('field-disabled');
+        });
 
-        // ── Collect all form field values ─────────────────
-        var fullName = getFieldValue("t-name");
-        var gender = getFieldValue("t-gender");
-        var ageRange = getFieldValue("t-age");
-        var country = getFieldValue("t-country");
-        var stateRegion = getFieldValue("t-state");
-        var emailAddress = getFieldValue("t-email");
-        var phoneNumber = getFieldValue("t-phone");
-        var linkedinUrl = getFieldValue("t-linkedin");
-        var subjectTrack = getFieldValue("t-track");
-        var otherTrackName = getFieldValue("t-track-other");
-        var portfolioUrl = getFieldValue("t-portfolio");
-        var yearsExperience = getFieldValue("t-exp");
-        var biography = getFieldValue("t-bio");
-        var weeklyHours = getFieldValue("t-hours");
-        var mobileNetworkRaw = getFieldValue("t-network");
-        var otherNetworkName = getFieldValue("t-network-other");
-        var dataTopupPhone = getFieldValue("t-data-phone");
+        if (submitButton)      submitButton.disabled = true;
+        if (spinnerElement)    spinnerElement.style.display = 'inline-block';
+        if (buttonTextElement) buttonTextElement.textContent = 'Submitting...';
 
-        // ── Resolve conditional values ────────────────────
-        var resolvedTrack =
-          subjectTrack === "Other" ? otherTrackName : subjectTrack;
-
-        var resolvedMobileNetwork =
-          mobileNetworkRaw === "Other" ? otherNetworkName : mobileNetworkRaw;
-
-        // ── Client-side validation ────────────────────────
-        var formIsValid = true;
-
-        if (!fullName) {
-          showFieldError("t-name", "Please enter your full name.");
-          formIsValid = false;
-        } else clearFieldError("t-name");
-
-        if (!gender) {
-          showFieldError("t-gender", "Please select your gender.");
-          formIsValid = false;
-        } else clearFieldError("t-gender");
-
-        if (!ageRange) {
-          showFieldError("t-age", "Please select your age range.");
-          formIsValid = false;
-        } else clearFieldError("t-age");
-
-        if (!country) {
-          showFieldError("t-country", "Please select your country.");
-          formIsValid = false;
-        } else clearFieldError("t-country");
-
-        if (
-          !emailAddress ||
-          emailAddress.indexOf("@") < 0 ||
-          emailAddress.indexOf(".") < 0
-        ) {
-          showFieldError("t-email", "Please enter a valid email address.");
-          formIsValid = false;
-        } else clearFieldError("t-email");
-
-        if (!phoneNumber) {
-          showFieldError("t-phone", "Please enter your phone number.");
-          formIsValid = false;
-        } else clearFieldError("t-phone");
-
-        if (!linkedinUrl) {
-          showFieldError(
-            "t-linkedin",
-            "Please enter your LinkedIn profile URL.",
-          );
-          formIsValid = false;
-        } else clearFieldError("t-linkedin");
-
-        if (!subjectTrack) {
-          showFieldError(
-            "t-track",
-            "Please select the track you want to teach.",
-          );
-          formIsValid = false;
-        } else {
-          clearFieldError("t-track");
-          if (subjectTrack === "Other" && !otherTrackName) {
-            showFieldError("t-track-other", "Please specify the track name.");
-            formIsValid = false;
-          } else clearFieldError("t-track-other");
-        }
-
-        if (!yearsExperience) {
-          showFieldError("t-exp", "Please select your years of experience.");
-          formIsValid = false;
-        } else clearFieldError("t-exp");
-
-        if (!biography) {
-          showFieldError("t-bio", "Please tell us about yourself.");
-          formIsValid = false;
-        } else clearFieldError("t-bio");
-
-        if (!formIsValid) {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          return;
-        }
-
-        // ── Disable button and show loading state ─────────
-        if (submitButton) submitButton.disabled = true;
-        if (spinnerElement) spinnerElement.style.display = "block";
-        if (buttonTextElement) buttonTextElement.textContent = "Submitting...";
-
-        // ── Call become-tutor Netlify function ────────────
-        fetch(window.location.origin + "/api/become-tutor", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+        // ── POST to NestJS tutor apply endpoint ────────────
+        fetch('https://api-technuvate.onrender.com/talent/tutors/apply', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            full_name: fullName,
-            email: emailAddress,
-            phone: phoneNumber,
-            gender: gender,
-            age_range: ageRange,
-            country: country,
-            state_region: stateRegion || null,
-            linkedin: linkedinUrl,
-            subject_track: resolvedTrack,
-            portfolio_url: portfolioUrl || null,
-            teaching_experience: yearsExperience,
-            biography: biography,
-            weekly_hours: weeklyHours || null,
-            mobile_network: resolvedMobileNetwork || null,
-            data_topup_phone: dataTopupPhone || null,
-          }),
+            fullName:           fullName,
+            email:              email,
+            phone:              phone,
+            gender:             gender,
+            ageRange:           ageRange,
+            country:            country,
+            stateRegion:        stateRegion,
+            linkedin:           linkedin,
+            subjectTrack:       subjectTrack,
+            teachingExperience: teachingExperience,
+            biography:          biography,
+            portfolioUrl:       portfolioUrl,
+            weeklyHours:        weeklyHours,
+            mobileNetwork:      mobileNetwork,
+            dataTopupPhone:     dataTopupPhone
+          })
         })
-          .then(function (response) {
-            return response.json().then(function (responseBody) {
-              return {
-                requestSucceeded: response.ok,
-                statusCode: response.status,
-                body: responseBody,
-              };
-            });
-          })
-          .then(function (result) {
-            if (result.requestSucceeded && result.body.success) {
-              var formCard = document.getElementById("formCard");
-              var successCard = document.getElementById("successCard");
-              if (formCard) formCard.style.display = "none";
-              if (successCard) successCard.style.display = "block";
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            } else if (result.statusCode === 409) {
-              if (submitButton) submitButton.disabled = false;
-              if (spinnerElement) spinnerElement.style.display = "none";
-              if (buttonTextElement)
-                buttonTextElement.textContent = "Submit Application";
-              showFwToast(
-                result.body.error ||
-                  "An application from this email already exists.",
-                "error",
-              );
-            } else {
-              throw new Error(result.body.error || "Submission failed");
-            }
-          })
-          .catch(function (submissionError) {
-            console.error("Become tutor submission error:", submissionError);
-            if (submitButton) submitButton.disabled = false;
-            if (spinnerElement) spinnerElement.style.display = "none";
-            if (buttonTextElement)
-              buttonTextElement.textContent = "Submit Application";
-            showFwToast(
-              "Something went wrong. Please try again or contact us at hello@technuvate.com",
-              "error",
-            );
+        .then(function (res) {
+          return res.json().then(function (body) {
+            return { ok: res.ok, body: body };
           });
+        })
+        .then(function (result) {
+          if (result.ok && result.body.success) {
+            // ── Clear all inputs ─────────────────────────
+            allInputs.forEach(function (el) {
+              if (el.tagName === 'INPUT' && el.type !== 'checkbox' && el.type !== 'radio')
+                el.value = '';
+              if (el.tagName === 'SELECT')   el.selectedIndex = 0;
+              if (el.tagName === 'TEXTAREA') el.value = '';
+              if (el.type === 'checkbox')    el.checked = false;
+              el.disabled = false;
+              el.classList.remove('field-disabled');
+            });
+
+            // ── Show success state ───────────────────────
+            var formCard    = document.getElementById('formCard');
+            var successCard = document.getElementById('successCard');
+            if (formCard)    formCard.style.display    = 'none';
+            if (successCard) successCard.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (submitButton)      submitButton.disabled = false;
+            if (spinnerElement)    spinnerElement.style.display = 'none';
+            if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
+
+          } else {
+            // ── Re-enable on error ───────────────────────
+            allInputs.forEach(function (el) {
+              el.disabled = false;
+              el.classList.remove('field-disabled');
+            });
+            if (submitButton)      submitButton.disabled = false;
+            if (spinnerElement)    spinnerElement.style.display = 'none';
+            if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
+
+            var errMsg = extractServerMessage(result.body) ||
+              'Something went wrong. Please try again.';
+
+            if (result.body && result.body.statusCode === 409) {
+              errMsg = 'An application from this email already exists. ' +
+                       'Contact us at hello@technuvate.com to update it.';
+            }
+
+            showFwToast(errMsg, 'error');
+          }
+        })
+        .catch(function (err) {
+          console.error('Tutor apply error:', err);
+          allInputs.forEach(function (el) {
+            el.disabled = false;
+            el.classList.remove('field-disabled');
+          });
+          if (submitButton)      submitButton.disabled = false;
+          if (spinnerElement)    spinnerElement.style.display = 'none';
+          if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
+          showFwToast(
+            'Something went wrong. Please check your connection and try again.',
+            'error'
+          );
+        });
+
+        function extractServerMessage(body) {
+          if (!body) return null;
+          if (typeof body.message === 'string') return body.message;
+          if (Array.isArray(body.message) && body.message.length)
+            return body.message[0];
+          return null;
+        }
       }
       var obs = new IntersectionObserver(
         function (entries) {
