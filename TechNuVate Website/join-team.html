@@ -2090,6 +2090,7 @@
             Application Received
           </div>
           <p
+            id="successCardMsg"
             style="
               font-size: 14px;
               font-weight: 300;
@@ -2676,6 +2677,12 @@
         })
         .then(function (result) {
           if (result.ok && result.body.success) {
+            var serverMsg = extractServerMessage(result.body);
+            var successMsgEl = document.getElementById('successCardMsg');
+            if (serverMsg && successMsgEl) {
+              successMsgEl.textContent = serverMsg;
+            }
+
             allInputs.forEach(function (el) {
               if (el.tagName === 'INPUT' && el.type !== 'checkbox' && el.type !== 'radio')
                 el.value = '';
@@ -2690,11 +2697,15 @@
             var successCard = document.getElementById('successCard');
             if (formCard)    formCard.style.display    = 'none';
             if (successCard) successCard.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
 
             if (submitButton)      submitButton.disabled = false;
             if (spinnerElement)    spinnerElement.style.display = 'none';
             if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
+
+            setTimeout(function () {
+              if (successCard) successCard.style.display = 'none';
+              if (formCard)    formCard.style.display    = 'block';
+            }, 5000);
 
           } else {
             allInputs.forEach(function (el) {
