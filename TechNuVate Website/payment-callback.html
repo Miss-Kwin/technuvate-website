@@ -170,6 +170,13 @@
                 '<p class="ref">Ref: ' +
                 escapeHtml(txRef) +
                 "</p>";
+
+              var redirectPath = resolveClientRedirect(txRef);
+              if (redirectPath) {
+                setTimeout(function () {
+                  window.location.href = redirectPath;
+                }, 10000);
+              }
             } else {
               var errMsg =
                 extractMessage(result.body) ||
@@ -212,6 +219,15 @@
             return "/labs/pro/apply/confirm";
           if (ref.indexOf("TNV-LABS_IT-") === 0)
             return "/labs/it/apply/confirm";
+          return null;
+        }
+
+        // ── Resolve client-side redirect path after payment confirm ───────────
+        function resolveClientRedirect(ref) {
+          if (ref.startsWith("TNV-DONATION-")) return "/donate";
+          if (ref.startsWith("TNV-ACADEMY-")) return "/academy";
+          if (ref.startsWith("TNV-LABS_PRO-")) return "/labs-apply-pro";
+          if (ref.startsWith("TNV-LABS_IT-")) return "/labs-apply-it";
           return null;
         }
 
