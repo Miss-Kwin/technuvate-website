@@ -818,6 +818,11 @@
         transform: translateX(-50%) translateY(0);
         pointer-events: auto;
       }
+      .field-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
     </style>
     <link rel="icon" type="image/png" href="favicon.png" />
   </head>
@@ -1999,7 +2004,6 @@
       </div>
     </footer>
 
-    <script src="https://checkout.flutterwave.com/v3.js"></script>
     <script>
       function submitNewsletter(e) {
         e.preventDefault();
@@ -2043,32 +2047,28 @@
       }
     </script>
     <script>
-      const FORMSPREE = "YOUR_FORMSPREE_ENDPOINT"; // no longer used
-
-      const FW_PUBLIC_KEY = "FLUTTERWAVE_PUBLIC_KEY_HERE";
-
       function toggleMenu() {
-        var m = document.getElementById("mobMenu");
-        var b = document.getElementById("hamBtn");
+        var m = document.getElementById('mobMenu');
+        var b = document.getElementById('hamBtn');
         if (!m || !b) return;
-        m.classList.toggle("open");
-        var s = b.querySelectorAll("span");
-        if (m.classList.contains("open")) {
-          s[0].style.transform = "rotate(45deg) translate(5px,5px)";
-          s[1].style.opacity = "0";
-          s[2].style.transform = "rotate(-45deg) translate(5px,-5px)";
+        m.classList.toggle('open');
+        var s = b.querySelectorAll('span');
+        if (m.classList.contains('open')) {
+          s[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+          s[1].style.opacity = '0';
+          s[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
         } else {
-          s[0].style.transform = "";
-          s[1].style.opacity = "";
-          s[2].style.transform = "";
+          s[0].style.transform = '';
+          s[1].style.opacity = '';
+          s[2].style.transform = '';
         }
       }
-      document.addEventListener("click", function (e) {
-        var m = document.getElementById("mobMenu");
-        var b = document.getElementById("hamBtn");
+      document.addEventListener('click', function (e) {
+        var m = document.getElementById('mobMenu');
+        var b = document.getElementById('hamBtn');
         if (
           m &&
-          m.classList.contains("open") &&
+          m.classList.contains('open') &&
           !m.contains(e.target) &&
           !b.contains(e.target)
         )
@@ -2076,369 +2076,323 @@
       });
 
       function handleCourse() {
-        var v = document.getElementById("course").value;
-        document.getElementById("course-other-box").style.display =
-          v === "Other" ? "block" : "none";
-        if (v !== "Other")
-          document.getElementById("course-other-input").value = "";
+        var v = document.getElementById('course').value;
+        document.getElementById('course-other-box').style.display =
+          v === 'Other' ? 'block' : 'none';
+        if (v !== 'Other')
+          document.getElementById('course-other-input').value = '';
       }
       function handleLevel() {
-        var v = document.getElementById("level").value;
-        var box = document.getElementById("level-other-box");
-        box.style.display = v === "Other" ? "block" : "none";
-        if (v !== "Other")
-          document.getElementById("level-other-input").value = "";
+        var v = document.getElementById('level').value;
+        var box = document.getElementById('level-other-box');
+        box.style.display = v === 'Other' ? 'block' : 'none';
+        if (v !== 'Other')
+          document.getElementById('level-other-input').value = '';
       }
       function checkState() {
-        var s = document.getElementById("state").value;
+        var s = document.getElementById('state').value;
         var allowed = [
-          "Rivers State",
-          "Bayelsa State",
-          "Abia State",
-          "Akwa Ibom State",
+          'Rivers State',
+          'Bayelsa State',
+          'Abia State',
+          'Akwa Ibom State',
         ];
-        var isOther = s === "Other";
+        var isOther = s === 'Other';
         var isOutside = s && !allowed.includes(s);
-        document.getElementById("other-state-box").style.display = isOther
-          ? "block"
-          : "none";
-        document.getElementById("other-state-notice").style.display = isOutside
-          ? "block"
-          : "none";
-        if (!isOther) document.getElementById("other-state-name").value = "";
+        document.getElementById('other-state-box').style.display = isOther
+          ? 'block'
+          : 'none';
+        document.getElementById('other-state-notice').style.display = isOutside
+          ? 'block'
+          : 'none';
+        if (!isOther) document.getElementById('other-state-name').value = '';
       }
 
       function val(id) {
         return document.getElementById(id).value.trim();
       }
       function showErr(id, msg) {
-        var e = document.getElementById(id + "-err");
+        var e = document.getElementById(id + '-err');
         if (e) {
           e.textContent = msg;
-          e.style.display = "block";
+          e.style.display = 'block';
         }
         var f = document.getElementById(id);
-        if (f) f.classList.add("invalid");
+        if (f) f.classList.add('invalid');
       }
       function clearErr(id) {
-        var e = document.getElementById(id + "-err");
-        if (e) e.style.display = "none";
+        var e = document.getElementById(id + '-err');
+        if (e) e.style.display = 'none';
         var f = document.getElementById(id);
-        if (f) f.classList.remove("invalid");
+        if (f) f.classList.remove('invalid');
       }
 
       [
-        "fullname",
-        "email",
-        "phone",
-        "state",
-        "city",
-        "institution",
-        "course",
-        "level",
-        "it-start",
-        "it-duration",
-        "interest",
-        "motivation",
+        'fullname',
+        'email',
+        'phone',
+        'state',
+        'city',
+        'institution',
+        'course',
+        'level',
+        'it-start',
+        'it-duration',
+        'interest',
+        'motivation',
       ].forEach(function (id) {
         var el = document.getElementById(id);
         if (el)
-          el.addEventListener("input", function () {
+          el.addEventListener('input', function () {
             clearErr(id);
           });
         if (el)
-          el.addEventListener("change", function () {
+          el.addEventListener('change', function () {
             clearErr(id);
           });
       });
 
       function showFwToast(message, type) {
-        var existingToast = document.getElementById("fw-toast-el");
+        var existingToast = document.getElementById('fw-toast-el');
         if (existingToast) existingToast.remove();
-        var toastElement = document.createElement("div");
-        toastElement.id = "fw-toast-el";
-        toastElement.className =
-          "fw-toast" +
-          (type === "error"
-            ? " fw-toast-error"
-            : type === "success"
-              ? " fw-toast-success"
-              : "");
+        var toastElement = document.createElement('div');
+        toastElement.id = 'fw-toast-el';
+        toastElement.className = 'fw-toast' +
+          (type === 'error' ? ' fw-toast-error' :
+           type === 'success' ? ' fw-toast-success' : '');
         toastElement.textContent = message;
         document.body.appendChild(toastElement);
         requestAnimationFrame(function () {
           requestAnimationFrame(function () {
-            toastElement.classList.add("fw-toast-visible");
+            toastElement.classList.add('fw-toast-visible');
           });
         });
         setTimeout(function () {
-          toastElement.classList.remove("fw-toast-visible");
+          toastElement.classList.remove('fw-toast-visible');
           setTimeout(function () {
-            if (toastElement.parentNode) {
+            if (toastElement.parentNode)
               toastElement.parentNode.removeChild(toastElement);
-            }
           }, 350);
         }, 6000);
       }
 
-      function disableAllFormInputs() {
-    var allInputs = document.querySelectorAll(
-      '#formCard input, #formCard select, #formCard textarea, #formCard button'
-    );
-    allInputs.forEach(function (inputElement) {
-      inputElement.disabled = true;
-      inputElement.style.opacity = '0.5';
-      inputElement.style.cursor  = 'not-allowed';
-    });
-  }
-
-  function enableAllFormInputs() {
-    var allInputs = document.querySelectorAll(
-      '#formCard input, #formCard select, #formCard textarea, #formCard button'
-    );
-    allInputs.forEach(function (inputElement) {
-      inputElement.disabled = false;
-      inputElement.style.opacity = '';
-      inputElement.style.cursor  = '';
-    });
-  }
-
-  
-      var submitButton = document.getElementById("submitBtn");
-      var spinnerElement = document.getElementById("spinner");
-      var buttonTextElement = document.getElementById("btnText");
-
-      // ── Commitment checkbox check ──────────────────────
-      var commitmentCheckbox = document.getElementById("commitCheck");
-      if (commitmentCheckbox && !commitmentCheckbox.checked) {
-        var commitmentError = document.getElementById("commitErr");
-        if (commitmentError) commitmentError.style.display = "block";
-        return;
+      function validateFileForUpload(file, fieldLabel) {
+        var allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+        var maxSize = 5 * 1024 * 1024;
+        if (!file) {
+          showFwToast(fieldLabel + ' is required.', 'error');
+          return false;
+        }
+        if (!allowedTypes.includes(file.type)) {
+          showFwToast(fieldLabel + ': only JPG, PNG, or PDF files are accepted.', 'error');
+          return false;
+        }
+        if (file.size > maxSize) {
+          showFwToast(fieldLabel + ' must be under 5MB.', 'error');
+          return false;
+        }
+        return true;
       }
 
-      // ── File selection validation ──────────────────────
-      var itLetterFile = document.getElementById("doc-it-letter").files[0];
-      var schoolIdFile = document.getElementById("doc-id").files[0];
-      var passportFile = document.getElementById("doc-passport").files[0];
+      function submitForm() {
+        var submitButton      = document.getElementById('submitBtn');
+        var spinnerElement    = document.getElementById('spinner');
+        var buttonTextElement = document.getElementById('btnText');
 
-      if (!itLetterFile) {
-        showFwToast("Please upload your IT request letter before submitting.", "error");
-        return;
-      }
-      if (!schoolIdFile) {
-        showFwToast("Please upload your school ID or admission letter.", "error");
-        return;
-      }
-      if (!passportFile) {
-        showFwToast("Please upload your passport photograph.", "error");
-        return;
-      }
+        function gv(id) {
+          var el = document.getElementById(id);
+          return el ? el.value.trim() : '';
+        }
 
-      // ── Collect all field values ───────────────────────
-      function getFieldValue(fieldId) {
-        var element = document.getElementById(fieldId);
-        return element ? element.value.trim() : "";
-      }
+        // ── Collect text field values ────────────────
+        var fullName         = gv('fullname');
+        var email            = gv('email');
+        var phone            = gv('phone');
+        var gender           = gv('gender');
+        var ageRange         = gv('age');
+        var stateOfResidence = gv('state');
+        var city             = gv('city');
+        var schoolName       = gv('institution');
+        var institutionType  = gv('institution-type');
+        var courseOfStudy    = gv('course');
+        var currentLevel     = gv('level');
+        var itStartDate      = gv('it-start');
+        var itDuration       = gv('it-duration');
+        var supervisorName   = gv('supervisor');
+        var supervisorEmail  = gv('supervisor-email');
+        var naturalStrength  = gv('strength');
+        var peopleComfort    = gv('people-comfort');
+        var toolsFamiliar    = gv('digital-skill');
+        var whyTechnuvate    = gv('motivation');
 
-      var fullName         = getFieldValue("fullname");
-      var email            = getFieldValue("email");
-      var phone            = getFieldValue("phone");
-      var gender           = getFieldValue("gender");
-      var ageRange         = getFieldValue("age");
-      var stateOfResidence = getFieldValue("state");
-      var city             = getFieldValue("city");
-      var schoolName       = getFieldValue("institution");
-      var institutionType  = getFieldValue("institution-type");
-      var courseOfStudy    = getFieldValue("course");
-      var currentLevel     = getFieldValue("level");
-      var itStartDate      = getFieldValue("it-start");
-      var itDuration       = getFieldValue("it-duration");
-      var supervisorName   = getFieldValue("supervisor");
-      var supervisorEmail  = getFieldValue("supervisor-email");
-      var naturalStrength  = getFieldValue("strength");
-      var peopleComfort    = getFieldValue("people-comfort");
-      var toolsFamiliar    = getFieldValue("digital-skill");
-      var whyTechnuvate    = getFieldValue("motivation");
+        // ── Read file objects from file inputs ─────────
+        var itLetterFile = document.getElementById('doc-it-letter')
+          ? document.getElementById('doc-it-letter').files[0] : null;
+        var schoolIdFile = document.getElementById('doc-id')
+          ? document.getElementById('doc-id').files[0] : null;
+        var passportFile = document.getElementById('doc-passport')
+          ? document.getElementById('doc-passport').files[0] : null;
 
-      // ── Currency from existing page logic ─────────────
-      var currency = "NGN";
+        // ── Commitment checkbox ────────────────────
+        var commitCheckbox = document.getElementById('commitCheck');
+        var commitmentConfirmed = commitCheckbox ? commitCheckbox.checked : false;
+        if (!commitmentConfirmed) {
+          var commitErr = document.getElementById('commitErr');
+          if (commitErr) commitErr.style.display = 'block';
+          showFwToast('Please confirm the terms and commitment.', 'error');
+          return;
+        }
 
-      // ── Disable all inputs and show loading state ──────
-      disableAllFormInputs();
-      if (submitButton) submitButton.disabled = true;
-      if (spinnerElement) spinnerElement.style.display = "block";
-      if (buttonTextElement) buttonTextElement.textContent = "Submitting Application...";
+        // ── Client-side text field validation ──────────
+        if (!fullName)         { showFwToast('Please enter your full name.', 'error');               return; }
+        if (!email || email.indexOf('@') < 0) {
+          showFwToast('Please enter a valid email address.', 'error'); return;
+        }
+        if (!phone)            { showFwToast('Please enter your phone number.', 'error');            return; }
+        if (!gender)           { showFwToast('Please select your gender.', 'error');                 return; }
+        if (!ageRange)         { showFwToast('Please select your age range.', 'error');              return; }
+        if (!stateOfResidence) { showFwToast('Please select your state of residence.', 'error');     return; }
+        if (!city)             { showFwToast('Please enter your city.', 'error');                    return; }
+        if (!schoolName)       { showFwToast('Please enter your school name.', 'error');             return; }
+        if (!institutionType)  { showFwToast('Please select your institution type.', 'error');       return; }
+        if (!courseOfStudy)    { showFwToast('Please select your course of study.', 'error');        return; }
+        if (!currentLevel)     { showFwToast('Please select your current level.', 'error');          return; }
+        if (!itStartDate)      { showFwToast('Please select your expected IT start date.', 'error'); return; }
+        if (!itDuration)       { showFwToast('Please select your IT duration.', 'error');            return; }
+        if (!naturalStrength)  { showFwToast('Please select your natural strength.', 'error');       return; }
+        if (!peopleComfort)    { showFwToast('Please select your people comfort level.', 'error');   return; }
+        if (!toolsFamiliar)    { showFwToast('Please describe the tools you are familiar with.', 'error'); return; }
+        if (!whyTechnuvate)    { showFwToast('Please tell us why you want to do your IT at TechNuVate.', 'error'); return; }
 
-      // ── Open Flutterwave checkout first ────────────────
-      fetch(window.location.origin + "/api/labs-it", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          full_name: fullName,
-          email: email,
-          phone: phone,
-          gender: gender,
-          age_range: ageRange,
-          state_of_residence: stateOfResidence,
-          city: city,
-          school_name: schoolName,
-          institution_type: institutionType,
-          course_of_study: courseOfStudy,
-          current_level: currentLevel,
-          it_start_date: itStartDate,
-          it_duration: itDuration,
-          supervisor_name: supervisorName || null,
-          supervisor_email: supervisorEmail || null,
-          natural_strength: naturalStrength,
-          people_comfort: peopleComfort,
-          tools_familiar: toolsFamiliar,
-          why_technuvate: whyTechnuvate,
-          it_letter_url: "pending",
-          school_id_url: "pending",
-          passport_url: "pending",
-          commitment_confirmed: true,
-          currency: currency
+        // ── File validation ────────────────────────
+        if (!validateFileForUpload(itLetterFile, 'IT Request Letter')) return;
+        if (!validateFileForUpload(schoolIdFile, 'School ID or Admission Letter')) return;
+        if (!validateFileForUpload(passportFile, 'Passport Photograph')) return;
+
+        // ── Disable all form inputs ────────────────
+        var formContainer = document.getElementById('formCard');
+        var allInputs = formContainer
+          ? formContainer.querySelectorAll('input, select, textarea, button')
+          : [];
+        allInputs.forEach(function (el) {
+          el.disabled = true;
+          el.classList.add('field-disabled');
+        });
+        if (submitButton)      submitButton.disabled = true;
+        if (spinnerElement)    spinnerElement.style.display = 'inline-block';
+        if (buttonTextElement) buttonTextElement.textContent = 'Submitting...';
+
+        // ── Build multipart FormData ─────────────────
+        var formData = new FormData();
+        formData.append('fullName',            fullName);
+        formData.append('email',               email);
+        formData.append('phone',               phone);
+        formData.append('gender',              gender);
+        formData.append('ageRange',            ageRange);
+        formData.append('stateOfResidence',    stateOfResidence);
+        formData.append('city',                city);
+        formData.append('schoolName',          schoolName);
+        formData.append('institutionType',     institutionType);
+        formData.append('courseOfStudy',       courseOfStudy);
+        formData.append('currentLevel',        currentLevel);
+        formData.append('itStartDate',         itStartDate);
+        formData.append('itDuration',          itDuration);
+        formData.append('naturalStrength',     naturalStrength);
+        formData.append('peopleComfort',       peopleComfort);
+        formData.append('toolsFamiliar',       toolsFamiliar);
+        formData.append('whyTechnuvate',       whyTechnuvate);
+        formData.append('commitmentConfirmed', 'true');
+        if (supervisorName)  formData.append('supervisorName',  supervisorName);
+        if (supervisorEmail) formData.append('supervisorEmail', supervisorEmail);
+        // File fields — names match server FileFieldsInterceptor names
+        formData.append('itLetter', itLetterFile, itLetterFile.name);
+        formData.append('schoolId', schoolIdFile, schoolIdFile.name);
+        formData.append('passport', passportFile, passportFile.name);
+
+        // ── POST as multipart/form-data ────────────────
+        // Content-Type NOT set manually — browser sets it with correct boundary
+        fetch('https://api-technuvate.onrender.com/labs/it/apply', {
+          method: 'POST',
+          body: formData
         })
-      })
-      .then(function (labsItResponse) {
-        if (!labsItResponse.ok) throw new Error("Server error: " + labsItResponse.status);
-        return labsItResponse.json();
-      })
-      .then(function (labsItData) {
-        if (!labsItData.success || !labsItData.flutterwaveConfig) {
-          throw new Error(labsItData.error || "Invalid server response");
-        }
-
-        var flutterwaveConfig = labsItData.flutterwaveConfig;
-
-        if (buttonTextElement) buttonTextElement.textContent = "Opening payment...";
-
-        try {
-          var flutterwaveCheckoutInstance = FlutterwaveCheckout({
-            public_key: window.APP_ENV.FW_PUBLIC_KEY,
-            tx_ref: flutterwaveConfig.tx_ref,
-            amount: flutterwaveConfig.amount,
-            currency: flutterwaveConfig.currency,
-            payment_options: flutterwaveConfig.payment_options,
-            customer: flutterwaveConfig.customer,
-            meta: flutterwaveConfig.meta,
-            customizations: flutterwaveConfig.customizations,
-            callback: function (paymentResponse) {
-              if (
-                paymentResponse.status === "successful" ||
-                paymentResponse.status === "completed"
-              ) {
-                if (buttonTextElement) buttonTextElement.textContent = "Submitting Application...";
-
-                // ── Build FormData with all fields and files ──
-                var applicationFormData = new FormData();
-
-                applicationFormData.append("flw_tx_ref", flutterwaveConfig.tx_ref);
-                applicationFormData.append("flw_tx_id",
-                  String(paymentResponse.transaction_id ||
-                         paymentResponse.id ||
-                         paymentResponse.flw_ref || ""));
-                applicationFormData.append("full_name", fullName);
-                applicationFormData.append("email", email);
-                applicationFormData.append("phone", phone);
-                applicationFormData.append("gender", gender);
-                applicationFormData.append("age_range", ageRange);
-                applicationFormData.append("state_of_residence", stateOfResidence);
-                applicationFormData.append("city", city);
-                applicationFormData.append("school_name", schoolName);
-                applicationFormData.append("institution_type", institutionType);
-                applicationFormData.append("course_of_study", courseOfStudy);
-                applicationFormData.append("current_level", currentLevel);
-                applicationFormData.append("it_start_date", itStartDate);
-                applicationFormData.append("it_duration", itDuration);
-                applicationFormData.append("supervisor_name", supervisorName || "");
-                applicationFormData.append("supervisor_email", supervisorEmail || "");
-                applicationFormData.append("natural_strength", naturalStrength);
-                applicationFormData.append("people_comfort", peopleComfort);
-                applicationFormData.append("tools_familiar", toolsFamiliar);
-                applicationFormData.append("why_technuvate", whyTechnuvate);
-                applicationFormData.append("commitment_confirmed", "true");
-                applicationFormData.append("currency", currency);
-                applicationFormData.append("it_letter", itLetterFile, itLetterFile.name);
-                applicationFormData.append("school_id", schoolIdFile, schoolIdFile.name);
-                applicationFormData.append("passport", passportFile, passportFile.name);
-
-                // ── Call submit-labs-it with FormData ─────────
-                fetch(window.location.origin + "/api/submit-labs-it", {
-                  method: "POST",
-                  body: applicationFormData
-                })
-                .then(function (submitResponse) {
-                  if (!submitResponse.ok)
-                    throw new Error("Submit failed: " + submitResponse.status);
-                  return submitResponse.json();
-                })
-                .then(function (submitData) {
-                  if (submitData.success) {
-                    setTimeout(function () {
-                      flutterwaveCheckoutInstance.close();
-                      document.getElementById("formCard").style.display = "none";
-                      document.getElementById("successCard").style.display = "block";
-                      window.scrollTo({ top: 0, behavior: "smooth" });
-                    }, 300);
-                  } else {
-                    throw new Error(submitData.error || "Submission failed");
-                  }
-                })
-                .catch(function (submitError) {
-                  console.error("Labs IT submit error:", submitError);
-                  enableAllFormInputs();
-                  if (submitButton) submitButton.disabled = false;
-                  if (spinnerElement) spinnerElement.style.display = "none";
-                  if (buttonTextElement) buttonTextElement.textContent = "Confirm and Pay";
-                  setTimeout(function () {
-                    flutterwaveCheckoutInstance.close();
-                  }, 300);
-                  setTimeout(function () {
-                    showFwToast(
-                      "Your payment was received but we could not save your application. " +
-                      "Please contact us with ref: " + flutterwaveConfig.tx_ref,
-                      "error"
-                    );
-                  }, 350);
-                });
-
-              } else {
-                enableAllFormInputs();
-                if (submitButton) submitButton.disabled = false;
-                if (spinnerElement) spinnerElement.style.display = "none";
-                if (buttonTextElement) buttonTextElement.textContent = "Confirm and Pay";
-                showFwToast("Payment was not completed. Please try again.", "error");
-              }
-            },
-            onclose: function () {
-              enableAllFormInputs();
-              if (submitButton) submitButton.disabled = false;
-              if (spinnerElement) spinnerElement.style.display = "none";
-              if (buttonTextElement) buttonTextElement.textContent = "Confirm and Pay";
-            }
+        .then(function (res) {
+          return res.json().then(function (body) {
+            return { ok: res.ok, body: body };
           });
-        } catch (flutterwaveError) {
-          console.error("FlutterwaveCheckout init error:", flutterwaveError);
-          enableAllFormInputs();
-          if (submitButton) submitButton.disabled = false;
-          if (spinnerElement) spinnerElement.style.display = "none";
-          if (buttonTextElement) buttonTextElement.textContent = "Confirm and Pay";
-          showFwToast("Something went wrong opening payment. Please try again.", "error");
+        })
+        .then(function (result) {
+          if (result.ok && result.body.success) {
+            // ── Clear all inputs ─────────────────
+            allInputs.forEach(function (el) {
+              if (el.tagName === 'INPUT' && el.type !== 'checkbox' && el.type !== 'radio')
+                el.value = '';
+              if (el.tagName === 'SELECT')   el.selectedIndex = 0;
+              if (el.tagName === 'TEXTAREA') el.value = '';
+              if (el.type === 'checkbox')    el.checked = false;
+              el.disabled = false;
+              el.classList.remove('field-disabled');
+            });
+
+            // ── Reset file inputs ────────────────
+            var docIt   = document.getElementById('doc-it-letter');
+            var docId   = document.getElementById('doc-id');
+            var docPass = document.getElementById('doc-passport');
+            if (docIt)   docIt.value   = '';
+            if (docId)   docId.value   = '';
+            if (docPass) docPass.value = '';
+
+            // ── Show success state ────────────────
+            var formCard    = document.getElementById('formCard');
+            var successCard = document.getElementById('successCard');
+            if (formCard)    formCard.style.display    = 'none';
+            if (successCard) successCard.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (submitButton)      submitButton.disabled = false;
+            if (spinnerElement)    spinnerElement.style.display = 'none';
+            if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
+
+          } else {
+            allInputs.forEach(function (el) {
+              el.disabled = false;
+              el.classList.remove('field-disabled');
+            });
+            if (submitButton)      submitButton.disabled = false;
+            if (spinnerElement)    spinnerElement.style.display = 'none';
+            if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
+
+            var errMsg = extractServerMessage(result.body) ||
+              'Something went wrong. Please try again.';
+            if (result.body && result.body.statusCode === 409) {
+              errMsg = 'An application from this email already exists. ' +
+                       'Contact us at hello@technuvate.com.';
+            }
+            showFwToast(errMsg, 'error');
+          }
+        })
+        .catch(function (err) {
+          console.error('Labs IT apply error:', err);
+          allInputs.forEach(function (el) {
+            el.disabled = false;
+            el.classList.remove('field-disabled');
+          });
+          if (submitButton)      submitButton.disabled = false;
+          if (spinnerElement)    spinnerElement.style.display = 'none';
+          if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
+          showFwToast(
+            'Something went wrong. Please check your connection and try again.',
+            'error'
+          );
+        });
+
+        function extractServerMessage(body) {
+          if (!body) return null;
+          if (typeof body.message === 'string') return body.message;
+          if (Array.isArray(body.message) && body.message.length)
+            return body.message[0];
+          return null;
         }
-      })
-      .catch(function (topLevelError) {
-        console.error("Labs IT init error:", topLevelError);
-        enableAllFormInputs();
-        if (submitButton) submitButton.disabled = false;
-        if (spinnerElement) spinnerElement.style.display = "none";
-        if (buttonTextElement) buttonTextElement.textContent = "Confirm and Pay";
-        showFwToast(
-          "Something went wrong. Please check your connection and try again.",
-          "error"
-        );
-      });
-    }
+      }
     </script>
   </body>
 </html>
