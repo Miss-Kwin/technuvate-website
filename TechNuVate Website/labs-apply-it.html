@@ -2344,8 +2344,19 @@
             // ── Show success state ────────────────
             var formCard    = document.getElementById('formCard');
             var successCard = document.getElementById('successCard');
+            if (successCard) {
+              var serverMessage = (result.body && typeof result.body.message === 'string')
+                ? result.body.message
+                : null;
+              if (serverMessage) {
+                var successDesc = successCard.querySelector('.success-s');
+                if (successDesc) {
+                  successDesc.textContent = serverMessage;
+                }
+              }
+              successCard.style.display = 'block';
+            }
             if (formCard)    formCard.style.display    = 'none';
-            if (successCard) successCard.style.display = 'block';
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             if (submitButton)      submitButton.disabled = false;
