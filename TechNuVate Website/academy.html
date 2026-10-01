@@ -2296,9 +2296,10 @@ href="/blog"
                   border: 1.5px solid rgba(27, 58, 122, 0.15);
                   padding: 9px 18px;
                   border-radius: 8px;
-                  cursor: pointer;
+                  cursor: not-allowed;
                   font-family: inherit;
                   transition: background 0.2s;
+                  opacity: 0.5;
                 "
               >
                 Notify Me When Open
@@ -2405,9 +2406,10 @@ href="/blog"
                   border: 1.5px solid rgba(27, 58, 122, 0.15);
                   padding: 9px 18px;
                   border-radius: 8px;
-                  cursor: pointer;
+                  cursor: not-allowed;
                   font-family: inherit;
                   transition: background 0.2s;
+                  opacity: 0.5;
                 "
               >
                 Notify Me When Open
@@ -2495,9 +2497,10 @@ href="/blog"
                   border: 1.5px solid rgba(27, 58, 122, 0.15);
                   padding: 9px 18px;
                   border-radius: 8px;
-                  cursor: pointer;
+                  cursor: not-allowed;
                   font-family: inherit;
                   transition: background 0.2s;
+                  opacity: 0.5;
                 "
               >
                 Notify Me When Open
@@ -3398,27 +3401,15 @@ href="/blog"
       var _notifyCurrentBtn = null;
 
       function notifyWhenOpen(btn) {
-        var card = btn.closest(".course-card");
-        var courseName = card
-          ? card.querySelector(".course-t").textContent
-          : "This course";
-        _notifyCurrentBtn = btn;
-        document.getElementById("notifyCourseName").textContent = courseName;
-        document.getElementById("notifyEmailInput").value = "";
-        document.getElementById("notifyEmailErr").style.display = "none";
-        document.getElementById("notifyFormArea").style.display = "block";
-        document.getElementById("notifySuccessArea").style.display = "none";
-        var sb = document.getElementById("notifySubmitBtn");
-        sb.disabled = true;
-        sb.style.background = "#E4E8F0";
-        sb.style.color = "#8A9AB0";
-        sb.style.cursor = "not-allowed";
-        var modal = document.getElementById("notifyModal");
-        modal.style.display = "flex";
-        document.body.style.overflow = "hidden";
-        setTimeout(function () {
-          document.getElementById("notifyEmailInput").focus();
-        }, 100);
+        // Course notifications are not yet active.
+        // This function will be wired to the modal once the
+        // notification platform integration is ready.
+        if (btn) {
+          btn.style.opacity = '0.5';
+          btn.style.cursor = 'not-allowed';
+          btn.style.pointerEvents = 'none';
+        }
+        showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
       }
 
       function checkNotifyEmail() {
