@@ -719,6 +719,22 @@
         white-space: nowrap;
       }
 
+      .price-featured-tag-closed {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #f2f4f8;
+        color: #8a9ab0;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 5px 14px;
+        border-radius: 100px;
+        white-space: nowrap;
+      }
+
       .price-lbl {
         font-size: 10px;
         font-weight: 700;
@@ -1247,6 +1263,52 @@
       .mob-link-cta:hover {
         background: #152d61;
         color: #fff;
+      }
+      .fw-toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: #ffffff;
+        color: #1B3A7A;
+        font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        padding: 14px 24px;
+        border-radius: 10px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        z-index: 99999;
+        max-width: 420px;
+        width: calc(100% - 48px);
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+      }
+      .fw-toast.fw-toast-error {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-success {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-info {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
+      }
+      .coming-soon-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
       }
     </style>
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -2234,9 +2296,10 @@ href="/blog"
                   border: 1.5px solid rgba(27, 58, 122, 0.15);
                   padding: 9px 18px;
                   border-radius: 8px;
-                  cursor: pointer;
+                  cursor: not-allowed;
                   font-family: inherit;
                   transition: background 0.2s;
+                  opacity: 0.5;
                 "
               >
                 Notify Me When Open
@@ -2343,9 +2406,10 @@ href="/blog"
                   border: 1.5px solid rgba(27, 58, 122, 0.15);
                   padding: 9px 18px;
                   border-radius: 8px;
-                  cursor: pointer;
+                  cursor: not-allowed;
                   font-family: inherit;
                   transition: background 0.2s;
+                  opacity: 0.5;
                 "
               >
                 Notify Me When Open
@@ -2433,9 +2497,10 @@ href="/blog"
                   border: 1.5px solid rgba(27, 58, 122, 0.15);
                   padding: 9px 18px;
                   border-radius: 8px;
-                  cursor: pointer;
+                  cursor: not-allowed;
                   font-family: inherit;
                   transition: background 0.2s;
+                  opacity: 0.5;
                 "
               >
                 Notify Me When Open
@@ -2513,8 +2578,11 @@ href="/blog"
               >Register at Partner Rate</a
             >
           </div>
-          <div class="price-card featured rv d2">
-            <div class="price-featured-tag">Most Popular</div>
+          <div
+            class="price-card rv d2"
+            style="opacity: 0.45; pointer-events: none; filter: grayscale(0.3)"
+          >
+            <div class="price-featured-tag-closed">Closed</div>
             <div class="price-lbl">Early Bird</div>
             <div class="price-amount">&#8358;60,000</div>
             <div class="price-period">per course, per cohort</div>
@@ -2522,55 +2590,6 @@ href="/blog"
               <li>
                 <span class="price-check">&#10003;</span>For individuals who
                 enroll before the early bird window closes
-              </li>
-              <li>
-                <span class="price-check">&#10003;</span>Full course access and
-                live sessions
-              </li>
-              <li>
-                <span class="price-check">&#10003;</span>Real project briefs and
-                assignments
-              </li>
-              <li>
-                <span class="price-check">&#10003;</span>TechNuVate certificate
-                on completion
-              </li>
-              <li>
-                <span class="price-check">&#10003;</span>Top performers get free
-                Labs spot
-              </li>
-            </ul>
-            <a href="/enroll" class="price-btn price-btn-white"
-              >Enroll Early</a
-            >
-          </div>
-          <div
-            class="price-card rv d3"
-            style="opacity: 0.45; pointer-events: none; filter: grayscale(0.3)"
-          >
-            <div class="price-lbl">Standard</div>
-            <div
-              style="
-                font-size: 10px;
-                font-weight: 700;
-                letter-spacing: 0.1em;
-                text-transform: uppercase;
-                background: #f2f4f8;
-                color: #8a9ab0;
-                padding: 4px 10px;
-                border-radius: 100px;
-                display: inline-block;
-                margin-bottom: 8px;
-              "
-            >
-              Not Yet Available
-            </div>
-            <div class="price-amount">&#8358;80,000</div>
-            <div class="price-period">per course, per cohort</div>
-            <ul class="price-features">
-              <li>
-                <span class="price-check">&#10003;</span>Standard enrollment,
-                open to everyone
               </li>
               <li>
                 <span class="price-check">&#10003;</span>Full course access and
@@ -2602,7 +2621,37 @@ href="/blog"
                 color: #8a9ab0;
                 cursor: not-allowed;
               "
-              >Enroll Now</span
+              >Early Bird Closed</span
+            >
+          </div>
+          <div class="price-card rv d3">
+            <div class="price-lbl">Standard</div>
+            <div class="price-amount">&#8358;80,000</div>
+            <div class="price-period">per course, per cohort</div>
+            <ul class="price-features">
+              <li>
+                <span class="price-check">&#10003;</span>Standard enrollment,
+                open to everyone
+              </li>
+              <li>
+                <span class="price-check">&#10003;</span>Full course access and
+                live sessions
+              </li>
+              <li>
+                <span class="price-check">&#10003;</span>Real project briefs and
+                assignments
+              </li>
+              <li>
+                <span class="price-check">&#10003;</span>TechNuVate certificate
+                on completion
+              </li>
+              <li>
+                <span class="price-check">&#10003;</span>Top performers get free
+                Labs spot
+              </li>
+            </ul>
+            <a href="/enroll" class="price-btn price-btn-navy"
+              >Enroll Now</a
             >
           </div>
         </div>
@@ -3231,45 +3280,57 @@ href="/blog"
       </div>
     </div>
     <script>
-      function submitNewsletter(e) {
-        e.preventDefault();
-        var email = document.getElementById("nl-email").value.trim();
-        var btn = document.getElementById("nl-btn");
-        var msg = document.getElementById("nl-msg");
-        if (!email || email.indexOf("@") < 0) return;
-        btn.textContent = "Subscribing...";
-        btn.disabled = true;
-        // Save to Supabase newsletter table
-        var SB_URL =
-          typeof window.SB_URL !== "undefined"
-            ? window.SB_URL
-            : "YOUR_SUPABASE_URL_HERE";
-        var SB_KEY =
-          typeof window.SB_KEY !== "undefined"
-            ? window.SB_KEY
-            : "YOUR_SUPABASE_ANON_KEY_HERE";
-        if (SB_URL && SB_URL !== "YOUR_SUPABASE_URL_HERE") {
-          fetch(SB_URL + "/rest/v1/newsletter_subscribers", {
-            method: "POST",
-            headers: {
-              apikey: SB_KEY,
-              Authorization: "Bearer " + SB_KEY,
-              "Content-Type": "application/json",
-              Prefer: "return=minimal",
-            },
-            body: JSON.stringify({
-              email: email,
-              source: window.location.pathname,
-            }),
-          }).catch(function () {});
-        }
+      function showFwToast(message, type) {
+        var existingToast = document.getElementById('fw-toast-el');
+        if (existingToast) existingToast.remove();
+        var toastElement = document.createElement('div');
+        toastElement.id = 'fw-toast-el';
+        toastElement.className = 'fw-toast' +
+          (type === 'error'   ? ' fw-toast-error'   :
+           type === 'success' ? ' fw-toast-success'  :
+           type === 'info'    ? ' fw-toast-info'     : '');
+        toastElement.textContent = message;
+        document.body.appendChild(toastElement);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            toastElement.classList.add('fw-toast-visible');
+          });
+        });
         setTimeout(function () {
-          document.getElementById("newsletter-form").style.display = "none";
-          msg.textContent = "✓ You are on the list. Watch your inbox.";
-          msg.style.display = "block";
-          msg.style.color = "rgba(255,255,255,.7)";
-          msg.style.fontSize = "14px";
-        }, 600);
+          toastElement.classList.remove('fw-toast-visible');
+          setTimeout(function () {
+            if (toastElement.parentNode) {
+              toastElement.parentNode.removeChild(toastElement);
+            }
+          }, 350);
+        }, 6000);
+      }
+
+      // Disable newsletter elements on page load
+      document.addEventListener('DOMContentLoaded', function () {
+        var newsletterInput = document.getElementById('nl-email');
+        var newsletterBtn   = document.getElementById('nl-btn');
+        if (newsletterInput) {
+          newsletterInput.classList.add('coming-soon-disabled');
+          newsletterInput.addEventListener('click', function () {
+            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+          });
+        }
+        if (newsletterBtn) {
+          newsletterBtn.classList.add('coming-soon-disabled');
+          newsletterBtn.addEventListener('click', function (e) {
+            if (e && e.preventDefault) e.preventDefault();
+            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+          });
+        }
+      });
+
+      function submitNewsletter(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        // Newsletter signup is not yet active.
+        // Will be implemented when newsletter platform
+        // integration is ready.
+        showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
       }
     </script>
     <script>
@@ -3340,27 +3401,15 @@ href="/blog"
       var _notifyCurrentBtn = null;
 
       function notifyWhenOpen(btn) {
-        var card = btn.closest(".course-card");
-        var courseName = card
-          ? card.querySelector(".course-t").textContent
-          : "This course";
-        _notifyCurrentBtn = btn;
-        document.getElementById("notifyCourseName").textContent = courseName;
-        document.getElementById("notifyEmailInput").value = "";
-        document.getElementById("notifyEmailErr").style.display = "none";
-        document.getElementById("notifyFormArea").style.display = "block";
-        document.getElementById("notifySuccessArea").style.display = "none";
-        var sb = document.getElementById("notifySubmitBtn");
-        sb.disabled = true;
-        sb.style.background = "#E4E8F0";
-        sb.style.color = "#8A9AB0";
-        sb.style.cursor = "not-allowed";
-        var modal = document.getElementById("notifyModal");
-        modal.style.display = "flex";
-        document.body.style.overflow = "hidden";
-        setTimeout(function () {
-          document.getElementById("notifyEmailInput").focus();
-        }, 100);
+        // Course notifications are not yet active.
+        // This function will be wired to the modal once the
+        // notification platform integration is ready.
+        if (btn) {
+          btn.style.opacity = '0.5';
+          btn.style.cursor = 'not-allowed';
+          btn.style.pointerEvents = 'none';
+        }
+        showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
       }
 
       function checkNotifyEmail() {
