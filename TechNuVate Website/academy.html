@@ -719,6 +719,22 @@
         white-space: nowrap;
       }
 
+      .price-featured-tag-closed {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #f2f4f8;
+        color: #8a9ab0;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 5px 14px;
+        border-radius: 100px;
+        white-space: nowrap;
+      }
+
       .price-lbl {
         font-size: 10px;
         font-weight: 700;
@@ -2559,8 +2575,11 @@ href="/blog"
               >Register at Partner Rate</a
             >
           </div>
-          <div class="price-card featured rv d2">
-            <div class="price-featured-tag">Most Popular</div>
+          <div
+            class="price-card rv d2"
+            style="opacity: 0.45; pointer-events: none; filter: grayscale(0.3)"
+          >
+            <div class="price-featured-tag-closed">Closed</div>
             <div class="price-lbl">Early Bird</div>
             <div class="price-amount">&#8358;60,000</div>
             <div class="price-period">per course, per cohort</div>
@@ -2568,55 +2587,6 @@ href="/blog"
               <li>
                 <span class="price-check">&#10003;</span>For individuals who
                 enroll before the early bird window closes
-              </li>
-              <li>
-                <span class="price-check">&#10003;</span>Full course access and
-                live sessions
-              </li>
-              <li>
-                <span class="price-check">&#10003;</span>Real project briefs and
-                assignments
-              </li>
-              <li>
-                <span class="price-check">&#10003;</span>TechNuVate certificate
-                on completion
-              </li>
-              <li>
-                <span class="price-check">&#10003;</span>Top performers get free
-                Labs spot
-              </li>
-            </ul>
-            <a href="/enroll" class="price-btn price-btn-white"
-              >Enroll Early</a
-            >
-          </div>
-          <div
-            class="price-card rv d3"
-            style="opacity: 0.45; pointer-events: none; filter: grayscale(0.3)"
-          >
-            <div class="price-lbl">Standard</div>
-            <div
-              style="
-                font-size: 10px;
-                font-weight: 700;
-                letter-spacing: 0.1em;
-                text-transform: uppercase;
-                background: #f2f4f8;
-                color: #8a9ab0;
-                padding: 4px 10px;
-                border-radius: 100px;
-                display: inline-block;
-                margin-bottom: 8px;
-              "
-            >
-              Not Yet Available
-            </div>
-            <div class="price-amount">&#8358;80,000</div>
-            <div class="price-period">per course, per cohort</div>
-            <ul class="price-features">
-              <li>
-                <span class="price-check">&#10003;</span>Standard enrollment,
-                open to everyone
               </li>
               <li>
                 <span class="price-check">&#10003;</span>Full course access and
@@ -2648,7 +2618,37 @@ href="/blog"
                 color: #8a9ab0;
                 cursor: not-allowed;
               "
-              >Enroll Now</span
+              >Early Bird Closed</span
+            >
+          </div>
+          <div class="price-card rv d3">
+            <div class="price-lbl">Standard</div>
+            <div class="price-amount">&#8358;80,000</div>
+            <div class="price-period">per course, per cohort</div>
+            <ul class="price-features">
+              <li>
+                <span class="price-check">&#10003;</span>Standard enrollment,
+                open to everyone
+              </li>
+              <li>
+                <span class="price-check">&#10003;</span>Full course access and
+                live sessions
+              </li>
+              <li>
+                <span class="price-check">&#10003;</span>Real project briefs and
+                assignments
+              </li>
+              <li>
+                <span class="price-check">&#10003;</span>TechNuVate certificate
+                on completion
+              </li>
+              <li>
+                <span class="price-check">&#10003;</span>Top performers get free
+                Labs spot
+              </li>
+            </ul>
+            <a href="/enroll" class="price-btn price-btn-navy"
+              >Enroll Now</a
             >
           </div>
         </div>
