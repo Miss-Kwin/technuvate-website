@@ -1248,6 +1248,52 @@
         background: #152d61;
         color: #fff;
       }
+      .fw-toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: #ffffff;
+        color: #1B3A7A;
+        font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        padding: 14px 24px;
+        border-radius: 10px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        z-index: 99999;
+        max-width: 420px;
+        width: calc(100% - 48px);
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+      }
+      .fw-toast.fw-toast-error {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-success {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-info {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
+      }
+      .coming-soon-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     </style>
     <link rel="icon" type="image/png" href="favicon.png" />
   </head>
@@ -3231,45 +3277,57 @@ href="/blog"
       </div>
     </div>
     <script>
-      function submitNewsletter(e) {
-        e.preventDefault();
-        var email = document.getElementById("nl-email").value.trim();
-        var btn = document.getElementById("nl-btn");
-        var msg = document.getElementById("nl-msg");
-        if (!email || email.indexOf("@") < 0) return;
-        btn.textContent = "Subscribing...";
-        btn.disabled = true;
-        // Save to Supabase newsletter table
-        var SB_URL =
-          typeof window.SB_URL !== "undefined"
-            ? window.SB_URL
-            : "YOUR_SUPABASE_URL_HERE";
-        var SB_KEY =
-          typeof window.SB_KEY !== "undefined"
-            ? window.SB_KEY
-            : "YOUR_SUPABASE_ANON_KEY_HERE";
-        if (SB_URL && SB_URL !== "YOUR_SUPABASE_URL_HERE") {
-          fetch(SB_URL + "/rest/v1/newsletter_subscribers", {
-            method: "POST",
-            headers: {
-              apikey: SB_KEY,
-              Authorization: "Bearer " + SB_KEY,
-              "Content-Type": "application/json",
-              Prefer: "return=minimal",
-            },
-            body: JSON.stringify({
-              email: email,
-              source: window.location.pathname,
-            }),
-          }).catch(function () {});
-        }
+      function showFwToast(message, type) {
+        var existingToast = document.getElementById('fw-toast-el');
+        if (existingToast) existingToast.remove();
+        var toastElement = document.createElement('div');
+        toastElement.id = 'fw-toast-el';
+        toastElement.className = 'fw-toast' +
+          (type === 'error'   ? ' fw-toast-error'   :
+           type === 'success' ? ' fw-toast-success'  :
+           type === 'info'    ? ' fw-toast-info'     : '');
+        toastElement.textContent = message;
+        document.body.appendChild(toastElement);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            toastElement.classList.add('fw-toast-visible');
+          });
+        });
         setTimeout(function () {
-          document.getElementById("newsletter-form").style.display = "none";
-          msg.textContent = "✓ You are on the list. Watch your inbox.";
-          msg.style.display = "block";
-          msg.style.color = "rgba(255,255,255,.7)";
-          msg.style.fontSize = "14px";
-        }, 600);
+          toastElement.classList.remove('fw-toast-visible');
+          setTimeout(function () {
+            if (toastElement.parentNode) {
+              toastElement.parentNode.removeChild(toastElement);
+            }
+          }, 350);
+        }, 6000);
+      }
+
+      // Disable newsletter elements on page load
+      document.addEventListener('DOMContentLoaded', function () {
+        var newsletterInput = document.getElementById('nl-email');
+        var newsletterBtn   = document.getElementById('nl-btn');
+        if (newsletterInput) {
+          newsletterInput.classList.add('coming-soon-disabled');
+          newsletterInput.addEventListener('click', function () {
+            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+          });
+        }
+        if (newsletterBtn) {
+          newsletterBtn.classList.add('coming-soon-disabled');
+          newsletterBtn.addEventListener('click', function (e) {
+            if (e && e.preventDefault) e.preventDefault();
+            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+          });
+        }
+      });
+
+      function submitNewsletter(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        // Newsletter signup is not yet active.
+        // Will be implemented when newsletter platform
+        // integration is ready.
+        showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
       }
     </script>
     <script>

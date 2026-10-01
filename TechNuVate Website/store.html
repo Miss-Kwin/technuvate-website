@@ -705,6 +705,52 @@
         background: #152d61;
         color: #fff;
       }
+      .fw-toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: #ffffff;
+        color: #1B3A7A;
+        font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        padding: 14px 24px;
+        border-radius: 10px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        z-index: 99999;
+        max-width: 420px;
+        width: calc(100% - 48px);
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+      }
+      .fw-toast.fw-toast-error {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-success {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-info {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
+      }
+      .coming-soon-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
     </style>
     <link rel="icon" type="image/png" href="favicon.png" />
   </head>
@@ -1214,31 +1260,117 @@
     <script>
       var SB_URL = "https://xnynghnhbeyeowcibuvz.supabase.co";
       var SB_KEY = "sb_publishable_zdVAJtVvBg5LlhTfsT3RoA_V0O3uuoY";
+
+      function showFwToast(message, type) {
+        var existingToast = document.getElementById('fw-toast-el');
+        if (existingToast) existingToast.remove();
+        var toastElement = document.createElement('div');
+        toastElement.id = 'fw-toast-el';
+        toastElement.className = 'fw-toast' +
+          (type === 'error'   ? ' fw-toast-error'   :
+           type === 'success' ? ' fw-toast-success'  :
+           type === 'info'    ? ' fw-toast-info'     : '');
+        toastElement.textContent = message;
+        document.body.appendChild(toastElement);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            toastElement.classList.add('fw-toast-visible');
+          });
+        });
+        setTimeout(function () {
+          toastElement.classList.remove('fw-toast-visible');
+          setTimeout(function () {
+            if (toastElement.parentNode) {
+              toastElement.parentNode.removeChild(toastElement);
+            }
+          }, 350);
+        }, 6000);
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        var newsletterInput = document.getElementById('nl-email');
+        var newsletterBtn = document.getElementById('nl-btn');
+        if (newsletterInput) {
+          newsletterInput.classList.add('coming-soon-disabled');
+          newsletterInput.addEventListener('click', function() {
+            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+          });
+        }
+        if (newsletterBtn) {
+          newsletterBtn.classList.add('coming-soon-disabled');
+          newsletterBtn.addEventListener('click', function() {
+            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+          });
+        }
+        var waitlistInput = document.getElementById('store-email');
+        var waitlistBtn = document.getElementById('store-btn');
+        if (waitlistInput) {
+          waitlistInput.classList.add('coming-soon-disabled');
+          waitlistInput.addEventListener('click', function() {
+            showFwToast('The TechNuVate Merch Store is coming soon. Watch this space!', 'info');
+          });
+        }
+        if (waitlistBtn) {
+          waitlistBtn.classList.add('coming-soon-disabled');
+          waitlistBtn.addEventListener('click', function() {
+            showFwToast('The TechNuVate Merch Store is coming soon. Watch this space!', 'info');
+          });
+        }
+      });
+
+      // Disable newsletter elements on page load
+      document.addEventListener('DOMContentLoaded', function () {
+        var newsletterInput = document.getElementById('nl-email');
+        var newsletterBtn   = document.getElementById('nl-btn');
+        if (newsletterInput) {
+          newsletterInput.classList.add('coming-soon-disabled');
+          newsletterInput.addEventListener('click', function () {
+            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+          });
+        }
+        if (newsletterBtn) {
+          newsletterBtn.classList.add('coming-soon-disabled');
+          newsletterBtn.addEventListener('click', function (e) {
+            if (e && e.preventDefault) e.preventDefault();
+            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+          });
+        }
+        // Disable merch waitlist elements on page load
+        var waitlistInput = document.getElementById('store-email');
+        var waitlistBtn   = document.getElementById('store-btn');
+        if (waitlistInput) {
+          waitlistInput.classList.add('coming-soon-disabled');
+          waitlistInput.addEventListener('click', function () {
+            showFwToast('The TechNuVate Merch Store is coming soon. Watch this space!', 'info');
+          });
+        }
+        if (waitlistBtn) {
+          waitlistBtn.classList.add('coming-soon-disabled');
+          waitlistBtn.addEventListener('click', function (e) {
+            if (e && e.preventDefault) e.preventDefault();
+            showFwToast('The TechNuVate Merch Store is coming soon. Watch this space!', 'info');
+          });
+        }
+      });
+
+      function submitNewsletter(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        // Newsletter signup is not yet active.
+        showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+      }
+
+      function notifyStore(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        // Merch store waitlist is not yet active.
+        // Will be implemented when the store design
+        // and business model are confirmed.
+        showFwToast('The TechNuVate Merch Store is coming soon. Watch this space!', 'info');
+      }
       function notifyStore(e) {
         e.preventDefault();
-        var email = document.getElementById("store-email").value.trim();
-        var btn = document.getElementById("store-btn");
-        if (!email || email.indexOf("@") < 0) return;
-        btn.textContent = "Adding you...";
-        btn.disabled = true;
-        fetch(SB_URL + "/rest/v1/newsletter_subscribers", {
-          method: "POST",
-          headers: {
-            apikey: SB_KEY,
-            Authorization: "Bearer " + SB_KEY,
-            "Content-Type": "application/json",
-            Prefer: "return=minimal",
-          },
-          body: JSON.stringify({ email: email, source: "store-waitlist" }),
-        }).catch(function () {});
-        setTimeout(function () {
-          document.getElementById("store-form").style.display = "none";
-          var msg = document.getElementById("store-msg");
-          msg.textContent =
-            "\u2713 You are on the waitlist. We will email you first when the store opens.";
-          msg.style.display = "block";
-        }, 500);
+        showFwToast('The TechNuVate Merch Store is coming soon. Watch this space!', 'info');
       }
+
       function toggleMenu() {
         var m = document.getElementById("mobMenu");
         var b = document.getElementById("hamBtn");

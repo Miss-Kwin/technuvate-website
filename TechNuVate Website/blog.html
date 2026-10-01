@@ -199,9 +199,55 @@ footer{background:#060C1A;padding:52px 5% 28px}
         border-bottom: none;
         font-weight: 600;
       }
-      .mob-link-cta:hover {
+.mob-link-cta:hover {
         background: #152d61;
         color: #fff;
+      }
+      .fw-toast {
+        position: fixed;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background: #ffffff;
+        color: #1B3A7A;
+        font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 1.5;
+        padding: 14px 24px;
+        border-radius: 10px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        z-index: 99999;
+        max-width: 420px;
+        width: calc(100% - 48px);
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        pointer-events: none;
+      }
+      .fw-toast.fw-toast-error {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-success {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-info {
+        background: #ffffff;
+        color: #1B3A7A;
+        border: 1.5px solid #1B3A7A;
+      }
+      .fw-toast.fw-toast-visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
+      }
+      .coming-soon-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
       }
     </style>
   <link rel="icon" type="image/png" href="favicon.png">
@@ -399,6 +445,58 @@ footer{background:#060C1A;padding:52px 5% 28px}
 </footer>
 
 <script>
+      function showFwToast(message, type) {
+        var existingToast = document.getElementById('fw-toast-el');
+        if (existingToast) existingToast.remove();
+        var toastElement = document.createElement('div');
+        toastElement.id = 'fw-toast-el';
+        toastElement.className = 'fw-toast' +
+          (type === 'error'   ? ' fw-toast-error'   :
+           type === 'success' ? ' fw-toast-success'  :
+           type === 'info'    ? ' fw-toast-info'     : '');
+        toastElement.textContent = message;
+        document.body.appendChild(toastElement);
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            toastElement.classList.add('fw-toast-visible');
+          });
+        });
+        setTimeout(function () {
+          toastElement.classList.remove('fw-toast-visible');
+          setTimeout(function () {
+            if (toastElement.parentNode) {
+              toastElement.parentNode.removeChild(toastElement);
+            }
+          }, 350);
+        }, 6000);
+      }
+
+      // Disable newsletter elements on page load
+      document.addEventListener('DOMContentLoaded', function () {
+        var newsletterInput = document.getElementById('nl-email');
+        var newsletterBtn   = document.getElementById('nl-btn');
+        if (newsletterInput) {
+          newsletterInput.classList.add('coming-soon-disabled');
+          newsletterInput.addEventListener('click', function () {
+            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+          });
+        }
+        if (newsletterBtn) {
+          newsletterBtn.classList.add('coming-soon-disabled');
+          newsletterBtn.addEventListener('click', function (e) {
+            if (e && e.preventDefault) e.preventDefault();
+            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+          });
+        }
+      });
+
+      function submitNewsletter(e) {
+        if (e && e.preventDefault) e.preventDefault();
+        // Newsletter signup is not yet active.
+        // Will be implemented when newsletter platform
+        // integration is ready.
+        showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+      }
       function toggleMenu() {
         var m = document.getElementById("mobMenu");
         var b = document.getElementById("hamBtn");
