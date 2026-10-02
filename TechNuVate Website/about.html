@@ -1077,36 +1077,38 @@
         left: 50%;
         transform: translateX(-50%) translateY(20px);
         background: #ffffff;
-        color: #1B3A7A;
-        font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        color: #1b3a7a;
+        font-family: "Segoe UI", Helvetica, Arial, sans-serif;
         font-size: 14px;
         font-weight: 500;
         line-height: 1.5;
         padding: 14px 24px;
         border-radius: 10px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
         z-index: 99999;
         max-width: 420px;
         width: calc(100% - 48px);
         text-align: center;
         opacity: 0;
-        transition: opacity 0.3s ease, transform 0.3s ease;
+        transition:
+          opacity 0.3s ease,
+          transform 0.3s ease;
         pointer-events: none;
       }
       .fw-toast.fw-toast-error {
         background: #ffffff;
-        color: #1B3A7A;
-        border: 1.5px solid #1B3A7A;
+        color: #1b3a7a;
+        border: 1.5px solid #1b3a7a;
       }
       .fw-toast.fw-toast-success {
         background: #ffffff;
-        color: #1B3A7A;
-        border: 1.5px solid #1B3A7A;
+        color: #1b3a7a;
+        border: 1.5px solid #1b3a7a;
       }
       .fw-toast.fw-toast-info {
         background: #ffffff;
-        color: #1B3A7A;
-        border: 1.5px solid #1B3A7A;
+        color: #1b3a7a;
+        border: 1.5px solid #1b3a7a;
       }
       .fw-toast.fw-toast-visible {
         opacity: 1;
@@ -1118,12 +1120,13 @@
         cursor: not-allowed;
       }
     </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   </head>
 
   <body>
     <!-- NAV -->
     <nav>
-<a href="/"
+      <a href="/"
         ><img
           src="nav-logo.webp"
           alt="TechNuVate"
@@ -1138,9 +1141,9 @@
             <a href="/about" style="color: #1b3a7a; font-weight: 700"
               >About Us</a
             >
-<a href="/academy">TechNuVate Academy</a>
-<a href="/studio">TechNuVate Studio</a>
-<a href="/labs">TechNuVate Labs</a>
+            <a href="/academy">TechNuVate Academy</a>
+            <a href="/studio">TechNuVate Studio</a>
+            <a href="/labs">TechNuVate Labs</a>
           </div>
         </div>
         <div class="nav-item">
@@ -1148,12 +1151,12 @@
             Work With Us <span class="nav-arrow">&#9660;</span>
           </button>
           <div class="nav-dropdown">
-<a href="/tutors">Become a Tutor</a>
-<a href="/join-team">Become a Team Member</a>
+            <a href="/tutors">Become a Tutor</a>
+            <a href="/join-team">Become a Team Member</a>
           </div>
         </div>
         <a
-href="/store"
+          href="/store"
           class="nav-item-btn"
           style="
             font-size: 14px;
@@ -1178,7 +1181,7 @@ href="/store"
           >Store</a
         >
         <a
-href="/blog"
+          href="/blog"
           class="nav-item-btn"
           style="
             font-size: 14px;
@@ -1213,7 +1216,7 @@ href="/blog"
           "
           onmouseover="this.style.background = 'rgba(27,58,122,.06)'"
           onmouseout="this.style.background = 'transparent'"
-          >&#10084;&#65039; Donate</a
+          ><i class="bi bi-heart-fill"></i> Donate</a
         ><a href="/#contact" class="nav-btn">Contact Us</a>
         <button
           class="ham"
@@ -1228,17 +1231,17 @@ href="/blog"
     <div class="mob-menu" id="mobMenu">
       <div class="mob-section">
         <div class="mob-section-title">Meet Us</div>
-<a href="/about">About Us</a>
-<a href="/academy">TechNuVate Academy</a>
-<a href="/studio">TechNuVate Studio</a>
-<a href="/labs">TechNuVate Labs</a>
+        <a href="/about">About Us</a>
+        <a href="/academy">TechNuVate Academy</a>
+        <a href="/studio">TechNuVate Studio</a>
+        <a href="/labs">TechNuVate Labs</a>
       </div>
       <div class="mob-section">
         <div class="mob-section-title">Work With Us</div>
-<a href="/tutors">Become a Tutor</a>
+        <a href="/tutors">Become a Tutor</a>
         <a href="/join-team">Become a Team Member</a>
       </div>
-<div class="mob-section">
+      <div class="mob-section">
         <div class="mob-section-title">Explore</div>
         <a href="/blog">Blog & Events</a>
         <a href="/store">Merch Store</a>
@@ -1258,7 +1261,7 @@ href="/blog"
             text-align: center;
             margin-bottom: 4px;
           "
-          >&#10084;&#65039; Donate Now</a
+          ><i class="bi bi-heart-fill"></i> Donate Now</a
         >
       </div>
       <!-- <a href="index.html#contact" class="mob-cta">Contact Us</a> -->
@@ -1579,7 +1582,7 @@ href="/blog"
         </div>
         <div class="values-grid">
           <div class="value-card rv d1">
-            <div class="value-ico">&#127919;</div>
+            <div class="value-ico"><i class="bi bi-bullseye"></i></div>
             <div class="value-t">Practical Over Theoretical</div>
             <p class="value-d">
               Every course we run is built around what you can actually do with
@@ -1588,7 +1591,7 @@ href="/blog"
             </p>
           </div>
           <div class="value-card rv d2">
-            <div class="value-ico">&#127760;</div>
+            <div class="value-ico"><i class="bi bi-globe"></i></div>
             <div class="value-t">Africa First</div>
             <p class="value-d">
               We are built for Africa but welcome all English speaking talents.
@@ -1597,7 +1600,7 @@ href="/blog"
             </p>
           </div>
           <div class="value-card rv d3">
-            <div class="value-ico">&#129309;</div>
+            <div class="value-ico"><i class="bi bi-people-fill"></i></div>
             <div class="value-t">Community Over Competition</div>
             <p class="value-d">
               We grow together. TechNuVate learners, tutors, team members, and
@@ -1606,7 +1609,7 @@ href="/blog"
             </p>
           </div>
           <div class="value-card rv d1">
-            <div class="value-ico">&#9889;</div>
+            <div class="value-ico"><i class="bi bi-lightning-fill"></i></div>
             <div class="value-t">Execution Matters</div>
             <p class="value-d">
               Knowing is not enough. We have practical exercises built into
@@ -1616,7 +1619,7 @@ href="/blog"
             </p>
           </div>
           <div class="value-card rv d2">
-            <div class="value-ico">&#128275;</div>
+            <div class="value-ico"><i class="bi bi-unlock-fill"></i></div>
             <div class="value-t">Access for Everyone</div>
             <p class="value-d">
               We partner with organisations, communities, and individuals to
@@ -1627,7 +1630,7 @@ href="/blog"
             </p>
           </div>
           <div class="value-card rv d3">
-            <div class="value-ico">&#128200;</div>
+            <div class="value-ico"><i class="bi bi-graph-up-arrow"></i></div>
             <div class="value-t">Always Growing</div>
             <p class="value-d">
               TechNuVate is built to evolve. New tracks, new partners, new
@@ -1722,7 +1725,7 @@ href="/blog"
         <div class="arms-grid">
           <div class="arm rv d1">
             <div class="arm-no">ARM 01</div>
-            <div class="arm-ico">&#127891;</div>
+            <div class="arm-ico"><i class="bi bi-mortarboard-fill"></i></div>
             <div class="arm-t">TechNuVate Academy</div>
             <div class="arm-s">Education Arm</div>
             <p class="arm-d">
@@ -1733,7 +1736,7 @@ href="/blog"
           </div>
           <div class="arm rv d2">
             <div class="arm-no">ARM 02</div>
-            <div class="arm-ico">&#128188;</div>
+            <div class="arm-ico"><i class="bi bi-briefcase-fill"></i></div>
             <div class="arm-t">TechNuVate Studio</div>
             <div class="arm-s">Services Arm</div>
             <p class="arm-d">
@@ -1746,7 +1749,7 @@ href="/blog"
           </div>
           <div class="arm rv d3">
             <div class="arm-no">ARM 03</div>
-            <div class="arm-ico">&#129514;</div>
+            <div class="arm-ico"><i class="bi bi-laptop-fill"></i></div>
             <div class="arm-t">TechNuVate Labs</div>
             <div class="arm-s">Internship Arm</div>
             <p class="arm-d">
@@ -1935,7 +1938,7 @@ href="/blog"
                   font-weight: 600;
                   color: rgba(255, 255, 255, 0.65);
                 "
-                >&#127874; Birthday giving</span
+                ><i class="bi bi-cake2-fill"></i> Birthday giving</span
               >
               <span
                 style="
@@ -1947,7 +1950,7 @@ href="/blog"
                   font-weight: 600;
                   color: rgba(255, 255, 255, 0.65);
                 "
-                >&#128591; Tithe re-routed</span
+                ><i class="bi bi-hand-thumbs-up-fill"></i> Tithe re-routed</span
               >
               <span
                 style="
@@ -1959,7 +1962,7 @@ href="/blog"
                   font-weight: 600;
                   color: rgba(255, 255, 255, 0.65);
                 "
-                >&#128161; Pay it forward</span
+                ><i class="bi bi-lightbulb-fill"></i> Pay it forward</span
               >
             </div>
           </div>
@@ -1974,7 +1977,7 @@ href="/blog"
             "
           >
             <a
-href="/donate"
+              href="/donate"
               style="
                 display: inline-flex;
                 align-items: center;
@@ -1993,7 +1996,7 @@ href="/donate"
               onmouseover="this.style.opacity = '.85'"
               onmouseout="this.style.opacity = '1'"
             >
-              &#10084;&#65039;&nbsp; Sponsor a Youth
+              <i class="bi bi-heart-fill"></i>&nbsp; Sponsor a Youth
             </a>
             <a
               href="/donate#donate-widget"
@@ -2171,7 +2174,7 @@ href="/donate"
             </p>
           </div>
           <div>
-<div class="fc-t">Our Arms</div>
+            <div class="fc-t">Our Arms</div>
             <ul class="flinks">
               <li><a href="/about">About Us</a></li>
               <li><a href="/academy">TechNuVate Academy</a></li>
@@ -2368,23 +2371,28 @@ href="/donate"
 
     <script>
       function showFwToast(message, type) {
-        var existingToast = document.getElementById('fw-toast-el');
+        var existingToast = document.getElementById("fw-toast-el");
         if (existingToast) existingToast.remove();
-        var toastElement = document.createElement('div');
-        toastElement.id = 'fw-toast-el';
-        toastElement.className = 'fw-toast' +
-          (type === 'error'   ? ' fw-toast-error'   :
-           type === 'success' ? ' fw-toast-success'  :
-           type === 'info'    ? ' fw-toast-info'     : '');
+        var toastElement = document.createElement("div");
+        toastElement.id = "fw-toast-el";
+        toastElement.className =
+          "fw-toast" +
+          (type === "error"
+            ? " fw-toast-error"
+            : type === "success"
+              ? " fw-toast-success"
+              : type === "info"
+                ? " fw-toast-info"
+                : "");
         toastElement.textContent = message;
         document.body.appendChild(toastElement);
         requestAnimationFrame(function () {
           requestAnimationFrame(function () {
-            toastElement.classList.add('fw-toast-visible');
+            toastElement.classList.add("fw-toast-visible");
           });
         });
         setTimeout(function () {
-          toastElement.classList.remove('fw-toast-visible');
+          toastElement.classList.remove("fw-toast-visible");
           setTimeout(function () {
             if (toastElement.parentNode) {
               toastElement.parentNode.removeChild(toastElement);
@@ -2394,20 +2402,20 @@ href="/donate"
       }
 
       // Disable newsletter elements on page load
-      document.addEventListener('DOMContentLoaded', function () {
-        var newsletterInput = document.getElementById('nl-email');
-        var newsletterBtn   = document.getElementById('nl-btn');
+      document.addEventListener("DOMContentLoaded", function () {
+        var newsletterInput = document.getElementById("nl-email");
+        var newsletterBtn = document.getElementById("nl-btn");
         if (newsletterInput) {
-          newsletterInput.classList.add('coming-soon-disabled');
-          newsletterInput.addEventListener('click', function () {
-            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+          newsletterInput.classList.add("coming-soon-disabled");
+          newsletterInput.addEventListener("click", function () {
+            showFwToast("Our newsletter is coming soon. Stay tuned!", "info");
           });
         }
         if (newsletterBtn) {
-          newsletterBtn.classList.add('coming-soon-disabled');
-          newsletterBtn.addEventListener('click', function (e) {
+          newsletterBtn.classList.add("coming-soon-disabled");
+          newsletterBtn.addEventListener("click", function (e) {
             if (e && e.preventDefault) e.preventDefault();
-            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+            showFwToast("Our newsletter is coming soon. Stay tuned!", "info");
           });
         }
       });
@@ -2415,9 +2423,9 @@ href="/donate"
       function submitNewsletter(e) {
         if (e && e.preventDefault) e.preventDefault();
         // Newsletter signup is not yet active.
-        // Will be implemented when newsletter platform 
+        // Will be implemented when newsletter platform
         // integration is ready.
-        showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+        showFwToast("Our newsletter is coming soon. Stay tuned!", "info");
       }
     </script>
     <script>

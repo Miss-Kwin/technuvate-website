@@ -1088,6 +1088,7 @@
       }
     </style>
   <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body>
@@ -1098,7 +1099,7 @@
       <!-- Meet Us dropdown -->
       <div class="nav-item">
         <button class="nav-item-btn">
-          Meet Us <span class="nav-arrow">&#9660;</span>
+          Meet Us <span class="nav-arrow"><i class="bi bi-caret-down-fill"></i></span>
         </button>
         <div class="nav-dropdown">
           <a href="/about">About Us</a>
@@ -1111,7 +1112,7 @@
       <!-- Work With Us dropdown -->
       <div class="nav-item">
         <button class="nav-item-btn">
-          Work With Us <span class="nav-arrow">&#9660;</span>
+          Work With Us <span class="nav-arrow"><i class="bi bi-caret-down-fill"></i></span>
         </button>
         <div class="nav-dropdown">
           <a href="/tutors">Become a Tutor</a>
@@ -1161,7 +1162,7 @@
               color: #1b3a7a;
               margin-right: 2px;
             " onmouseover="this.style.background = 'rgba(27,58,122,.06)'"
-        onmouseout="this.style.background = 'transparent'">&#10084;&#65039; Donate</a><a href="/#contact"
+        onmouseout="this.style.background = 'transparent'"><i class="bi bi-heart-fill"></i> Donate</a><a href="/#contact"
         class="nav-btn">Contact Us</a>
       <button class="ham" id="hamBtn" onclick="toggleMenu()" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -1201,7 +1202,7 @@
             text-align: center;
             margin-bottom: 4px;
           "
-          >&#10084;&#65039; Donate Now</a
+          <i class="bi bi-heart-fill"></i> Donate Now</a
         >
       </div>
       <!-- <a href="index.html#contact" class="mob-cta">Contact Us</a> -->
@@ -1254,28 +1255,28 @@
         <h2 style="font-size:clamp(22px,3.2vw,34px);font-weight:800;line-height:1.2;margin-bottom:32px">Your money goes
           directly<br>to one young person's future.</h2>
         <div class="why-block">
-          <div class="why-icon">&#127874;</div>
+          <div class="why-icon"><i class="bi bi-cake-fill"></i></div>
           <div class="why-title">Spending your birthday doing good?</div>
           <div class="why-text">A lot of people want their birthday to mean something beyond themselves. Instead of
             asking for gifts, they want to give one. Donate in celebration and we will display a public thank-you
             message on your behalf if you want.</div>
         </div>
         <div class="why-block">
-          <div class="why-icon">&#128591;</div>
+          <div class="why-icon"><i class="bi bi-hand-thumbs-up-fill"></i></div>
           <div class="why-title">Not comfortable with how your tithe is used?</div>
           <div class="why-text">Many people believe in giving a portion of their income to something greater. If you
             want that tenth to go somewhere you can see the impact, this is that place. Your tithe funds a real person's
             education, not a building project you never see.</div>
         </div>
         <div class="why-block">
-          <div class="why-icon">&#128161;</div>
+          <div class="why-icon"><i class="bi bi-wallet"></i></div>
           <div class="why-title">Think you cannot afford to be philanthropic?</div>
           <div class="why-text">You can. &#8358;2,000 is not nothing. When twenty people each give &#8358;2,000, that is
             one full scholarship. Your small gift, pooled with others, becomes a life-changing opportunity for a young
             person who cannot afford to enroll alone.</div>
         </div>
         <div class="why-block">
-          <div class="why-icon">&#127758;</div>
+          <div class="why-icon"><i class="bi bi-globe"></i></div>
           <div class="why-title">What exactly does your donation fund?</div>
           <div class="why-text">Every &#8358;80,000 pool we hit sponsors one student through a full TechNuVate Academy
             cohort. They get live sessions, mentorship, a certificate, and access to our internship and employment
@@ -1288,8 +1289,8 @@
 
         <!-- Thank-you banner — hidden by default, shown after a completed donation -->
         <div class="don-thankyou" id="donationThankYou">
-          <div class="don-thankyou-ico">&#10003;</div>
-          <div class="don-thankyou-title">Donation Received &#10084;&#65039;</div>
+          <div class="don-thankyou-ico"><i class="bi bi-check-circle-fill"></i></div>
+          <div class="don-thankyou-title">Donation Received <i class="bi bi-heart-fill"></i></div>
           <p class="don-thankyou-sub">Your payment went through. You have just helped sponsor a young person to learn a tech skill in Africa. That means everything.</p>
         </div>
 
@@ -1321,7 +1322,7 @@
           <button class="don-pill" onclick="wSelect(40000,'NGN',this)">&#8358;40,000 <span
               class="pill-note pill-good">Half a scholarship</span></button>
           <button class="don-pill" onclick="wSelect(80000,'NGN',this)">&#8358;80,000 <span
-              class="pill-note pill-wow">Full scholarship &#127881;</span></button>
+              class="pill-note pill-wow">Full scholarship <i class="bi bi-party-fill"></i></span></button>
           <button class="don-pill" id="w-custom-btn" onclick="wCustom(this)">Other amount <span
               class="pill-note pill-dim">Type below</span></button>
         </div>
@@ -1336,7 +1337,7 @@
           <button class="don-pill" onclick="wSelect(30,'USD',this)">$30 <span class="pill-note pill-good">~37% of a
               scholarship</span></button>
           <button class="don-pill" onclick="wSelect(60,'USD',this)">$60 <span class="pill-note pill-wow">Full
-              scholarship &#127881;</span></button>
+              scholarship <i class="bi bi-party-fill"></i></span></button>
           <button class="don-pill" id="w-custom-btn-usd" onclick="wCustom(this)">Other amount <span
               class="pill-note pill-dim">Type below</span></button>
         </div>
@@ -1356,10 +1357,10 @@
             style="width:100%;border:1.5px solid var(--border);border-radius:9px;padding:11px 13px;font-family:inherit;font-size:14px;color:#111827;outline:none;background:#fff;cursor:pointer;box-sizing:border-box;transition:border-color .2s"
             onfocus="this.style.borderColor='#1B3A7A'" onblur="this.style.borderColor='var(--border)'">
             <option value="">Just want to give</option>
-            <option value="birthday">&#127874; Celebrating my birthday</option>
-            <option value="tithe">&#128591; Paying my tithe</option>
-            <option value="honour">&#128150; Giving in someone's honour</option>
-            <option value="random">&#128161; Random act of kindness</option>
+            <option value="birthday"><i class="bi bi-cake-fill"></i> Celebrating my birthday</option>
+            <option value="tithe"><i class="bi bi-hand-prays"></i> Paying my tithe</option>
+            <option value="honour"><i class="bi bi-tag"></i> Giving in someone's honour</option>
+            <option value="random"><i class="bi bi-wallet"></i> Random act of kindness</option>
             <option value="other">Something else</option>
           </select>
         </div>
@@ -1390,7 +1391,7 @@
         <div id="w-bday-wrap" style="display:none;margin-bottom:10px">
           <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:6px">When is your
             birthday? <span style="font-weight:400;color:var(--muted)">In case you would love us to give you a public
-              shoutout &#127881;</span></label>
+              shoutout <i class="bi bi-party-fill"></i></span></label>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
             <select id="w-bday-month"
               style="border:1.5px solid var(--border);border-radius:9px;padding:10px 12px;font-family:inherit;font-size:13px;color:#111827;outline:none;background:#fff;cursor:pointer;transition:border-color .2s"
@@ -1476,7 +1477,7 @@
             style="width:17px;height:17px;accent-color:#1B3A7A;cursor:pointer;flex-shrink:0;"
           />
           <span style="font-size:13.5px;color:#374151;line-height:1.4;">
-            Give me a shoutout &#128483;. I&#8217;m happy to be mentioned as a supporter
+            Give me a shoutout <i class="bi bi-megaphone-fill"></i>. I&#8217;m happy to be mentioned as a supporter
           </span>
         </label>
 
@@ -1496,7 +1497,7 @@
 
   <!-- DONATION TICKER -->
   <div class="don-ticker-wrap">
-    <div class="don-ticker-label">&#128293; Live</div>
+    <div class="don-ticker-label"><i class="bi bi-volume-up"></i> Live</div>
     <div class="don-ticker-track" id="don-ticker-track">
       <!-- filled by JS -->
     </div>
