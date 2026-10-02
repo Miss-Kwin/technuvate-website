@@ -103,7 +103,7 @@
         // ── Guard: missing params means direct navigation ────
         if (!txRef || !status) {
           card.innerHTML =
-            '<span class="icon">⚠️</span>' +
+            '<span class="icon"><i class="bi bi-exclamation-triangle-fill" style="color: #f59e0b;"></i></span>' +
             '<p class="title">Nothing to confirm</p>' +
             '<p class="message">This page is only accessible after completing a payment.</p>';
           return;
@@ -112,7 +112,7 @@
         // ── Guard: user cancelled payment ───────────────────
         if (status === "cancelled") {
           card.innerHTML =
-            '<span class="icon">↩️</span>' +
+            '<span class="icon"><i class="bi bi-arrow-return-left"></i></span>' +
             '<p class="title">Payment cancelled</p>' +
             '<p class="message">You cancelled the payment. No charge was made.</p>' +
             '<p class="ref">Ref: ' +
@@ -133,7 +133,7 @@
 
         if (!endpoint) {
           card.innerHTML =
-            '<span class="icon">❓</span>' +
+            '<span class="icon"><i class="bi bi-question-lg" style="color: #dc2626;"></i></span>' +
             '<p class="title">Unknown payment type</p>' +
             '<p class="message">We could not identify this transaction. Please contact support.</p>' +
             '<p class="ref">Ref: ' +
@@ -163,7 +163,7 @@
 
               card.className = "card state-success";
               card.innerHTML =
-                '<span class="icon">✅</span>' +
+                '<span class="icon"><i class="bi bi-check-square-fill" style="color: #15803d;"></i></span>' +
                 '<p class="title">Payment confirmed</p>' +
                 '<p class="message">' +
                 escapeHtml(msg) +
@@ -186,7 +186,7 @@
 
               card.className = "card state-failed";
               card.innerHTML =
-                '<span class="icon">⚠️</span>' +
+                '<span class="icon"><i class="bi bi-exclamation-triangle-fill" style="color: #f59e0b;"></i></span>' +
                 '<p class="title">Confirmation pending</p>' +
                 '<p class="message">' +
                 escapeHtml(errMsg) +
@@ -199,7 +199,7 @@
           .catch(function () {
             card.className = "card state-failed";
             card.innerHTML =
-              '<span class="icon">⚠️</span>' +
+              '<span class="icon"><i class="bi bi-exclamation-triangle-fill" style="color: #f59e0b;"></i></span>' +
               '<p class="title">Something went wrong</p>' +
               '<p class="message">' +
               "We could not reach our server to confirm your payment. " +
