@@ -1774,7 +1774,7 @@
               Amount: <strong>₦7,000</strong>
             </div>
 
-            <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+            <button class="submit-btn" id="submitBtn">
               <span id="btnText">Confirm and Pay</span>
               <div class="spinner" id="spinner"></div>
             </button>
@@ -2234,14 +2234,14 @@
         if (newsletterInput) {
           newsletterInput.classList.add('coming-soon-disabled');
           newsletterInput.addEventListener('click', function () {
-            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+            window.showToast('Our newsletter is coming soon. Stay tuned!', 'info');
           });
         }
         if (newsletterBtn) {
           newsletterBtn.classList.add('coming-soon-disabled');
           newsletterBtn.addEventListener('click', function (e) {
             if (e && e.preventDefault) e.preventDefault();
-            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+            window.showToast('Our newsletter is coming soon. Stay tuned!', 'info');
           });
         }
       });
@@ -2251,7 +2251,7 @@
         // Newsletter signup is not yet active.
         // Will be implemented when newsletter platform
         // integration is ready.
-        showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+        window.showToast('Our newsletter is coming soon. Stay tuned!', 'info');
       }
     </script>
     <script>
@@ -2379,9 +2379,6 @@
             this.value === "TechNuVate Academy" ? "block" : "none";
         });
 
-      function val(id) {
-        return document.getElementById(id).value.trim();
-      }
       function showErr(id, msg) {
         var e = document.getElementById(id + "-err");
         if (e) {
@@ -2412,33 +2409,6 @@
           });
       });
 
-      function showFwToast(message, type) {
-        var existing = document.getElementById("fw-toast-el");
-        if (existing) existing.remove();
-        var toast = document.createElement("div");
-        toast.id = "fw-toast-el";
-        toast.className =
-          "fw-toast" +
-          (type === "error"
-            ? " fw-toast-error"
-            : type === "success"
-              ? " fw-toast-success"
-              : "");
-        toast.textContent = message;
-        document.body.appendChild(toast);
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            toast.classList.add("fw-toast-visible");
-          });
-        });
-        setTimeout(function () {
-          toast.classList.remove("fw-toast-visible");
-          setTimeout(function () {
-            if (toast.parentNode) toast.parentNode.removeChild(toast);
-          }, 350);
-        }, 6000);
-      }
-
       var lbpSelectedCurrency = 'NGN';
 
       function selectLabsCurrency(currency) {
@@ -2451,147 +2421,16 @@
         if (display) display.innerHTML = 'Amount: <strong>' + (currency === 'NGN' ? '₦7,000' : '$5') + '</strong>';
       }
 
-      function submitForm() {
-      var submitButton = document.getElementById('submitBtn');
-      var spinnerElement = document.getElementById('spinner');
-      var buttonTextElement = document.getElementById('btnText');
+    </script>
+    <script type="module">
+      import { submitLabsProApplication } from './scripts/services/labs-pro.service.js';
+      import { showToast } from './scripts/utils/toast.js';
 
-      // ── Helper: get field value ────────────────────────
-      function gv(id) {
-        var el = document.getElementById(id);
-        return el ? el.value.trim() : '';
-      }
+      window.showToast = showToast;
 
-      // ── Collect all field values ───────────────────────
-      var fullName = gv('fullname');
-      var email = gv('email');
-      var phone = gv('phone');
-      var gender = gv('gender');
-      var ageRange = gv('age');
-      var country = gv('country');
-      var stateRegion = gv('nigeria-state') || gv('other-country-state') || gv('intl-state') || undefined;
-      var skillTrack = gv('track');
-      var background = gv('background');
-      var experience = gv('experience');
-      var goal = gv('goal');
-      var linkedin = gv('linkedin');
-      var currency = lbpSelectedCurrency;
-
-      // ── Commitment checkbox ────────────────────────────
-      var commitCheckbox = document.getElementById('commitCheck');
-      var commitmentConfirmed = commitCheckbox ? commitCheckbox.checked : false;
-
-      if (!commitmentConfirmed) {
-        var commitErr = document.getElementById('commitErr');
-        if (commitErr) commitErr.style.display = 'block';
-        return;
-      }
-
-      // ── Client-side validation ─────────────────────────
-      if (!fullName) { showFwToast('Please enter your full name.', 'error'); return; }
-      if (!email || email.indexOf('@') < 0) {
-        showFwToast('Please enter a valid email address.', 'error'); return;
-      }
-      if (!phone) { showFwToast('Please enter your phone number.', 'error'); return; }
-      if (!gender) { showFwToast('Please select your gender.', 'error'); return; }
-      if (!ageRange) { showFwToast('Please select your age range.', 'error'); return; }
-      if (!country) { showFwToast('Please select your country.', 'error'); return; }
-      if (!skillTrack) { showFwToast('Please select your digital skill track.', 'error'); return; }
-      if (!background) { showFwToast('Please select where you learned your skill.', 'error'); return; }
-      if (!experience) { showFwToast('Please describe your current skill level.', 'error'); return; }
-      if (!goal) { showFwToast('Please tell us what you want to walk away with.', 'error'); return; }
-      if (!linkedin) { showFwToast('Please enter your LinkedIn profile URL.', 'error'); return; }
-
-      // ── Disable all form inputs ────────────────────────
-      var allInputs = document.querySelectorAll(
-        '#formCard input, ' +
-        '#formCard select, ' +
-        '#formCard textarea, ' +
-        '#formCard button'
-      );
-      allInputs.forEach(function (el) {
-        el.disabled = true;
-        el.classList.add('field-disabled');
-      });
-
-      if (submitButton) submitButton.disabled = true;
-      if (spinnerElement) spinnerElement.style.display = 'inline-block';
-      if (buttonTextElement) buttonTextElement.textContent = 'Submitting...';
-
-      // ── POST to NestJS labs pro apply endpoint ─────────
-      fetch('https://api-technuvate.onrender.com/labs/pro/apply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fullName: fullName,
-          email: email,
-          phone: phone,
-          gender: gender,
-          ageRange: ageRange,
-          country: country,
-          stateRegion: stateRegion,
-          skillTrack: skillTrack,
-          background: background,
-          experience: experience,
-          goal: goal,
-          linkedin: linkedin,
-          currency: currency,
-          commitmentConfirmed: commitmentConfirmed
-        })
-      })
-      .then(function (res) {
-        return res.json().then(function (body) {
-          return { ok: res.ok, body: body };
-        });
-      })
-      .then(function (result) {
-        if (result.ok && result.body.data && result.body.data.flwLink) {
-          // Clear form before redirect
-          allInputs.forEach(function (el) {
-            if (el.tagName === 'INPUT' && el.type !== 'checkbox') el.value = '';
-            if (el.tagName === 'SELECT') el.selectedIndex = 0;
-            if (el.tagName === 'TEXTAREA') el.value = '';
-            if (el.type === 'checkbox') el.checked = false;
-          });
-          window.location.href = result.body.data.flwLink;
-        } else {
-          // Re-enable on error
-          allInputs.forEach(function (el) {
-            el.disabled = false;
-            el.classList.remove('field-disabled');
-          });
-          if (submitButton) submitButton.disabled = false;
-          if (spinnerElement) spinnerElement.style.display = 'none';
-          if (buttonTextElement) buttonTextElement.textContent = 'Confirm and Pay';
-
-          var errMsg = extractServerMessage(result.body) ||
-            'Something went wrong. Please try again.';
-          showFwToast(errMsg, 'error');
-        }
-      })
-      .catch(function (err) {
-        console.error('Labs Pro submit error:', err);
-        allInputs.forEach(function (el) {
-          el.disabled = false;
-          el.classList.remove('field-disabled');
-        });
-        if (submitButton) submitButton.disabled = false;
-        if (spinnerElement) spinnerElement.style.display = 'none';
-        if (buttonTextElement) buttonTextElement.textContent = 'Confirm and Pay';
-        showFwToast(
-          'Something went wrong. Please check your connection and try again.',
-          'error'
-        );
-      });
-
-      function extractServerMessage(body) {
-        if (!body) return null;
-        if (typeof body.message === 'string') return body.message;
-        if (Array.isArray(body.message) && body.message.length)
-          return body.message[0];
-        return null;
-      }
-    }
+      document
+        .getElementById('submitBtn')
+        .addEventListener('click', submitLabsProApplication);
     </script>
   </body>
 </html>
