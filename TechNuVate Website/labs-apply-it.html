@@ -1550,7 +1550,7 @@
               </div>
             </div>
 
-            <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+            <button class="submit-btn" id="submitBtn">
               <span id="btnText">Submit Application</span>
               <div class="spinner" id="spinner"></div>
             </button>
@@ -2017,14 +2017,14 @@
         if (newsletterInput) {
           newsletterInput.classList.add('coming-soon-disabled');
           newsletterInput.addEventListener('click', function () {
-            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+            window.showToast('Our newsletter is coming soon. Stay tuned!', 'info');
           });
         }
         if (newsletterBtn) {
           newsletterBtn.classList.add('coming-soon-disabled');
           newsletterBtn.addEventListener('click', function (e) {
             if (e && e.preventDefault) e.preventDefault();
-            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+            window.showToast('Our newsletter is coming soon. Stay tuned!', 'info');
           });
         }
       });
@@ -2034,7 +2034,7 @@
         // Newsletter signup is not yet active.
         // Will be implemented when newsletter platform
         // integration is ready.
-        showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+        window.showToast('Our newsletter is coming soon. Stay tuned!', 'info');
       }
     </script>
     <script>
@@ -2099,9 +2099,6 @@
         if (!isOther) document.getElementById('other-state-name').value = '';
       }
 
-      function val(id) {
-        return document.getElementById(id).value.trim();
-      }
       function showErr(id, msg) {
         var e = document.getElementById(id + '-err');
         if (e) {
@@ -2143,258 +2140,16 @@
           });
       });
 
-      function showFwToast(message, type) {
-        var existingToast = document.getElementById('fw-toast-el');
-        if (existingToast) existingToast.remove();
-        var toastElement = document.createElement('div');
-        toastElement.id = 'fw-toast-el';
-        toastElement.className = 'fw-toast' +
-          (type === 'error' ? ' fw-toast-error' :
-           type === 'success' ? ' fw-toast-success' : '');
-        toastElement.textContent = message;
-        document.body.appendChild(toastElement);
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            toastElement.classList.add('fw-toast-visible');
-          });
-        });
-        setTimeout(function () {
-          toastElement.classList.remove('fw-toast-visible');
-          setTimeout(function () {
-            if (toastElement.parentNode)
-              toastElement.parentNode.removeChild(toastElement);
-          }, 350);
-        }, 6000);
-      }
+    </script>
+    <script type="module">
+      import { submitLabsItApplication } from './scripts/services/labs-it.service.js';
+      import { showToast } from './scripts/utils/toast.js';
 
-      function validateFileForUpload(file, fieldLabel) {
-        var allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-        var maxSize = 5 * 1024 * 1024;
-        if (!file) {
-          showFwToast(fieldLabel + ' is required.', 'error');
-          return false;
-        }
-        if (!allowedTypes.includes(file.type)) {
-          showFwToast(fieldLabel + ': only JPG, PNG, or PDF files are accepted.', 'error');
-          return false;
-        }
-        if (file.size > maxSize) {
-          showFwToast(fieldLabel + ' must be under 5MB.', 'error');
-          return false;
-        }
-        return true;
-      }
+      window.showToast = showToast;
 
-      function submitForm() {
-        var submitButton      = document.getElementById('submitBtn');
-        var spinnerElement    = document.getElementById('spinner');
-        var buttonTextElement = document.getElementById('btnText');
-
-        function gv(id) {
-          var el = document.getElementById(id);
-          return el ? el.value.trim() : '';
-        }
-
-        // ── Collect text field values ────────────────
-        var fullName         = gv('fullname');
-        var email            = gv('email');
-        var phone            = gv('phone');
-        var gender           = gv('gender');
-        var ageRange         = gv('age');
-        var stateOfResidence = gv('state');
-        var city             = gv('city');
-        var schoolName       = gv('institution');
-        var institutionType  = gv('institution-type');
-        var courseOfStudy    = gv('course');
-        var currentLevel     = gv('level');
-        var itStartDate      = gv('it-start');
-        var itDuration       = gv('it-duration');
-        var supervisorName   = gv('supervisor');
-        var supervisorEmail  = gv('supervisor-email');
-        var naturalStrength  = gv('strength');
-        var peopleComfort    = gv('people-comfort');
-        var toolsFamiliar    = gv('digital-skill');
-        var whyTechnuvate    = gv('motivation');
-
-        // ── Read file objects from file inputs ─────────
-        var itLetterFile = document.getElementById('doc-it-letter')
-          ? document.getElementById('doc-it-letter').files[0] : null;
-        var schoolIdFile = document.getElementById('doc-id')
-          ? document.getElementById('doc-id').files[0] : null;
-        var passportFile = document.getElementById('doc-passport')
-          ? document.getElementById('doc-passport').files[0] : null;
-
-        // ── Commitment checkbox ────────────────────
-        var commitCheckbox = document.getElementById('commitCheck');
-        var commitmentConfirmed = commitCheckbox ? commitCheckbox.checked : false;
-        if (!commitmentConfirmed) {
-          var commitErr = document.getElementById('commitErr');
-          if (commitErr) commitErr.style.display = 'block';
-          showFwToast('Please confirm the terms and commitment.', 'error');
-          return;
-        }
-
-        // ── Client-side text field validation ──────────
-        if (!fullName)         { showFwToast('Please enter your full name.', 'error');               return; }
-        if (!email || email.indexOf('@') < 0) {
-          showFwToast('Please enter a valid email address.', 'error'); return;
-        }
-        if (!phone)            { showFwToast('Please enter your phone number.', 'error');            return; }
-        if (!gender)           { showFwToast('Please select your gender.', 'error');                 return; }
-        if (!ageRange)         { showFwToast('Please select your age range.', 'error');              return; }
-        if (!stateOfResidence) { showFwToast('Please select your state of residence.', 'error');     return; }
-        if (!city)             { showFwToast('Please enter your city.', 'error');                    return; }
-        if (!schoolName)       { showFwToast('Please enter your school name.', 'error');             return; }
-        if (!institutionType)  { showFwToast('Please select your institution type.', 'error');       return; }
-        if (!courseOfStudy)    { showFwToast('Please select your course of study.', 'error');        return; }
-        if (!currentLevel)     { showFwToast('Please select your current level.', 'error');          return; }
-        if (!itStartDate)      { showFwToast('Please select your expected IT start date.', 'error'); return; }
-        if (!itDuration)       { showFwToast('Please select your IT duration.', 'error');            return; }
-        if (!naturalStrength)  { showFwToast('Please select your natural strength.', 'error');       return; }
-        if (!peopleComfort)    { showFwToast('Please select your people comfort level.', 'error');   return; }
-        if (!toolsFamiliar)    { showFwToast('Please describe the tools you are familiar with.', 'error'); return; }
-        if (!whyTechnuvate)    { showFwToast('Please tell us why you want to do your IT at TechNuVate.', 'error'); return; }
-
-        // ── File validation ────────────────────────
-        if (!validateFileForUpload(itLetterFile, 'IT Request Letter')) return;
-        if (!validateFileForUpload(schoolIdFile, 'School ID or Admission Letter')) return;
-        if (!validateFileForUpload(passportFile, 'Passport Photograph')) return;
-
-        // ── Disable all form inputs ────────────────
-        var formContainer = document.getElementById('formCard');
-        var allInputs = formContainer
-          ? formContainer.querySelectorAll('input, select, textarea, button')
-          : [];
-        allInputs.forEach(function (el) {
-          el.disabled = true;
-          el.classList.add('field-disabled');
-        });
-        if (submitButton)      submitButton.disabled = true;
-        if (spinnerElement)    spinnerElement.style.display = 'inline-block';
-        if (buttonTextElement) buttonTextElement.textContent = 'Submitting...';
-
-        // ── Build multipart FormData ─────────────────
-        var formData = new FormData();
-        formData.append('fullName',            fullName);
-        formData.append('email',               email);
-        formData.append('phone',               phone);
-        formData.append('gender',              gender);
-        formData.append('ageRange',            ageRange);
-        formData.append('stateOfResidence',    stateOfResidence);
-        formData.append('city',                city);
-        formData.append('schoolName',          schoolName);
-        formData.append('institutionType',     institutionType);
-        formData.append('courseOfStudy',       courseOfStudy);
-        formData.append('currentLevel',        currentLevel);
-        formData.append('itStartDate',         itStartDate);
-        formData.append('itDuration',          itDuration);
-        formData.append('naturalStrength',     naturalStrength);
-        formData.append('peopleComfort',       peopleComfort);
-        formData.append('toolsFamiliar',       toolsFamiliar);
-        formData.append('whyTechnuvate',       whyTechnuvate);
-        formData.append('commitmentConfirmed', 'true');
-        if (supervisorName)  formData.append('supervisorName',  supervisorName);
-        if (supervisorEmail) formData.append('supervisorEmail', supervisorEmail);
-        // File fields — names match server FileFieldsInterceptor names
-        formData.append('itLetter', itLetterFile, itLetterFile.name);
-        formData.append('schoolId', schoolIdFile, schoolIdFile.name);
-        formData.append('passport', passportFile, passportFile.name);
-
-        // ── POST as multipart/form-data ────────────────
-        // Content-Type NOT set manually — browser sets it with correct boundary
-        fetch('https://api-technuvate.onrender.com/labs/it/apply', {
-          method: 'POST',
-          body: formData
-        })
-        .then(function (res) {
-          return res.json().then(function (body) {
-            return { ok: res.ok, body: body };
-          });
-        })
-        .then(function (result) {
-          if (result.ok && result.body.success) {
-            // ── Clear all inputs ─────────────────
-            allInputs.forEach(function (el) {
-              if (el.tagName === 'INPUT' && el.type !== 'checkbox' && el.type !== 'radio')
-                el.value = '';
-              if (el.tagName === 'SELECT')   el.selectedIndex = 0;
-              if (el.tagName === 'TEXTAREA') el.value = '';
-              if (el.type === 'checkbox')    el.checked = false;
-              el.disabled = false;
-              el.classList.remove('field-disabled');
-            });
-
-            // ── Reset file inputs ────────────────
-            var docIt   = document.getElementById('doc-it-letter');
-            var docId   = document.getElementById('doc-id');
-            var docPass = document.getElementById('doc-passport');
-            if (docIt)   docIt.value   = '';
-            if (docId)   docId.value   = '';
-            if (docPass) docPass.value = '';
-
-            // ── Show success state ────────────────
-            var formCard    = document.getElementById('formCard');
-            var successCard = document.getElementById('successCard');
-            if (successCard) {
-              var serverMessage = (result.body && typeof result.body.message === 'string')
-                ? result.body.message
-                : null;
-              if (serverMessage) {
-                var successDesc = successCard.querySelector('.success-s');
-                if (successDesc) {
-                  successDesc.textContent = serverMessage;
-                }
-              }
-              successCard.style.display = 'block';
-            }
-            if (formCard)    formCard.style.display    = 'none';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            if (submitButton)      submitButton.disabled = false;
-            if (spinnerElement)    spinnerElement.style.display = 'none';
-            if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
-
-          } else {
-            allInputs.forEach(function (el) {
-              el.disabled = false;
-              el.classList.remove('field-disabled');
-            });
-            if (submitButton)      submitButton.disabled = false;
-            if (spinnerElement)    spinnerElement.style.display = 'none';
-            if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
-
-            var errMsg = extractServerMessage(result.body) ||
-              'Something went wrong. Please try again.';
-            if (result.body && result.body.statusCode === 409) {
-              errMsg = 'An application from this email already exists. ' +
-                       'Contact us at hello@technuvate.com.';
-            }
-            showFwToast(errMsg, 'error');
-          }
-        })
-        .catch(function (err) {
-          console.error('Labs IT apply error:', err);
-          allInputs.forEach(function (el) {
-            el.disabled = false;
-            el.classList.remove('field-disabled');
-          });
-          if (submitButton)      submitButton.disabled = false;
-          if (spinnerElement)    spinnerElement.style.display = 'none';
-          if (buttonTextElement) buttonTextElement.textContent = 'Submit Application';
-          showFwToast(
-            'Something went wrong. Please check your connection and try again.',
-            'error'
-          );
-        });
-
-        function extractServerMessage(body) {
-          if (!body) return null;
-          if (typeof body.message === 'string') return body.message;
-          if (Array.isArray(body.message) && body.message.length)
-            return body.message[0];
-          return null;
-        }
-      }
+      document
+        .getElementById('submitBtn')
+        .addEventListener('click', submitLabsItApplication);
     </script>
   </body>
 </html>

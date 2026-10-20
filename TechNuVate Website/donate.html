@@ -1493,7 +1493,7 @@
           </span>
         </label>
 
-        <button class="don-cta" id="w-btn" onclick="wDonate()">
+        <button class="don-cta" id="w-btn">
           <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
             <path
               d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
@@ -2081,122 +2081,12 @@
       wAmt = parseFloat(val);
     }
 
-  function showFwToast(message, type) {
-    var existing = document.getElementById('fw-toast-el');
-    if (existing) existing.remove();
-    var toast = document.createElement('div');
-    toast.id = 'fw-toast-el';
-    toast.className = 'fw-toast' + (type === 'error' ? ' fw-toast-error' : type === 'success' ? ' fw-toast-success' : '');
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        toast.classList.add('fw-toast-visible');
-      });
-    });
-    setTimeout(function() {
-      toast.classList.remove('fw-toast-visible');
-      setTimeout(function() {
-        if (toast.parentNode) toast.parentNode.removeChild(toast);
-      }, 350);
-    }, 6000);
-  }
-
-  function wDonate() {
-      var wBtn = document.getElementById('w-btn');
-
-      var donorName     = document.getElementById('w-name')
-        ? document.getElementById('w-name').value.trim() : '';
-      var donorEmail    = document.getElementById('w-email')
-        ? document.getElementById('w-email').value.trim() : '';
-      var occasion      = document.getElementById('w-occasion')
-        ? document.getElementById('w-occasion').value.trim() : '';
-      var honoreeName   = document.getElementById('w-honour-name')
-        ? document.getElementById('w-honour-name').value.trim() : '';
-      var birthdayDay   = document.getElementById('w-bday-day')
-        ? document.getElementById('w-bday-day').value.trim() : '';
-      var birthdayMonth = document.getElementById('w-bday-month')
-        ? document.getElementById('w-bday-month').value.trim() : '';
-      var note          = document.getElementById('w-note')
-        ? document.getElementById('w-note').value.trim() : '';
-      var shoutOutEl    = document.getElementById('w-shoutout');
-      var shoutOut      = shoutOutEl ? shoutOutEl.checked : false;
-
-      var currency = wCurrency;
-      var amount   = wAmt;
-
-      if (!donorName) {
-        showFwToast('Please enter your name before donating.', 'error');
-        return;
-      }
-      if (!donorEmail || donorEmail.indexOf('@') < 0) {
-        showFwToast('Please enter a valid email address.', 'error');
-        return;
-      }
-      if (!amount || amount <= 0) {
-        showFwToast('Please select or enter a donation amount.', 'error');
-        return;
-      }
-
-      if (wBtn) {
-        wBtn.disabled = true;
-        wBtn.innerHTML = '<span>Processing...</span>';
-      }
-
-      fetch('https://api-technuvate.onrender.com/donation/initialize', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          donorName:   donorName    || 'Anonymous Donor',
-          donorEmail:  donorEmail,
-          honoreeName: honoreeName   || undefined,
-          occasion:    occasion      || undefined,
-          birthDay:    birthdayDay   || undefined,
-          birthMonth:  birthdayMonth || undefined,
-          note:        note          || undefined,
-          shoutOut:    shoutOut,
-          amount:      amount,
-          currency:    currency
-        })
-      })
-      .then(function (res) {
-        return res.json().then(function (body) {
-          return { ok: res.ok, body: body };
-        });
-      })
-      .then(function (result) {
-        if (result.ok && result.body.data && result.body.data.flwLink) {
-          window.location.href = result.body.data.flwLink;
-        } else {
-          var errMsg = extractServerMessage(result.body) ||
-            'Something went wrong. Please try again.';
-          if (wBtn) {
-            wBtn.disabled = false;
-            wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
-          }
-          showFwToast(errMsg, 'error');
-        }
-      })
-      .catch(function (err) {
-        console.error('Donation init error:', err);
-        if (wBtn) {
-          wBtn.disabled = false;
-          wBtn.innerHTML = '<span>Donate Now &#10084;</span>';
-        }
-        showFwToast(
-          'Something went wrong. Please check your connection and try again.',
-          'error'
-        );
-      });
-
-      function extractServerMessage(body) {
-        if (!body) return null;
-        if (typeof body.message === 'string') return body.message;
-        if (Array.isArray(body.message) && body.message.length)
-          return body.message[0];
-        return null;
-      }
-    }
+  </script>
+  <script type="module">
+    import { initializeDonation } from './scripts/services/donation.service.js';
+    document
+      .getElementById('w-btn')
+      .addEventListener('click', initializeDonation);
   </script>
 </body>
 
