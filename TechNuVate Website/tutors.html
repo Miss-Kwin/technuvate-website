@@ -2253,7 +2253,7 @@
             </div>
           </div>
           <button
-            onclick="submitTutor()"
+            
             id="tutorBtn"
             style="
               width: 100%;
@@ -2763,14 +2763,14 @@
         if (newsletterInput) {
           newsletterInput.classList.add("coming-soon-disabled");
           newsletterInput.addEventListener("click", function () {
-            showFwToast("Our newsletter is coming soon. Stay tuned!", "info");
+            window.showToast("Our newsletter is coming soon. Stay tuned!", "info");
           });
         }
         if (newsletterBtn) {
           newsletterBtn.classList.add("coming-soon-disabled");
           newsletterBtn.addEventListener("click", function (e) {
             if (e && e.preventDefault) e.preventDefault();
-            showFwToast("Our newsletter is coming soon. Stay tuned!", "info");
+            window.showToast("Our newsletter is coming soon. Stay tuned!", "info");
           });
         }
       });
@@ -2780,35 +2780,7 @@
         // Newsletter signup is not yet active.
         // Will be implemented when newsletter platform
         // integration is ready.
-        showFwToast("Our newsletter is coming soon. Stay tuned!", "info");
-      }
-      function validateForm() {
-        var SB_KEY =
-          typeof window.SB_KEY !== "undefined"
-            ? window.SB_KEY
-            : "YOUR_SUPABASE_ANON_KEY_HERE";
-        if (SB_URL && SB_URL !== "YOUR_SUPABASE_URL_HERE") {
-          fetch(SB_URL + "/rest/v1/newsletter_subscribers", {
-            method: "POST",
-            headers: {
-              apikey: SB_KEY,
-              Authorization: "Bearer " + SB_KEY,
-              "Content-Type": "application/json",
-              "Prefer=minimal": "",
-            },
-            body: JSON.stringify({
-              email: email,
-              source: window.location.pathname,
-            }),
-          }).catch(function () {});
-        }
-        setTimeout(function () {
-          document.getElementById("newsletter-form").style.display = "none";
-          msg.textContent = "✓ You are on the list. Watch your inbox.";
-          msg.style.display = "block";
-          msg.style.color = "rgba(255,255,255,.7)";
-          msg.style.fontSize = "14px";
-        }, 600);
+        window.showToast("Our newsletter is coming soon. Stay tuned!", "info");
       }
     </script>
     <script>
@@ -2864,9 +2836,6 @@
         )
           toggleMenu();
       });
-      function gv(id) {
-        return document.getElementById(id).value.trim();
-      }
       function se(id, msg) {
         var e = document.getElementById(id + "-err");
         if (e) {
@@ -2899,234 +2868,6 @@
             ce(id);
           });
       });
-      function showFwToast(message, type) {
-        var existingToast = document.getElementById("fw-toast-el");
-        if (existingToast) existingToast.remove();
-        var toastElement = document.createElement("div");
-        toastElement.id = "fw-toast-el";
-        toastElement.className =
-          "fw-toast" +
-          (type === "error"
-            ? " fw-toast-error"
-            : type === "success"
-              ? " fw-toast-success"
-              : "");
-        toastElement.textContent = message;
-        document.body.appendChild(toastElement);
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            toastElement.classList.add("fw-toast-visible");
-          });
-        });
-        setTimeout(function () {
-          toastElement.classList.remove("fw-toast-visible");
-          setTimeout(function () {
-            if (toastElement.parentNode) {
-              toastElement.parentNode.removeChild(toastElement);
-            }
-          }, 350);
-        }, 6000);
-      }
-      function submitTutor() {
-        var submitButton = document.getElementById("tutorBtn");
-        var spinnerElement = document.getElementById("tutorSpinner");
-        var buttonTextElement = document.getElementById("tutorBtnText");
-
-        function gv(id) {
-          var el = document.getElementById(id);
-          return el ? el.value.trim() : "";
-        }
-
-        // ── Collect all field values ───────────────────────
-        var fullName = gv("t-name");
-        var email = gv("t-email");
-        var phone = gv("t-phone");
-        var gender = gv("t-gender");
-        var ageRange = gv("t-age");
-        var country = gv("t-country");
-        var stateRegion = gv("t-state") || undefined;
-        var linkedin = gv("t-linkedin");
-        var subjectTrack = gv("t-track");
-        var teachingExperience = gv("t-exp");
-        var biography = gv("t-bio");
-        var portfolioUrl = gv("t-portfolio") || undefined;
-        var weeklyHours = gv("t-hours") || undefined;
-        var networkRaw = gv("t-network");
-        var mobileNetwork =
-          networkRaw === "Other"
-            ? gv("t-network-other") || undefined
-            : networkRaw || undefined;
-        var dataTopupPhone = gv("t-data-phone") || undefined;
-
-        // ── Client-side validation ─────────────────────────
-        if (!fullName) {
-          showFwToast("Please enter your full name.", "error");
-          return;
-        }
-        if (!email || email.indexOf("@") < 0) {
-          showFwToast("Please enter a valid email address.", "error");
-          return;
-        }
-        if (!phone) {
-          showFwToast("Please enter your phone number.", "error");
-          return;
-        }
-        if (!gender) {
-          showFwToast("Please select your gender.", "error");
-          return;
-        }
-        if (!ageRange) {
-          showFwToast("Please select your age range.", "error");
-          return;
-        }
-        if (!country) {
-          showFwToast("Please select your country.", "error");
-          return;
-        }
-        if (!linkedin) {
-          showFwToast("Please enter your LinkedIn profile URL.", "error");
-          return;
-        }
-        if (!subjectTrack) {
-          showFwToast("Please select a subject track.", "error");
-          return;
-        }
-        if (!teachingExperience) {
-          showFwToast("Please select your years of experience.", "error");
-          return;
-        }
-        if (!biography) {
-          showFwToast("Please tell us about yourself.", "error");
-          return;
-        }
-
-        // ── Disable all form inputs ────────────────────────
-        var formContainer = document.getElementById("formCard");
-        var allInputs = formContainer
-          ? formContainer.querySelectorAll("input, select, textarea, button")
-          : [];
-        allInputs.forEach(function (el) {
-          el.disabled = true;
-          el.classList.add("field-disabled");
-        });
-
-        if (submitButton) submitButton.disabled = true;
-        if (spinnerElement) spinnerElement.style.display = "inline-block";
-        if (buttonTextElement) buttonTextElement.textContent = "Submitting...";
-
-        // ── POST to NestJS tutor apply endpoint ────────────
-        fetch("https://api-technuvate.onrender.com/talent/tutors/apply", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            fullName: fullName,
-            email: email,
-            phone: phone,
-            gender: gender,
-            ageRange: ageRange,
-            country: country,
-            stateRegion: stateRegion,
-            linkedin: linkedin,
-            subjectTrack: subjectTrack,
-            teachingExperience: teachingExperience,
-            biography: biography,
-            portfolioUrl: portfolioUrl,
-            weeklyHours: weeklyHours,
-            mobileNetwork: mobileNetwork,
-            dataTopupPhone: dataTopupPhone,
-          }),
-        })
-          .then(function (res) {
-            return res.json().then(function (body) {
-              return { ok: res.ok, body: body };
-            });
-          })
-          .then(function (result) {
-            if (result.ok && result.body.success) {
-              var serverMsg = extractServerMessage(result.body);
-              var successMsgEl = document.getElementById("successCardMsg");
-              if (serverMsg && successMsgEl) {
-                successMsgEl.textContent = serverMsg;
-              }
-
-              // ── Clear all inputs ─────────────────────────
-              allInputs.forEach(function (el) {
-                if (
-                  el.tagName === "INPUT" &&
-                  el.type !== "checkbox" &&
-                  el.type !== "radio"
-                )
-                  el.value = "";
-                if (el.tagName === "SELECT") el.selectedIndex = 0;
-                if (el.tagName === "TEXTAREA") el.value = "";
-                if (el.type === "checkbox") el.checked = false;
-                el.disabled = false;
-                el.classList.remove("field-disabled");
-              });
-
-              // ── Show success state ───────────────────────
-              var formCard = document.getElementById("formCard");
-              var successCard = document.getElementById("successCard");
-              if (formCard) formCard.style.display = "none";
-              if (successCard) successCard.style.display = "block";
-
-              if (submitButton) submitButton.disabled = false;
-              if (spinnerElement) spinnerElement.style.display = "none";
-              if (buttonTextElement)
-                buttonTextElement.textContent = "Submit Application";
-
-              setTimeout(function () {
-                if (successCard) successCard.style.display = "none";
-                if (formCard) formCard.style.display = "block";
-              }, 7000);
-            } else {
-              // ── Re-enable on error ───────────────────────
-              allInputs.forEach(function (el) {
-                el.disabled = false;
-                el.classList.remove("field-disabled");
-              });
-              if (submitButton) submitButton.disabled = false;
-              if (spinnerElement) spinnerElement.style.display = "none";
-              if (buttonTextElement)
-                buttonTextElement.textContent = "Submit Application";
-
-              var errMsg =
-                extractServerMessage(result.body) ||
-                "Something went wrong. Please try again.";
-
-              if (result.body && result.body.statusCode === 409) {
-                errMsg =
-                  "An application from this email already exists. " +
-                  "Contact us at hello@technuvate.com to update it.";
-              }
-
-              showFwToast(errMsg, "error");
-            }
-          })
-          .catch(function (err) {
-            console.error("Tutor apply error:", err);
-            allInputs.forEach(function (el) {
-              el.disabled = false;
-              el.classList.remove("field-disabled");
-            });
-            if (submitButton) submitButton.disabled = false;
-            if (spinnerElement) spinnerElement.style.display = "none";
-            if (buttonTextElement)
-              buttonTextElement.textContent = "Submit Application";
-            showFwToast(
-              "Something went wrong. Please check your connection and try again.",
-              "error",
-            );
-          });
-
-        function extractServerMessage(body) {
-          if (!body) return null;
-          if (typeof body.message === "string") return body.message;
-          if (Array.isArray(body.message) && body.message.length)
-            return body.message[0];
-          return null;
-        }
-      }
       var obs = new IntersectionObserver(
         function (entries) {
           entries.forEach(function (e) {
@@ -3138,6 +2879,16 @@
       document.querySelectorAll(".rv").forEach(function (el) {
         obs.observe(el);
       });
+    </script>
+    <script type="module">
+      import { submitTutorApplication } from './scripts/services/tutors.service.js';
+      import { showToast } from './scripts/utils/toast.js';
+
+      window.showToast = showToast;
+
+      document
+        .getElementById('tutorBtn')
+        .addEventListener('click', submitTutorApplication);
     </script>
   </body>
 </html>
