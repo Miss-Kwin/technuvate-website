@@ -3725,7 +3725,7 @@
             </span>
           </label>
 
-          <button class="don-cta-btn" id="don-btn" onclick="openDonation()">
+          <button class="don-cta-btn" id="don-btn">
             <svg
               width="15"
               height="15"
@@ -4653,10 +4653,6 @@
           <form
             id="contactForm"
             class="cform rv d2"
-            onsubmit="
-              handleContactSubmit(event);
-              return false;
-            "
           >
             <div class="frow">
               <div>
@@ -5176,14 +5172,14 @@
         if (newsletterInput) {
           newsletterInput.classList.add('coming-soon-disabled');
           newsletterInput.addEventListener('click', function () {
-            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+            window.showToast('Our newsletter is coming soon. Stay tuned!', 'info');
           });
         }
         if (newsletterBtn) {
           newsletterBtn.classList.add('coming-soon-disabled');
           newsletterBtn.addEventListener('click', function (e) {
             if (e && e.preventDefault) e.preventDefault();
-            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+            window.showToast('Our newsletter is coming soon. Stay tuned!', 'info');
           });
         }
       });
@@ -5193,7 +5189,7 @@
         // Newsletter signup is not yet active.
         // Will be implemented when newsletter platform
         // integration is ready.
-        showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+        window.showToast('Our newsletter is coming soon. Stay tuned!', 'info');
       }
     </script>
     <script>
@@ -5282,130 +5278,6 @@
       }
 
       // ── Contact Form Handler ─────────────────────────────────────
-      function handleContactSubmit(e) {
-        e.preventDefault();
-
-        function gv(id) {
-          var el = document.getElementById(id);
-          return el ? el.value.trim() : "";
-        }
-        function showFieldErr(id) {
-          var err = document.getElementById("contact-" + id + "-err");
-          if (err) err.style.display = "block";
-        }
-        function clearFieldErr(id) {
-          var err = document.getElementById("contact-" + id + "-err");
-          if (err) err.style.display = "none";
-        }
-
-        var firstName = gv("contact-firstname");
-        var lastName = gv("contact-lastname");
-        var email = gv("contact-email");
-        var subject = gv("contact-subject");
-        var message = gv("contact-message");
-
-        var ok = true;
-        if (!firstName) {
-          showFieldErr("firstname");
-          ok = false;
-        } else clearFieldErr("firstname");
-        if (!lastName) {
-          showFieldErr("lastname");
-          ok = false;
-        } else clearFieldErr("lastname");
-        if (!email || email.indexOf("@") < 0 || email.indexOf(".") < 0) {
-          showFieldErr("email");
-          ok = false;
-        } else clearFieldErr("email");
-        if (!message) {
-          showFieldErr("message");
-          ok = false;
-        } else clearFieldErr("message");
-
-        var statusMsg = document.getElementById("contact-status-msg");
-        statusMsg.style.display = "none";
-
-        if (!ok) return;
-
-        var btn = document.getElementById("contact-submit-btn");
-        var btnText = document.getElementById("contact-submit-text");
-        btn.disabled = true;
-        btnText.textContent = "Sending...";
-
-        fetch("https://api-technuvate.onrender.com/contact", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            firstName: document.getElementById("contact-firstname")
-              ? document.getElementById("contact-firstname").value.trim()
-              : "",
-            lastName: document.getElementById("contact-lastname")
-              ? document.getElementById("contact-lastname").value.trim()
-              : "",
-            email: document.getElementById("contact-email")
-              ? document.getElementById("contact-email").value.trim()
-              : "",
-            subject: document.getElementById("contact-subject")
-              ? document.getElementById("contact-subject").value.trim()
-              : "",
-            message: document.getElementById("contact-message")
-              ? document.getElementById("contact-message").value.trim()
-              : "",
-          }),
-        })
-          .then(function (res) {
-            return res.json().then(function (body) {
-              return { ok: res.ok, status: res.status, body: body };
-            });
-          })
-          .then(function (result) {
-            var statusMsg = document.getElementById("contact-status-msg");
-            var btn = document.getElementById("contact-submit-btn");
-            var btnText = document.getElementById("contact-submit-text");
-
-            if (result.ok && result.body.success) {
-              var message = result.body.message
-                ? result.body.message
-                : "Message sent! We will get back to you within 24 hours.";
-
-              statusMsg.textContent = message;
-              statusMsg.style.color = "#1B3A7A";
-              statusMsg.style.display = "block";
-              document.getElementById("contactForm").reset();
-              btn.disabled = false;
-              btnText.innerHTML = "Send Message &rarr;";
-            } else {
-              var errorMessage =
-                "Something went wrong. Please try again or email us directly.";
-
-              if (result.body && result.body.message) {
-                if (Array.isArray(result.body.message)) {
-                  errorMessage = result.body.message[0];
-                } else if (typeof result.body.message === "string") {
-                  errorMessage = result.body.message;
-                }
-              }
-
-              statusMsg.textContent = errorMessage;
-              statusMsg.style.color = "#E53E3E";
-              statusMsg.style.display = "block";
-              btn.disabled = false;
-              btnText.innerHTML = "Send Message &rarr;";
-            }
-          })
-          .catch(function (err) {
-            console.error("Contact form error:", err);
-            var statusMsg = document.getElementById("contact-status-msg");
-            var btn = document.getElementById("contact-submit-btn");
-            var btnText = document.getElementById("contact-submit-text");
-            statusMsg.textContent =
-              "Something went wrong. Please try again or email us directly.";
-            statusMsg.style.color = "#E53E3E";
-            statusMsg.style.display = "block";
-            btn.disabled = false;
-            btnText.innerHTML = "Send Message &rarr;";
-          });
-      }
     </script>
     <script>
       var donCurrency = "NGN";
@@ -5497,134 +5369,6 @@
           parseFloat(document.getElementById("don-custom-input").value) || 0;
       }
 
-      function showFwToast(message, type) {
-        var existing = document.getElementById("fw-toast-el");
-        if (existing) existing.remove();
-        var toast = document.createElement("div");
-        toast.id = "fw-toast-el";
-        toast.className =
-          "fw-toast" +
-          (type === "error"
-            ? " fw-toast-error"
-            : type === "success"
-              ? " fw-toast-success"
-              : "");
-        toast.textContent = message;
-        document.body.appendChild(toast);
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            toast.classList.add("fw-toast-visible");
-          });
-        });
-        setTimeout(function () {
-          toast.classList.remove("fw-toast-visible");
-          setTimeout(function () {
-            if (toast.parentNode) toast.parentNode.removeChild(toast);
-          }, 350);
-        }, 6000);
-      }
-
-      function openDonation() {
-        var donBtn = document.getElementById('don-btn');
-
-        // Collect form values
-        var donorName    = document.getElementById('don-name')
-          ? document.getElementById('don-name').value.trim() : '';
-        var donorEmail   = document.getElementById('don-email')
-          ? document.getElementById('don-email').value.trim() : '';
-        var occasion     = document.getElementById('don-occasion')
-          ? document.getElementById('don-occasion').value.trim() : '';
-        var honoreeName  = document.getElementById('don-honour-name')
-          ? document.getElementById('don-honour-name').value.trim() : '';
-        var birthdayDay  = document.getElementById('don-bday-day')
-          ? document.getElementById('don-bday-day').value.trim() : '';
-        var birthdayMonth = document.getElementById('don-bday-month')
-          ? document.getElementById('don-bday-month').value.trim() : '';
-        var note         = document.getElementById('don-note')
-          ? document.getElementById('don-note').value.trim() : '';
-        var shoutOutEl   = document.getElementById('don-shoutout');
-        var shoutOut     = shoutOutEl ? shoutOutEl.checked : false;
-
-        // Read tracked currency and amount
-        var currency = donCurrency;
-        var amount   = donAmount;
-
-        // Client-side validation
-        if (!donorName) {
-          showFwToast('Please enter your name before donating.', 'error');
-          return;
-        }
-        if (!donorEmail || donorEmail.indexOf('@') < 0) {
-          showFwToast('Please enter a valid email address.', 'error');
-          return;
-        }
-        if (!amount || amount <= 0) {
-          showFwToast('Please select or enter a donation amount.', 'error');
-          return;
-        }
-
-        // Disable button
-        if (donBtn) {
-          donBtn.disabled = true;
-          donBtn.innerHTML = '<span>Processing...</span>';
-        }
-
-        // POST to NestJS initialize endpoint
-        fetch('https://api-technuvate.onrender.com/donation/initialize', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            donorName:   donorName   || 'Anonymous Donor',
-            donorEmail:  donorEmail,
-            honoreeName: honoreeName  || undefined,
-            occasion:    occasion     || undefined,
-            birthDay:    birthdayDay  || undefined,
-            birthMonth:  birthdayMonth || undefined,
-            note:        note         || undefined,
-            shoutOut:    shoutOut,
-            amount:      amount,
-            currency:    currency
-          })
-        })
-        .then(function (res) {
-          return res.json().then(function (body) {
-            return { ok: res.ok, body: body };
-          });
-        })
-        .then(function (result) {
-          if (result.ok && result.body.data && result.body.data.flwLink) {
-            // Redirect to Flutterwave hosted payment page
-            window.location.href = result.body.data.flwLink;
-          } else {
-            var errMsg = extractServerMessage(result.body) ||
-              'Something went wrong. Please try again.';
-            if (donBtn) {
-              donBtn.disabled = false;
-              donBtn.innerHTML = '<span>Donate Now &#10084;</span>';
-            }
-            showFwToast(errMsg, 'error');
-          }
-        })
-        .catch(function (err) {
-          console.error('Donation init error:', err);
-          if (donBtn) {
-            donBtn.disabled = false;
-            donBtn.innerHTML = '<span>Donate Now &#10084;</span>';
-          }
-          showFwToast(
-            'Something went wrong. Please check your connection and try again.',
-            'error'
-          );
-        });
-
-        function extractServerMessage(body) {
-          if (!body) return null;
-          if (typeof body.message === 'string') return body.message;
-          if (Array.isArray(body.message) && body.message.length)
-            return body.message[0];
-          return null;
-        }
-      }
     </script>
     <script>
       document.addEventListener("change", function (e) {
@@ -5635,6 +5379,18 @@
               e.target.value === "birthday" ? "block" : "none";
         }
       });
+    </script>
+    <script type="module">
+      import { showToast } from './scripts/utils/toast.js';
+      import { submitContact } from './scripts/services/contact.service.js';
+      import { initializeDonation } from './scripts/services/donation.service.js';
+      window.showToast = showToast;
+      document
+        .getElementById('contactForm')
+        .addEventListener('submit', submitContact);
+      document
+        .getElementById('don-btn')
+        .addEventListener('click', initializeDonation);
     </script>
   </body>
 </html>
