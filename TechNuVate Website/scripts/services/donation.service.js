@@ -25,23 +25,24 @@ export async function initializeDonation(event) {
   var wBtn = event && event.currentTarget
     ? event.currentTarget
     : document.getElementById('w-btn') || document.getElementById('don-btn');
-  var donorName = readValue('donorName', 'w-name');
-  var donorEmail = readValue('donorEmail', 'w-email');
-  var occasion = readValue('occasion', 'w-occasion');
-  var honoreeName = readValue('honoreeName', 'w-honour-name');
-  var birthdayDay = readValue('birthDay', 'w-bday-day');
-  var birthdayMonth = readValue('birthMonth', 'w-bday-month');
-  var note = readValue('note', 'w-note');
-  var shoutOutEl = document.getElementById('w-shoutout');
+  var fieldPrefix = wBtn && wBtn.id === 'don-btn' ? 'don' : 'w';
+  var donorName = readValue('donorName', fieldPrefix + '-name');
+  var donorEmail = readValue('donorEmail', fieldPrefix + '-email');
+  var occasion = readValue('occasion', fieldPrefix + '-occasion');
+  var honoreeName = readValue('honoreeName', fieldPrefix + '-honour-name');
+  var birthdayDay = readValue('birthDay', fieldPrefix + '-bday-day');
+  var birthdayMonth = readValue('birthMonth', fieldPrefix + '-bday-month');
+  var note = readValue('note', fieldPrefix + '-note');
+  var shoutOutEl = document.getElementById(fieldPrefix + '-shoutout');
   var shoutOut = Object.prototype.hasOwnProperty.call(donationData, 'shoutOut')
     ? donationData.shoutOut
     : shoutOutEl ? shoutOutEl.checked : false;
   var currency = Object.prototype.hasOwnProperty.call(donationData, 'currency')
     ? donationData.currency
-    : window.wCurrency !== undefined ? window.wCurrency : window.donCurrency;
+    : fieldPrefix === 'don' ? window.donCurrency : window.wCurrency;
   var amount = Object.prototype.hasOwnProperty.call(donationData, 'amount')
     ? donationData.amount
-    : window.wAmt !== undefined ? window.wAmt : window.donAmount;
+    : fieldPrefix === 'don' ? window.donAmount : window.wAmt;
 
   if (!donorName) {
     showToast('Please enter your name before donating.', 'error');
