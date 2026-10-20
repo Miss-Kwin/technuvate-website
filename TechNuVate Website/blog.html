@@ -446,32 +446,6 @@ footer{background:#060C1A;padding:52px 5% 28px}
 </footer>
 
 <script>
-      function showFwToast(message, type) {
-        var existingToast = document.getElementById('fw-toast-el');
-        if (existingToast) existingToast.remove();
-        var toastElement = document.createElement('div');
-        toastElement.id = 'fw-toast-el';
-        toastElement.className = 'fw-toast' +
-          (type === 'error'   ? ' fw-toast-error'   :
-           type === 'success' ? ' fw-toast-success'  :
-           type === 'info'    ? ' fw-toast-info'     : '');
-        toastElement.textContent = message;
-        document.body.appendChild(toastElement);
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            toastElement.classList.add('fw-toast-visible');
-          });
-        });
-        setTimeout(function () {
-          toastElement.classList.remove('fw-toast-visible');
-          setTimeout(function () {
-            if (toastElement.parentNode) {
-              toastElement.parentNode.removeChild(toastElement);
-            }
-          }, 350);
-        }, 6000);
-      }
-
       // Disable newsletter elements on page load
       document.addEventListener('DOMContentLoaded', function () {
         var newsletterInput = document.getElementById('nl-email');
@@ -479,14 +453,14 @@ footer{background:#060C1A;padding:52px 5% 28px}
         if (newsletterInput) {
           newsletterInput.classList.add('coming-soon-disabled');
           newsletterInput.addEventListener('click', function () {
-            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+            window.showToast('Our newsletter is coming soon. Stay tuned!', 'info');
           });
         }
         if (newsletterBtn) {
           newsletterBtn.classList.add('coming-soon-disabled');
           newsletterBtn.addEventListener('click', function (e) {
             if (e && e.preventDefault) e.preventDefault();
-            showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+            window.showToast('Our newsletter is coming soon. Stay tuned!', 'info');
           });
         }
       });
@@ -496,7 +470,7 @@ footer{background:#060C1A;padding:52px 5% 28px}
         // Newsletter signup is not yet active.
         // Will be implemented when newsletter platform
         // integration is ready.
-        showFwToast('Our newsletter is coming soon. Stay tuned!', 'info');
+        window.showToast('Our newsletter is coming soon. Stay tuned!', 'info');
       }
       function toggleMenu() {
         var m = document.getElementById("mobMenu");
@@ -744,6 +718,10 @@ function fmtTime(t){
 }
 
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+</script>
+<script type="module">
+  import { showToast } from './scripts/utils/toast.js';
+  window.showToast = showToast;
 </script>
 </body>
 </html>
