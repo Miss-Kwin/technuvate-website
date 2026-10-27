@@ -90,17 +90,18 @@
       <p class="message">Please wait while we verify your transaction.</p>
     </div>
 
-    <script>
-      (function () {
-        var card = document.getElementById("callbackCard");
+    <script type="module">
+      import { confirmPayment } from './scripts/services/payment-callback.service.js';
+      import { extractServerMessage } from './scripts/utils/server-message.js';
+      import { resolveClientRedirect } from './scripts/utils/payment-redirect.js';
 
-        // ── Read Flutterwave redirect params ─────────────────
+      (async function () {
+        var card = document.getElementById('callbackCard');
         var params = new URLSearchParams(window.location.search);
-        var status = params.get("status");
-        var txRef = params.get("tx_ref");
-        var transactionId = params.get("transaction_id");
+        var status = params.get('status');
+        var txRef = params.get('tx_ref');
+        var transactionId = params.get('transaction_id');
 
-        // ── Guard: missing params means direct navigation ────
         if (!txRef || !status) {
           card.innerHTML =
             '<span class="icon"><i class="bi bi-exclamation-triangle-fill" style="color: #f59e0b;"></i></span>' +
@@ -109,148 +110,74 @@
           return;
         }
 
-        // ── Guard: user cancelled payment ───────────────────
-        if (status === "cancelled") {
+        if (status === 'cancelled') {
           card.innerHTML =
             '<span class="icon"><i class="bi bi-arrow-return-left"></i></span>' +
             '<p class="title">Payment cancelled</p>' +
             '<p class="message">You cancelled the payment. No charge was made.</p>' +
-            '<p class="ref">Ref: ' +
-            txRef +
-            "</p>";
+            '<p class="ref">Ref: ' + escapeHtml(txRef) + '</p>';
           return;
         }
 
-        // ── Call NestJS confirm endpoint ─────────────────────
-        // The endpoint is determined by the tx_ref prefix:
-        // TNVDON-  → donation confirm
-        // TNV-ACADEMY- → academy confirm
-        // TNV-LABS_PRO- → labs pro confirm
-        // TNV-LABS_IT- → labs it confirm
+        try {
+          var result = await confirmPayment(txRef, transactionId);
+          if (!result) {
+            card.innerHTML =
+              '<span class="icon"><i class="bi bi-question-lg" style="color: #dc2626;"></i></span>' +
+              '<p class="title">Unknown payment type</p>' +
+              '<p class="message">We could not identify this transaction. Please contact support.</p>' +
+              '<p class="ref">Ref: ' + escapeHtml(txRef) + '</p>';
+            return;
+          }
 
-        var apiBase = "https://api-technuvate.onrender.com";
-        var endpoint = resolveEndpoint(txRef);
+          if (result.ok && result.body && result.body.success) {
+            var message = extractServerMessage(result.body) ||
+              'Your payment has been confirmed. Thank you.';
+            card.className = 'card state-success';
+            card.innerHTML =
+              '<span class="icon"><i class="bi bi-check-square-fill" style="color: #15803d;"></i></span>' +
+              '<p class="title">Payment confirmed</p>' +
+              '<p class="message">' + escapeHtml(message) + '</p>' +
+              '<p class="ref">Ref: ' + escapeHtml(txRef) + '</p>';
 
-        if (!endpoint) {
-          card.innerHTML =
-            '<span class="icon"><i class="bi bi-question-lg" style="color: #dc2626;"></i></span>' +
-            '<p class="title">Unknown payment type</p>' +
-            '<p class="message">We could not identify this transaction. Please contact support.</p>' +
-            '<p class="ref">Ref: ' +
-            txRef +
-            "</p>";
-          return;
-        }
-
-        fetch(apiBase + endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            flwTxRef: txRef,
-            flwTxId: transactionId || "",
-          }),
-        })
-          .then(function (res) {
-            return res.json().then(function (body) {
-              return { ok: res.ok, body: body };
-            });
-          })
-          .then(function (result) {
-            if (result.ok && result.body.success) {
-              var msg = result.body.message
-                ? result.body.message
-                : "Your payment has been confirmed. Thank you.";
-
-              card.className = "card state-success";
-              card.innerHTML =
-                '<span class="icon"><i class="bi bi-check-square-fill" style="color: #15803d;"></i></span>' +
-                '<p class="title">Payment confirmed</p>' +
-                '<p class="message">' +
-                escapeHtml(msg) +
-                "</p>" +
-                '<p class="ref">Ref: ' +
-                escapeHtml(txRef) +
-                "</p>";
-
-              var redirectPath = resolveClientRedirect(txRef);
-              if (redirectPath) {
-                setTimeout(function () {
-                  window.location.href = redirectPath;
-                }, 10000);
-              }
-            } else {
-              var errMsg =
-                extractMessage(result.body) ||
-                "Your payment was received but we could not confirm it automatically. " +
-                  "Please contact us with your reference below.";
-
-              card.className = "card state-failed";
-              card.innerHTML =
-                '<span class="icon"><i class="bi bi-exclamation-triangle-fill" style="color: #f59e0b;"></i></span>' +
-                '<p class="title">Confirmation pending</p>' +
-                '<p class="message">' +
-                escapeHtml(errMsg) +
-                "</p>" +
-                '<p class="ref">Ref: ' +
-                escapeHtml(txRef) +
-                "</p>";
+            var redirectPath = resolveClientRedirect(txRef);
+            if (redirectPath) {
+              setTimeout(function () {
+                window.location.href = redirectPath;
+              }, 10000);
             }
-          })
-          .catch(function () {
-            card.className = "card state-failed";
+          } else {
+            var errorMessage = extractServerMessage(result.body) ||
+              'Your payment was received but we could not confirm it automatically. ' +
+              'Please contact us with your reference below.';
+            card.className = 'card state-failed';
             card.innerHTML =
               '<span class="icon"><i class="bi bi-exclamation-triangle-fill" style="color: #f59e0b;"></i></span>' +
-              '<p class="title">Something went wrong</p>' +
-              '<p class="message">' +
-              "We could not reach our server to confirm your payment. " +
-              "Do not worry — if your payment was successful it will be " +
-              "processed. Contact us with the reference below." +
-              "</p>" +
-              '<p class="ref">Ref: ' +
-              escapeHtml(txRef) +
-              "</p>";
-          });
-
-        // ── Resolve which confirm endpoint to call ───────────
-        function resolveEndpoint(ref) {
-          if (ref.indexOf("TNV-DONATION-") === 0) return "/donation/confirm";
-          if (ref.indexOf("TNV-ACADEMY-") === 0)
-            return "/academy/enroll/confirm";
-          if (ref.indexOf("TNV-LABS_PRO-") === 0)
-            return "/labs/pro/apply/confirm";
-          if (ref.indexOf("TNV-LABS_IT-") === 0)
-            return "/labs/it/apply/confirm";
-          return null;
-        }
-
-        // ── Resolve client-side redirect path after payment confirm ───────────
-        function resolveClientRedirect(ref) {
-          if (ref.startsWith("TNV-DONATION-")) return "/donate";
-          if (ref.startsWith("TNV-ACADEMY-")) return "/academy";
-          if (ref.startsWith("TNV-LABS_PRO-")) return "/labs-apply-pro";
-          if (ref.startsWith("TNV-LABS_IT-")) return "/labs-apply-it";
-          return null;
-        }
-
-        // ── Extract first readable message from server body ──
-        function extractMessage(body) {
-          if (!body) return null;
-          if (typeof body.message === "string") return body.message;
-          if (Array.isArray(body.message) && body.message.length)
-            return body.message[0];
-          return null;
-        }
-
-        // ── Prevent XSS when rendering server strings in HTML
-        function escapeHtml(str) {
-          return String(str)
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;")
-            .replace(/'/g, "&#039;");
+              '<p class="title">Confirmation pending</p>' +
+              '<p class="message">' + escapeHtml(errorMessage) + '</p>' +
+              '<p class="ref">Ref: ' + escapeHtml(txRef) + '</p>';
+          }
+        } catch (error) {
+          card.className = 'card state-failed';
+          card.innerHTML =
+            '<span class="icon"><i class="bi bi-exclamation-triangle-fill" style="color: #f59e0b;"></i></span>' +
+            '<p class="title">Something went wrong</p>' +
+            '<p class="message">' +
+            'We could not reach our server to confirm your payment. ' +
+            'Do not worry — if your payment was successful it will be processed. ' +
+            'Contact us with the reference below.</p>' +
+            '<p class="ref">Ref: ' + escapeHtml(txRef) + '</p>';
         }
       })();
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
     </script>
   </body>
 </html>

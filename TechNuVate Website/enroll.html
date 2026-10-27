@@ -1702,7 +1702,7 @@
                         placeholder="e.g. TNV-SCA2X7K"
                         maxlength="11"
                       />
-                      <button class="verify-btn" onclick="verifyPartnerCode()">
+                      <button class="verify-btn">
                         Verify
                       </button>
                     </div>
@@ -1845,7 +1845,7 @@
 
               <div style="height: 20px"></div>
 
-              <button class="pay-btn" id="payBtn" onclick="initiatePayment()">
+              <button class="pay-btn" id="payBtn">
                 <span>Pay Now and Secure Your Spot</span>
                 <span class="pay-btn-amount" id="btnAmount">&#8358;60,000</span>
               </button>
@@ -2500,57 +2500,6 @@
         updateSummary();
       }
 
-      function verifyPartnerCode() {
-        var input = document.getElementById("partnerCode");
-        var resultEl = document.getElementById("codeValid");
-        var code = input ? input.value.trim().toUpperCase() : "";
-
-        if (!code) {
-          if (resultEl) {
-            resultEl.textContent = "Please enter a partner code.";
-            resultEl.style.color = "#E53E3E";
-            resultEl.style.display = "block";
-          }
-          return;
-        }
-
-        fetch(
-          "https://api-technuvate.onrender.com/academy/verify-partner-code",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ partnerCode: code }),
-          },
-        )
-          .then(function (res) {
-            return res.json().then(function (body) {
-              return { ok: res.ok, body: body };
-            });
-          })
-          .then(function (result) {
-            if (!resultEl) return;
-            var serverMsg =
-              result.body && result.body.data ? result.body.data.message : null;
-
-            if (result.ok && result.body.data && result.body.data.valid) {
-              resultEl.textContent = serverMsg || "Partner code verified.";
-              resultEl.style.color = "#15803D";
-              resultEl.style.display = "block";
-            } else {
-              resultEl.textContent = serverMsg || "Invalid partner code.";
-              resultEl.style.color = "#E53E3E";
-              resultEl.style.display = "block";
-            }
-          })
-          .catch(function () {
-            if (resultEl) {
-              resultEl.textContent = "Could not verify code. Please try again.";
-              resultEl.style.color = "#E53E3E";
-              resultEl.style.display = "block";
-            }
-          });
-      }
-
       function getSelectedState() {
         var c = document.getElementById("country").value;
         if (c === "Nigeria")
@@ -2652,128 +2601,6 @@
         }, 6000);
       }
 
-      function initiatePayment() {
-        var btn = document.getElementById("payBtn");
-        var btnTextSpan = btn ? btn.querySelector("span") : null;
-
-        // ── Collect form values ──────────────────────────────
-        function gv(id) {
-          var el = document.getElementById(id);
-          return el ? el.value.trim() : "";
-        }
-
-        var fullName = gv("fullname");
-        var email = gv("email");
-        var phone = gv("phone");
-        var gender = gv("gender");
-        var ageRange = gv("age-range");
-        var country = gv("country");
-        var state = gv("stateInput") || gv("otherStateInput") || undefined;
-        var course = gv("course");
-        var partnerCode = gv("partnerCode") || undefined;
-
-        // ── Read tracked pricing tier and currency ───────────
-        var pricingTier = currentTile.toUpperCase();
-        var currency = activeCurrency;
-
-        // ── Commitment checkbox ──────────────────────────────
-        var commitEl = document.getElementById("commitCheck");
-        var commitmentConfirmed = commitEl ? commitEl.checked : false;
-
-        // ── Client-side validation ────────────────────────────
-        if (!commitmentConfirmed) {
-          showFwToast(
-            "Please confirm the refund policy before proceeding.",
-            "error",
-          );
-          return;
-        }
-        if (!fullName) {
-          showFwToast("Please enter your full name.", "error");
-          return;
-        }
-        if (!email || email.indexOf("@") < 0) {
-          showFwToast("Please enter a valid email address.", "error");
-          return;
-        }
-        if (!phone) {
-          showFwToast("Please enter your phone number.", "error");
-          return;
-        }
-        if (!country) {
-          showFwToast("Please select your country.", "error");
-          return;
-        }
-        if (!course) {
-          showFwToast("Please select your course.", "error");
-          return;
-        }
-        if (pricingTier === "PARTNER" && !partnerCode) {
-          showFwToast("Please enter and verify your partner code.", "error");
-          return;
-        }
-
-        // ── Disable button ────────────────────────────────────
-        if (btn) btn.disabled = true;
-        if (btnTextSpan) btnTextSpan.textContent = "Processing...";
-
-        // ── POST to NestJS enroll endpoint ────────────────────
-        fetch("https://api-technuvate.onrender.com/academy/enroll", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            fullName: fullName,
-            email: email,
-            phone: phone,
-            gender: gender,
-            ageRange: ageRange,
-            country: country,
-            state: state,
-            course: course,
-            pricingTier: pricingTier,
-            partnerCode: pricingTier === "PARTNER" ? partnerCode : undefined,
-            currency: currency,
-            commitmentConfirmed: commitmentConfirmed,
-          }),
-        })
-          .then(function (res) {
-            return res.json().then(function (body) {
-              return { ok: res.ok, body: body };
-            });
-          })
-          .then(function (result) {
-            if (result.ok && result.body.data && result.body.data.flwLink) {
-              window.location.href = result.body.data.flwLink;
-            } else {
-              var errMsg =
-                extractServerMessage(result.body) ||
-                "Something went wrong. Please try again.";
-              if (btn) btn.disabled = false;
-              if (btnTextSpan)
-                btnTextSpan.textContent = "Pay Now and Secure Your Spot";
-              showFwToast(errMsg, "error");
-            }
-          })
-          .catch(function (err) {
-            console.error("Academy enroll error:", err);
-            if (btn) btn.disabled = false;
-            if (btnTextSpan)
-              btnTextSpan.textContent = "Pay Now and Secure Your Spot";
-            showFwToast(
-              "Something went wrong. Please check your connection and try again.",
-              "error",
-            );
-          });
-
-        function extractServerMessage(body) {
-          if (!body) return null;
-          if (typeof body.message === "string") return body.message;
-          if (Array.isArray(body.message) && body.message.length)
-            return body.message[0];
-          return null;
-        }
-      }
-
       function toggleMenu() {
         var m = document.getElementById("mobMenu");
         var b = document.getElementById("hamBtn");
@@ -2831,6 +2658,15 @@
         // integration is ready.
         showFwToast("Our newsletter is coming soon. Stay tuned!", "info");
       }
+    </script>
+    <script type="module">
+      import { submitEnrollment, verifyPartnerCode } from './scripts/services/academy.service.js';
+      document
+        .getElementById('payBtn')
+        .addEventListener('click', submitEnrollment);
+      document
+        .querySelector('.verify-btn')
+        .addEventListener('click', verifyPartnerCode);
     </script>
   </body>
 </html>
